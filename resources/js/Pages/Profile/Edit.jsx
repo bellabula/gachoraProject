@@ -13,7 +13,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                 <div className="tab-content pt-5">
                     <div>
                         <div className="text-center">
-                            <img src="http://localhost/gachoraLRB/public/images/gachoButton.png" alt="頭像"
+                            <img src="http://localhost/gachoraProject/public/images/gachoButton.png" alt="頭像"
                                 className="rounded-circle d-inline-block object-fit-contain" width="200px" height="200px" />
                             <button className="btn-icon m-auto d-block">更換頭像</button>
                         </div>

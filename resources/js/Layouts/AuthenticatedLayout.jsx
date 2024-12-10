@@ -14,7 +14,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
     return (
         <>
-            <Navbar logo='http://localhost/gachoraLRB/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' />
             {/* <div className="min-h-screen bg-gray-100">
                     <nav className="border-b border-gray-100 bg-white">
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

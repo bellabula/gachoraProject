@@ -18,29 +18,29 @@ function MyFavor({id}) {
                 <div className="tab-content pt-5">
                     <div id="gachofavor" className="tab-pane active">
                         <div className="row  row-gap-2">
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
-                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraLRB/public/images/gachoMachineA.png" alt="" /></a>
+                            <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
                             </div>
                         </div>
                     </div>

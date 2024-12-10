@@ -18,7 +18,7 @@ export default function Dashboard() {
             <Head title="Member" />
             <main className="container container-xxl" id='member'>
                 <div className="row pt-5 pb-5 align-items-center">
-                    <div className="col-8"><img src="http://localhost/gachoraLRB/public/images/diamond.svg" alt="" width="50px" className="me-4" />
+                    <div className="col-8"><img src="http://localhost/gachoraProject/public/images/diamond.svg" alt="" width="50px" className="me-4" />
                         <span className="h4"><b>{user.name}</b> 您好!</span></div>
                     <div className="col-4">
                         <p className="h2 d-inline-block">G幣餘額</p><button className="rounded-5 float-end">儲值G幣</button>

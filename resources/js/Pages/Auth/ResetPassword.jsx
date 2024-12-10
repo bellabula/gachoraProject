@@ -22,7 +22,7 @@ export default function ResetPassword({ token, email }) {
 
     return (
         <>
-            <Navbar logo='http://localhost/gachoraLRB/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
             <Head title="Reset Password" />
             <main className="container container-xxl" id='resetPwd'>
                 <h1>忘記密碼</h1>
@@ -102,7 +102,7 @@ export default function ResetPassword({ token, email }) {
                             <p className="contact">如果您有任何密碼問題，請連絡客服人員，我們會竭誠為您處理。</p>
 
                             <div className="contact-item">
-                                <img src="http://localhost/gachoraLRB/public/images/mailWithBg.svg" width="50px" height="50px" />&nbsp;&nbsp;
+                                <img src="http://localhost/gachoraProject/public/images/mailWithBg.svg" width="50px" height="50px" />&nbsp;&nbsp;
                                 <div className="contact-text">
                                     <span>電子郵件gachora.offical@gmail.com</span><br />
                                     <span>我們收到你的問題後，將於工作日由專人以郵件與您聯絡。</span>
@@ -110,7 +110,7 @@ export default function ResetPassword({ token, email }) {
                             </div><br />
 
                             <div className="contact-item">
-                                <img src="http://localhost/gachoraLRB/public/images/telWithBg.svg" />&nbsp;&nbsp;
+                                <img src="http://localhost/gachoraProject/public/images/telWithBg.svg" />&nbsp;&nbsp;
                                 <div className="contact-text">
                                     <span>客服專線 04-123-4567</span><br />
                                     <span>服務時間 周一至周五10:00~18:00</span>

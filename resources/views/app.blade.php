@@ -26,7 +26,7 @@
         src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script> -->
-    <script src="http://localhost/gachoraLRB/public/assets/jquery.js"></script>
+    <script src="http://localhost/gachoraProject/public/assets/jquery.js"></script>
 </body>
 
 </html>

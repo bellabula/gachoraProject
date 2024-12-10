@@ -24,16 +24,16 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                         style={{ bsScrollHeight: "80px" }}>
                         <li className="nav-item">
                             <Link href={route('login')} className="dropdown-item">
-                                <img src="http://localhost/gachoraLRB/public/images/member.svg" style={{ filter: svgColor }} />
+                                <img src="http://localhost/gachoraProject/public/images/member.svg" style={{ filter: svgColor }} />
                             </Link>
                         </li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraLRB/public/images/notify.svg" style={{ filter: svgColor }} /></a></li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraLRB/public/images/wallet.svg" style={{ filter: svgColor }} /></a></li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraLRB/public/images/cart.svg" style={{ filter: svgColor }} /></a></li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraLRB/public/images/lang.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item" style={{ display: logout }}>
                             <Link href={route('logout')} method="post" as="button" className="dropdown-item">
-                                <img src="http://localhost/gachoraLRB/public/images/logout.svg" style={{ filter: svgColor }} title='logout' />
+                                <img src="http://localhost/gachoraProject/public/images/logout.svg" style={{ filter: svgColor }} title='logout' />
                             </Link>
                         </li>
                     </ul>
