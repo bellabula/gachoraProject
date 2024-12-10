@@ -1,0 +1,236 @@
+#member button.rounded-5 {
+    width: 100px;
+    height: 35px;
+    color: white;
+    background-color: var(--main-yellow);
+    border: none;
+}
+
+#member .custom-section {
+    background-color: var(--main-darkblue);
+    border-radius: 35px;
+    padding: 10px;
+}
+
+#member .nav-link {
+    color: white;
+}
+
+#member .nav-pills .nav-link.active {
+    color: var(--main-darkblue);
+    background-color: var(--main-yellow);
+    border-color: var(--bs-nav-tabs-link-active-border-color);
+}
+
+#member li.nav-item {
+    margin: 0 10px;
+}
+
+#member .nav-link:hover,
+#member .nav-link:focus {
+    color: var(--main-yellow)
+}
+
+#member .profile-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+#member .btn-icon {
+    color: white;
+    background-color: var(--main-darkblue);
+    border: 5px solid var(--main-darkblue);
+    border-radius: 35px;
+}
+
+#member .btn-icon:hover {
+    color: var(--main-yellow);
+}
+
+#memberWall .btn:active{
+    border-color: var(--main-darkblue);
+}
+
+#memberProfile input {
+    border: 1px solid var(--main-darkblue);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+#profileEdit .editFocus:focus {
+    border: 3px solid rgba(54, 91, 96, 0.5);
+}
+
+#member .edit-button button {
+    color: white;
+    background-color: var(--main-darkblue);
+}
+
+#member .edit-button button:hover {
+    color: var(--main-yellow);
+    background-color: var(--main-darkblue);
+}
+
+#member .small-info {
+    font-size: 12px;
+    color: #6C757D;
+    margin-left: 5px;
+}
+
+/* -------------------------------------------------- */
+#member .datepicker-toggle {
+    display: inline-block;
+    position: relative;
+    width: 25px;
+    height: 25px;
+}
+
+#member .datepicker-toggle-button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('http://localhost/gachoraLRB/public/images/calendar.svg');
+}
+
+#member .datepicker-input {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+#member .datepicker-input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    padding: auto;
+    cursor: pointer;
+}
+
+#member .date-input {
+    width: 150px;
+    color: #6C757D;
+    border: 1px solid gainsboro;
+    background: gainsboro;
+}
+
+/* -------------------------------------------------- */
+
+#member td {
+    padding: 15px 1px;
+}
+
+#member li.nav-item {
+    margin: 0;
+}
+
+#memberFavor .nav-link {
+    color: black;
+}
+
+#memberFavor .nav-link.active {
+    border: 2px solid var(--main-darkblue);
+}
+
+#member .favor-section {
+    background-color: gainsboro;
+    border-radius: 5px;
+}
+
+#memberWall .circle-container {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+#memberWall img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+#memberWall .btn img {
+    width: 30px;
+    height: 30px;
+}
+
+#member .inventory-container {
+    background-color: var(--main-darkblue);
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+}
+
+#member .inventory-container table {
+    color: white
+}
+
+#member .inventory-container table img {
+    width: 60px;
+    height: 60px;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+#member .btn-circle {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#member .btn-exchange {
+    background-color: #ffc107;
+    color: black;
+    border: none;
+}
+
+#member .btn-exchange:hover {
+    background-color: #e0a800;
+}
+
+#member .btn-deli,
+#member .btn-deli:hover {
+    color: white;
+    border-color: white;
+}
+
+#member .btn-deli:hover {
+    background-color: gainsboro;
+    color: var(--main-darkblue);
+}
+
+#member tr {
+    border-bottom: 1px solid white;
+}
+
+#member th button {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffc107;
+    color: var(--main-darkblue)
+}
+
+#member th button:hover {
+    background-color: var(--main-yellow);
+    color: white;
+}
+
+#memberWallet tr,
+#memberOrder tr {
+    border-bottom: 1px solid var(--main-darkblue);
+}

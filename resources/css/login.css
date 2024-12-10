@@ -1,0 +1,247 @@
+#login .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* 讓內容從頂部對齊 */
+}
+
+#login .xx {
+    flex: 1;
+}
+
+/* 大長方形 */
+#login .xa {
+    box-sizing: border-box;
+    position: absolute;
+    width: 55vw;
+    height: 35vw;
+    left: -20vw;
+    top: 13vw;
+
+    background: #365B6D;
+    border: 5px dashed #FEC265;
+    border-radius: 500px;
+}
+
+/* 小長方形 */
+#login .xb {
+    position: absolute;
+    width: 13vw;
+    height: 20vw;
+    left: -3vw;
+    top: 20vw;
+
+    background: #FEC265;
+    border-radius: 50px;
+
+}
+
+/* 三角形 */
+#login .xc {
+    width: 0;
+    height: 0;
+    border-top: 4vw solid #FEC265;
+    border-right: 4vw solid transparent;
+    position: absolute;
+    left: 11vw;
+    top: 27vw;
+
+    transform: rotate(135deg);
+    border-radius: 5px;
+}
+
+/* 還不是會員? */
+#login .xd {
+
+    position: absolute;
+    width: 30vw;
+    height: 5vw;
+    left: 19vw;
+    top: 27vw;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #FFFFFF;
+}
+
+/* 回註冊頁面 */
+#login .xe {
+
+    background: #F2F1EC;
+    border-radius: 25px;
+
+    position: absolute;
+    width: 10vw;
+    height: 2.5vw;
+    left: 18vw;
+    top: 30vw;
+
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 2.5vw;
+
+    text-align: center;
+    color: #365B6D;
+    text-decoration: none;
+}
+
+#login .xe:hover {
+    background: var(--main-yellow);
+}
+
+#login h1 {
+    margin: -2vw 0vw 0vw 8vw;
+    padding: 5%;
+    color: #365B6D;
+    font-weight: bold;
+}
+
+#login .member {
+    position: relative;
+    flex: 1;
+    top: 5vw;
+}
+
+#login .form-floating {
+    width: 21vw;
+    margin-left: 3vw;
+}
+
+#login .form-control {
+    margin-top: 3vw;
+    border-radius: 35px;
+    box-shadow: 3px 3px #365B6D;
+
+}
+
+#login .forget{
+margin-left: 3vw;
+}
+
+#login .forget > a{
+    margin-left: 2vw;
+    color: #365B6D;
+}
+
+#login .forget > a:hover {
+    color: #FEC265
+}
+
+#login a:nth-child(2){
+    visibility: hidden;
+}
+
+#login .btn1 {
+    margin-left: 22vw;
+    margin-top: 1vw;
+    border-radius: 35px;
+    background-color: var(--main-darkblue);
+    width: 110px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--main-yellow);
+}
+
+#login .btn1:hover{
+    background-color: var(--main-yellow);
+    color: var(--main-darkblue);
+}
+
+#login .col-md-6{
+    max-width: 100%
+}
+#login .contact,
+#login .contact-item {
+    margin-left: 250px;
+    display: flex;
+    width: 500px;
+    flex-wrap: wrap; /* 允許內容換行 */
+}
+
+#login .contact-text span:nth-of-type(1) {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#login .contact-item image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#login .contact-item,
+#login .contact {
+    color: #365B6D
+}
+
+#login .back{
+    visibility: hidden;
+}
+
+@media(max-width: 1500px) {
+
+    #login .xd,
+    #login .xe {
+        font-size: 16px;
+    }
+    #login .member > button{
+        margin-left:25vw;
+    }
+}
+
+
+@media (max-width: 1300px) {
+    #login .xx {
+        display: none;
+    }
+    #login .form-floating{
+        min-width: 40vw;
+    }
+    #login .member > button{
+        margin-left:43vw;
+    }
+    #login a:nth-child(2){
+        visibility: visible;
+    }
+    #login .back{
+        visibility: visible;
+    }
+}
+
+
+@media (max-width: 890px) {
+    #login .form-floating{
+        min-width: 50vw;
+    }
+}
+
+@media (max-width: 576px) {
+    body{
+        overflow-x: hidden;
+    }
+    #login .member > h1 {
+        margin: 0vw 0vw 0vw 21vw
+    }
+    #login .form-floating{
+        min-width: 60vw;
+    }
+    #login .member > button{
+        margin-left:67vw;
+    }
+
+    #login .col-md-6 > .contact, .col-md-6 > .contact-item{
+        white-space: normal;
+        margin-left: 10vw;
+    }
+}
+
+@media (max-height: 850px) {
+    #login h1 {
+        margin: 0vw 0vw 0vw 4vw
+    }
+}
