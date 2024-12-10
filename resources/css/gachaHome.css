@@ -1,0 +1,180 @@
+/*大輪播*/
+#gachaHome .carouselimgsize {
+    width: 85vw;
+    margin-left: auto;
+}
+
+#gachaHome .bigcarousel img {
+    height: 80vh;
+    object-fit: cover;
+    border-radius: 100px 0 0 100px;
+}
+
+/*小輪播*/
+#gachaHome .smallcarousel {
+    background-color: #636363;
+    height: 20vh;
+    width: 90vw;
+    border-radius: 0px 50px 50px 0px;
+}
+
+#gachaHome .smallcarouselimg {
+    height: auto;
+    width: 10vw;
+    object-fit: cover;
+    background-color: #FEC265;
+    margin: 5vh;
+    border-radius: 30px;
+    transition: transform 0.3s ease;
+    border: #F2F1EC solid 2px;
+}
+
+#gachaHome .smallcarouselimg:hover {
+    transform: scale(1.05);
+}
+
+/*標籤連結*/
+#gachaHome .labelitem {
+    height: 10vh;
+    width: 100vw;
+    border-radius: 30px;
+}
+
+#gachaHome .item {
+    height: 50px;
+    width: 10vw;
+    background-color: #FEC265;
+    margin: 50px 50px 50px 0;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#gachaHome .item:hover {
+    background-color: #365B60
+}
+
+#gachaHome .item a {
+    text-decoration: none;
+    color: #365B60;
+}
+
+#gachaHome .item a:hover {
+    text-decoration: none;
+    color: #F2F1EC;
+}
+
+/*top30區域*/
+#gachaHome .top30 {
+    display: flex;
+    align-items: center;
+}
+
+#gachaHome .top30BigProduct {
+    height: 50vh;
+    width: 20vw;
+    background-color: #FEC265;
+    border-radius: 300px;
+    min-width: 400px
+}
+
+#gachaHome .top30ProductImg {
+    height: 35vh;
+    width: 13vw;
+    background-color: #FEC265;
+    border-radius: 200px;
+    margin-top: 10vh;
+    min-width: 200px
+}
+
+#gachaHome .top30ProductText {
+
+    height: 100px;
+    width: 13vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px
+}
+
+/*扭蛋牆*/
+#gachaHome .scroll-container {
+    width: 100%;
+    margin: 0;
+    background-color: #e0e0e0;
+    padding: 0px;
+
+}
+
+/* 設定每排滾動區域 */
+#gachaHome .scroll-row {
+    /* 隱藏溢出內容 */
+    overflow: hidden;
+    margin-bottom: 20px;
+    /* 排與排之間的間距 */
+}
+
+/* 設定滾動內容樣式 */
+#gachaHome .scroll-content {
+    display: flex;
+    flex-wrap: nowrap;
+    animation: scroll-horizontal 15s linear infinite;
+    /* 加入無限循環動畫 */
+}
+
+/* 設定每個項目 */
+#gachaHome .GachaWall {
+    position: relative;
+    min-width: 200px;
+    height: 300px;
+    box-shadow: 1px 5px 5px #a3a1a1;
+    background-color: #f3f4f0;
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+#gachaHome .GachaWall img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    filter: grayscale(50%);
+    transition: filter 0.5s ease;
+}
+
+#gachaHome .img1 {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+#gachaHome .img2 {
+    z-index: 0;
+    width: 100%;
+    border-radius: 30px;
+}
+
+#gachaHome .GachaWall img:hover {
+    filter: grayscale(0%);
+}
+
+/* 無縫滾動動畫 */
+@keyframes scroll-horizontal {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+        /* 滾動到一半，讓它看起來無縫 */
+    }
+}
+
+/* 滑鼠懸停時暫停動畫 */
+#gachaHome .scroll-row:hover .scroll-content {
+    animation-play-state: paused;
+}

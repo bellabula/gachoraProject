@@ -13,7 +13,11 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                     <ul className="navbar-nav me-auto my-lg-0 navbar-nav-scroll ms-4"
                         style={{ bsScrollHeight: "80px" }}>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">品牌故事</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">扭蛋</a></li>
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('gachaHome')} className="dropdown-item">
+                                扭蛋
+                            </Link>
+                        </li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">常見問題</a></li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">聯絡我們</a></li>

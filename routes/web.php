@@ -24,4 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/gachaHome', function () {
+    return Inertia::render('Gacha/B_1_GachaHome');
+})->name('gachaHome');
+
 require __DIR__.'/auth.php';
