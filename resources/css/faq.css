@@ -5,7 +5,7 @@
   #faq .bluesquare {
     width: 60vw;
     height: 50vw;
-    background: #365B6D;
+    background: var(--main-darkblue);
     border-radius: 50px;
     margin-left: 20%;
     margin-top: 5vw;
@@ -55,17 +55,21 @@
     margin-left: 20%;
     margin-top: 10%;
     width: 100%;
-    color: #365B6D;
+    color: var(--main-darkblue);
     cursor: pointer;
     font-size: 28px;
     font-weight: bold;
   }
   
-  #faq .sidebar button .active {
+  #faq .sidebar button.active {
     color: white;
-    background: #365B6D;
+    background: var(--main-darkblue);
     border-radius: 50px;
     height:5vw;
+  }
+  
+  #faq .col-8{
+    margin: 0vw 0vw 0vw 4vw;
   }
   
   #faq #faq-category {
@@ -80,13 +84,13 @@
   }
   
   #faq .accordion-item {
-    background-color: #365B6D;
+    background-color: var(--main-darkblue);
     border: none;
   }
   
   #faq .accordion-body {
     background-color: #FEC265;
-    color: #365B6D;
+    color: var(--main-darkblue);
     border-radius: 35px 35px 35px 35px;
     font-weight: bold;
     font-size: 20px;
@@ -98,7 +102,7 @@
     background-color: #F2F1EC;
     border-radius: 50px;
     margin-top: -5vw;
-    color: #365B6D
+    color: var(--main-darkblue)
   }
   
   #faq .contact11>p {
@@ -108,7 +112,7 @@
   #faq .contact22 {
     width: 20vw;
     height: 5vw;
-    background-color: #365B6D;
+    background-color: var(--main-darkblue);
     margin-top: -5vw;
     margin-left: -27vw;
     border-radius: 0px 0px 50px 50px;
@@ -131,13 +135,13 @@
   }
   
   #faq .form>input {
-    border-color: #365B6D;
+    border-color: var(--main-darkblue);
     border-radius: 10px;
     height: 3vw;
   }
   
   #faq input::placeholder {
-    color: #365B6D;
+    color: var(--main-darkblue);
     font-size: 20px;
     font-weight: 500;
   }
@@ -146,11 +150,11 @@
     height: 10vw;
     resize: none;
     border-radius: 10px;
-    border-color: #365B6D;
+    border-color: var(--main-darkblue);
   }
   
   #faq textarea::placeholder {
-    color: #365B6D;
+    color: var(--main-darkblue);
     font-size: 20px;
     font-weight: 500;
   }
@@ -172,19 +176,19 @@
   }
   
   #faq .buttonCheck .button1 {
-    background-color: #365B6D;
+    background-color: var(--main-darkblue);
     color: white;
   }
   
   #faq .buttonCheck .button2 {
     background-color: #FEC265;
-    color: #365B6D;
+    color: var(--main-darkblue);
     margin-left: 0.5vw;
   }
   
   @media (max-width: 1450px) {
     #faq .bluesquare {
-      height: 100vw;
+      height: 110vw;
       width: 60vw;
     }
   
@@ -223,7 +227,7 @@
     }
   
     #faq .bluesquare {
-      height: 105vw;
+      height: 115vw;
     }
   
     #faq .contact11 {
@@ -277,8 +281,8 @@
     #faq .form input{
       height:5vw;
     }
-    #faq .sidebar button .active{
-      height:10vw;
+    #faq .sidebar button.active{
+      height:15vw;
     }
   }
   
@@ -348,7 +352,7 @@
   @media (max-width:578px){
     #faq .bluesquare {
       width: 80vw;
-      height: 400vw;
+      height: 350vw;
       margin-left: 10%;
     }
     #faq .contact11{
@@ -371,5 +375,7 @@
     #faq .pp>.p2 {
       margin-left: 1vw;
     }
-  
+    #faq .yellowsquare {
+      height:95vw;
+    }
   }

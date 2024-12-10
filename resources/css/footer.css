@@ -1,0 +1,94 @@
+.FooterBody {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10vw;
+    background-color: #F2F1EC;
+}
+
+.footer {
+    bottom: 0;
+    width: 100%;
+    background-color: var(--main-darkblue);
+    color: #f2f2f2;
+    padding: 2vw 0;
+    border-radius: 50px 50px 0px 0px;
+}
+
+.FooterDetail {
+    display: flex;
+}
+
+.FooterGachora {
+    flex: 1;
+}
+
+
+.FooterGachora > h3 {
+    margin-top: 2vw;
+}
+
+.FooterGachora > h5 {
+    margin: 2vw 0vw 0vw 0vw;
+}
+
+.FooterXa {
+    padding: 1vw 1vw 1vw 1vw;
+    height: 11vw;
+    width: 17vw;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.FooterXb {
+    margin: 0.5vw 0.5vw 0.5vw 0.5vw;
+    height: 11vw;
+    width: 17vw;
+    background-color: black;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.FooterEmail,
+.FooterTel {
+    margin-top: 1vw;
+    margin-left: -1vw;
+    font-size: 24px;
+}
+
+.FooterImg1,
+.FooterImg2 {
+    margin-top: 1vw;
+}
+
+.FooterXc {
+    margin: 0vw 0vw 0vw 5vw;
+    padding: 1vw 1vw 1vw 1vw;
+    height: 11vw;
+    width: 15vw;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.FooterXd {
+    margin: 0.5vw 0.5vw 0.5vw 0.5vw;
+    height: 11vw;
+    width: 17vw;
+    background-color: black;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1300px) {
+    .FooterGachora > h3, .FooterGachora > h5, .FooterGachora > p, .FooterXb >.FooterEmail,.FooterXd > .FooterTel{
+        font-size: 2vw;
+    }
+    .FooterGachora > img{
+        width:15vw
+    }
+    .FooterXb > img, .FooterXd > img{
+        width:25px;
+        height:25px
+    }
+    .FooterDetail > .col-6{
+        flex-direction: column; /* 改為垂直排列 */
+    }
+    .FooterDetail > .col-6 > .FooterInfo{
+        margin-left: 15vw;
+    }
+}

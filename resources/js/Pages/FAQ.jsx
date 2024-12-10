@@ -1,6 +1,8 @@
 import FAQcomponent from "../Components/FAQcomponent";
 import FAAcomponent from "../Components/FAAcomponent";
 import { Head } from '@inertiajs/react';
+import Footer from "@/Components/Footer";
+import Navbar from "@/Components/Navbar";
 
 
 export default function FAQ() {
@@ -12,7 +14,7 @@ export default function FAQ() {
       $(this).addClass('d-none');
     });
 
-    // 將選中的 FAQ 類別取消隱藏
+    // 將選中的 FAQ 內容取消隱藏
     $(`#${categoryId}`).removeClass('d-none');
 
     // 更新左側選單的 active 樣式
@@ -21,20 +23,13 @@ export default function FAQ() {
     });
 
     // 選取特定的類別，讓他active
-    // const selector = `.sidebar button onClick={() => "showFaq('#${categoryId}')"}`;
-    // console.log(selector);
-    // $(selector).addClass('active');
-    const selector = `.sidebar button[onclick="showFaq('${categoryId}')"]`
-    $(selector).on("click", function(){
-      $(this).addClass('active');
-    })
-    console.log(categoryId)
-    
+    $(`#${categoryId+"g"}`).addClass('active');
 
   }
 
   return (
     <>
+      <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
       <Head title="FAQ" />
       <main id="faq">
         <div className="bluesquare">
@@ -45,12 +40,12 @@ export default function FAQ() {
           <div className="container">
             <div className="yellowsquare">
               <div className="sidebar">
-                <button onClick={() => showFaq('faq-category-1')}>扭蛋與一番賞</button>
-                <button onClick={() => showFaq('faq-category-2')}>會員與優惠</button>
-                <button onClick={() => showFaq('faq-category-3')}>付款與交易</button>
-                <button onClick={() => showFaq('faq-category-4')}>活動與公告</button>
-                <button onClick={() => showFaq('faq-category-5')}>技術與操作</button>
-                <button onClick={() => showFaq('faq-category-6')}>聯絡我們</button>
+                <button id="faq-category-1g" className="active" onClick={() => showFaq('faq-category-1')}>扭蛋與一番賞</button>
+                <button id="faq-category-2g" onClick={() => showFaq('faq-category-2')}>會員與優惠</button>
+                <button id="faq-category-3g" onClick={() => showFaq('faq-category-3')}>付款與交易</button>
+                <button id="faq-category-4g" onClick={() => showFaq('faq-category-4')}>活動與公告</button>
+                <button id="faq-category-5g" onClick={() => showFaq('faq-category-5')}>技術與操作</button>
+                <button id="faq-category-6g" onClick={() => showFaq('faq-category-6')}>聯絡我們</button>
               </div>
             </div>
             {/* <!-- FAQ 內容 --> */}
@@ -60,7 +55,6 @@ export default function FAQ() {
 
                   {/* <!-- 1-1 QA --> */}
                   <div className="accordion-item">
-                    {/* <!-- 1-1 QA --> */}
                     <FAQcomponent targetId="question11">每次抽扭蛋的機率是否公平？</FAQcomponent>
                     <FAAcomponent targetId="question11" targetId2="accordion-category-1">是的，我們的扭蛋機率完全隨機，所有玩家的機會均等。</FAAcomponent>
                   </div>
@@ -68,7 +62,6 @@ export default function FAQ() {
 
                   {/* <!-- 1-2 QA --> */}
                   <div className="accordion-item">
-                    {/* <!-- 1-2 QA --> */}
                     <FAQcomponent targetId="question12">有沒有每日免費抽一次的活動？</FAQcomponent>
                     <FAAcomponent targetId="question12" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
                   </div>
@@ -80,9 +73,7 @@ export default function FAQ() {
                 <div className="accordion" id="accordion-category-2">
 
                   {/* <!-- 2-1 QA --> */}
-                  {/* <!-- QA --> */}
                   <div className="accordion-item">
-                    {/* <!-- 2-1 QA --> */}
                     <FAQcomponent targetId="question21">會員如何升級等級？</FAQcomponent>
                     <FAAcomponent targetId="question21" targetId2="accordion-category-2">累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
                   </div>
@@ -90,9 +81,7 @@ export default function FAQ() {
 
 
                   {/* <!-- 2-2 QA --> */}
-                  {/* <!-- QA --> */}
                   <div className="accordion-item">
-                    {/* <!-- 2-2 QA --> */}
                     <FAQcomponent targetId="question22">會員有哪些福利？</FAQcomponent>
                     <FAAcomponent targetId="question22" targetId2="accordion-category-2">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
@@ -105,9 +94,7 @@ export default function FAQ() {
                 <div className="accordion" id="accordion-category-3">
 
                   {/* <!-- 3-1 QA --> */}
-                  {/* <!-- QA --> */}
                   <div className="accordion-item">
-                    {/* <!-- 3-1 QA --> */}
                     <FAQcomponent targetId="question31">會員如何升級等級？31</FAQcomponent>
                     <FAAcomponent targetId="question31" targetId2="accordion-category-3">累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
                   </div>
@@ -115,9 +102,7 @@ export default function FAQ() {
 
 
                   {/* <!-- 3-2 QA --> */}
-                  {/* <!-- QA --> */}
                   <div className="accordion-item">
-                    {/* <!-- 3-2 QA --> */}
                     <FAQcomponent targetId="question32">會員有哪些福利？32</FAQcomponent>
                     <FAAcomponent targetId="question32" targetId2="accordion-category-3">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
@@ -129,9 +114,7 @@ export default function FAQ() {
                 <div className="accordion" id="accordion-category-4">
 
                   {/* <!-- 4-1 QA --> */}
-                  {/* <!-- QA --> */}
                   <div className="accordion-item">
-                    {/* <!-- 4-1 QA --> */}
                     <FAQcomponent targetId="question41">會員如何升級等級？41</FAQcomponent>
                     <FAAcomponent targetId="question41" targetId2="accordion-category-4">累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
                   </div>
@@ -139,9 +122,7 @@ export default function FAQ() {
 
 
                   {/* <!-- 4-2 QA --> */}
-                  {/* <!-- QA --> */}
                   <div className="accordion-item">
-                    {/* <!-- 4-2 QA --> */}
                     <FAQcomponent targetId="question42">會員有哪些福利？42</FAQcomponent>
                     <FAAcomponent targetId="question42" targetId2="accordion-category-4">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
@@ -154,39 +135,14 @@ export default function FAQ() {
 
                   {/* <!-- 5-1 QA --> */}
                   <div className="accordion-item">
-
-                    {/* <!-- 5-1 問題 --> */}
-                    <h2 className="accordion-header">
-                      <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#question51">
-                        會員如何升級等級？
-                      </button>
-                    </h2>
-
-                    {/* <!-- 5-1 答案--> */}
-                    <div id="question51" className="accordion-collapse collapse show" data-bs-parent="#accordion-category-5">
-                      <div className="accordion-body">
-                        累積消費金額即可升級會員等級，享受更多專屬福利。
-                      </div>
-                    </div>
+                    <FAQcomponent targetId="question51">會員如何升級等級？51</FAQcomponent>
+                    <FAAcomponent targetId="question51" targetId2="accordion-category-5">累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
                   </div>
 
                   {/* <!-- 5-2 QA --> */}
                   <div className="accordion-item">
-
-                    {/* <!-- 5-2 問題 --> */}
-                    <h2 className="accordion-header">
-                      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#question52">
-                        會員有哪些福利？
-                      </button>
-                    </h2>
-
-                    {/* <!-- 5-2 答案 --> */}
-                    <div id="question52" className="accordion-collapse collapse" data-bs-parent="#accordion-category-5">
-                      <div className="accordion-body">
-                        包括專屬優惠券、生日禮物和購物折扣等。
-                      </div>
-                    </div>
+                    <FAQcomponent targetId="question52">會員有哪些福利？52</FAQcomponent>
+                    <FAAcomponent targetId="question52" targetId2="accordion-category-5">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                 </div>
@@ -221,6 +177,7 @@ export default function FAQ() {
           </div>
         </div>
       </main>
+      <Footer/>
     </>
   )
 }
