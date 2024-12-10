@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+//api controller
+use App\Http\Controllers\HomeDirectToController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -28,4 +30,13 @@ Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
 
-require __DIR__.'/auth.php';
+// 首頁: Gachora, 扭蛋, 一番賞, 會員
+Route::view('/api', 'apihome');
+Route::view('/api/egg', 'apiEgg');
+Route::view('/api/ichiban', 'apiIchiban');
+Route::view('/api/user', 'apiUser');
+
+
+
+
+require __DIR__ . '/auth.php';
