@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 
 function MyStorage({ id }) {
 
-    // function Storage({ stock }) {
-    //     let [count, setNumb] = React.useState(0)
-    //     function handleClickDec() { setNumb(count > 0 ? count - 1 : count) }
-    //     function handleClickInc() { setNumb(count < { stock } ? count + 1 : count) }
-    // }
+    function Storage({ stock }) {
+        let [count, setNumb] = React.useState(0)
+        function handleClickDec() { setNumb(count > 0 ? count - 1 : count) }
+        function handleClickInc() { setNumb(count < { stock } ? count + 1 : count) }
+    }
 
     useEffect(() => {
         // 增加按鈕點擊事件
