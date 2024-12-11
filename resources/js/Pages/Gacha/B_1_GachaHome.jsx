@@ -1,5 +1,5 @@
 import Navbar from '@/Components/Navbar';
-import GachaWallItem from '@/Components/GachaWallItem';
+import GachaWallItem from '@/Pages/Gacha/GachaWallItem';
 import { Head, Link } from '@inertiajs/react';
 
 function B_1_GachaHome() {

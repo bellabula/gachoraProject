@@ -1,6 +1,7 @@
 import Navbar from '@/Components/Navbar';
 import { Head, Link } from '@inertiajs/react';
 import { useEffect } from 'react';
+import PdCard from '@/Components/PdCard';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
@@ -158,8 +159,8 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         <>
 
             <Head title="GachoraHome" />
-            <Navbar svgColor="var(--white-filter)" textColor="white" />
-           
+            {/* <Navbar svgColor="var(--white-filter)" textColor="white" /> */}
+
             <main id="homepage" style={{ backgroundColor: "var(--main-darkblue)", margin: "0px" }}>
 
                 {/* 首頁開始/動畫/按鈕 */}
@@ -319,7 +320,8 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     </div>
                 </section>
 
-
+                {/* ------------//testing */}
+                <PdCard></PdCard>
 
 
 
