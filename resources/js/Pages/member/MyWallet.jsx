@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 
-function MyWallet({id}) {
+function MyWallet({id, className=""}) {
     // 取得今天的日期，並格式化為 YYYY-MM-DD
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
@@ -23,7 +23,7 @@ function MyWallet({id}) {
     return (
         <>
             {/* <!-- 4. 我的錢包 --> */}
-            <div id={id} className="tab-pane">
+            <div id={id} className={"tab-pane " + className}>
                 <p className="h1 d-inline-block me-3">G幣交易紀錄</p>
                 <form className="d-inline-block">
                     <input className="date-input orderStartText" type="text" placeholder="起始日" readOnly />

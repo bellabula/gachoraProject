@@ -32,7 +32,12 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </Link>
                         </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} /></a></li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item">
+                            {/* <Link href={route('login')} className="dropdown-item"></Link> */}
+                            <Link href={route('dashboard', { highlight: 'wallet' })}>
+                                <img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} />
+                            </Link>
+                        </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item" style={{ display: logout }}>
