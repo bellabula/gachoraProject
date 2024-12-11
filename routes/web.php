@@ -27,9 +27,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
+
 Route::get('/faq', function () {
     return Inertia::render('FAQ');
 })->name('faq');
+
 
 
 

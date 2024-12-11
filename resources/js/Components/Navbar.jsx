@@ -19,8 +19,16 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </Link>
                         </li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">常見問題</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">聯絡我們</a></li>
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('faq')} className="dropdown-item">
+                                常見問題
+                            </Link>
+                        </li>
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('faq', { goto: 'all' })} className="dropdown-item">
+                                聯絡我們
+                            </Link>
+                        </li>
                     </ul>
                 </div>
                 <div id="bigNavbar-r">
@@ -90,7 +98,9 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 <a className="nav-link" href="#">我的錢包</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">常見問題</a>
+                                <Link href={route('faq')} className="nav-link">
+                                    常見問題
+                                </Link>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">聯絡我們</a>
