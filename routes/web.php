@@ -26,6 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::get('/faq', function () {
+    return Inertia::render('FAQ');
+})->name('faq');
+
+
+
 Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
@@ -40,3 +47,4 @@ Route::view('/api/user', 'apiUser');
 
 
 require __DIR__ . '/auth.php';
+

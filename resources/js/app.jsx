@@ -6,7 +6,12 @@ import '../css/login.css';
 import '../css/signUpStyle.css';
 import '../css/member.css';
 import '../css/forgetPassword.css';
+<<<<<<< HEAD
 import '../css/home.css';
+=======
+import '../css/faq.css';
+import '../css/footer.css'
+>>>>>>> cf15a44fee5b56bb9dc0b40eba07902481b6498e
 
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
