@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
+import { useEffect } from 'react';
 import React from 'react';
 import MyWall from './member/MyWall';
 import MyWallet from './member/MyWallet';
@@ -10,6 +11,8 @@ import MyProfile from './member/MyProfile';
 import NavLink from './member/NavLink';
 
 export default function Dashboard() {
+
+    const highlight = usePage().props.highlight;
 
     const user = usePage().props.auth.user;
 
@@ -29,23 +32,23 @@ export default function Dashboard() {
                 {/* <!-- Tabs --> */}
                 <div className="custom-section">
                     <ul className="nav nav-pills justify-content-center">
-                        <NavLink href="#memberWall" className='active'>戰利牆</NavLink>
+                        <NavLink href="#memberWall" className={highlight === 'wallet' ? '' : 'active'}>戰利牆</NavLink>
                         <NavLink href="#memberFavor">收藏清單</NavLink>
                         <NavLink href="#memberStore">戰利儲藏庫</NavLink>
-                        <NavLink href="#memberWallet">我的錢包</NavLink>
+                        <NavLink href="#memberWallet" className={highlight === 'wallet' ? 'active' : ''}>我的錢包</NavLink>
                         <NavLink href="#memberOrder">我的訂單</NavLink>
                         <NavLink href="#memberProfile">基本資料</NavLink>
                     </ul>
                 </div>
                 <div className="tab-content pt-5">
                     {/* <!-- 1. 戰利牆 --> */}
-                    <MyWall id="memberWall" />
+                    <MyWall id="memberWall" className={highlight === 'wallet' ? '' : 'active'}/>
                     {/* <!-- 2. 收藏清單 --> */}
                     <MyFavor id="memberFavor" />
                     {/* <!-- 3. 戰利儲藏庫 --> */}
                     <MyStorage id="memberStore" />
                     {/* <!-- 4. 我的錢包 --> */}
-                    <MyWallet id="memberWallet" />
+                    <MyWallet id="memberWallet" className={highlight === 'wallet' ? 'active' : ''}/>
                     {/* <!-- 5. 我的訂單 --> */}
                     <MyOrder id="memberOrder"/>
                     {/* <!-- 6. 基本資料 --> */}
