@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 
 export default function FAQ() {
-  
+
   const goto = usePage().props.goto
   useEffect (()=> {
     if (goto === 'contact') {
@@ -22,6 +22,7 @@ export default function FAQ() {
     $('.faq-category').each(function () {
       $(this).addClass('d-none');
     });
+
 
     // 將選中的 FAQ 內容取消隱藏
     $(`#${categoryId}`).removeClass('d-none');
