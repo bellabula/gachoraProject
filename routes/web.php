@@ -28,4 +28,8 @@ Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
 
+Route::get('/gachatagpage', function () {
+    return Inertia::render('Gacha/B_2_GachaTagPage');
+})->name('gachatagpage');
+
 require __DIR__.'/auth.php';
