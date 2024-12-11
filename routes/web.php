@@ -35,6 +35,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::get('/faq', function () {
+    return Inertia::render('FAQ');
+})->name('faq');
+
+
+
 Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
@@ -45,6 +52,11 @@ Route::get('/shoppingCart', function () {
 })->name('shoppingCart');
 
 
+
+
+Route::get('/gachatagpage', function () {
+    return Inertia::render('Gacha/B_2_GachaTagPage');
+})->name('gachatagpage');
 
 // 首頁: Gachora, 扭蛋, 一番賞, 會員
 Route::view('/api', 'apihome');
