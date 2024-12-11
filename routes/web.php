@@ -37,6 +37,11 @@ Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
 
+
+Route::get('/gachatagpage', function () {
+    return Inertia::render('Gacha/B_2_GachaTagPage');
+})->name('gachatagpage');
+
 // 首頁: Gachora, 扭蛋, 一番賞, 會員
 Route::view('/api', 'apihome');
 Route::view('/api/egg', 'apiEgg');
@@ -47,4 +52,3 @@ Route::view('/api/user', 'apiUser');
 
 
 require __DIR__ . '/auth.php';
-

@@ -11,6 +11,14 @@ import '../css/home.css';
 import '../css/faq.css';
 import '../css/footer.css'
 
+import '../css/gachaHome.css';
+import '../css/gachaTagPage.css';
+import '../css/GachaPdCard.css';
+import '../css/home.css';
+import '../css/faq.css';
+import '../css/footer.css'
+
+
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
