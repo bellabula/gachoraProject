@@ -654,6 +654,14 @@ class API
       $jsonOutput['name'] = $output['name'];
     }
     $stmt->closeCursor();
+    $sql = "call GetPastAYearGashById(:user_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput['gash_level'] = $output['gash'];
+    }
+    $stmt->closeCursor();
     $sql = "call GetGashNowById(:user_id);";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -670,6 +678,12 @@ class API
       $jsonOutput['gift'][] = [
         'amount' => $output['gift'],
         'expire_at' => date('Y-m-d H:i:s', $output['expire_at'])
+      ];
+    }
+    if (!isset($jsonOutput['gift'])) {
+      $jsonOutput['gift'][] = [
+        'amount' => '沒',
+        'expire_at' => '某時'
       ];
     }
     $stmt->closeCursor();
@@ -711,35 +725,147 @@ class API
     $user_id = $_POST['user_id'];
     $db = new Connect;
     $jsonOutput = [];
-    $jsonOutput['hasseries'] = [];
-    $jsonOutput['noseries'] = [];
-    $sql = "call GetCollectionHasById(:user_id, 1);";
+    $sql = "call GetCollectionHasByIdAndCategory(:user_id, 1);";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
+    $series_ids = [];
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['hasseries'][] = [
+      $series_ids[] = $output['series_id'];
+      $jsonOutput['has'][] = [
         'id' => $output['series_id'],
-        'title' => $output['series_title'],
-        'name' => $output['series_name'],
-        'price' => $output['price'],
+        'notification_status' => $output['notification_status'],
+        'name_title' => $output['name_title'],
+        'name' => $output['name'],
+        'price' => $output['price']
       ];
     }
     $stmt->closeCursor();
-    $sql = "call GetCollectionNoById(:user_id, 1);";
+    foreach ($series_ids as $series_id) {
+      $sql1 = "call GetSeriesImgById(:series_id);";
+      $stmt1 = $db->prepare($sql1);
+      $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt1->execute();
+      $img = [];
+      while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = $output1['img'];
+      }
+      $stmt1->closeCursor();
+      foreach ($jsonOutput['has'] as &$item) {
+        if ($item['id'] == $series_id) {
+          $item['img'] = $img;
+          break;
+        }
+      }
+    }
+    $sql = "call GetCollectionNoByIdAndCategory(:user_id, 1);";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
+    $series_ids = [];
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['noseries'][] = [
+      $series_ids[] = $output['series_id'];
+      $jsonOutput['no'][] = [
         'id' => $output['series_id'],
-        'title' => $output['series_title'],
-        'name' => $output['series_name'],
-        'price' => $output['price'],
+        'notification_status' => $output['notification_status'],
+        'name_title' => $output['name_title'],
+        'name' => $output['name'],
+        'price' => $output['price']
       ];
     }
     $stmt->closeCursor();
-
+    foreach ($series_ids as $series_id) {
+      $sql1 = "call GetSeriesImgById(:series_id);";
+      $stmt1 = $db->prepare($sql1);
+      $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt1->execute();
+      $img = [];
+      while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = $output1['img'];
+      }
+      $stmt1->closeCursor();
+      foreach ($jsonOutput['no'] as &$item) {
+        if ($item['id'] == $series_id) {
+          $item['img'] = $img;
+          break;
+        }
+      }
+    }
+    $db = null;
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function CollectionIchiban($user_id)
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetCollectionHasByIdAndCategory(:user_id, 2);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $series_ids = [];
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $series_ids[] = $output['series_id'];
+      $jsonOutput['has'][] = [
+        'id' => $output['series_id'],
+        'notification_status' => $output['notification_status'],
+        'name_title' => $output['name_title'],
+        'name' => $output['name'],
+        'price' => $output['price']
+      ];
+    }
+    $stmt->closeCursor();
+    foreach ($series_ids as $series_id) {
+      $sql1 = "call GetSeriesImgById(:series_id);";
+      $stmt1 = $db->prepare($sql1);
+      $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt1->execute();
+      $img = [];
+      while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = $output1['img'];
+      }
+      $stmt1->closeCursor();
+      foreach ($jsonOutput['has'] as &$item) {
+        if ($item['id'] == $series_id) {
+          $item['img'] = $img;
+          break;
+        }
+      }
+    }
+    $sql = "call GetCollectionNoByIdAndCategory(:user_id, 2);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $series_ids = [];
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $series_ids[] = $output['series_id'];
+      $jsonOutput['no'][] = [
+        'id' => $output['series_id'],
+        'notification_status' => $output['notification_status'],
+        'name_title' => $output['name_title'],
+        'name' => $output['name'],
+        'price' => $output['price']
+      ];
+    }
+    $stmt->closeCursor();
+    foreach ($series_ids as $series_id) {
+      $sql1 = "call GetSeriesImgById(:series_id);";
+      $stmt1 = $db->prepare($sql1);
+      $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt1->execute();
+      $img = [];
+      while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = $output1['img'];
+      }
+      $stmt1->closeCursor();
+      foreach ($jsonOutput['no'] as &$item) {
+        if ($item['id'] == $series_id) {
+          $item['img'] = $img;
+          break;
+        }
+      }
+    }
     $db = null;
     return json_encode($jsonOutput);
     unset($jsonOutput);
