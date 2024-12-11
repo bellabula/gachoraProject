@@ -1,5 +1,15 @@
 import { Link } from '@inertiajs/react';
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none" }) {
+import { useEffect } from 'react';
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none", homepage = false }) {
+    useEffect(() => {
+        if (homepage) {
+            $("#bigNavbar-l").css("display", "none")
+            $("#bigNavbar-r").css("display", "none")
+            $("nav div div.ps-4 img").css("display", "none")
+            $("#offcanvasNavbar").css("display", "block")
+            $("nav").removeClass("navbar-expand-lg")
+        }
+    })
     return (
         <nav className="navbar fixed-top navbar-expand-lg overflow-hidden" style={{ backgroundColor: bgcolor, height: "80px" }}>
             <div className="container-fluid pe-0 ps-0 container-xxl">
@@ -29,8 +39,6 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             <Link href={route('faq', { goto: 'contact' })} className="dropdown-item">
                                 聯絡我們
                             </Link>
-                            {/* <a className="dropdown-item" href="#">聯絡我們</a> */}
-
                         </li>
                     </ul>
                 </div>
@@ -111,7 +119,9 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">聯絡我們</a>
+                                <Link href={route('faq', { goto: 'contact' })} className="nav-link">
+                                    聯絡我們
+                                </Link>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">English</a>
