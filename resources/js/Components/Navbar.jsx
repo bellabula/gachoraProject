@@ -20,7 +20,12 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                         </li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">常見問題</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">聯絡我們</a></li>
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('faq', { goto: 'contact' })} className="dropdown-item">
+                                聯絡我們
+                            </Link>
+                            {/* <a className="dropdown-item" href="#">聯絡我們</a> */}
+                        </li>
                     </ul>
                 </div>
                 <div id="bigNavbar-r">

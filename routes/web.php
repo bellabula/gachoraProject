@@ -17,11 +17,6 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-
 Route::get('/dashboard', function (Request $request) {
     return Inertia::render('Dashboard', [
         'highlight' => $request->query('highlight'), // 將 highlight 傳遞到前端
@@ -36,8 +31,10 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/faq', function () {
-    return Inertia::render('FAQ');
+Route::get('/faq', function (Request $request) {
+    return Inertia::render('FAQ', [
+        'goto' => $request->query('goto'), // 將 highlight 傳遞到前端
+    ]);
 })->name('faq');
 
 
