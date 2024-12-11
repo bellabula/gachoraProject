@@ -20,7 +20,12 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                         </li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">常見問題</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">聯絡我們</a></li>
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('faq', { goto: 'contact' })} className="dropdown-item">
+                                聯絡我們
+                            </Link>
+                            {/* <a className="dropdown-item" href="#">聯絡我們</a> */}
+                        </li>
                     </ul>
                 </div>
                 <div id="bigNavbar-r">
@@ -32,7 +37,12 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </Link>
                         </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} /></a></li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item">
+                            {/* <Link href={route('login')} className="dropdown-item"></Link> */}
+                            <Link href={route('dashboard', { highlight: 'wallet' })}>
+                                <img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} />
+                            </Link>
+                        </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item" style={{ display: logout }}>
