@@ -3,10 +3,18 @@ import FAAcomponent from "../Components/FAAcomponent";
 import { Head, usePage } from '@inertiajs/react';
 import Footer from "@/Components/Footer";
 import Navbar from "@/Components/Navbar";
+import { useEffect } from "react";
 
 
 export default function FAQ() {
-  // <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  const goto = usePage().props.goto
+  useEffect (()=> {
+    if (goto === 'contact') {
+      $(`#faq-category-1`).addClass('d-none');
+      $(`#faq-category-6`).removeClass('d-none');
+    }
+  })
 
   function showFaq(categoryId) {
 
@@ -42,15 +50,12 @@ export default function FAQ() {
           <div className="container">
             <div className="yellowsquare">
               <div className="sidebar">
-                <button id="faq-category-1g" className="active" onClick={() => showFaq('faq-category-1')} 
-                style={{marginTop:'10%'}}>
-                  扭蛋與一番賞
-                </button>
+                <button id="faq-category-1g" className={goto === 'contact' ? '' : 'active'} onClick={() => showFaq('faq-category-1')}>扭蛋與一番賞</button>
                 <button id="faq-category-2g" onClick={() => showFaq('faq-category-2')}>會員與優惠</button>
                 <button id="faq-category-3g" onClick={() => showFaq('faq-category-3')}>付款與交易</button>
                 <button id="faq-category-4g" onClick={() => showFaq('faq-category-4')}>活動與公告</button>
                 <button id="faq-category-5g" onClick={() => showFaq('faq-category-5')}>技術與操作</button>
-                <button id="faq-category-6g" onClick={() => showFaq('faq-category-6')}>聯絡我們</button>
+                <button id="faq-category-6g" className={goto === 'contact' ? 'active' : ''} onClick={() => showFaq('faq-category-6')}>聯絡我們</button>
               </div>
             </div>
             {/* <!-- FAQ 內容 --> */}

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, usePage } from '@inertiajs/react';
 function MyProfile({id}) {
     const user = usePage().props.auth.user;
-    console.log(user)
+
     useEffect(()=>{
         $("#editProfile").click(() => {
             $("#profile").addClass("d-none")

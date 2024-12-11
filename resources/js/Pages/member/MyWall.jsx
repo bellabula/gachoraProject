@@ -1,10 +1,10 @@
 import React from 'react'
 
-function MyWall({id}) {
+function MyWall({id, className=""}) {
     return (
         <>
             {/* <!-- 1. 戰利牆 --> */}
-            <div id={id} className="tab-pane active">
+            <div id={id} className={"tab-pane " + className}>
                 <div className="container">
                     {/* <!-- 成就 --> */}
                     <div>

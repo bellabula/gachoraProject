@@ -1,0 +1,461 @@
+/* 按鈕設置 */
+#homepage .custom-btn {
+    display: flex;
+    /* border: 5px solid red; */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    background-color: var(--main-bg-gray);
+    color: var(--main-yellow);
+    width: 200px;
+    font-size: 1.4rem;
+    padding: 0.6rem 1rem;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    cursor: pointer;
+}
+
+#homepage .custom-btn:hover {
+    color: var(--main-bg-gray);
+    background-color: var(--main-yellow);
+
+
+}
+
+/* 首頁開頭畫面 */
+
+#home {
+    /* border: 5px solid red; */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+    position: relative;
+    height: 160vh;
+
+}
+
+#home .custom-btn {
+    /* grid-row: 1; */
+    align-items: center;
+    position: relative;
+
+}
+
+#home>.clouds>.mycontainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    position: absolute;
+    top: calc(100vw * 0.35);
+    gap: 3rem;
+
+}
+
+#button1,
+#button2 {
+    display: none;
+}
+
+#homepage .show-buttons {
+    display: inline-block !important;
+    opacity: 1;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    z-index: 999;
+}
+
+/* 雲朵 */
+#homepage .clouds {
+    display: flex;
+}
+
+#homepage .clouds img {
+    position: absolute;
+    width: 100%;
+}
+
+
+#homepage .l_cloud {
+    position: relative;
+    z-index: 10;
+}
+
+#animation1 {
+    position: relative;
+    left: 0;
+    width: 100%;
+    background: your-background-color;
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    transition: transform 0.1s ease-out;
+}
+
+#animation2 {
+    width: 100%;
+}
+
+@media (max-width: 992px) {
+    #home {
+        height: 100vh;
+    }
+
+    #homepage .custom-btn {
+        font-size: 1rem;
+        width: 200px;
+    }
+
+    #homepage .scroll-hint {
+        visibility: hidden;
+    }
+
+    #homepage .wave-container h1 {
+        font-size: 1.2rem;
+    }
+
+}
+
+@media (max-width: 768px) {
+    #home {
+        height: 70vh;
+    }
+
+    #homepage .custom-btn {
+        font-size: 0.9rem;
+        width: 180px;
+        top: calc(100vw * 0.02);
+    }
+
+    #homepage .scroll-hint {
+        visibility: hidden;
+    }
+
+    #homepage .wave-container h1 {
+        font-size: 1.1rem;
+    }
+
+}
+
+@media (max-width: 576px) {
+    #home {
+        height: 50vh;
+    }
+
+    #homepage .custom-btn {
+        font-size: 0.9rem;
+        width: 140px;
+        top: 0px;
+    }
+
+    #homepage .scroll-hint {
+        visibility: hidden;
+    }
+
+    #homepage .wave-container h1 {
+        font-size: 0.5rem;
+    }
+
+}
+
+/* 固定右下角的文字樣式 */
+#home>.scroll-hint {
+    position: absolute;
+    /* border: 5px solid red; */
+    top: calc(100vw * 0.42);
+    /* 使用視窗高度 */
+    right: 0;
+    color: #365b6d;
+    display: flex;
+    z-index: 1000;
+}
+
+#homepage .scroll-hint p {
+    font-size: 1.4rem;
+    display: inline-block;
+    animation: bounceText 1s infinite ease-in-out;
+    /* 文字跳動動畫 */
+}
+
+@keyframes bounceText {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        /* 初始位置 */
+    }
+
+    50% {
+        transform: translateY(-10px);
+        /* 上移 */
+    }
+}
+
+/* 箭頭樣式 */
+#homepage .scroll-hint .arrow img {
+    width: 55px;
+    /* 你可以根據需要調整大小 */
+    margin-left: 1px;
+    /* 距離文字的間隔 */
+    transform: rotate(180deg);
+    /* 旋轉 180 度 */
+}
+
+
+
+/* 選轉按鈕 */
+#rotate {
+    /* border: 5px solid red; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin-top: 0;
+    justify-content: flex-start;
+    position: absolute;
+    align-items: center;
+    /* border: 5px solid red; */
+    background-color: var(--main-darkblue);
+    transition: height 0.3s ease;
+    top: calc(100vw * 0.65);
+
+}
+
+#rotate-icon {
+    /* border: 5px solid red; */
+    cursor: pointer;
+    width: 12vw;
+    position: absolute;
+    align-items: center;
+    z-index: 10;
+    transition: transform 1s ease;
+
+}
+
+#homepage .rotate {
+    animation: rotateAnimation 1s linear forwards;
+}
+
+#homepage .reverse-rotate {
+    animation: reverseRotateAnimation 1s linear forwards;
+}
+
+@keyframes rotateAnimation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes reverseRotateAnimation {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* 選轉後的表格 */
+#homepage .desc_form {
+    position: absolute;
+    width: 80vw;
+    height: 0;
+    padding: 0;
+    top: calc(100vw * 0.06);
+    border-radius: 50px;
+    background-color: #d6eef6;
+    display: flex;
+    justify-content: center;
+    align-items: self-start;
+    overflow: hidden;
+    /* border: 5px solid red; */
+    transition: height 0.3s ease;
+    border-top: 5px dotted var(--main-darkblue);
+}
+
+#homepage .desc_form.show {
+    height: 1000px;
+}
+
+
+/* 一翻賞curve 背景/ 內容 */
+#homepage .wave-container {
+    background-color: var(--main-bg-gray);
+    color: var(--main-darkblue);
+    /* border: 1px solid red; */
+    margin-bottom: 0;
+    padding: 5em;
+
+}
+
+#homepage .lower-curve svg {
+    /* border: 1px solid red; */
+    background-color: var(--main-bg-gray);
+    margin-top: -2px;
+    display: block;
+}
+
+#homepage .upper-curve svg {
+    /* border: 1px solid red; */
+    margin-top: 15vh;
+    display: block;
+}
+
+/* 一翻賞動畫 */
+#homepage .container1 {
+    margin-top: 0;
+    position: relative;
+}
+
+#homepage .sticky-top {
+    /* position: relative; */
+    /* transform: translateY(-50%); */
+    width: 100%;
+    /* display: flex; */
+    justify-content: center;
+}
+
+#homepage .img-fluid {
+    width: 100%;
+    padding-top: 15vh;
+    padding-bottom: 10vh;
+
+}
+
+#homepage .wave-container {
+    background-color: var(--main-bg-gray);
+    color: var(--main-darkblue);
+    /* border: 1px solid red; */
+    margin-bottom: 0;
+    padding: 5em;
+
+}
+
+#homepage .wave-container .title {
+    font-size: 2.4rem;
+    margin-bottom: 80px;
+    text-align: center;
+}
+
+#homepage .wave-container .ti-content {
+    font-size: 1.8em;
+}
+
+#homepage .wave-container .content {
+    font-size: 1.5em;
+    padding: 10px;
+}
+
+/* animation */
+#homepage .from-bottom {
+    /* grid-column: 2 / 3; */
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#homepage .from-left {
+    /* grid-column: 2 / 3; */
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+#homepage .from-right {
+    /* grid-column: 3 / 4; */
+    -webkit-transform: translateX(50%);
+    transform: translateX(50%);
+}
+
+#homepage .from-left,
+#homepage .from-right,
+#homepage .from-bottom {
+    transition: opacity 400ms ease-in-out, -webkit-transform 100ms ease-in-out;
+    transition: opacity 400ms ease-in-out, transform 100ms ease-in-out;
+    transition: opacity 400ms ease-in-out, transform 100ms ease-in-out,
+        -webkit-transform 400ms ease-in-out;
+    opacity: 0;
+}
+
+#homepage .from-left.appear,
+#homepage .from-right.appear {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+}
+
+#homepage .from-bottom.appear {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* 扭蛋頁面 */
+#homepage .wave-container2 {
+    background-color: var(--main-yellow);
+    color: var(--main-darkblue);
+    /* border: 1px solid red; */
+    margin-bottom: 0;
+    padding: 5em;
+}
+
+#homepage .wave-container2 .title {
+    font-size: 2.4rem;
+    text-align: center;
+    margin-bottom: 80px;
+    color: var(--main-bg-gray);
+}
+
+#homepage .wave-container2 .ti-content {
+    font-size: 1.8em;
+    color: var(--main-bg-gray);
+}
+
+#homepage .wave-container2 .content {
+    font-size: 1.5em;
+    padding: 10px;
+    color: var(--main-bg-gray);
+}
+
+#homepage .lower-curve2 svg {
+    /* border: 1px solid red; */
+    background-color: var(--main-darkblue);
+    margin-top: -2px;
+    display: block;
+}
+
+#homepage .upper-curve2 svg {
+    /* border: 1px solid red; */
+    margin-top: 15vh;
+    display: block;
+}
+
+#homepage .btncontainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#button4 {
+
+    position: absolute;
+    /* 使用絕對定位 */
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* border: 5 solid red; */
+}
+
+#button3 {
+    position: absolute;
+    /* 使用絕對定位 */
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* border: 5 solid red; */
+}
+
+#animation3,
+#animation4 {
+    margin-top: 0;
+}
