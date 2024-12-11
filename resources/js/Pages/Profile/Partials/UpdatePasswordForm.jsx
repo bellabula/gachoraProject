@@ -4,7 +4,7 @@ import PrimaryButton from '@/Components/init/PrimaryButton';
 import TextInput from '@/Components/init/TextInput';
 import { Transition } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
@@ -29,7 +29,12 @@ export default function UpdatePasswordForm({ className = '' }) {
 
         put(route('password.update'), {
             preserveScroll: true,
-            onSuccess: () => reset(),
+            onSuccess: () => {
+                reset()
+                $("#pwdSection").css("display", "none")
+                $("#editPwdBtn").css("display", "inline")
+                alert('密碼已修改')
+            },
             onError: (errors) => {
                 if (errors.password) {
                     reset('password', 'password_confirmation');
@@ -43,7 +48,16 @@ export default function UpdatePasswordForm({ className = '' }) {
             },
         });
     };
-
+    useEffect(() => {
+        $("#editPwdBtn").click(() => {
+            $("#pwdSection").css("display", "block")
+            $("#editPwdBtn").css("display", "none")
+        })
+        // $("#confirmPwdBtn").click(() => {
+        //     $("#pwdSection").css("display", "none")
+        //     $("#editPwdBtn").css("display", "inline")
+        // })
+    })
     return (
         <section className={className}>
             {/* <div className="edit-button text-end mt-4">
@@ -59,8 +73,10 @@ export default function UpdatePasswordForm({ className = '' }) {
                     secure.
                 </p>
             </header>
-
-            <form onSubmit={updatePassword}>
+            <div className="edit-button text-end mt-4">
+                <button id="editPwdBtn" type="button" className="btn rounded-pill">修改密碼</button>
+            </div>
+            <form onSubmit={updatePassword} id="pwdSection" style={{ display: "none" }}>
                 <div className='mb-3'>
                     <InputLabel htmlFor="current_password" value="舊密碼*" className='form-label' />
 

@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+//api controller
+use App\Http\Controllers\HomeDirectToController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -24,12 +26,29 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::get('/faq', function () {
+    return Inertia::render('FAQ');
+})->name('faq');
+
+
+
 Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
+
 
 Route::get('/gachatagpage', function () {
     return Inertia::render('Gacha/B_2_GachaTagPage');
 })->name('gachatagpage');
 
-require __DIR__.'/auth.php';
+// 首頁: Gachora, 扭蛋, 一番賞, 會員
+Route::view('/api', 'apihome');
+Route::view('/api/egg', 'apiEgg');
+Route::view('/api/ichiban', 'apiIchiban');
+Route::view('/api/user', 'apiUser');
+
+
+
+
+require __DIR__ . '/auth.php';
