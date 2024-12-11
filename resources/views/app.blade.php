@@ -27,6 +27,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script> -->
     <script src="http://localhost/gachoraProject/public/assets/jquery.js"></script>
+    <script src="http://localhost/gachoraProject/public/assets/lottie.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
 </body>
 
 </html>
