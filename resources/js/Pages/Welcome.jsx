@@ -158,7 +158,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         <>
 
             <Head title="GachoraHome" />
-            <Navbar svgColor="var(--white-filter)" textColor="white" />
+            <Navbar svgColor="var(--white-filter)" textColor="white" homepage = "true"/>
            
             <main id="homepage" style={{ backgroundColor: "var(--main-darkblue)", margin: "0px" }}>
 
