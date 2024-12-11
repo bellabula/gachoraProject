@@ -52,11 +52,11 @@ function B_2_GachaTagPage() {
 
     return (
         <>
-            <Navbar logo='http://localhost/gachoraLRB/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
             <Head title="GachaTagPage" />
             <main id='gachaTagPage' className="container container-xxl">
                 <div className="detailbanner">
-                    <img src="http://localhost/gachoraLRB/public/images/gachoHome/少主貓貓.JPG"
+                    <img src="http://localhost/gachoraProject/public/images/gachoHome/少主貓貓.JPG"
                         alt="" />
                 </div>
                 <div className="container-fluid mt-4 flex-wrap centered-container">
@@ -96,7 +96,7 @@ function B_2_GachaTagPage() {
                                         placeholder="搜尋品項"
                                         value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                                     <button className="search-icon">
-                                        <img src="http://localhost/gachoraLRB/public/images/search-normal.svg"
+                                        <img src="http://localhost/gachoraProject/public/images/search-normal.svg"
                                             onClick={handleSearch}
                                             alt="搜尋" />
                                     </button>

@@ -8,7 +8,7 @@
     background: var(--main-darkblue);
     border-radius: 50px;
     margin-left: 20%;
-    margin-top: 5vw;
+    margin-top: 8vw;
   }
   
   #faq .bluesquare>span {
@@ -53,12 +53,13 @@
     background: none;
     text-align: center;
     margin-left: 20%;
-    margin-top: 10%;
+    /* margin-top: 10%; */
     width: 100%;
     color: var(--main-darkblue);
     cursor: pointer;
     font-size: 28px;
     font-weight: bold;
+    padding: 1vw;
   }
   
   #faq .sidebar button.active {

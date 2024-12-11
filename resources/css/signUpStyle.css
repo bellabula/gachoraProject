@@ -19,7 +19,7 @@
 #register .form-control {
     margin-top: 50px;
     border-radius: 35px;
-    box-shadow:3px 3px #365B6D;
+    box-shadow:3px 3px  var(--main-darkblue);;
 }
 
 #register .check{
@@ -44,7 +44,7 @@
 }
 
 #register a{
-    color:#365B6D;
+    color: var(--main-darkblue);;
 }
 
 #register a:hover{
@@ -63,16 +63,20 @@
     margin-left: 25%;
 }
 
+/* #register .xx {
+    overflow: hidden;
+} */
+
 /* 大長方形 */
 #register .xa{
     box-sizing: border-box;
     position: absolute;
-    width: 809px;
-    height: 661px;
-    left: 848px;
-    top: 255px;
+    width: 55vw;
+    height: 35vw;
+    left: 45vw;
+    top: 13vw;
 
-    background: #365B6D;
+    background:  var(--main-darkblue);;
     border: 5px dashed #FEC265;
     border-radius: 100px;
 }
@@ -80,10 +84,10 @@
 /* 小長方形 */
 #register .xb{
     position: absolute;
-    width: 267px;
-    height: 444px;
-    left: 1257px;
-    top: 363px;
+    width: 13vw;
+    height: 20vw;
+    left: 65vw;
+    top: 20vw;
 
     background: #FEC265;
     border-radius: 50px;
@@ -97,8 +101,8 @@
     border-top: 70px solid #FEC265;
     border-right: 70px solid transparent;
     position: absolute;
-    left: 890px;
-    top: 540px;
+    left: 46vw;
+    top: 27vw;
 
     transform: rotate(135deg);
     border-radius: 5px;
@@ -108,10 +112,10 @@
 #register .xd{
 
     position: absolute;
-    width: 185px;
-    height: 26px;
-    left: 998px;
-    top: 535px;
+    width: 30vw;
+    height: 5vw;
+    left: 52vw;
+    top: 27vw;
 
     font-family: 'Inter';
     font-style: normal;
@@ -129,17 +133,17 @@
     border-radius: 25px;
 
     position: absolute;
-    width: 200px;
-    height: 50px;
-    left: 980px;
-    top: 599px;
+    width: 10vw;
+    height: 2.5vw;
+    left: 52vw;
+    top: 30vw;
 
     font-weight:bold;
     font-size: 20px;
-    line-height: 50px;
+    line-height: 2.5vw;
 
     text-align: center;
-    color: #365B6D;
+    color:  var(--main-darkblue);;
     text-decoration: none;
 }
 #register .xe:hover {
@@ -147,10 +151,19 @@
     color: var(--main-darkblue);
 }
 @media(max-width: 1500px) {
-    #register .xx{display: none;
+    #register .xd,
+    #register .xe {
+        font-size: 16px;
     }
+
     #register .back{
         visibility: visible;
+    }
+}
+
+@media(max-width: 1300px) {
+    #register .xx {
+        display: none;
     }
 }
 

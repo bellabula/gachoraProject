@@ -31,11 +31,13 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
 Route::get('/faq', function (Request $request) {
     return Inertia::render('FAQ', [
-        'goto' => $request->query('goto'), // 將 highlight 傳遞到前端
+        'goto' => $request->query('goto'), // 將 goto 傳遞到前端
     ]);
 })->name('faq');
+
 
 
 

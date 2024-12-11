@@ -18,7 +18,7 @@
     left: -20vw;
     top: 13vw;
 
-    background: #365B6D;
+    background:  var(--main-darkblue);;
     border: 5px dashed #FEC265;
     border-radius: 500px;
 }
@@ -85,7 +85,7 @@
     line-height: 2.5vw;
 
     text-align: center;
-    color: #365B6D;
+    color:  var(--main-darkblue);;
     text-decoration: none;
 }
 
@@ -96,7 +96,7 @@
 #login h1 {
     margin: -2vw 0vw 0vw 8vw;
     padding: 5%;
-    color: #365B6D;
+    color:  var(--main-darkblue);;
     font-weight: bold;
 }
 
@@ -114,7 +114,7 @@
 #login .form-control {
     margin-top: 3vw;
     border-radius: 35px;
-    box-shadow: 3px 3px #365B6D;
+    box-shadow: 3px 3px  var(--main-darkblue);;
 
 }
 
@@ -124,7 +124,7 @@ margin-left: 3vw;
 
 #login .forget > a{
     margin-left: 2vw;
-    color: #365B6D;
+    color:  var(--main-darkblue);;
 }
 
 #login .forget > a:hover {
@@ -176,7 +176,7 @@ margin-left: 3vw;
 
 #login .contact-item,
 #login .contact {
-    color: #365B6D
+    color:  var(--main-darkblue);
 }
 
 #login .back{
