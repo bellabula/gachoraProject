@@ -52,6 +52,7 @@ Route::get('/shoppingCart', function () {
     return Inertia::render('shoppingCart/Cart');
 })->middleware(['auth', 'verified'])->name('shoppingCart');
 
+
 // 首頁: Gachora, 扭蛋, 一番賞, 會員
 Route::view('/api', 'apihome');
 Route::view('/api/egg', 'apiEgg');
