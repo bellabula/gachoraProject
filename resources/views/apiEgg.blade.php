@@ -16,6 +16,14 @@
     let category = 1
     let basePath = '../../app/Models'
     // 首頁最下面精選商品
+    fetch(basePath  + '/Fetch/AllEgg.php')
+      .then(response => response.json())
+      .then(data => {
+        console.log('最終版：', data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      })
     fetch(basePath  + '/Fetch/MainEgg.php')
       .then(response => response.json())
       .then(data => {
