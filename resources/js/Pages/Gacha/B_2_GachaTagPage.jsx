@@ -3,9 +3,10 @@ import GachaPdCard from '@/Components/GachaPdCard';
 import { Head, Link } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
+
 function B_2_GachaTagPage() {
     // 假資料
-    const [allProducts] = useState([
+    const [allProducts, setallProducts] = useState([
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
         { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
@@ -16,6 +17,18 @@ function B_2_GachaTagPage() {
         { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
     ]);
+    let url = 'http://localhost/gachoraProject/app/Models/Fetch/MainEgg.php'
+            React.useEffect(function () {
+
+                let callAPI = async function () {
+                    url = url + page;
+                    let response = await fetch(url);
+                    let data = await response.json()
+                    console.log(data)
+                    // setallProducts(data.data)
+                }
+                callAPI();
+            }, [page])
 
     const [currentPage, setcurrentPage] = useState(1);
     const [category, setcategory] = useState("all");

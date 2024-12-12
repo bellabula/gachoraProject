@@ -57,6 +57,7 @@ Route::get('/gachatagpage', function () {
     return Inertia::render('Gacha/B_2_GachaTagPage');
 })->name('gachatagpage');
 
+
 // 首頁: Gachora, 扭蛋, 一番賞, 會員
 Route::view('/api', 'apihome');
 Route::view('/api/egg', 'apiEgg');
