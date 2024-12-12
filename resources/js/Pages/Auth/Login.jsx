@@ -6,6 +6,7 @@ import TextInput from '@/Components/init/TextInput';
 import Navbar from '@/Components/Navbar';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -21,6 +22,12 @@ export default function Login({ status, canResetPassword }) {
             onFinish: () => reset('password'),
         });
     };
+
+    useEffect(() => {
+        const enter = jQuery.Event("keydown")
+        enter.which = 13
+        $("#login .btn1").trigger(enter)
+    })
 
     return (
         <>
