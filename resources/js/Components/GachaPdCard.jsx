@@ -19,7 +19,7 @@ function GachaPdCard({ seriesName, productName, productPrice, className = '', im
         <div className={"gachaPDCard " + className}>
             <div className="product-card" style={{ backgroundImage: `url(${img})` }}>
                 <div className="heart-icon" >
-                    <img className={"heart " + newcalss} onClick={toogleHeart} src='http://localhost/gachoraLRB\public\images\heart.svg'></img>
+                    <img className={"heart " + newcalss} onClick={toogleHeart} src='http://localhost/gachoraProject\public\images\heart.svg'></img>
                 </div>
             </div>
             {/* <!-- 商品名稱 --> */}
