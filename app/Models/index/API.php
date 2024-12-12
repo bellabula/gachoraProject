@@ -870,4 +870,125 @@ class API
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
+  function Wallet()
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetUserWalletRecordById(:user_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'date' => date('Y/m/d', $output['time']),
+        'item' => $output['series_name'],
+        'category' => $output['category'],
+        'price' => $output['price'],
+        'amount' => $output['amount']
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function Bag()
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetBagCartByIdAndStatus(:user_id, 3);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['record_id'],
+        'img' => $output['img'],
+        'series_title' => $output['title'],
+        'series' => $output['series'],
+        'name' => $output['name'],
+        'amount' => $output['amount'],
+        'gift' => $output['gift'],
+        'prize' => $output['prize']
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function Cart()
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetBagCartByIdAndStatus(:user_id, 4);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['record_id'],
+        'img' => $output['img'],
+        'series' => $output['series'],
+        'name' => $output['name'],
+        'amount' => $output['amount']
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function Logistics()
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetAllLogisticsById(:user_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['id'],
+        'no' => $output['no'],
+        'time' => date('Y/m/d', $output['time']),
+        'status' => $output['status'],
+        'method' => $output['method']
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function Userinfo()
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetUserinfoById(:user_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['id'],
+        'name' => $output['name'],
+        'email' => $output['email'],
+        'phone' => $output['phone'],
+        'birth' => $output['birth'],
+        'address' => $output['address'],
+        'credit' => $output['credit'],
+        'recommend' => $output['recommend'],
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
 }
