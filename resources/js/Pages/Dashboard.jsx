@@ -32,17 +32,17 @@ export default function Dashboard() {
                 {/* <!-- Tabs --> */}
                 <div className="custom-section">
                     <ul className="nav nav-pills justify-content-center">
-                        <NavLink href="#memberWall" className={highlight === 'wallet' ? '' : 'active'}>戰利牆</NavLink>
+                        <NavLink href="#memberWall" className={highlight === 'wallet'| highlight === 'profile' ? '' : 'active'}>戰利牆</NavLink>
                         <NavLink href="#memberFavor">收藏清單</NavLink>
                         <NavLink href="#memberStore">戰利儲藏庫</NavLink>
                         <NavLink href="#memberWallet" className={highlight === 'wallet' ? 'active' : ''}>我的錢包</NavLink>
                         <NavLink href="#memberOrder">我的訂單</NavLink>
-                        <NavLink href="#memberProfile">基本資料</NavLink>
+                        <NavLink href="#memberProfile" className={highlight === 'profile' ? 'active' : ''}>基本資料</NavLink>
                     </ul>
                 </div>
                 <div className="tab-content pt-5">
                     {/* <!-- 1. 戰利牆 --> */}
-                    <MyWall id="memberWall" className={highlight === 'wallet' ? '' : 'active'}/>
+                    <MyWall id="memberWall" className={highlight === 'wallet'| highlight === 'profile' ? '' : 'active'}/>
                     {/* <!-- 2. 收藏清單 --> */}
                     <MyFavor id="memberFavor" />
                     {/* <!-- 3. 戰利儲藏庫 --> */}
@@ -52,7 +52,7 @@ export default function Dashboard() {
                     {/* <!-- 5. 我的訂單 --> */}
                     <MyOrder id="memberOrder"/>
                     {/* <!-- 6. 基本資料 --> */}
-                    <MyProfile id="memberProfile" />
+                    <MyProfile id="memberProfile" className={highlight === 'profile' ? 'active' : ''}/>
                 </div>
             </main>
 

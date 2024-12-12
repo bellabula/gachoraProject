@@ -4,7 +4,7 @@ import PrimaryButton from '@/Components/init/PrimaryButton';
 import TextInput from '@/Components/init/TextInput';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -19,6 +19,8 @@ export default function UpdateProfileInformation({
             email: user.email,
             phone: user.phone || "-",
             birth: user.birth || "-",
+            road: user.road || "-",
+            county_id: user.county_id,
         });
     const submit = (e) => {
         e.preventDefault();
@@ -26,11 +28,64 @@ export default function UpdateProfileInformation({
         patch(route('profile.update'));
     };
 
+    const cityList = [
+        "台北市", "新北市", "基隆市", "桃園市", "新竹縣", "新竹市", "苗栗縣",
+        "台中市", "南投縣", "彰化縣", "雲林縣", "嘉義縣", "嘉義市", "台南市",
+        "高雄市", "屏東縣", "宜蘭縣", "花蓮縣", "台東縣", "澎湖縣", "金門縣", "連江縣"
+    ]
+
     useEffect(() => {
         if (user.birth != "-") {
             $("#birth").prop('readOnly', true)
         }
     })
+
+    // const cityList = []
+    const hasFetched = useRef(false)
+
+    let cityObj = { "": "" }
+    let cityData = {}
+    let cityNumb = {}
+    let [countyList, setCountyList] = useState([""])
+    async function getCounty() {
+        let response = await fetch("http://localhost/gachoraProject/resources/json/county.json");
+        let data = await response.json();
+        data[0].data.forEach((ele) => {
+            cityData[ele.city + ele.county] = ele.id
+            cityNumb[ele.id] = {city:ele.city, county:ele.county}
+            if (!(ele.city in cityObj)) {
+                // cityList.push(ele.city)
+                cityObj[ele.city] = [ele.county];
+            } else {
+                cityObj[ele.city].push(ele.county);
+            }
+        });
+        hasFetched.current = true;
+    }
+
+    let a = ""
+    let i = 0
+    useEffect(() => {
+        if (!hasFetched.current) {
+            getCounty().then(()=>{
+                $(`#city option[value=${cityNumb[data.county_id].city}]`).attr('selected', 'selected')
+                countyList = cityObj[$("#city :selected").text()]
+                $("#county").html(countyList.map((ele, index) => `<option value=${ele} key=${index}>${ele}</option>`).reduce((accumulator, current) => accumulator + current))
+                $(`#county option[value=${cityNumb[data.county_id].county}]`).attr('selected', 'selected')
+            })
+            $("#city").change((e) => {
+                if(i == 0){
+                    $("#county").html("<option value='DEFAULT'> -- 選擇鄉鎮區 -- </option>")
+                    i += 1
+                }
+                setCountyList(cityObj[$("#city :selected").text()])
+                a = e.target.value
+            })
+            $('#county').change((e) => {
+                setData('county_id', cityData[a + e.target.value])
+            })
+        }
+    }, [])
 
     return (
         <section className={className} id='profileEdit'>
@@ -42,6 +97,13 @@ export default function UpdateProfileInformation({
                 <p className="mt-1 text-sm text-gray-600">
                     Update your account's profile information and email address.
                 </p>
+                <div className="edit-button text-end mt-4">
+                    <button type='button' className="btn rounded-pill">
+                        <Link href={route('dashboard', { highlight: 'profile' })} className="dropdown-item">
+                            回到我的基本資料
+                        </Link>
+                    </button>
+                </div>
             </header>
 
             <form onSubmit={submit} className="mt-5">
@@ -135,21 +197,42 @@ export default function UpdateProfileInformation({
                 </div>
                 {/* 6. 地址 */}
                 <div className="mb-3">
-                    <InputLabel htmlFor="address" value="地址" className='form-label' />
+                    <InputLabel htmlFor="road" value="地址" className='form-label d-block' />
+
+                    <select name="city" id="city" defaultValue="DEFAULT"
+                        className="form-control-plaintext rounded-pill px-3 mb-2 me-2 d-inline-block"
+                        style={{ border: "1px solid var(--main-darkblue)", width: "30%" }}
+                        onChange={(e) => {
+                            // setData()
+                        }
+                        }>
+                        <option disabled value="DEFAULT"> -- 選擇縣市 -- </option>
+                        {cityList.map((ele, index) => <option value={ele} key={index}>{ele}</option>)}
+                    </select>
+                    <select name="county" id="county" defaultValue="DEFAULT"
+                        className="form-control-plaintext rounded-pill px-3 mb-2 d-inline-block"
+                        style={{ border: "1px solid var(--main-darkblue)", width: "30%" }}
+                        onChange={(e) => {
+                            // setData()
+                        }
+                        }>
+                        <option disabled value="DEFAULT"> -- 選擇鄉鎮區 -- </option>
+                        {countyList.map((ele, index) => <option value={ele} key={index}>{ele}</option>)}
+                    </select>
 
                     <TextInput
-                        id="address"
+                        id="road"
                         className="form-control-plaintext rounded-pill px-3 editFocus"
-                        value={data.address}
-                        onChange={(e) => setData('address', e.target.value)}
+                        value={data.road}
+                        onChange={(e) => setData('road', e.target.value)}
                         isFocused
-                        autoComplete="address"
+                        autoComplete="road"
                     />
 
-                    <InputError className="mt-2 errorMessage" message={errors.address} />
+                    <InputError className="mt-2 errorMessage" message={errors.road} />
                 </div>
                 {/* 7. 付款方式 */}
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <InputLabel htmlFor="payment" value="付款方式" className='form-label' />
 
                     <TextInput
@@ -168,11 +251,11 @@ export default function UpdateProfileInformation({
                         &nbsp;
                         <button type="button" className="btn rounded-pill btn-sm">新增</button>
                     </div>
-                </div>
+                </div> */}
                 {/* 確認修改資料按鈕 */}
                 <div className="edit-button text-end mt-4">
                     {/* <PrimaryButton disabled={processing}>Save</PrimaryButton> */}
-                    <button className="btn rounded-pill">確認修改資料</button>
+                    <button type='submit' className="btn rounded-pill">確認修改資料</button>
 
                     <Transition
                         show={recentlySuccessful}

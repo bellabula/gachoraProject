@@ -1,18 +1,28 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link, usePage } from '@inertiajs/react';
-function MyProfile({id}) {
+function MyProfile({ id, className="" }) {
     const user = usePage().props.auth.user;
 
-    useEffect(()=>{
-        $("#editProfile").click(() => {
-            $("#profile").addClass("d-none")
-            $("#profileEdit").removeClass("d-none")
+    const hasFetched = useRef(false)
+
+    let cityNumb = {}
+    async function getCounty() {
+        let response = await fetch("http://localhost/gachoraProject/resources/json/county.json");
+        let data = await response.json();
+        data[0].data.forEach((ele) => {
+            cityNumb[ele.id] = ele.city + ele.county
+        });
+        hasFetched.current = true;
+    }
+
+    useEffect(() => {
+
+        getCounty().then(()=>{
+            if(user.road){
+                document.querySelector("#profile > form > div:nth-child(5) > input").value = cityNumb[user.county_id]+user.road
+            }
         })
-        $("#confirmEdit").click(() => {
-            $("#profileEdit").addClass("d-none")
-            $("#profile").removeClass("d-none")
-        })
-    
+
         $("#editPwdBtn").click(() => {
             $("#pwdSection").css("display", "block")
             $("#editPwdBtn").css("display", "none")
@@ -26,7 +36,7 @@ function MyProfile({id}) {
     return (
         <>
             {/* <!-- 6. 基本資料 --> */}
-            <div id={id} className="tab-pane profile-container">
+            <div id={id} className={"tab-pane profile-container " + className}>
                 {/* <!-- 頭像 --> */}
                 <div>
                     <div className="text-center">
@@ -67,56 +77,27 @@ function MyProfile({id}) {
                         {/* <!-- 地址 --> */}
                         <div className="mb-3">
                             <label className="form-label">地址</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue="-" readOnly />
+                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue={user.road} readOnly />
                         </div>
 
                         {/* <!-- 付款方式 --> */}
-                        <div className="mb-3">
+                        {/* <div className="mb-3">
                             <label className="form-label">付款方式</label>
                             <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue="-" readOnly />
-                        </div>
+                        </div> */}
 
                         {/* <!-- 推薦碼 --> */}
                         <div className="mb-3">
                             <label className="form-label">我的推薦碼</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue={"GACHO"+user.id} readOnly />
+                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue={"GACHO" + user.id} readOnly />
                         </div>
 
                         {/* <!-- 修改按鈕 --> */}
 
                         <div className="edit-button text-end mt-4">
-                            <button type="button" className="btn rounded-pill" id="editProfile">修改基本資料</button>
-                        </div>
-
-                        <Link href={route('profile.edit')}>
-                            <div className="edit-button text-end mt-4">
-                                <button type="button" className="btn rounded-pill">修改基本資料LinkToPage</button>
-                            </div>
-                        </Link>
-                    </form>
-                </div>
-                {/* <!-- 修改表單資料 --> */}
-                <div className="mt-5 d-none" id="profileEdit">
-                    {/* <!-- 修改密碼 --> */}
-                    <div className="edit-button text-end mt-4">
-                        <button id="editPwdBtn" type="button" className="btn rounded-pill">修改密碼</button>
-                    </div>
-                    <form id="pwdSection" style={{ display: "none" }}>
-                        <div className="mb-3">
-                            <label className="form-label">舊密碼*</label>
-                            <input type="password" className="form-control-plaintext rounded-pill px-3 editFocus" defaultValue="" />
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label">新密碼*</label>
-                            <input type="password" className="form-control-plaintext rounded-pill px-3 editFocus" defaultValue="" />
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label">確認密碼*</label>
-                            <input type="password" className="form-control-plaintext rounded-pill px-3 editFocus" defaultValue="" />
-                        </div>
-                        {/* <!-- 修改密碼按鈕 --> */}
-                        <div className="edit-button text-end mt-4">
-                            <button id="confirmPwdBtn" type="button" className="btn rounded-pill">確認修改密碼</button>
+                            <Link href={route('profile.edit')}>
+                                <button type="button" className="btn rounded-pill">修改基本資料</button>
+                            </Link>
                         </div>
                     </form>
                 </div>
