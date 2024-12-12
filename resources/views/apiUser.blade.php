@@ -117,10 +117,25 @@
             $.post(url, {
                 user_id: user_id
             }, (response) => {
-                console.log('購物車：', response)
-                return $('#result').text('')
+                console.log('訂單：', response)
+                $('#result').text('訂單id:')
+                response.map((v) => {
+                    console.log(v)
+                    $('#result').append(`<button class="list" value="${v.id}">${v.id}</button>`)
+                })
             })
         })
+        // 查看訂單明細
+        $(document).on('click', '.list', function() {
+            const url = basePath + '/Post/LogisticsDetail.php'
+            const list_id = $(this).val()
+            $.post(url, {
+                list_id: list_id
+            }, (response) => {
+                console.log(response)
+            })
+        })
+
         $('#elem').click(() => {
             const url = basePath + '/Post/Userinfo.php'
             $.post(url, {

@@ -32,6 +32,7 @@ class API
       ];
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -64,6 +65,7 @@ class API
       ];
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -122,6 +124,7 @@ class API
       $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -138,6 +141,7 @@ class API
       $jsonOutput[] = $output1['Theme'];
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -181,6 +185,7 @@ class API
       $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -271,6 +276,7 @@ class API
       ];
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -290,6 +296,7 @@ class API
       ];
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -348,6 +355,7 @@ class API
       $jsonOutput[] = array_merge($array1, $array2);
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -424,6 +432,7 @@ class API
       }
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -490,6 +499,7 @@ class API
       }
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -505,6 +515,7 @@ class API
       $jsonOutput[] = $output1['Theme'];
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -638,6 +649,7 @@ class API
       }
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -688,6 +700,7 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -717,6 +730,7 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -792,6 +806,7 @@ class API
       }
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -867,10 +882,11 @@ class API
       }
     }
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
-  function Wallet()
+  function Wallet($user_id)
   {
     $user_id = $_POST['user_id'];
     $db = new Connect;
@@ -890,10 +906,11 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
-  function Bag()
+  function Bag($user_id)
   {
     $user_id = $_POST['user_id'];
     $db = new Connect;
@@ -916,10 +933,11 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
-  function Cart()
+  function Cart($user_id)
   {
     $user_id = $_POST['user_id'];
     $db = new Connect;
@@ -939,10 +957,11 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
-  function Logistics()
+  function Logistics($user_id)
   {
     $user_id = $_POST['user_id'];
     $db = new Connect;
@@ -962,10 +981,11 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
-  function Userinfo()
+  function Userinfo($user_id)
   {
     $user_id = $_POST['user_id'];
     $db = new Connect;
@@ -988,6 +1008,45 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function LogisticsDetail($list_id)
+  {
+    $list_id = $_POST['list_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetLogisticsDetailById(:list_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':list_id', $list_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput = [
+        'no' => $output['no'],
+        'time' => date('Y/t/m', $output['time']),
+        'status' => $output['status'],
+        'name' => $output['user'],
+        'method' => $output['method'],
+        'deliver_time' => $output['deliver_time'],
+        'address' => $output['address'],
+        'products' => []
+      ];
+    }
+    $stmt->closeCursor();
+    $sql = "call GetLogisticsItemById(:list_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':list_id', $list_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput['products'][] = [
+        'name' => $output['character_name'],
+        'amount' => $output['amount']
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
