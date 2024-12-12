@@ -3,9 +3,10 @@ import GachaPdCard from '@/Components/GachaPdCard';
 import { Head, Link } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
+
 function B_2_GachaTagPage() {
     // 假資料
-    const [allProducts] = useState([
+    const [allProducts, setallProducts] = useState([
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
         { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
@@ -16,6 +17,18 @@ function B_2_GachaTagPage() {
         { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
     ]);
+    let url = 'http://localhost/gachoraProject/app/Models/Fetch/MainEgg.php'
+            React.useEffect(function () {
+
+                let callAPI = async function () {
+                    url = url + page;
+                    let response = await fetch(url);
+                    let data = await response.json()
+                    console.log(data)
+                    // setallProducts(data.data)
+                }
+                callAPI();
+            }, [page])
 
     const [currentPage, setcurrentPage] = useState(1);
     const [category, setcategory] = useState("all");
@@ -52,11 +65,11 @@ function B_2_GachaTagPage() {
 
     return (
         <>
-            <Navbar logo='http://localhost/gachoraLRB/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
             <Head title="GachaTagPage" />
             <main id='gachaTagPage' className="container container-xxl">
                 <div className="detailbanner">
-                    <img src="http://localhost/gachoraLRB/public/images/gachoHome/少主貓貓.JPG"
+                    <img src="http://localhost/gachoraProject/public/images/gachoHome/少主貓貓.JPG"
                         alt="" />
                 </div>
                 <div className="container-fluid mt-4 flex-wrap centered-container">
@@ -96,7 +109,7 @@ function B_2_GachaTagPage() {
                                         placeholder="搜尋品項"
                                         value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                                     <button className="search-icon">
-                                        <img src="http://localhost/gachoraLRB/public/images/search-normal.svg"
+                                        <img src="http://localhost/gachoraProject/public/images/search-normal.svg"
                                             onClick={handleSearch}
                                             alt="搜尋" />
                                     </button>

@@ -1,5 +1,15 @@
 import { Link } from '@inertiajs/react';
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none" }) {
+import { useEffect } from 'react';
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none", homepage = false }) {
+    useEffect(() => {
+        if (homepage) {
+            $("#bigNavbar-l").css("display", "none")
+            $("#bigNavbar-r").css("display", "none")
+            $("nav div div.ps-4 img").css("display", "none")
+            $("#offcanvasNavbar").css("display", "block")
+            $("nav").removeClass("navbar-expand-lg")
+        }
+    })
     return (
         <nav className="navbar fixed-top navbar-expand-lg overflow-hidden" style={{ backgroundColor: bgcolor, height: "80px" }}>
             <div className="container-fluid pe-0 ps-0 container-xxl">
@@ -19,8 +29,17 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </Link>
                         </li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">常見問題</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">聯絡我們</a></li>
+
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('faq')} className="dropdown-item">
+                                常見問題
+                            </Link>
+                        </li>
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('faq', { goto: 'contact' })} className="dropdown-item">
+                                聯絡我們
+                            </Link>
+                        </li>
                     </ul>
                 </div>
                 <div id="bigNavbar-r">
@@ -32,7 +51,12 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </Link>
                         </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} /></a></li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item">
+                            {/* <Link href={route('login')} className="dropdown-item"></Link> */}
+                            <Link href={route('dashboard', { highlight: 'wallet' })}>
+                                <img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} />
+                            </Link>
+                        </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item" style={{ display: logout }}>
@@ -90,10 +114,14 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 <a className="nav-link" href="#">我的錢包</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">常見問題</a>
+                                <Link href={route('faq')} className="nav-link">
+                                    常見問題
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">聯絡我們</a>
+                                <Link href={route('faq', { goto: 'contact' })} className="nav-link">
+                                    聯絡我們
+                                </Link>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">English</a>

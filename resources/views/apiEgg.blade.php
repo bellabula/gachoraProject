@@ -1,10 +1,14 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- 後端吃value -->
 <button class="type" value="all">所有蛋</button>
 <button class="type" value="hot">熱銷蛋</button>
 <button class="type" value="new">新蛋</button>
 <button class="type" value="rare">稀有蛋</button>
+<!-- 生成主題分類 -->
 <div class="themes"></div>
+<!-- 商品總共有幾頁：pages -->
 <div class="pages"></div>
+<!-- 商品卡，如果要到詳細頁要給後端吃id -->
 <div class="card"></div>
 <script>
   $(document).ready(function() {
