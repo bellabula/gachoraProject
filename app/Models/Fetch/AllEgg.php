@@ -3,7 +3,7 @@ require_once __DIR__ . '/../index/API.php';
 try {
   $API = new API;
   header('Content-Type: application/json');
-  $result = $API->IchibanTheme();
+  $result = $API->AllEgg();
   $API = null;
   echo $result;
 } catch (Exception $e) {

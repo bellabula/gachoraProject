@@ -36,7 +36,7 @@ class API
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
-  // top 10 要加php timestamp修
+  // top 10 
   function EggTop10()
   {
     $db = new Connect;
@@ -69,6 +69,144 @@ class API
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
+  function AllEgg()
+  {
+    $db = new Connect;
+    $jsonOutput = [];
+    $img = [];
+    $sql1 = "call GetAllCardByCategoryId(1)";
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->execute();
+    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+      $series_ids[] = $output1['series_id'];
+      $jsonOutput[] = [
+        'series_id' => $output1['series_id'],
+        'theme' => $output1['theme'],
+        'title' => $output1['series_title'],
+        'name' => $output1['name'],
+        'price' => $output1['price'],
+        'amount' => $output1['amount'],
+        'rank' => $output1['rank'],
+        'rare' => $output1['rare'],
+        'release_time' => $output1['release_time'],
+        'img' => $img
+      ];
+    }
+    $stmt1->closeCursor();
+    foreach ($series_ids as $series_id) {
+      $sql2 = "select * from vw_series_img where series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = $output2['series_img'];
+      }
+      $stmt2->closeCursor();
+      foreach ($jsonOutput as &$item) {
+        if ($item['series_id'] == $series_id) {
+          $item['img'] = $img;
+          break;
+        }
+      }
+    }
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function AllIchiban()
+  {
+    $db = new Connect;
+    $jsonOutput = [];
+    $img = [];
+    $character = [];
+    $tmp = [];
+    $sql1 = "call GetAllCardByCategoryId(2)";
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->execute();
+    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+      $series_ids[] = $output1['series_id'];
+      $jsonOutput[] = [
+        'series_id' => $output1['series_id'],
+        'theme' => $output1['theme'],
+        'title' => $output1['series_title'],
+        'name' => $output1['name'],
+        'price' => $output1['price'],
+        'amount' => $output1['amount'],
+        'rank' => $output1['rank'],
+        'rare' => $output1['rare'],
+        'release_time' => $output1['release_time'],
+        'img' => $img, 
+        'character' => $character
+      ];
+    }
+    $stmt1->closeCursor();
+    foreach ($series_ids as $series_id) {
+      $sql2 = "select * from vw_series_img where series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = $output2['series_img'];
+      }
+      $stmt2->closeCursor();
+      foreach ($jsonOutput as &$item) {
+        if ($item['series_id'] == $series_id) {
+          $item['img'] = $img;
+          break;
+        }
+      }
+    }
+    foreach ($series_ids as $series_id) {
+      $sql2 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $character[] = [
+          'prize' => $output2['prize'],
+          'name' => $output2['name'],
+          'remain' => $output2['remain'],
+          'total' => $output2['amount']
+        ];
+      }
+      $stmt2->closeCursor();
+      foreach ($jsonOutput as &$item) {
+        if ($item['series_id'] == $series_id) {
+          $item['character'][] = $character;
+          break;
+        }
+      }
+    }
+    foreach ($series_ids as $series_id) {
+      $sql2 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $tmp = [
+          'remain' => $output2['all_remain'],
+          'total' => $output2['all_amount']
+        ];
+      }
+      $stmt2->closeCursor();
+      foreach ($jsonOutput as &$item) {
+        if ($item['series_id'] == $series_id) {
+          $item = [...$item, ...$tmp];
+          break;
+        }
+      }
+    }
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+
   // 扭蛋主頁post
   function EggType($type, $page)
   {
