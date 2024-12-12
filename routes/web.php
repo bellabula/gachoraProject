@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 //api controller
 use App\Http\Controllers\HomeDirectToController;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -16,9 +17,12 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+Route::get('/dashboard', function (Request $request) {
+    return Inertia::render('Dashboard', [
+        'highlight' => $request->query('highlight'), // 將 highlight 傳遞到前端
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -26,9 +30,28 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+
+Route::get('/faq', function (Request $request) {
+    return Inertia::render('FAQ', [
+        'goto' => $request->query('goto'), // 將 goto 傳遞到前端
+    ]);
+})->name('faq');
+
+
 Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
+
+Route::get('/gachatagpage', function () {
+    return Inertia::render('Gacha/B_2_GachaTagPage');
+})->name('gachatagpage');
+
+
+Route::get('/shoppingCart', function () {
+    return Inertia::render('shoppingCart/Cart');
+})->middleware(['auth', 'verified'])->name('shoppingCart');
+
 
 // 首頁: Gachora, 扭蛋, 一番賞, 會員
 Route::view('/api', 'apihome');

@@ -1,11 +1,11 @@
 import Navbar from '@/Components/Navbar';
-import GachaWallItem from '@/Components/GachaWallItem';
+import GachaWallItem from '@/Pages/Gacha/GachaWallItem';
 import { Head, Link } from '@inertiajs/react';
 
 function B_1_GachaHome() {
     return (
         <>
-            <Navbar logo='http://localhost/gachoraLRB/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
             <Head title="GachaHome" />
             <main id='gachaHome'>
                 {/* <!--輪播圖區--> */}
@@ -16,35 +16,35 @@ function B_1_GachaHome() {
                     <div className="bigcarousel carousel-inner">
                         <div className="carousel-item active">
                             <div className="carouselimgsize">
-                                <img src="http://localhost/gachoraLRB/public/images/gachoHome/IVAN(1).JPG"
+                                <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG"
                                     alt="Image 1"
                                     className="d-block w-100" />
                             </div>
                         </div>
                         <div className="carousel-item">
                             <div className="carouselimgsize">
-                                <img src="http://localhost/gachoraLRB/public/images/gachoHome/IVAN2.JPG"
+                                <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN2.JPG"
                                     alt="Image 2"
                                     className="d-block w-100" />
                             </div>
                         </div>
                         <div className="carousel-item">
                             <div className="carouselimgsize">
-                                <img src="http://localhost/gachoraLRB/public/images/gachoHome/少主貓貓.JPG"
+                                <img src="http://localhost/gachoraProject/public/images/gachoHome/少主貓貓.JPG"
                                     alt="Image 3"
                                     className="d-block w-100" />
                             </div>
                         </div>
                         <div className="carousel-item">
                             <div className="carouselimgsize">
-                                <img src="http://localhost/gachoraLRB/public/images/gachoHome/少主.JPG"
+                                <img src="http://localhost/gachoraProject/public/images/gachoHome/少主.JPG"
                                     alt="Image 4"
                                     className="d-block w-100" />
                             </div>
                         </div>
                         <div className="carousel-item">
                             <div className="carouselimgsize">
-                                <img src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"
+                                <img src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"
                                     alt="Image 5"
                                     className="d-block w-100" />
                             </div>
@@ -56,27 +56,27 @@ function B_1_GachaHome() {
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
                             data-bs-slide-to="0"
-                            src="http://localhost/gachoraLRB/public/images/gachoHome/IVAN(1).JPG"
+                            src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG"
                             style={{ cursor: "pointer" }} />
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
                             data-bs-slide-to="1"
-                            src="http://localhost/gachoraLRB/public/images/gachoHome//IVAN2.JPG"
+                            src="http://localhost/gachoraProject/public/images/gachoHome//IVAN2.JPG"
                             style={{ cursor: "pointer" }} />
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
                             data-bs-slide-to="2"
-                            src="http://localhost/gachoraLRB/public/images/gachoHome/少主貓貓.JPG"
+                            src="http://localhost/gachoraProject/public/images/gachoHome/少主貓貓.JPG"
                             style={{ cursor: "pointer" }} />
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
                             data-bs-slide-to="3"
-                            src="http://localhost/gachoraLRB/public/images/gachoHome/少主.JPG"
+                            src="http://localhost/gachoraProject/public/images/gachoHome/少主.JPG"
                             style={{ cursor: "pointer" }} />
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
                             data-bs-slide-to="4"
-                            src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"
+                            src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"
                             style={{ cursor: "pointer" }} />
                     </div>
                 </div>
@@ -139,30 +139,30 @@ function B_1_GachaHome() {
 				<br/>
 				<div class="scroll-row">
 					<div class="scroll-content">
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
 					</div>
 				</div>
                 <div class="scroll-row">
 					<div class="scroll-content">
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraLRB/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
+                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
 					</div>
 				</div>
 			</section>

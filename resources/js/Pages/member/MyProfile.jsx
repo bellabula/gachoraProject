@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, usePage } from '@inertiajs/react';
 function MyProfile({id}) {
     const user = usePage().props.auth.user;
-    
+
     useEffect(()=>{
         $("#editProfile").click(() => {
             $("#profile").addClass("d-none")
@@ -60,7 +60,7 @@ function MyProfile({id}) {
                         {/* <!-- 生日 --> */}
                         <div className="mb-3">
                             <label className="form-label">生日</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue="-" readOnly />
+                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue={user.birth} readOnly />
                             <span className="small-info">ℹ️ 設定後無法修改</span>
                         </div>
 
@@ -79,7 +79,7 @@ function MyProfile({id}) {
                         {/* <!-- 推薦碼 --> */}
                         <div className="mb-3">
                             <label className="form-label">我的推薦碼</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue="550481" readOnly />
+                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue={"GACHO"+user.id} readOnly />
                         </div>
 
                         {/* <!-- 修改按鈕 --> */}
@@ -97,61 +97,6 @@ function MyProfile({id}) {
                 </div>
                 {/* <!-- 修改表單資料 --> */}
                 <div className="mt-5 d-none" id="profileEdit">
-                    <form>
-                        {/* <!-- 姓名 --> */}
-                        <div className="mb-3">
-                            <label className="form-label">姓名*</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3 editFocus" defaultValue="陳寶寶" />
-                        </div>
-
-                        {/* <!-- 電子郵件 --> */}
-                        <div className="mb-3">
-                            <label className="form-label">電子郵件*</label>
-                            <input type="mail" className="form-control-plaintext rounded-pill px-3"
-                                defaultValue="baobaoChen@gmail.com" readOnly />
-                        </div>
-
-                        {/* <!-- 電話號碼 --> */}
-                        <div className="mb-3">
-                            <label className="form-label">電話號碼</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3 editFocus" defaultValue="" />
-                        </div>
-
-                        {/* <!-- 生日 --> */}
-                        <div className="mb-3">
-                            <label className="form-label">生日</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3 editFocus" defaultValue="" />
-                            <span className="small-info">ℹ️ 設定後無法修改</span>
-                        </div>
-
-                        {/* <!-- 地址 --> */}
-                        <div className="mb-3">
-                            <label className="form-label">地址</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3 editFocus" defaultValue="" />
-                        </div>
-
-                        {/* <!-- 付款方式 --> */}
-                        <div className="mb-3">
-                            <label className="form-label">付款方式</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3 editFocus" defaultValue="" readOnly />
-                            <div className="edit-button text-end mt-2">
-                                <button type="button" className="btn rounded-pill btn-sm">刪除</button>
-                                <button type="button" className="btn rounded-pill btn-sm">新增</button>
-                            </div>
-                        </div>
-
-                        {/* <!-- 推薦碼 --> */}
-                        <div className="mb-3">
-                            <label className="form-label">我的推薦碼</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue="550481" readOnly />
-                        </div>
-
-                        {/* <!-- 修改按鈕 --> */}
-                        <div className="edit-button text-end mt-4">
-                            <button type="button" className="btn rounded-pill" id="confirmEdit">確認修改</button>
-                        </div>
-                    </form>
-                    <hr />
                     {/* <!-- 修改密碼 --> */}
                     <div className="edit-button text-end mt-4">
                         <button id="editPwdBtn" type="button" className="btn rounded-pill">修改密碼</button>

@@ -1,5 +1,15 @@
 import { Link } from '@inertiajs/react';
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none" }) {
+import { useEffect } from 'react';
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none", homepage = false }) {
+    useEffect(() => {
+        if (homepage) {
+            $("#bigNavbar-l").css("display", "none")
+            $("#bigNavbar-r").css("display", "none")
+            $("nav div div.ps-4 img").css("display", "none")
+            $("#offcanvasNavbar").css("display", "block")
+            $("nav").removeClass("navbar-expand-lg")
+        }
+    })
     return (
         <nav className="navbar fixed-top navbar-expand-lg overflow-hidden" style={{ backgroundColor: bgcolor, height: "80px" }}>
             <div className="container-fluid pe-0 ps-0 container-xxl">
@@ -19,8 +29,17 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </Link>
                         </li>
                         <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">常見問題</a></li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">聯絡我們</a></li>
+
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('faq')} className="dropdown-item">
+                                常見問題
+                            </Link>
+                        </li>
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('faq', { goto: 'contact' })} className="dropdown-item">
+                                聯絡我們
+                            </Link>
+                        </li>
                     </ul>
                 </div>
                 <div id="bigNavbar-r">
@@ -32,8 +51,16 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </Link>
                         </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} /></a></li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} /></a></li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item">
+                            <Link href={route('dashboard', { highlight: 'wallet' })}>
+                                <img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} />
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link href={route('shoppingCart')} className="dropdown-item">
+                                <img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} />
+                            </Link>
+                        </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item" style={{ display: logout }}>
                             <Link href={route('logout')} method="post" as="button" className="dropdown-item">
@@ -55,7 +82,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li className="nav-item">
                                 <Link href={route('login')} className="nav-link">
-                                    會員登入
+                                    會員專區
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -84,16 +111,29 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 </ul>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">購物車</a>
+                                <Link href={route('shoppingCart')} className="nav-link">
+                                    購物車
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">我的錢包</a>
+                                <Link href={route('dashboard', { highlight: 'wallet' })} className="nav-link">
+                                    我的錢包
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">常見問題</a>
+                                <Link href={route('faq')} className="nav-link">
+                                    常見問題
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">聯絡我們</a>
+                                <Link href={route('faq', { goto: 'contact' })} className="nav-link">
+                                    聯絡我們
+                                </Link>
+                            </li>
+                            <li className="nav-item" style={{ display: logout}}>
+                                <Link href={route('logout')} method="post" as="button" className="dropdown-item">
+                                    登出
+                                </Link>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">English</a>

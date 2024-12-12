@@ -6,6 +6,8 @@
     --main-yellow-filter: brightness(0) saturate(100%) invert(84%) sepia(70%) saturate(1307%) hue-rotate(311deg) brightness(103%) contrast(99%);
     --main-bg-gray: #F2F1EC;
     --white-filter: brightness(0) saturate(100%) invert(98%) sepia(6%) saturate(195%) hue-rotate(241deg) brightness(115%) contrast(100%);
+    --red-filter: brightness(0) saturate(100%) invert(18%) sepia(77%) saturate(7485%) hue-rotate(358deg) brightness(102%) contrast(118%);
+
 }
 main {
     margin-top: 80px;
@@ -13,6 +15,11 @@ main {
 body {
     margin: 0;
     background-color: var(--main-bg-gray);
+    overflow-x: hidden;
+    font-family: 'fontstyle';
+    overflow-y: auto !important;
+    padding-right: 0 !important;
+
 }
 
 .errorMessage {
@@ -22,3 +29,8 @@ body {
 .mainTextColor {
     color: var(--main-darkblue)
 }
+
+@font-face {
+    font-family: 'fontstyle';
+    src: url('./fontstyle.ttf') format('truetype');
+  }
