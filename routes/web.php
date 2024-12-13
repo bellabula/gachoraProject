@@ -50,8 +50,9 @@ Route::get('/shoppingCart', function () {
     return Inertia::render('shoppingCart/Cart');
 })->name('shoppingCart');
 
-
-
+Route::get('/gachadetail', function () {
+    return Inertia::render('Gacha/B_3_GachaDetail');
+})->name('gachadetail');
 
 Route::get('/gachatagpage', function () {
     return Inertia::render('Gacha/B_2_GachaTagPage');
