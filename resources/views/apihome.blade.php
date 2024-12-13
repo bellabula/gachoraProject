@@ -4,16 +4,29 @@
     <button id="egg">扭蛋首頁</button>
     <button id="ichiban">一番賞首頁</button>
     <button id="user">會員首頁</button>
+    <button id="gin">儲值</button>
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
     $(document).ready(function() {
+        let basePath = '../../app/Models'
         const baseUrl = '/gachoraProject/public'
         $(document).on('click', 'button', function() {
             const pageId = $(this)[0].id
-            const url = `/api/${pageId}`
-            console.log(pageId)
-            window.location.href = baseUrl + url
+            switch (pageId) {
+                case 'gin':
+                    break;
+                default:
+                    const url = `/api/${pageId}`
+                    window.location.href = baseUrl + url
+            }
+        })
+        $(document).on('click', '#gin', function() {
+            $.post(basePath + '/Fetch/AllGash.php', {
+            }, (response) => {
+                console.log(response)
+            })
+
         })
     })
 </script>
