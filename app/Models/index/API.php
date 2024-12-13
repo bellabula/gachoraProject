@@ -32,7 +32,7 @@ class API
       ];
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -65,11 +65,11 @@ class API
       ];
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
-  function AllEgg()
+  function AllEggNoUser()
   {
     $db = new Connect;
     $jsonOutput = [];
@@ -111,11 +111,61 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
-  function AllIchiban()
+  function AllEggWithUser($user_id)
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $img = [];
+    $series_ids = [];
+    $sql1 = "call GetAllCardByUserAndCategoryId(:user_id, 1)";
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt1->execute();
+    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+      $series_ids[] = $output1['series_id'];
+      $jsonOutput[] = [
+        'series_id' => $output1['series_id'],
+        'theme' => $output1['theme'],
+        'title' => $output1['series_title'],
+        'name' => $output1['name'],
+        'price' => $output1['price'],
+        'amount' => $output1['amount'],
+        'rank' => $output1['rank'],
+        'rare' => $output1['rare'],
+        'release_time' => $output1['release_time'],
+        'img' => $img,
+        'collected' => $output1['collected']
+      ];
+    }
+    $stmt1->closeCursor();
+    foreach ($series_ids as $series_id) {
+      $sql2 = "select * from vw_series_img where series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = $output2['series_img'];
+      }
+      $stmt2->closeCursor();
+      foreach ($jsonOutput as &$item) {
+        if ($item['series_id'] == $series_id) {
+          $item['img'] = $img;
+          break;
+        }
+      }
+    }
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = [];
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function AllIchibanNoUser()
   {
     $db = new Connect;
     $jsonOutput = [];
@@ -137,7 +187,7 @@ class API
         'rank' => $output1['rank'],
         'rare' => $output1['rare'],
         'release_time' => $output1['release_time'],
-        'img' => $img, 
+        'img' => $img,
         'character' => $character
       ];
     }
@@ -202,7 +252,101 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function AllIchibanWithUser($user_id)
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $img = [];
+    $character = [];
+    $tmp = [];
+    $sql1 = "call GetAllCardByUserAndCategoryId(:user_id, 2)";
+    $stmt1 = $db->prepare($sql1);
+    $stmt1->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt1->execute();
+    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+      $series_ids[] = $output1['series_id'];
+      $jsonOutput[] = [
+        'series_id' => $output1['series_id'],
+        'theme' => $output1['theme'],
+        'title' => $output1['series_title'],
+        'name' => $output1['name'],
+        'price' => $output1['price'],
+        'amount' => $output1['amount'],
+        'rank' => $output1['rank'],
+        'rare' => $output1['rare'],
+        'release_time' => $output1['release_time'],
+        'img' => $img,
+        'character' => $character,
+        'collected' => $output1['collected']
+      ];
+    }
+    $stmt1->closeCursor();
+    foreach ($series_ids as $series_id) {
+      $sql2 = "select * from vw_series_img where series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = $output2['series_img'];
+      }
+      $stmt2->closeCursor();
+      foreach ($jsonOutput as &$item) {
+        if ($item['series_id'] == $series_id) {
+          $item['img'] = $img;
+          break;
+        }
+      }
+    }
+    foreach ($series_ids as $series_id) {
+      $sql2 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $character[] = [
+          'prize' => $output2['prize'],
+          'name' => $output2['name'],
+          'remain' => $output2['remain'],
+          'total' => $output2['amount']
+        ];
+      }
+      $stmt2->closeCursor();
+      foreach ($jsonOutput as &$item) {
+        if ($item['series_id'] == $series_id) {
+          $item['character'][] = $character;
+          break;
+        }
+      }
+    }
+    foreach ($series_ids as $series_id) {
+      $sql2 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $tmp = [
+          'remain' => $output2['all_remain'],
+          'total' => $output2['all_amount']
+        ];
+      }
+      $stmt2->closeCursor();
+      foreach ($jsonOutput as &$item) {
+        if ($item['series_id'] == $series_id) {
+          $item = [...$item, ...$tmp];
+          break;
+        }
+      }
+    }
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -262,7 +406,7 @@ class API
       $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -279,7 +423,7 @@ class API
       $jsonOutput[] = $output1['Theme'];
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -323,7 +467,7 @@ class API
       $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -414,7 +558,7 @@ class API
       ];
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -434,7 +578,7 @@ class API
       ];
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -493,7 +637,7 @@ class API
       $jsonOutput[] = array_merge($array1, $array2);
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -570,7 +714,7 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -637,7 +781,7 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -653,7 +797,7 @@ class API
       $jsonOutput[] = $output1['Theme'];
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -787,7 +931,7 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -838,7 +982,7 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -868,7 +1012,7 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -944,7 +1088,7 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -1020,7 +1164,7 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -1044,38 +1188,11 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
   function Bag($user_id)
-  {
-    $user_id = $_POST['user_id'];
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql = "call GetBagCartByIdAndStatus(:user_id, 3);";
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput[] = [
-        'id' => $output['record_id'],
-        'img' => $output['img'],
-        'series_title' => $output['title'],
-        'series' => $output['series'],
-        'name' => $output['name'],
-        'amount' => $output['amount'],
-        'gift' => $output['gift'],
-        'prize' => $output['prize']
-      ];
-    }
-    $stmt->closeCursor();
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
-    return json_encode($jsonOutput);
-    unset($jsonOutput);
-  }
-  function Cart($user_id)
   {
     $user_id = $_POST['user_id'];
     $db = new Connect;
@@ -1088,14 +1205,41 @@ class API
       $jsonOutput[] = [
         'id' => $output['record_id'],
         'img' => $output['img'],
+        'series_title' => $output['title'],
         'series' => $output['series'],
         'name' => $output['name'],
-        'amount' => $output['amount']
+        'time' => date('Y/m/d', $output['time']),
+        'gift' => $output['gift'],
+        'prize' => $output['prize']
       ];
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function Cart($user_id)
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetBagCartByIdAndStatus(:user_id, 5);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['record_id'],
+        'img' => $output['img'],
+        'series' => $output['series'],
+        'name' => $output['name'],
+        'time' => date('Y/m/d', $output['time'])
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -1119,7 +1263,7 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -1138,7 +1282,7 @@ class API
         'name' => $output['name'],
         'email' => $output['email'],
         'phone' => $output['phone'],
-        'birth' => $output['birth'],
+        'birth' => $output['birth'] === null ? '' : $output['birth'],
         'address' => $output['address'],
         'credit' => $output['credit'],
         'recommend' => $output['recommend'],
@@ -1146,7 +1290,7 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }
@@ -1184,7 +1328,66 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput[] =  'nothing';
+    if ($jsonOutput == []) $jsonOutput = [];
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function ToCollection($user_id, $series_id)
+  {
+    $user_id = $_POST['user_id'];
+    $series_id = $_POST['series_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call UpdateCollectionByUserSeries(:user_id, :series_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput = $output;
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput === null) $jsonOutput =  'error, please try again';
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function AddToProductReminder($user_id, $series_id)
+  {
+    $user_id = $_POST['user_id'];
+    $series_id = $_POST['series_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call AlterCollectionStatusByUserSeriesStatus(:user_id, :series_id, 11);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput = $output;
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput === null) $jsonOutput =  'error, please try again';
+    return json_encode($jsonOutput);
+    unset($jsonOutput);
+  }
+  function AllGash()
+  {
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "SELECT gash, dollar FROM Gash WHERE 1;";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'gash' => $output['gash'],
+        'dollar' => $output['dollar']
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    // if (empty($jsonOutput)) $jsonOutput =  'error, please try again';
     return json_encode($jsonOutput);
     unset($jsonOutput);
   }

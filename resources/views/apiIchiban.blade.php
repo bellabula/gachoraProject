@@ -20,6 +20,11 @@
             .catch(error => {
                 console.error('Error fetching data:', error);
             })
+        $.post(basePath + '/Fetch/AllEgg.php', {
+            user_id: '1'
+        }, (response) => {
+            console.log('有給我user_id就有collected是1否0收藏', response)
+        })
         // 首頁最下面精選商品
         fetch(basePath + '/Fetch/MainIchiban.php')
             .then(response => response.json())
