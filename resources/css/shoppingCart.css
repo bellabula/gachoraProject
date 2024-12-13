@@ -234,11 +234,12 @@
     margin-top: 2vw;
     margin-left: 1vw;
     width: 29vw;
+    padding-bottom: 10px;
 
     & .title {
       grid-area: listtitle;
       color: white;
-      margin-top: 2.8vw;
+      margin-top: 30px;
       height: 3vw;
     }
 
@@ -524,4 +525,15 @@
       }
     }
   }
+}
+
+#cart .btn-icon {
+    color: white;
+    background-color: var(--main-yellow);
+    border: 5px solid var(--main-darkblue);
+    border-radius: 35px;
+    font-size: 1.8vw;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: var(--main-darkblue);
 }

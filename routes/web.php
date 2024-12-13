@@ -39,23 +39,22 @@ Route::get('/faq', function (Request $request) {
 })->name('faq');
 
 
-
-
 Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
 
-
-Route::get('/shoppingCart', function () {
-    return Inertia::render('shoppingCart/Cart');
-})->name('shoppingCart');
-
-
-
-
 Route::get('/gachatagpage', function () {
     return Inertia::render('Gacha/B_2_GachaTagPage');
 })->name('gachatagpage');
+
+
+Route::get('/shoppingCart', function () {
+    return Inertia::render('shoppingCart/Cart');
+})->middleware(['auth', 'verified'])->name('shoppingCart');
+
+Route::get('/gachamachine', function () {
+    return Inertia::render('Gacha/B_2_3_GachaMachine');
+})->name('gachamachine');
 
 
 // 首頁: Gachora, 扭蛋, 一番賞, 會員

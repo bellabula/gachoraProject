@@ -1,0 +1,188 @@
+/* 扭蛋機 */
+#gachaMachine {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: var(--main-darkblue);
+    overflow: hidden;
+    /* border: 5px solid red; */
+    position: relative;
+    /* Ensure proper positioning of child elements */
+}
+
+/* 扭蛋幾抽info */
+#gachaMachine .gacha-info {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 2rem;
+    /* border: 5px solid red; */
+}
+
+#gachaMachine .gacha-info img {
+    width: 70px;
+    height: auto;
+}
+
+/* 扭蛋機的呈現 */
+#gachaMachine .animationgif {
+    width: 500px;
+    height: 800px;
+    cursor: pointer;
+    /* border: 5px solid red; */
+}
+
+#gachaMachine .animation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    height: auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* border: 5px solid red; */
+}
+
+/* 扭蛋呈現 */
+#gachaMachine .gacha-result {
+    position: absolute;
+    /* border: 5px solid red; */
+    margin-top: -10%;
+    top: 50%;
+    height: auto;
+    left: 50%;
+    /* Ensuring it stays horizontally centered */
+    transform: translate(-50%, -50%);
+    /* Adjust position */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    /* Ensure it appears above other elements */
+    /* border: 5px solid red; */
+}
+
+/* 顯示扭蛋結果 */
+#gachaMachine .gacha-egg {
+    position: relative;
+    width: 40em;
+    height: 40em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#animation5 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    /* 放在上層 */
+}
+
+#gachaMachine .gacha-result .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    color: white;
+    text-align: center;
+}
+
+#gachaMachine .gacha-result .content img {
+    max-width: 50%;
+    height: auto;
+}
+
+#gachaMachine .animation-container.hidden {
+    display: none;
+}
+
+#gachaMachine .gacha-result.active {
+    top: 10%;
+}
+
+#gachaMachine .gacha-result {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 0.5s ease;
+    text-align: center;
+    align-items: center; /* Aligns the items vertically */
+    justify-content: center; /* Centers content horizontally */
+}
+
+#gachaMachine .animation-container .click_arrow {
+    width: 80px;
+    height: auto;
+    transform: rotate(270deg);
+    color: white;
+    filter: brightness(0) invert(1);
+}
+
+#gachaMachine .animation-container p.click-prompt {
+    font-size: 1.5rem;
+    color: white;
+    margin-left: 0px;
+    writing-mode: vertical-lr;
+    line-height: 0rem;
+}
+
+/* 下一抽按鈕 */
+#gachaMachine .custom-btn{
+    display: flex;
+    margin-left: 39%;
+    margin-top: 10px;
+    top: 50%;
+    /* border: 5px solid red; */
+    border-radius: 50px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    background-color: var(--main-bg-gray);
+    color: var(--main-yellow);
+    width: 150px;
+    font-size: 1.4rem;
+    padding: 0.4rem 1rem;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    cursor: pointer;
+}
+#gachaMachine .custom-btn:hover {
+    color: var(--main-bg-gray);
+    background-color: var(--main-yellow);
+
+
+}
+
+
+/* 手機版調整 */
+@media (max-width: 992px) {
+    #gachaMachine .animationgif {
+        width: 400px;
+        height: 700px;
+    }
+
+}
+
+@media (max-width: 768px) {
+    #gachaMachine .animationgif {
+        width: 300px;
+        height: 450px;
+    }
+
+}

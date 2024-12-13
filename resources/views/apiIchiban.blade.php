@@ -12,6 +12,14 @@
         let basePath = '../../app/Models'
         // 蛋全域
         let category = 2
+        fetch(basePath + '/Fetch/AllIchiban.php')
+            .then(response => response.json())
+            .then(data => {
+                console.log('最終版：', data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            })
         // 首頁最下面精選商品
         fetch(basePath + '/Fetch/MainIchiban.php')
             .then(response => response.json())
