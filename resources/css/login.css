@@ -59,9 +59,7 @@
     left: 19vw;
     top: 27vw;
 
-    font-family: 'Inter';
     font-style: normal;
-    font-weight: bold;
     font-size: 24px;
     line-height: 29px;
 
@@ -80,7 +78,6 @@
     left: 18vw;
     top: 30vw;
 
-    font-weight: bold;
     font-size: 20px;
     line-height: 2.5vw;
 
@@ -97,7 +94,6 @@
     margin: -2vw 0vw 0vw 8vw;
     padding: 5%;
     color:  var(--main-darkblue);;
-    font-weight: bold;
 }
 
 #login .member {
@@ -143,7 +139,6 @@ margin-left: 3vw;
     width: 110px;
     height: 60px;
     font-size: 20px;
-    font-weight: bold;
     color: var(--main-yellow);
 }
 
@@ -165,7 +160,6 @@ margin-left: 3vw;
 
 #login .contact-text span:nth-of-type(1) {
     font-size: 20px;
-    font-weight: bold;
 }
 
 #login .contact-item image {

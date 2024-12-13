@@ -6,9 +6,9 @@ function GachaPdCard({ seriesName, productName, productPrice, className = '', im
     const [newcalss, setNewclass] = useState("")
 
     function toogleHeart() {
-        if(!isActive){
+        if (!isActive) {
             setNewclass("active")
-        }else{
+        } else {
             setNewclass("")
         }
         setIsActive(!isActive)
@@ -16,17 +16,19 @@ function GachaPdCard({ seriesName, productName, productPrice, className = '', im
 
 
     return (
-        <div className={"gachaPDCard " + className}>
-            <div className="product-card" style={{ backgroundImage: `url(${img})` }}>
-                <div className="heart-icon" >
-                    <img className={"heart " + newcalss} onClick={toogleHeart} src='http://localhost/gachoraProject\public\images\heart.svg'></img>
+        <>
+                <div className={"gachaPDCard " + className}>
+                    <div className="product-card" style={{ backgroundImage: `url(${img})` }}>
+                        <div className="heart-icon" >
+                            <img className={"heart " + newcalss} onClick={toogleHeart} src='http://localhost/gachoraProject\public\images\heart.svg'></img>
+                        </div>
+                    </div>
+                    {/* <!-- 商品名稱 --> */}
+                    <h5 className="product-name">{seriesName}</h5>
+                    <h5 className="product-name">{productName}</h5>
+                    <h2 className="product-name">{productPrice}</h2>
                 </div>
-            </div>
-            {/* <!-- 商品名稱 --> */}
-            <h5 className="product-name">{seriesName}</h5>
-            <h5 className="product-name">{productName}</h5>
-            <h2 className="product-name">{productPrice}</h2>
-        </div>
+        </>
     )
 }
 

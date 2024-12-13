@@ -1,3 +1,4 @@
+import React from 'react'
 import Navbar from '@/Components/Navbar';
 import GachaPdCard from '@/Components/GachaPdCard';
 import { Head, Link } from '@inertiajs/react';
@@ -6,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 function B_2_GachaTagPage() {
     // 假資料
-    const [allProducts, setallProducts] = useState([
+    const [allProducts] = useState([
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
         { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
@@ -17,18 +18,18 @@ function B_2_GachaTagPage() {
         { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
         { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
     ]);
-    let url = 'http://localhost/gachoraProject/app/Models/Fetch/MainEgg.php'
-            React.useEffect(function () {
+    // let url = 'http://localhost/gachoraProject/app/Models/Fetch/MainEgg.php'
+    //         React.useEffect(function () {
 
-                let callAPI = async function () {
-                    url = url + page;
-                    let response = await fetch(url);
-                    let data = await response.json()
-                    console.log(data)
-                    // setallProducts(data.data)
-                }
-                callAPI();
-            }, [page])
+    //             let callAPI = async function () {
+    //                 url = url + page;
+    //                 let response = await fetch(url);
+    //                 let data = await response.json()
+    //                 console.log(data)
+    //                 // setallProducts(data.data)
+    //             }
+    //             callAPI();
+    //         }, [page])
 
     const [currentPage, setcurrentPage] = useState(1);
     const [category, setcategory] = useState("all");
@@ -49,7 +50,10 @@ function B_2_GachaTagPage() {
 
     //搜尋按鈕觸發
     const handleSearch = () => {
-        if (filteredProducts.length === 0) {
+        const filtered = allProducts.filter(product =>
+            product.productName.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        if (filtered.length === 0) {
             alert("沒有找到符合條件的商品!");
         }
         setcurrentPage(1);
@@ -141,7 +145,7 @@ function B_2_GachaTagPage() {
                                             key={index}
                                             onClick={() => setcurrentPage(index + 1)}
                                         >
-                                            <a className="page-link" href="#">{index + 1}</a>
+                                            <a className="page-link" href="javascript:void(0)">{index + 1}</a>
                                         </li>
                                     ))}
                                 </ul>

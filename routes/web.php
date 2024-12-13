@@ -43,6 +43,12 @@ Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
 
+
+Route::get('/gachadetail', function () {
+    return Inertia::render('Gacha/B_3_GachaDetail');
+})->name('gachadetail');
+
+
 Route::get('/gachatagpage', function () {
     return Inertia::render('Gacha/B_2_GachaTagPage');
 })->name('gachatagpage');
