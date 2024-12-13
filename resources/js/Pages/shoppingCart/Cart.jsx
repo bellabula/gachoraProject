@@ -1,10 +1,20 @@
 import Navbar from '@/Components/Navbar'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Head } from '@inertiajs/react';
+import Payment from './Payment';
+import ConfirmOrder from './ConfirmOrder';
+import CompleteOrder from './CompleteOrder';
+
 function Cart() {
+
+    function checkout() {
+        $("#e1").css("display", "none")
+        $("#e21").css("display", "block")
+    }
+
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' />
             <Head title="Shopping Cart" />
             <main id='cart'>
                 <div id="e1">
@@ -28,20 +38,20 @@ function Cart() {
                         <div className="title">戰利品儲藏庫</div>
                         <div className="cardsContainer">
                             <div className="cardContainer">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt=""/>
-                                    <button><svg xmlns="http://www.w3.org/2000/svg" width="1.2vw" height="1.2vw" fill="currentColor"
-                                        className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                                    </svg>&nbsp;加入出貨</button>
+                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
+                                <button><svg xmlns="http://www.w3.org/2000/svg" width="1.2vw" height="1.2vw" fill="currentColor"
+                                    className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                                </svg>&nbsp;加入出貨</button>
                             </div>
                             <div className="cardContainer">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt=""/>
-                                    <button><svg xmlns="http://www.w3.org/2000/svg" width="1.2vw" height="1.2vw" fill="currentColor"
-                                        className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                                    </svg>&nbsp;加入出貨</button>
+                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
+                                <button><svg xmlns="http://www.w3.org/2000/svg" width="1.2vw" height="1.2vw" fill="currentColor"
+                                    className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                                </svg>&nbsp;加入出貨</button>
                             </div>
                         </div>
                     </div>
@@ -50,58 +60,58 @@ function Cart() {
                         <div className="title">待出貨區</div>
                         <div className="checkoutContainer">
                             <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt=""/>
-                                    <div className="checkoutItemDetail">
-                                        <div>系列名稱</div>
-                                        <div>角色名稱</div>
-                                        <div>數量: 1</div>
-                                        <button>下次再出貨</button>
-                                    </div>
+                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
+                                <div className="checkoutItemDetail">
+                                    <div>系列名稱</div>
+                                    <div>角色名稱</div>
+                                    <div>數量: 1</div>
+                                    <button>下次再出貨</button>
+                                </div>
                             </div>
                             <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt=""/>
-                                    <div className="checkoutItemDetail">
-                                        <div>系列名稱</div>
-                                        <div>角色名稱</div>
-                                        <div>數量: 1</div>
-                                        <button>下次再出貨</button>
-                                    </div>
+                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
+                                <div className="checkoutItemDetail">
+                                    <div>系列名稱</div>
+                                    <div>角色名稱</div>
+                                    <div>數量: 1</div>
+                                    <button>下次再出貨</button>
+                                </div>
                             </div>
                             <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt=""/>
-                                    <div className="checkoutItemDetail">
-                                        <div>系列名稱</div>
-                                        <div>角色名稱</div>
-                                        <div>數量: 1</div>
-                                        <button>下次再出貨</button>
-                                    </div>
+                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
+                                <div className="checkoutItemDetail">
+                                    <div>系列名稱</div>
+                                    <div>角色名稱</div>
+                                    <div>數量: 1</div>
+                                    <button>下次再出貨</button>
+                                </div>
                             </div>
                             <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt=""/>
-                                    <div className="checkoutItemDetail">
-                                        <div>系列名稱</div>
-                                        <div>角色名稱</div>
-                                        <div>數量: 1</div>
-                                        <button>下次再出貨</button>
-                                    </div>
+                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
+                                <div className="checkoutItemDetail">
+                                    <div>系列名稱</div>
+                                    <div>角色名稱</div>
+                                    <div>數量: 1</div>
+                                    <button>下次再出貨</button>
+                                </div>
                             </div>
                             <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt=""/>
-                                    <div className="checkoutItemDetail">
-                                        <div>系列名稱</div>
-                                        <div>角色名稱</div>
-                                        <div>數量: 1</div>
-                                        <button>下次再出貨</button>
-                                    </div>
+                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
+                                <div className="checkoutItemDetail">
+                                    <div>系列名稱</div>
+                                    <div>角色名稱</div>
+                                    <div>數量: 1</div>
+                                    <button>下次再出貨</button>
+                                </div>
                             </div>
                             <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt=""/>
-                                    <div className="checkoutItemDetail">
-                                        <div>系列名稱</div>
-                                        <div>角色名稱</div>
-                                        <div>數量: 1</div>
-                                        <button>下次再出貨</button>
-                                    </div>
+                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
+                                <div className="checkoutItemDetail">
+                                    <div>系列名稱</div>
+                                    <div>角色名稱</div>
+                                    <div>數量: 1</div>
+                                    <button>下次再出貨</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -142,8 +152,21 @@ function Cart() {
                                 <span>商品總數</span>
                                 <span>1項</span>
                             </div>
+                            <div>
+                                <button className="btn-icon d-inline-block">繼續扭蛋/抽賞</button>
+                                <button className="btn-icon d-inline-block" onClick={checkout}>前往結帳</button>
+                            </div>
+                            <div>
+                                <img src="http://localhost/gachoraProject/public/images/warning.svg" />
+                                {/* 商品數量或體積超出超商單筆出貨規定，選擇超商出貨訂單將會拆單出貨，運費將以出貨單數計算 */}
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div id='e2'>
+                    <Payment id="e21" display="none" />
+                    <ConfirmOrder id="e3" display="none" />
+                    <CompleteOrder id="e4" display="none" />
                 </div>
             </main>
         </>

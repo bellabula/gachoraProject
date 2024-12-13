@@ -57,6 +57,7 @@
   color: var(--main-darkblue);
   cursor: pointer;
   font-size: 28px;
+
   padding: 1vw;
 }
 
@@ -289,6 +290,7 @@
   #faq .yellowsquare {
     height: 43vw;
     width: 35vw;
+
   }
 
   #faq .bluesquare {
@@ -299,6 +301,7 @@
     width: 48vw;
     height: 58vw;
   }
+
 
   #faq .contact22 {
     margin-left: -35vw;
@@ -528,4 +531,5 @@
   #faq .sidebar button.active {
     height: 10vw;
   }
+
 }
