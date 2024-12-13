@@ -20,11 +20,11 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 $(".navbar-toggler-icon")
                 .css({
                     backgroundImage: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")',
-                    margin: "0px",
-                    width: "7rem",
-                    height: "7rem",
-                    pointerEvents: "auto", 
-                    position: "relative",
+                    // margin: "0px",
+                    // width: "7rem",
+                    // height: "7rem",
+                    // pointerEvents: "auto", 
+                    // position: "relative",
                               
                 });
 
