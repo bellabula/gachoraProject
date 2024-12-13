@@ -5,7 +5,6 @@ import Footer from "@/Components/Footer";
 import Navbar from "@/Components/Navbar";
 import { useEffect } from "react";
 
-
 export default function FAQ() {
 
   const goto = usePage().props.goto
@@ -218,22 +217,22 @@ export default function FAQ() {
                 <div className="contact11">
                   <p>若您有任何需要我們服務的地方，請填寫以下表單～<br />我們收到您的來信後，將於3~5日內回覆（不含週六例假日）</p>
                   <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">姓名</h3><input className="col-6" type="text" placeholder="請填寫姓名" />
+                    <h3 className="col-4">姓名</h3><input className="col-6" type="text" placeholder="請填寫姓名" name="name"/>
                   </div>
                   <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">電子郵件</h3><input className="col-6" type="email" placeholder="請輸入電子郵件" />
+                    <h3 className="col-4">電子郵件</h3><input className="col-6" type="email" placeholder="請輸入電子郵件" name="email"/>
                   </div>
                   <div className="form" style={{ display: "flex" }}>
                     <h3 className="col-4">意見</h3>
-                    <textarea className="col-6" placeholder="請填寫意見內容" />
+                    <textarea className="col-6" name="message" placeholder="請填寫意見內容" />
                   </div>
                   <label className="check">
                     <input type="checkbox" />
                     <span>我已詳細閱讀並同意</span><a href="#">會員條款</a>
                   </label>
                   <div className="buttonCheck">
-                    <button className="button1">重新填寫</button>
-                    <button className="button2">完成送出</button>
+                    <button className="button1" type="submit" >重新填寫</button>
+                    <button className="button2" type="reset" >完成送出</button>
                   </div>
                 </div>
                 <div className="contact22">
