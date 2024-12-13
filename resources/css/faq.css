@@ -1,382 +1,532 @@
 #faq body {
-    background-color: #F2F1EC;
-  }
-  
-  #faq .bluesquare {
-    width: 60vw;
-    height: 50vw;
-    background: var(--main-darkblue);
-    border-radius: 50px;
-    margin-left: 20%;
-    margin-top: 8vw;
-  }
-  
-  #faq .bluesquare>span {
-    font-size: 36px;
-    color: #FEC265;
-    margin-right: 5vw;
-  
-  }
-  
-  #faq .container {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    /* 讓視窗佔滿整個高度 */
-  }
-  
-  #faq .pp > .p1 {
-    font-size: 36px;
-    color: #FEC265;
-    margin-top: 5vw;
-    padding-left: 2vw;
-  }
-  
-  #faq .pp >.p2 {
-    font-size: 36px;
-    color: #FEC265;
-    margin-top: 5vw;
-    padding-left: 20vw;
-  }
-  
-  /* 左邊 黃色小長方形 */
-  #faq .yellowsquare {
-    width: 20vw;
-    height: 30VW;
-    background: #FEC265;
-    border-radius: 50px;
-    margin-left: -5vw;
-  }
-  
+  background-color: #F2F1EC;
+}
+
+#faq .bluesquare {
+  width: 60vw;
+  height: 50vw;
+  background: var(--main-darkblue);
+  border-radius: 50px;
+  margin-left: 20%;
+  margin-top: 8vw;
+}
+
+#faq .bluesquare>span {
+  font-size: 36px;
+  color: #FEC265;
+  margin-right: 5vw;
+
+}
+
+#faq .container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  /* 讓視窗佔滿整個高度 */
+}
+
+#faq .pp>.p1 {
+  font-size: 36px;
+  color: #FEC265;
+  margin-top: 5vw;
+  padding-left: 2vw;
+}
+
+#faq .pp>.p2 {
+  font-size: 36px;
+  color: #FEC265;
+  margin-top: 5vw;
+  padding-left: 20vw;
+}
+
+/* 左邊 黃色小長方形 */
+#faq .yellowsquare {
+  width: 20vw;
+  height: 32VW;
+  background: #FEC265;
+  border-radius: 50px;
+  margin-left: -5vw;
+}
+
+#faq .sidebar button {
+  border: none;
+  background: none;
+  text-align: center;
+  margin-left: 20%;
+  /* margin-top: 10%; */
+  width: 100%;
+  color: var(--main-darkblue);
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 1vw;
+}
+
+#faq .sidebar button.active {
+  color: white;
+  background: var(--main-darkblue);
+  border-radius: 50px;
+  height: 5vw;
+}
+
+#faq .col-7 {
+  margin: 0vw 0vw 0vw 4vw;
+}
+
+
+#faq .accordion-button {
+  border-radius: 50px !important;
+  background-color: #F2F1EC;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+#faq .accordion-item {
+  background-color: var(--main-darkblue);
+  border: none;
+}
+
+#faq .accordion-body {
+  background-color: #FEC265;
+  color: var(--main-darkblue);
+  border-radius: 35px 35px 35px 35px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#faq .contact11 {
+  width: 35vw;
+  height: 43vw;
+  background-color: #F2F1EC;
+  border-radius: 50px;
+  margin-top: -5vw;
+  color: var(--main-darkblue)
+}
+
+#faq .contact11>p {
+  margin: 7vw 6vw 0vw 6vw;
+}
+
+#faq .contact22 {
+  width: 20vw;
+  height: 5vw;
+  background-color: var(--main-darkblue);
+  margin-top: -5vw;
+  margin-left: -27vw;
+  border-radius: 0px 0px 50px 50px;
+}
+
+#faq .contact22>p {
+  font-size: 32px;
+  color: #F2F1EC;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 1vw;
+}
+
+#faq .contact11>.form {
+  margin: 2vw 0vw 0vw 5vw;
+}
+
+#faq .form>h3 {
+  margin-top: 0.5vw
+}
+
+#faq .form>input {
+  border-color: var(--main-darkblue);
+  border-radius: 10px;
+  height: 3vw;
+}
+
+#faq input::placeholder {
+  color: var(--main-darkblue);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#faq .form>textarea {
+  height: 10vw;
+  resize: none;
+  border-radius: 10px;
+  border-color: var(--main-darkblue);
+}
+
+#faq textarea::placeholder {
+  color: var(--main-darkblue);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+#faq .contact11>.check {
+  margin: 2vw 0vw 0vw 10vw;
+}
+
+#faq .contact11>.buttonCheck {
+  display: flex;
+  margin: 2vw 0vw 0vw 10vw;
+}
+
+#faq .buttonCheck>button {
+  border-radius: 35px;
+  border: none;
+  height: 3vw;
+  width: 8vw;
+}
+
+#faq .buttonCheck .button1 {
+  background-color: var(--main-darkblue);
+  color: white;
+}
+
+#faq .buttonCheck .button2 {
+  background-color: #FEC265;
+  color: var(--main-darkblue);
+  margin-left: 0.5vw;
+}
+
+
+@media (max-width: 1550px) {
   #faq .sidebar button {
-    border: none;
-    background: none;
-    text-align: center;
-    margin-left: 20%;
-    /* margin-top: 10%; */
-    width: 100%;
-    color: var(--main-darkblue);
-    cursor: pointer;
-    font-size: 28px;
-    font-weight: bold;
-    padding: 1vw;
+    font-size: 26px;
   }
-  
-  #faq .sidebar button.active {
-    color: white;
-    background: var(--main-darkblue);
-    border-radius: 50px;
-    height:5vw;
+}
+
+@media (max-width: 1450px) {
+  #faq .bluesquare {
+    height: 100vw;
+    width: 60vw;
+    margin-top: 10vw;
   }
-  
-  #faq .col-8{
-    margin: 0vw 0vw 0vw 4vw;
+
+  #faq .yellowsquare {
+    margin-left: 14vw;
+    width: 30vw;
+    height: 35vw;
   }
-  
-  #faq #faq-category {
+
+  #faq .yellowsquare>.sidebar button {
+    margin-left: 0vw;
+    border-radius: 0px;
+  }
+
+  #faq .pp>.p1 {
+    display: none;
+  }
+
+  #faq .container {
+    flex-direction: column;
+    /* 整體改為上下排列 */
+  }
+
+  #faq .contact11,
+  #faq .contact22 {
+    margin-top: 0vw;
+  }
+
+  #faq #faq-category-6 {
+    margin-top: 3vw;
+    margin-left: 1.5vw;
+  }
+
+  #faq .contact11 {
+    width: 45vw;
+    height: 50vw;
+    margin-left: -1vw;
+  }
+
+  #faq .contact22 {
+    margin-left: -32.5vw;
+  }
+
+  #faq .col-7 {
+    margin: 3vw 0vw 0vw 12vw;
+  }
+
+  #faq #faq-category-6 {
+    margin: 3vw 0vw 0vw -4vw;
+  }
+
+  #faq .buttonCheck>button{
     margin-left: 5vw;
   }
-  
-  #faq .accordion-button {
-    border-radius: 50px !important;
-    background-color: #F2F1EC;
-    font-size: 22px;
-    font-weight: bold;
+}
+
+@media (max-width:1290px) {
+  #faq .bluesquare {
+    height: 105vw;
+    margin-top: 13vw;
   }
-  
-  #faq .accordion-item {
-    background-color: var(--main-darkblue);
-    border: none;
-  }
-  
-  #faq .accordion-body {
-    background-color: #FEC265;
-    color: var(--main-darkblue);
-    border-radius: 35px 35px 35px 35px;
-    font-weight: bold;
-    font-size: 20px;
-  }
-  
-  #faq .contact11 {
+
+}
+
+@media (max-width:1100px) {
+  #faq .yellowsquare {
+    height: 40vw;
     width: 35vw;
-    height: 43vw;
-    background-color: #F2F1EC;
-    border-radius: 50px;
-    margin-top: -5vw;
-    color: var(--main-darkblue)
+    margin-left: 12vw;
   }
-  
-  #faq .contact11>p {
-    margin: 7vw 6vw 0vw 6vw;
+
+  #faq .bluesquare {
+    height: 115vw;
   }
-  
-  #faq .contact22 {
-    width: 20vw;
-    height: 5vw;
-    background-color: var(--main-darkblue);
-    margin-top: -5vw;
-    margin-left: -27vw;
-    border-radius: 0px 0px 50px 50px;
-  }
-  
+
   #faq .contact22>p {
-    font-size: 32px;
-    color: #F2F1EC;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 1vw;
+    font-size: 28px;
   }
-  
-  #faq .contact11 > .form {
-    margin: 2vw 0vw 0vw 5vw;
+
+  #faq .contact11 {
+    width: 45vw;
+    height: 55vw;
   }
-  
-  #faq .form>h3 {
-    margin-top: 0.5vw
+
+  #faq .buttonCheck {
+    margin-left: 100vw;
   }
-  
-  #faq .form>input {
-    border-color: var(--main-darkblue);
-    border-radius: 10px;
-    height: 3vw;
-  }
-  
-  #faq input::placeholder {
-    color: var(--main-darkblue);
-    font-size: 20px;
-    font-weight: 500;
-  }
-  
-  #faq .form>textarea {
-    height: 10vw;
-    resize: none;
-    border-radius: 10px;
-    border-color: var(--main-darkblue);
-  }
-  
-  #faq textarea::placeholder {
-    color: var(--main-darkblue);
-    font-size: 20px;
-    font-weight: 500;
-  }
-  
-  #faq .contact11 >.check {
-    margin: 2vw 0vw 0vw 10vw;
-  }
-  
-  #faq .contact11 >.buttonCheck {
-    display: flex;
-    margin: 2vw 0vw 0vw 10vw;
-  }
-  
+
   #faq .buttonCheck>button {
-    border-radius: 35px;
-    border: none;
-    height: 3vw;
-    width: 8vw;
+    height: 5vw;
+    width: 10vw;
+    margin-left: 4vw;
   }
-  
-  #faq .buttonCheck .button1 {
-    background-color: var(--main-darkblue);
-    color: white;
+}
+
+@media (max-width:1000px) {
+  #faq .yellowsquare {
+    height: 43vw;
+    width: 35vw;
   }
-  
-  #faq .buttonCheck .button2 {
-    background-color: #FEC265;
-    color: var(--main-darkblue);
-    margin-left: 0.5vw;
+
+  #faq .bluesquare {
+    height: 120vw;
   }
-  
-  @media (max-width: 1450px) {
-    #faq .bluesquare {
-      height: 110vw;
-      width: 60vw;
-    }
-  
-    #faq .yellowsquare {
-      margin-left: 14vw;
-      width: 30vw;
-      height: 40vw;
-    }
-  
-    #faq .yellowsquare>.sidebar button {
-      margin-left: 0vw;
-      border-radius: 0px;
-    }
-  
-    #faq .yellowsquare>.sidebar button:hover {
-      margin-left: 0vw;
-      border-radius: 0px;
-    }
-  
-    #faq .pp >.p1 {
-      display: none;
-    }
-  
-    #faq .container {
-      flex-direction: column;
-      /* 整體改為上下排列 */
-    }
-  
-    #faq .contact11,
-    #faq .contact22 {
-      margin-top: 0vw;
-    }
-  
-    #faq #faq-category-6 {
-      margin: 3vw 0vw 0vw 1.5vw;
-    }
-  
-    #faq .bluesquare {
-      height: 115vw;
-    }
-  
-    #faq .contact11 {
-      width: 35vw;
-      height: 50vw;
-      margin-left: 3vw;
-    }
-    #faq .col-8{
-      margin: 3vw 0vw 0vw 7vw;
-    }
+
+  #faq .contact11 {
+    width: 48vw;
+    height: 58vw;
   }
-  
-  @media (max-width:1100px) {
-    #faq .bluesquare {
-      height: 150vw;
-    }
-  
-    #faq .contact11 {
-      width: 50vw;
-      height: 55vw;
-    }
-  
-    #faq #faq-category-6 {
-      margin: 3vw 0vw 0vw -6vw;
-    }
-  
-    #faq .contact22 {
-      margin-left: -35vw;
-      border-radius: 0px 0px 50px 50px;
-    }
-  
-    #faq .contact22 > p {
-      font-size: 24px;
-    }
-  
-    #faq .buttonCheck>.button1,
-    #faq .buttonCheck>.button2 {
-      height: 5vw;
-      width: 10vw;
-    }
-  
-    #faq .buttonCheck {
-      margin-left: 14vw;
-    }
-  
-    #faq .yellowsquare {
-      margin-left: 4vw;
-      width: 50vw;
-      height: 120vw;
-    }
-    #faq .form input{
-      height:5vw;
-    }
-    #faq .sidebar button.active{
-      height:15vw;
-    }
+
+  #faq .contact22 {
+    margin-left: -35vw;
   }
-  
-  @media (max-width:955px) {
-    #faq .bluesquare {
-      width: 80vw;
-      height: 130vw;
-      margin-left: 10%;
-    }
-  
-    #faq .contact11 {
-      width: 60vw;
-      height: 55vw;
-      margin-left: -4vw;
-    }
-  
-    #faq .container,
-    #faq .pp>.p2 {
-      margin-left: 10vw;
-    }
-  
-    #faq .contact22 {
-      margin-left: -41vw;
-    }
-  
-    #faq .contact22 > p {
-      font-size: 24px;
-    }
-  
-    #faq .buttonCheck {
-      margin-left: 20vw;
-    }
-    #faq .col-8{
-      margin: 3vw 0vw 0vw 2vw;
-    }
-    #faq .form>textarea{
-      height:20vw
-    }
+}
+
+@media (max-width:950px) {
+  #faq .yellowsquare {
+    height: 50vw;
+    width: 35vw;
+    margin-left: 18vw;
   }
-  
-  @media (max-width:930px){
-    #faq .bluesquare {
-      width: 80vw;
-      height: 300vw;
-      margin-left: 10%;
-    }
-    #faq #faq-category-6{
-      margin: 3vw 0vw 0vw 2vw;
-    }
-    #faq .contact22{
-      width:30vw;
-      height:7vw;
-      margin-left: -45vw;
-    }
-    #faq .contact11{
-      height:70vw
-    }
-    #faq .buttonCheck>.button1,
-    #faq .buttonCheck>.button2 {
-      height: 8vw;
-      width: 20vw;
-    }
-    #faq .buttonCheck {
-      margin-left: 10vw;
-    }
+
+  #faq .bluesquare {
+    width: 70vw;
+    height: 125vw;
+    margin-left: 15%;
   }
-  @media (max-width:578px){
-    #faq .bluesquare {
-      width: 80vw;
-      height: 350vw;
-      margin-left: 10%;
-    }
-    #faq .contact11{
-      height:100vw;
-      width:75vw;
-      margin-left: -13vw;
-      margin-top: 5vw;
-    }
-    #faq .contact22{
-      width:30vw;
-      height:9vw;
-      margin-left: -52vw;
-    }
-    #faq .form input{
-      height:8vw;
-    }
-    #faq .buttonCheck {
-      margin-left: 18vw;
-    }
-    #faq .pp>.p2 {
-      margin-left: 1vw;
-    }
-    #faq .yellowsquare {
-      height:95vw;
-    }
+
+  #faq .contact11 {
+    margin-left: 0vw;
+    width: 53vw;
+    height: 60vw;
   }
+
+  #faq .sidebar button.active {
+    height: 8vw;
+  }
+
+  #faq .pp>.p2 {
+    margin-left: 5vw;
+  }
+
+  #faq .accordion-item {
+    margin-left:3vw;
+  }
+}
+
+@media (max-width:910px) {
+  #faq .yellowsquare {
+    height: 53vw;
+  }
+
+  #faq .bluesquare {
+    width: 73vw;
+    height: 130vw;
+    margin-top: 15vw;
+  }
+
+  #faq .contact22>p {
+    font-size: 26px;
+    margin-top: 0vw;
+  }
+
+  #faq .accordion-item {
+    width:40vw;
+  }
+}
+
+@media (max-width:800px) {
+  #faq .form>input {
+    height: 5vw;
+  }
+}
+
+@media (max-width:760px) {
+  #faq .buttonCheck>button {
+    height: 6vw;
+    width: 15vw;
+    margin-left: 1vw;
+  }
+
+  #faq .bluesquare {
+    width: 76vw;
+    height: 135vw;
+    margin-left: 9%;
+    margin-top: 18vw;
+  }
+
+  #faq .contact11 {
+    margin-left: 0vw;
+    width: 55vw;
+    height: 63vw;
+  }
+
+  #faq .accordion-item {
+    width:50vw;
+  }
+}
+
+@media (max-width:730px) {
+  #faq .bluesquare {
+    width: 79vw;
+    height: 140vw;
+  }
+
+  #faq .contact11 {
+    margin-left: 0vw;
+    width: 55vw;
+    height: 63vw;
+  }
+
+  #faq .yellowsquare {
+    height: 56vw;
+  }
+}
+
+@media (max-width:700px) {
+
+  #faq .bluesquare {
+    width: 83vw;
+    height: 145vw;
+    margin-top: 21vw;
+  }
+
+  #faq .yellowsquare {
+    height: 59vw;
+    margin-left: 21vw;
+  }
+
+  #faq .contact11 {
+    margin-left: 2vw;
+    width: 55vw;
+    height: 66vw;
+  }
+}
+
+@media (max-width:670px) {
+  #faq .bluesquare {
+    width: 83vw;
+    height: 155vw;
+    margin-left: 10%;
+  }
+
+  #faq .contact22>p {
+    font-size: 24px;
+  }
+}
+
+@media (max-width:630px) {
+  #faq .yellowsquare {
+    width: 38vw;
+  }
+}
+
+@media (max-width:600px) {
+  #faq .bluesquare {
+    width: 86vw;
+    height: 165vw;
+    margin-left: 7%;
+  }
+
+  #faq .yellowsquare {
+    margin-left: 22vw;
+  }
+
+  #faq .contact22 {
+    width: 23vw;
+    height: 7vw;
+    margin-left: -42vw;
+  }
+
+  #faq .contact11 {
+    margin-left: 3vw;
+    width: 60vw;
+    height: 70vw;
+  }
+}
+
+@media (max-width:550px) {
+  #faq .yellowsquare {
+    width: 41vw;
+  }
+
+  #faq .contact11 {
+    margin-left: 1vw;
+    width: 65vw;
+    height: 73vw;
+  }
+
+  #faq .bluesquare {
+    width: 86vw;
+    height: 170vw;
+    margin-left: 6%;
+  }
+
+  #faq .buttonCheck>button {
+    height: 8vw;
+    width: 17vw;
+    margin-left: 4vw;
+  }
+
+}
+
+@media (max-width:550px) {
+  #faq .bluesquare {
+    width: 89vw;
+    height: 180vw;
+    margin-left: 4%;
+  }
+
+  #faq .contact11 {
+    margin-left: 1vw;
+    width: 67vw;
+    height: 80vw;
+  }
+
+  #faq .yellowsquare {
+    width: 43vw;
+    height: 62vw;
+  }
+
+  #faq .contact22 {
+    width: 25vw;
+    height: 8vw;
+    margin-left: -45vw;
+  }
+
+  #faq .contact11>p{
+    margin: 9vw 6vw 0vw 6vw;
+  }
+
+  #faq .accordion-item {
+    width:60vw;
+  }
+}

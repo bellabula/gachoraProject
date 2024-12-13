@@ -16,6 +16,47 @@ export default function Dashboard() {
 
     const user = usePage().props.auth.user;
 
+    $(document).ready(function () {
+        let basePath = '../app/Models'
+        let user_id = user.id
+
+        const url = basePath + '/Post/MainUser.php'
+        $.post(url, {
+            user_id: user_id
+        }, (response) => {
+            console.log(response)
+            document.querySelector("#member > div.row.pt-5.pb-5.align-items-center > div.col-4 > div.h2.text-end.mb-0").innerText = response.gash
+
+            // $('#info').text(`${response.name}您好, 有${response.gash}G幣`)
+            response.gift.map((v, i) => {
+                document.querySelector("#member > div.row.pt-5.pb-5.align-items-center > div.col-4 > div.text-end.w-100").innerText = `${v.amount}G幣將在${v.expire_at}過期`
+                // return $('#info').append(`<br>${v.amount}G幣將在${v.expire_at}過期`)
+            })
+        })
+
+        const urlWall = basePath + '/Post/UserWall.php'
+        $.post(urlWall, {
+            user_id: user_id
+        }, ({
+            egg,
+            ichiban
+        }) => {
+            console.log('扭蛋戰力牆：', egg)
+            // $('#result').text('')
+            // egg.map((v) => {
+            //     console.log(v.img)
+            //     // return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
+            // })
+            // $('#result').append('<br>')
+            console.log('一番賞戰力牆：', ichiban)
+            // ichiban.map((v) => {
+            //     console.log(v.img)
+            //     // return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
+            // })
+        })
+
+    })
+
     return (
         <AuthenticatedLayout>
             <Head title="Member" />
@@ -48,9 +89,9 @@ export default function Dashboard() {
                     {/* <!-- 3. 戰利儲藏庫 --> */}
                     <MyStorage id="memberStore" />
                     {/* <!-- 4. 我的錢包 --> */}
-                    <MyWallet id="memberWallet" className={highlight === 'wallet' ? 'active' : ''}/>
+                    <MyWallet id="memberWallet" className={highlight === 'wallet' ? 'active' : ''} />
                     {/* <!-- 5. 我的訂單 --> */}
-                    <MyOrder id="memberOrder"/>
+                    <MyOrder id="memberOrder" />
                     {/* <!-- 6. 基本資料 --> */}
                     <MyProfile id="memberProfile" className={highlight === 'profile' ? 'active' : ''}/>
                 </div>
