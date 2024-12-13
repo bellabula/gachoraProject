@@ -6,6 +6,7 @@ import TextInput from '@/Components/init/TextInput';
 import Navbar from '@/Components/Navbar';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -21,6 +22,12 @@ export default function Login({ status, canResetPassword }) {
             onFinish: () => reset('password'),
         });
     };
+
+    useEffect(() => {
+        const enter = jQuery.Event("keydown")
+        enter.which = 13
+        $("#login .btn1").trigger(enter)
+    })
 
     return (
         <>
@@ -114,7 +121,7 @@ export default function Login({ status, canResetPassword }) {
                         </div>
 
                         <div className="col-md-6 text-wrap">
-                            <h3 className="contact" style={{ fontWeight: "bold", marginTop: "50px" }}>無法更改密碼？</h3>
+                            <h3 className="contact" style={{ marginTop: "50px" }}>無法更改密碼？</h3>
                             <p className="contact">如果您有任何密碼問題，請連絡客服人員，我們會竭誠為您處理。</p>
 
                             <div className="contact-item">

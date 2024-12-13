@@ -16,8 +16,10 @@ body {
     margin: 0;
     background-color: var(--main-bg-gray);
     overflow-x: hidden;
+    font-family: 'fontstyle';
     overflow-y: auto !important;
     padding-right: 0 !important;
+
 }
 
 .errorMessage {
@@ -27,3 +29,8 @@ body {
 .mainTextColor {
     color: var(--main-darkblue)
 }
+
+@font-face {
+    font-family: 'fontstyle';
+    src: url('./fontstyle.ttf') format('truetype');
+  }

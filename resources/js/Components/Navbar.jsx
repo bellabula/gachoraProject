@@ -7,7 +7,27 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             $("#bigNavbar-r").css("display", "none")
             $("nav div div.ps-4 img").css("display", "none")
             $("#offcanvasNavbar").css("display", "block")
-            $("nav").removeClass("navbar-expand-lg")
+            $("div.container-xxl").removeClass("container-xxl");
+
+
+            $("nav")
+                .removeClass("navbar-expand-lg")
+                .css({
+                    // border: "5px solid red",
+                    height:"100px"
+                })
+
+                $(".navbar-toggler-icon")
+                .css({
+                    backgroundImage: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")',
+                    // margin: "0px",
+                    // width: "7rem",
+                    // height: "7rem",
+                    // pointerEvents: "auto", 
+                    // position: "relative",
+                              
+                });
+
         }
     })
     return (
@@ -52,12 +72,15 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                         </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item">
-                            {/* <Link href={route('login')} className="dropdown-item"></Link> */}
                             <Link href={route('dashboard', { highlight: 'wallet' })}>
                                 <img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} />
                             </Link>
                         </li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} /></a></li>
+                        <li className="nav-item">
+                            <Link href={route('shoppingCart')} className="dropdown-item">
+                                <img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} />
+                            </Link>
+                        </li>
                         <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li>
                         <li className="nav-item" style={{ display: logout }}>
                             <Link href={route('logout')} method="post" as="button" className="dropdown-item">
@@ -79,7 +102,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li className="nav-item">
                                 <Link href={route('login')} className="nav-link">
-                                    會員登入
+                                    會員專區
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -108,10 +131,14 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 </ul>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">購物車</a>
+                                <Link href={route('shoppingCart')} className="nav-link">
+                                    購物車
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">我的錢包</a>
+                                <Link href={route('dashboard', { highlight: 'wallet' })} className="nav-link">
+                                    我的錢包
+                                </Link>
                             </li>
                             <li className="nav-item">
                                 <Link href={route('faq')} className="nav-link">
@@ -121,6 +148,11 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             <li className="nav-item">
                                 <Link href={route('faq', { goto: 'contact' })} className="nav-link">
                                     聯絡我們
+                                </Link>
+                            </li>
+                            <li className="nav-item" style={{ display: logout}}>
+                                <Link href={route('logout')} method="post" as="button" className="dropdown-item">
+                                    登出
                                 </Link>
                             </li>
                             <li className="nav-item">
