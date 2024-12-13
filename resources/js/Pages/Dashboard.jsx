@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import MyWall from './member/MyWall';
 import MyWallet from './member/MyWallet';
@@ -9,53 +9,54 @@ import MyFavor from './member/MyFavor';
 import MyOrder from './member/MyOrder';
 import MyProfile from './member/MyProfile';
 import NavLink from './member/NavLink';
+import MyWallGacha from './member/MyWallGacha';
 
 export default function Dashboard() {
 
     const highlight = usePage().props.highlight;
 
     const user = usePage().props.auth.user;
+    const [gachaItem, setgachaItem] = useState([]);
 
-    $(document).ready(function () {
+    useEffect(() => {
         let basePath = '../app/Models'
         let user_id = user.id
-
         const url = basePath + '/Post/MainUser.php'
         $.post(url, {
             user_id: user_id
         }, (response) => {
             console.log(response)
             document.querySelector("#member > div.row.pt-5.pb-5.align-items-center > div.col-4 > div.h2.text-end.mb-0").innerText = response.gash
-
-            // $('#info').text(`${response.name}您好, 有${response.gash}G幣`)
             response.gift.map((v, i) => {
                 document.querySelector("#member > div.row.pt-5.pb-5.align-items-center > div.col-4 > div.text-end.w-100").innerText = `${v.amount}G幣將在${v.expire_at}過期`
-                // return $('#info').append(`<br>${v.amount}G幣將在${v.expire_at}過期`)
             })
         })
-
-        const urlWall = basePath + '/Post/UserWall.php'
-        $.post(urlWall, {
-            user_id: user_id
-        }, ({
-            egg,
-            ichiban
-        }) => {
-            console.log('扭蛋戰力牆：', egg)
-            // $('#result').text('')
-            // egg.map((v) => {
-            //     console.log(v.img)
-            //     // return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
-            // })
-            // $('#result').append('<br>')
-            console.log('一番賞戰力牆：', ichiban)
-            // ichiban.map((v) => {
-            //     console.log(v.img)
-            //     // return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
-            // })
-        })
-
     })
+
+    // // 初始化時恢復到當前的 Tab
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     // 從 URL 中獲取錨點部分，例如 #profile
+    //     const hash = window.location.hash;
+    //     console.log(hash)
+    //     if (hash) {
+    //         // 找到對應的 Tab 並顯示
+    //         const tab = document.querySelector(`[href="${hash}"]`);
+    //         if (tab) {
+    //             const bootstrapTab = new bootstrap.Tab(tab);
+    //             bootstrapTab.show();
+    //         }
+    //     }
+
+    //     // 監聽 Tab 點擊事件，保存當前的 Tab
+    //     document.querySelectorAll('a[data-bs-toggle="pill"]').forEach((tab) => {
+    //         console.log(tab)
+    //         tab.addEventListener("shown.bs.tab", (event) => {
+    //             const hash = event.target.getAttribute("href");
+    //             history.replaceState(null, null, hash); // 更新網址但不重新加載頁面
+    //         });
+    //     });
+    // });
+
 
     return (
         <AuthenticatedLayout>
@@ -73,7 +74,7 @@ export default function Dashboard() {
                 {/* <!-- Tabs --> */}
                 <div className="custom-section">
                     <ul className="nav nav-pills justify-content-center">
-                        <NavLink href="#memberWall" className={highlight === 'wallet'| highlight === 'profile' ? '' : 'active'}>戰利牆</NavLink>
+                        <NavLink href="#memberWall" className={highlight === 'wallet' | highlight === 'profile' ? '' : 'active'}>戰利牆</NavLink>
                         <NavLink href="#memberFavor">收藏清單</NavLink>
                         <NavLink href="#memberStore">戰利儲藏庫</NavLink>
                         <NavLink href="#memberWallet" className={highlight === 'wallet' ? 'active' : ''}>我的錢包</NavLink>
@@ -82,8 +83,9 @@ export default function Dashboard() {
                     </ul>
                 </div>
                 <div className="tab-content pt-5">
+                    {/* {gachaItem} */}
                     {/* <!-- 1. 戰利牆 --> */}
-                    <MyWall id="memberWall" className={highlight === 'wallet'| highlight === 'profile' ? '' : 'active'}/>
+                    <MyWall id="memberWall" className={highlight === 'wallet' | highlight === 'profile' ? '' : 'active'} />
                     {/* <!-- 2. 收藏清單 --> */}
                     <MyFavor id="memberFavor" />
                     {/* <!-- 3. 戰利儲藏庫 --> */}
@@ -93,7 +95,7 @@ export default function Dashboard() {
                     {/* <!-- 5. 我的訂單 --> */}
                     <MyOrder id="memberOrder" />
                     {/* <!-- 6. 基本資料 --> */}
-                    <MyProfile id="memberProfile" className={highlight === 'profile' ? 'active' : ''}/>
+                    <MyProfile id="memberProfile" className={highlight === 'profile' ? 'active' : ''} />
                 </div>
             </main>
 

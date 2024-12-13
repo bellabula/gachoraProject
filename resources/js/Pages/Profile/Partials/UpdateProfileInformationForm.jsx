@@ -28,6 +28,7 @@ export default function UpdateProfileInformation({
         patch(route('profile.update'));
     };
 
+
     const cityList = [
         "台北市", "新北市", "基隆市", "桃園市", "新竹縣", "新竹市", "苗栗縣",
         "台中市", "南投縣", "彰化縣", "雲林縣", "嘉義縣", "嘉義市", "台南市",
@@ -35,10 +36,13 @@ export default function UpdateProfileInformation({
     ]
 
     useEffect(() => {
-        if (user.birth != "-") {
+        if (data.birth != '-') {
             $("#birth").prop('readOnly', true)
         }
     })
+
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]
 
     // const cityList = []
     const hasFetched = useRef(false)
@@ -190,6 +194,7 @@ export default function UpdateProfileInformation({
                         onChange={(e) => setData('birth', e.target.value)}
                         isFocused
                         autoComplete="birth"
+                        max = {formattedDate}
                     />
 
                     <InputError className="mt-2 errorMessage" message={errors.birth} />

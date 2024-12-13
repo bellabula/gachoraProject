@@ -19,7 +19,7 @@ function MyProfile({ id, className="" }) {
 
         getCounty().then(()=>{
             if(user.road){
-                document.querySelector("#profile > form > div:nth-child(5) > input").value = cityNumb[user.county_id]+user.road
+                document.querySelector("#profile > form > div:nth-child(5) > input").value = (user.county_id ? cityNumb[user.county_id]+user.road : user.road)
             }
         })
 

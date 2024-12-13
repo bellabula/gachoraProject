@@ -1,6 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import MyWallGacha from './MyWallGacha'
+import { usePage } from '@inertiajs/react';
 
-function MyWall({id, className=""}) {
+function MyWall({ id, className = "" }) {
+    const user = usePage().props.auth.user;
+    let user_id = user.id;
+
+    const [gachaItem, setgachaItem] = useState([]);
+    const [ichibanItem, setichibanItem] = useState([]);
+    useEffect(() => {
+        const urlWall = '../app/Models/Post/UserWall.php'
+        $.post(urlWall, {
+            user_id: user_id
+        }, ({
+            egg,
+            ichiban
+        }) => {
+            setgachaItem(egg)
+            setichibanItem(ichiban)
+        })
+    })
     return (
         <>
             {/* <!-- 1. 戰利牆 --> */}
@@ -28,27 +47,15 @@ function MyWall({id, className=""}) {
                         <h2 className="text-center fw-bolder my-5">扭蛋戰利品</h2>
                         <div className="d-flex justify-content-between" style={{ backgroundColor: "var(--main-darkblue)" }}>
                             <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" /></button>
-                            <div className="d-flex gap-3 flex-wrap">
-                                <div>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoTop.svg" className="d-block" style={{ height: "80px", position: "relative", bottom: "-20px" }} />
-                                    <img src="http://localhost/gachoraProject/public/images/dodolong.png" />
-                                    <img src="http://localhost/gachoraProject/public/images/gachoBotton.svg" className="d-block" style={{ height: "100px", objectFit: "contain" }} />
-                                </div>
-                                <div>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoTop.svg" className="d-block" style={{ height: "80px", position: "relative", bottom: "-20px" }} />
-                                    <img src="http://localhost/gachoraProject/public/images/dodolong.png" />
-                                    <img src="http://localhost/gachoraProject/public/images/gachoBotton.svg" className="d-block" style={{ height: "100px", objectFit: "contain" }} />
-                                </div>
-                                <div>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoTop.svg" className="d-block" style={{ height: "80px", position: "relative", bottom: "-20px" }} />
-                                    <img src="http://localhost/gachoraProject/public/images/dodolong.png" />
-                                    <img src="http://localhost/gachoraProject/public/images/gachoBotton.svg" className="d-block" style={{ height: "100px", objectFit: "contain" }} />
-                                </div>
-                                <div>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoTop.svg" className="d-block" style={{ height: "80px", position: "relative", bottom: "-20px" }} />
-                                    <img src="http://localhost/gachoraProject/public/images/dodolong.png" />
-                                    <img src="http://localhost/gachoraProject/public/images/gachoBotton.svg" className="d-block" style={{ height: "100px", objectFit: "contain" }} />
-                                </div>
+                            <div id='gachoWall' className="d-flex gap-3 flex-wrap">
+                                {gachaItem.map((v, index) => (
+                                    <MyWallGacha key={index} src={v.img} />
+                                ))}
+                                <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
+                                <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
+                                <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
+                                {/* <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
+                                {/* <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
                             </div>
                             <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowRight.svg" /></button>
                         </div>
@@ -60,9 +67,9 @@ function MyWall({id, className=""}) {
                         <div className="d-flex justify-content-between">
                             <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" /></button>
                             <div className="d-flex gap-3 flex-wrap">
-                                <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
-                                <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
-                                <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
+                                {ichibanItem.map((v, index) => (
+                                    <img key={index} src={v.img} />
+                                ))}
                                 <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
                                 <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
                                 <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
