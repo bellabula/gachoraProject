@@ -9,29 +9,27 @@ import MyFavor from './member/MyFavor';
 import MyOrder from './member/MyOrder';
 import MyProfile from './member/MyProfile';
 import NavLink from './member/NavLink';
-import MyWallGacha from './member/MyWallGacha';
 
 export default function Dashboard() {
 
     const highlight = usePage().props.highlight;
 
     const user = usePage().props.auth.user;
-    const [gachaItem, setgachaItem] = useState([]);
+    let user_id = user.id
 
     useEffect(() => {
         let basePath = '../app/Models'
-        let user_id = user.id
         const url = basePath + '/Post/MainUser.php'
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            console.log(response)
+            // console.log(response)
             document.querySelector("#member > div.row.pt-5.pb-5.align-items-center > div.col-4 > div.h2.text-end.mb-0").innerText = response.gash
             response.gift.map((v, i) => {
                 document.querySelector("#member > div.row.pt-5.pb-5.align-items-center > div.col-4 > div.text-end.w-100").innerText = `${v.amount}G幣將在${v.expire_at}過期`
             })
         })
-    })
+    }, [user_id])
 
     // // 初始化時恢復到當前的 Tab
     // document.addEventListener("DOMContentLoaded", () => {
@@ -83,7 +81,6 @@ export default function Dashboard() {
                     </ul>
                 </div>
                 <div className="tab-content pt-5">
-                    {/* {gachaItem} */}
                     {/* <!-- 1. 戰利牆 --> */}
                     <MyWall id="memberWall" className={highlight === 'wallet' | highlight === 'profile' ? '' : 'active'} />
                     {/* <!-- 2. 收藏清單 --> */}

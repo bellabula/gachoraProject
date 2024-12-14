@@ -8,8 +8,43 @@ import { useEffect } from "react";
 
 export default function FAQ() {
 
+  const getCsrfToken = () => {
+    const token = document.querySelector('meta[name="csrf-token"]');
+    console.log(token.content)
+    return token ? token.content : null;
+  };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const csrfToken = getCsrfToken();
+
+    const formData = new FormData(event.target);
+
+    try {
+      const response = await fetch('send-email', {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken, // 加入 CSRF Token
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log('Form submitted successfully!');
+        alert('Form submitted successfully!')
+        window.location.replace("http://localhost/gachoraProject/public/faq?goto=contact");
+      } else {
+        console.error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
+  };
+
   const goto = usePage().props.goto
-  useEffect (()=> {
+  useEffect(() => {
     if (goto === 'contact') {
       $(`#faq-category-1`).addClass('d-none');
       $(`#faq-category-6`).removeClass('d-none');
@@ -33,7 +68,7 @@ export default function FAQ() {
     });
 
     // 選取特定的類別，讓他active
-    $(`#${categoryId+"g"}`).addClass('active');
+    $(`#${categoryId + "g"}`).addClass('active');
 
   }
 
@@ -50,7 +85,7 @@ export default function FAQ() {
           <div className="container">
             <div className="yellowsquare">
               <div className="sidebar">
-                <button id="faq-category-1g" className={goto === 'contact' ? '' : 'active'} onClick={() => showFaq('faq-category-1')} style={{marginTop:'10%'}}>扭蛋與一番賞</button>
+                <button id="faq-category-1g" className={goto === 'contact' ? '' : 'active'} onClick={() => showFaq('faq-category-1')} style={{ marginTop: '10%' }}>扭蛋與一番賞</button>
                 <button id="faq-category-2g" onClick={() => showFaq('faq-category-2')}>會員與優惠</button>
                 <button id="faq-category-3g" onClick={() => showFaq('faq-category-3')}>付款與交易</button>
                 <button id="faq-category-4g" onClick={() => showFaq('faq-category-4')}>活動與公告</button>
@@ -76,8 +111,8 @@ export default function FAQ() {
                     <FAAcomponent targetId="question12" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
                   </div>
 
-                   {/* <!-- 1-3 QA --> */}
-                   <div className="accordion-item">
+                  {/* <!-- 1-3 QA --> */}
+                  <div className="accordion-item">
                     <FAQcomponent targetId="question13">有沒有每日免費抽一次的活動？13</FAQcomponent>
                     <FAAcomponent targetId="question13" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
                   </div>
@@ -217,24 +252,27 @@ export default function FAQ() {
               <div id="faq-category-6" className="faq-category d-none" style={{ display: "flex" }}>
                 <div className="contact11">
                   <p>若您有任何需要我們服務的地方，請填寫以下表單～<br />我們收到您的來信後，將於3~5日內回覆（不含週六例假日）</p>
-                  <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">姓名</h3><input className="col-6" type="text" placeholder="請填寫姓名" />
-                  </div>
-                  <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">電子郵件</h3><input className="col-6" type="email" placeholder="請輸入電子郵件" />
-                  </div>
-                  <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">意見</h3>
-                    <textarea className="col-6" placeholder="請填寫意見內容" />
-                  </div>
-                  <label className="check">
-                    <input type="checkbox" />
-                    <span>我已詳細閱讀並同意</span><a href="#">會員條款</a>
-                  </label>
-                  <div className="buttonCheck">
-                    <button className="button1">重新填寫</button>
-                    <button className="button2">完成送出</button>
-                  </div>
+                  <form action={route('send.email')} method="POST" onSubmit={handleSubmit}>
+                    <div className="form" style={{ display: "flex" }}>
+                      <h3 className="col-4">姓名</h3><input name="name" className="col-6" type="text" placeholder="請填寫姓名" />
+                    </div>
+                    <div className="form" style={{ display: "flex" }}>
+                      <h3 className="col-4">電子郵件</h3><input name="email" className="col-6" type="email" placeholder="請輸入電子郵件" />
+                    </div>
+                    <div className="form" style={{ display: "flex" }}>
+                      <h3 className="col-4">意見</h3>
+                      {/* <input name="message" className="col-6" placeholder="請填寫意見內容" style={{height:"150px"}}/> */}
+                      <textarea name="message" className="col-6" placeholder="請填寫意見內容" ></textarea>
+                    </div>
+                    <label className="check">
+                      <input type="checkbox" />
+                      <span>我已詳細閱讀並同意</span><a href="#">會員條款</a>
+                    </label>
+                    <div className="buttonCheck">
+                      <button className="button1">重新填寫</button>
+                      <button className="button2" type="submit">完成送出</button>
+                    </div>
+                  </form>
                 </div>
                 <div className="contact22">
                   <p>聯絡我們</p>
@@ -244,7 +282,7 @@ export default function FAQ() {
           </div>
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </>
   )
 }

@@ -1053,7 +1053,7 @@ class API
     $user_id = $_POST['user_id'];
     $db = new Connect;
     $jsonOutput = [];
-    $sql = "call GetBagCartByIdAndStatus(:user_id, 3);";
+    $sql = "call GetBagCartByIdAndStatus(:user_id, 4);";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
@@ -1080,7 +1080,7 @@ class API
     $user_id = $_POST['user_id'];
     $db = new Connect;
     $jsonOutput = [];
-    $sql = "call GetBagCartByIdAndStatus(:user_id, 4);";
+    $sql = "call GetBagCartByIdAndStatus(:user_id, 5);";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();

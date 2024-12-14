@@ -18,14 +18,14 @@ function MyFavor({ id }) {
         $.post(gachaUrl, {
             user_id: user_id
         }, ({ has }) => {
-            console.log('蛋收藏：', has)
+            // console.log('蛋收藏：', has)
             setgachoFavor(has)
         })
         const ichibanUrl = basePath + '/Post/UserCollectionIchiban.php'
         $.post(ichibanUrl, {
             user_id: user_id
         }, ({has}) => {
-            console.log('一番賞收藏：', has)
+            // console.log('一番賞收藏：', has)
             setIchibanFavor(has)
         })
     }, [])

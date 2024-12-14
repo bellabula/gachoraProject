@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,6 @@ Route::view('/api/ichiban', 'apiIchiban');
 Route::view('/api/user', 'apiUser');
 
 
-
+Route::post('/send-email', [ContactController::class, 'sendEmail'])->name('send.email');
 
 require __DIR__ . '/auth.php';

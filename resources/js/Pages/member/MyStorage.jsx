@@ -1,15 +1,34 @@
-import React from 'react'
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
+import { usePage } from '@inertiajs/react';
+import MyStorageItem from './MyStorageItem';
 
 function MyStorage({ id }) {
 
-    function Storage({ stock }) {
-        let [count, setNumb] = React.useState(0)
-        function handleClickDec() { setNumb(count > 0 ? count - 1 : count) }
-        function handleClickInc() { setNumb(count < { stock } ? count + 1 : count) }
-    }
+    // function Storage({ stock }) {
+    //     let [count, setNumb] = React.useState(0)
+    //     function handleClickDec() { setNumb(count > 0 ? count - 1 : count) }
+    //     function handleClickInc() { setNumb(count < { stock } ? count + 1 : count) }
+    // }
+
+    const user = usePage().props.auth.user;
+    let user_id = user.id;
+
+    const [storageItem, setStorageItem] = useState([]);
 
     useEffect(() => {
+        const urlWall = '../app/Models//Post/UserBag.php'
+        $.post(urlWall, {
+            user_id: user_id
+        }, (response) => {
+            console.log(response)
+            setStorageItem(response)
+        })
+    }, [user_id])
+
+
+    useEffect(() => {
+
+
         // 增加按鈕點擊事件
         $('#member .btn-increase').on('click', function () {
             let input = $(this).siblings('input');
@@ -48,6 +67,11 @@ function MyStorage({ id }) {
             {/* <!-- 3. 戰利儲藏庫 --> */}
             <div id={id} className="tab-pane">
                 <h1>戰利儲藏庫</h1>
+                <div>
+                    {/* {response.map((v, index) => {
+                        <p>v</p>
+                    })} */}
+                </div>
                 <div className="container my-5">
                     <div className="inventory-container">
                         <table className="w-100 text-center">
@@ -81,7 +105,12 @@ function MyStorage({ id }) {
                                     </th>
                                 </tr>
                             </thead>
+                            {/* 儲藏資料 */}
                             <tbody>
+                                {storageItem.map((v, index) => (
+                                    <MyStorageItem itemName={v.name} amount={v.amount} series={v.series} gift={v.gift} prize={v.prize} src={v.img} key={index}/>
+                                ))}
+                                
                                 <tr>
                                     <td className="text-start">
                                         <span>1.</span>
