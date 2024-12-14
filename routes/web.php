@@ -60,7 +60,4 @@ Route::view('/api/egg', 'apiEgg');
 Route::view('/api/ichiban', 'apiIchiban');
 Route::view('/api/user', 'apiUser');
 
-
-Route::post('/send-email', [ContactController::class, 'sendEmail'])->name('send.email');
-
 require __DIR__ . '/auth.php';
