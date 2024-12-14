@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
     $(document).ready(function() {
-        let basePath = '../../app/Models'
+        let basePath = 'http://localhost/gachoraProject/app/Models'
         const baseUrl = '/gachoraProject/public'
         $(document).on('click', 'button', function() {
             const pageId = $(this)[0].id
@@ -22,7 +22,8 @@
             }
         })
         $(document).on('click', '#gin', function() {
-            $.post(basePath + '/Fetch/AllGash.php', {
+            const url = 'http://localhost/gachoraProject/app/Models/Fetch/AllGash.php'
+            $.post(url, {
             }, (response) => {
                 console.log(response)
             })

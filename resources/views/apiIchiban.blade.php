@@ -1,4 +1,8 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- <script
+    src="https://code.jquery.com/jquery-3.7.1.js"
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script> -->
 <div id="type" style="display: none;"></div>
 <button class="type" value="all">所有賞</button>
 <button class="type" value="hot">熱銷賞</button>
@@ -9,9 +13,9 @@
 <div class="card"></div>
 <script>
     $(document).ready(function() {
-        let basePath = '../../app/Models'
-        // 蛋全域
+        const basePath = '../..//app/Models'
         let category = 2
+        // 蛋全域
         fetch(basePath + '/Fetch/AllIchiban.php')
             .then(response => response.json())
             .then(data => {
@@ -20,10 +24,10 @@
             .catch(error => {
                 console.error('Error fetching data:', error);
             })
-        $.post(basePath + '/Fetch/AllEgg.php', {
+        $.post(basePath + '/Fetch/AllIchiban.php', {
             user_id: '1'
         }, (response) => {
-            console.log('有給我user_id就有collected是1否0收藏', response)
+            console.log('有給我user_id就有collected是1否0收藏', response);
         })
         // 首頁最下面精選商品
         fetch(basePath + '/Fetch/MainIchiban.php')
@@ -63,8 +67,24 @@
                 }
                 $('.card').text('')
                 response.series.map((v) => {
-                    $('.card').append(`<button class="ichibanid">賞id${v.series_id}</button>`)
+                    $('.card').append(
+                        `<button class="ichibanid">賞id${v.series_id}</button>
+                    <button class="line" value="${v.series_id}">排隊</button>`
+                    )
                 })
+            })
+            // 排隊
+            $(document).on('click', '.line', function() {
+                const user_id = 1
+                const series_id = $(this).val()
+                const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'
+                $.post(url, {
+                    user_id: user_id,
+                    series_id: series_id
+                }, (response) => {
+                    console.log(response)
+                })
+
             })
             // 分類頁所有主題
             fetch(basePath + '/Fetch/IchibanTheme.php')
@@ -108,9 +128,9 @@
         // 選賞跳到詳細頁
         $(document).on('click', '.ichibanid', function() {
             const url = basePath + '/Post/IchibanDetail.php'
-            let series = $(this).text().substr(-1)
+            let series_id = $(this).text().substr(-1)
             $.post(url, {
-                series_id: series
+                series_id: series_id
             }, (response) => {
                 console.log('賞詳細頁', response);
             })
