@@ -28,7 +28,7 @@ export default function Dashboard() {
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            console.log(response)
+            // console.log(response)
             setmyGash(response.gash)
             response.gift.map((v, i) => {
                 setexpireGash(v.amount)

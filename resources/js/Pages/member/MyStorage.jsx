@@ -17,11 +17,10 @@ function MyStorage({ id }) {
 
     useEffect(() => {
         const urlStorage = '../app/Models/Post/UserBag.php'
-        console.log(urlStorage)
         $.post(urlStorage, {
             user_id: user_id
         }, (response) => {
-            console.log(response)
+            // console.log(response)
             setStorageItem(response)
         })
     }, [user_id])
