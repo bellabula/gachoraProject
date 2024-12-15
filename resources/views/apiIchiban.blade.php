@@ -131,24 +131,95 @@
                 <span>賞詳細頁id</span><span>${response.series.series_id}</span><br>
                 <input placeholder="user_id" />
                 <button class="line" value="${response.series.series_id}">排隊</button>
+                <span class="timer"></span>
+                <span class="">你的號碼牌：</span><span class="yournumber"></span>
+                <button class="bye" value="${response.series.series_id}">中離</button>
                 </div>`)
             $('.labels').text('')
-            
-            $('.labels').append(``)
-        })
-        // 排隊
-        $(document).on('click', '.line', function() {
-            const user_id = $(this).prev().val()
-            const series_id = $(this).val()
-            const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'            
-            $.post(url, {
-                user_id: user_id,
-                series_id: series_id
-            }, (response) => {
-                console.log(response)
+            // 出籤
+            for (let i = 1; i <= response.series.total; i++) {
+                $('.labels').append(`<button id="label${i}">${i}</button>`)
+            }
+            // 被抽的號碼碼掉
+            response.label.map((v) => {
+                console.log(v)
+                $(`#label${v}`).prop('disabled', true)
             })
         })
     })
+    // 排隊
+    $(document).on('click', '.line', function() {
+        const user_id = $(this).prev().val()
+        const series_id = $(this).val()
+        const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'
+        $.post(url, {
+            user_id: user_id,
+            series_id: series_id
+        }, (response) => {
+            FrontTime(series_id, response[0].yournumber, response[0].waiting)
+            $('.yournumber').text(response[0].yournumber)
+        })
+    })
+    // timer
+    function FrontTime(series_id, yournumber, wait) {
+        if (wait > 0) {
+            if (wait % 10 > 1) {
+                $('.timer').text(`最晚等${Math.floor(wait / 60)}分${(wait % 60)}秒`)
+                wait -= 1
+                setTimeout(() => {
+                    FrontTime(series_id, yournumber, wait)
+                }, 1000)
+            } else {
+                $('.timer').text(`最晚等${Math.floor(wait / 60)}分${(wait % 60)}秒`)
+                SeeWaitTime(series_id, yournumber)
+            }
+        } else if (wait > -180) {
+            if ((wait * -1) % 10 > 1) {
+                $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
+                wait -= 1
+                setTimeout(() => {
+                    FrontTime(series_id, yournumber, wait)
+                }, 1000)
+            } else {
+                SeeWaitTime(series_id, yournumber)
+            }
+        } else {
+            DeleteWait(series_id, yournumber)
+        }
+    }
+      // 中離
+      $(document).on('click', '.bye', function() {
+        const series_id = $(this).val()
+        const yournumber = $(this).prev().text()
+        DeleteWait(series_id, yournumber)
+        $('.timer').text('bye')
+    })
+
+    // 到後端確認時間
+    function SeeWaitTime(p_series_id, p_yournumber) {
+        const url = 'http://localhost/gachoraProject/app/Models/Post/SeeWaitTime.php'
+        $.post(url, {
+            series_id: p_series_id,
+            number: p_yournumber
+        }, ({
+            series_id,
+            waiting,
+            yournumber
+        }) => {
+            setTimeout(() => {
+                FrontTime(series_id, yournumber, waiting);
+            }, 1000);
+        })
+    }
+
+    function DeleteWait(series_id, yournumber) {
+        $.post('http://localhost/gachoraProject/app/Models/Post/DeleteWait.php', {
+            series_id: series_id,
+            number: yournumber,
+        }, (response) => {
+            $('.timer').text('times up')
+        })
+    }
 
     // })
 </script>
