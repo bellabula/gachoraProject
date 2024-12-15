@@ -47,7 +47,7 @@ function PdCard({ pdName, pdQuantity, pdTotal, pdPrice, pdDraw, pdAvailable, aPr
                 </div>
                 {/* <!-- 商品名稱 --> */}
                 <div>
-                    <h3 className="product-name">商品名稱</h3>
+                    <h3 className="product-name">{pdName}</h3>
                 </div>
             </div>
         </div >

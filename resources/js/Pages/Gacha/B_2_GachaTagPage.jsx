@@ -27,11 +27,11 @@ function B_2_GachaTagPage() {
             let response = await fetch(url);
             let data = await response.json()
             setAllProductsAPI(data);
-            // let datanoImg = 
+            // let datanoImg =
             // setAllProductsImg(data);
         }
         callAPI();
-    },[])
+    }, [])
     // useEffect(()=>{
     //     let basePath = '../app/Models'
     //     fetch(basePath + '/Fetch/AllEgg.php')
@@ -130,7 +130,7 @@ function B_2_GachaTagPage() {
                                         placeholder="搜尋品項"
                                         value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                                     <button className="search-icon">
-                                        <img src="http://localhost/gachoraProject/public/images/search-normal.svg"
+                                        <img src="http://localhost/gachoraProject/public/images/gachoHome/search-normal2.svg"
                                             onClick={handleSearch}
                                             alt="搜尋" />
                                     </button>
@@ -162,7 +162,7 @@ function B_2_GachaTagPage() {
                                             key={index}
                                             onClick={() => setcurrentPage(index + 1)}
                                         >
-                                            <a className="page-link" href="javascript:void(0)">{index + 1}</a>
+                                            <a className="page-link" href="">{index + 1}</a>
                                         </li>
                                     ))}
                                 </ul>

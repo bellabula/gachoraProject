@@ -12,7 +12,9 @@ import '../css/faq.css';
 import '../css/footer.css'
 
 import '../css/gachaHome.css';
+import '../css/lottryHome.css';
 import '../css/gachaTagPage.css';
+import '../css/lottryTagPage.css';
 import '../css/GachaPdCard.css';
 import '../css/home.css';
 import '../css/faq.css';
@@ -20,6 +22,7 @@ import '../css/footer.css'
 
 import '../css/shoppingCart.css';
 import '../css/gachaDetail.css';
+import '../css/lottryDetail.css';
 
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';

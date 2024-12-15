@@ -1,5 +1,9 @@
+body #lottrybody {
+    background-color: #365B60;
+}
+
 /* 商品圖片區塊 */
-#gachaDetail .product-image {
+#lottryDetail .product-image {
     background-color: #365B60;
     position: relative;
     height: 65vh;
@@ -10,7 +14,7 @@
     margin: 0 0 20px 0;
 }
 
-#gachaDetail .product-image img {
+#lottryDetail .product-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -18,14 +22,14 @@
 }
 
 /* 商品資訊 */
-#gachaDetail .product-info {
+#lottryDetail .product-info {
     padding: 20px;
     border-radius: 5px;
 }
 
-#gachaDetail .pdinfocolor {
-    background-color: #FEC265;
-    height: 25vh;
+#lottryDetail .pdinfocolor {
+    background-color: var(--main-bg-gray);
+    height: auto;
     border-radius: 50px 0 0 50px;
     display: flex;
     justify-content: left;
@@ -34,12 +38,12 @@
     padding: 20px 0 0;
 }
 
-#gachaDetail .pdinfocolor li {
+#lottryDetail .pdinfocolor li {
     list-style: none;
 }
 
 /*移除input nuber預設樣式*/
-#gachaDetail input[type="number"] {
+#lottryDetail input[type="number"] {
     -moz-appearance: textfield;
     /* Firefox */
     -webkit-appearance: none;
@@ -52,21 +56,20 @@
 }
 
 /*移除預設上下醜箭頭*/
-#gachaDetail input[type="number"]::-webkit-inner-spin-button,
-#gachaDetail input[type="number"]::-webkit-outer-spin-button {
+#lottryDetail input[type="number"]::-webkit-inner-spin-button,
+#lottryDetail input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-#gachaDetail .number-input {
+#lottryDetail .number-input {
     display: flex;
     align-items: center;
     gap: 10px;
     margin: 10px 20px 10px 20px;
-    cursor: pointer;
 }
 
-#gachaDetail .number-input input {
+#lottryDetail .number-input input {
     width: 100px;
     text-align: center;
     border-radius: 30px;
@@ -75,11 +78,11 @@
     height: 35px;
 }
 
-#gachaDetail .number-input input:focus {
+#lottryDetail .number-input input:focus {
     border: #365B60 solid 2px;
 }
 
-#gachaDetail .number-input button {
+#lottryDetail .number-input button {
     height: 35px;
     border-radius: 30px;
     width: 100px;
@@ -88,13 +91,13 @@
     color: #365B60;
 }
 
-#gachaDetail .number-input button:hover {
+#lottryDetail .number-input button:hover {
     border: #365B60 solid 2px;
 }
 
 /*收藏按鈕css*/
-#gachaDetail .Favorite_bt,
-#gachaDetail .Restock-bt {
+#lottryDetail .Favorite_bt,
+#lottryDetail .Restock-bt {
     border: none;
     background-color: #FEC265;
     margin: 10px;
@@ -105,61 +108,60 @@
     transition: all 0.3s;
 }
 
-#gachaDetail .Favorite_bt img {
+.lottrynumber {
+    border: none;
+    background-color: var(--main-bg-gray);
+    height: 50px;
+    width: 70%;
+    margin: 20px 0 20px 20px;
+    padding: 10px;
+    color: #365B60;
+    border-radius: 10px;
+}
+
+#lottryDetail .Favorite_bt img {
     height: 20px;
     width: auto;
     margin: 0 10px 0 0;
 }
 
-#gachaDetail .Favorite_bt:hover {
+#lottryDetail .Favorite_bt:hover {
     border: #365B60 solid 2px;
 }
 
-#gachaDetail .Restock-bt:hover {
+#lottryDetail .Restock-bt:hover {
     border: #365B60 solid 2px;
 }
 
 /* 商品種類小圖 */
-#gachaDetail #sm-pd-grid {
+#lottryDetail #sm-pd-grid {
     max-height: 50vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0 0px 0;
+    background-color: var(--main-bg-gray);
+    border-radius: 10px;
 }
 
-#gachaDetail #sm-pd-grid .col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#gachaDetail .small-images {
-    height: 25vh;
-
-}
-
-#gachaDetail .small-images img {
-    height: 20vh;
-    min-width: 200px;
-    border-radius: 50px;
-}
 
 /*滑動條樣式*/
-#gachaDetail #sm-pd-grid::-webkit-scrollbar {
+#lottryDetail #sm-pd-grid::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
 
-#gachaDetail #sm-pd-grid::-webkit-scrollbar-track {
+#lottryDetail #sm-pd-grid::-webkit-scrollbar-track {
     background-color: #F2F1EC;
     border-radius: 10px;
 }
 
-#gachaDetail #sm-pd-grid::-webkit-scrollbar-thumb {
-    background-color: #365B60;
+#lottryDetail #sm-pd-grid::-webkit-scrollbar-thumb {
+    background-color: var(--main-yellow);
     border-radius: 10px;
 }
 
 /* 大圖顯示區 */
-#gachaDetail .big-image {
+#lottryDetail .big-image {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,7 +171,7 @@
     margin: 20px;
 }
 
-#gachaDetail .big-image img {
+#lottryDetail .big-image img {
     width: 100%;
     height: 100%;
     max-height: 100%;
@@ -177,11 +179,11 @@
 }
 
 /* 導覽按鈕樣式 */
-#gachaDetail .nav-tabs {
+#lottryDetail .nav-tabs {
     border-bottom: 2px solid #365B60;
 }
 
-#gachaDetail .nav-tabs .nav-link {
+#lottryDetail .nav-tabs .nav-link {
     border-bottom: #365B60 solid 1px;
     color: #365B60;
     background-color: #F2F1EC;
@@ -190,12 +192,12 @@
     transition: all 0.3s ease-in-out;
 }
 
-#gachaDetail .nav-tabs .nav-link:hover {
+#lottryDetail .nav-tabs .nav-link:hover {
     background-color: #FEC265;
     color: #365B60;
 }
 
-#gachaDetail .nav-tabs .nav-link.active {
+#lottryDetail .nav-tabs .nav-link.active {
     background-color: #365B60;
     border-bottom: #FEC265 solid 2px;
     color: #fff;
@@ -204,13 +206,13 @@
 }
 
 /* 調整按鈕群對齊方式 */
-#gachaDetail .nav-tabs.justify-content-center {
+#lottryDetail .nav-tabs.justify-content-center {
     justify-content: center;
 }
 
 
 /* 靜態圖片區塊 */
-#gachaDetail .static-image {
+#lottryDetail .static-image {
     background-color: #f8f9fa;
     border: 1px dashed #ddd;
     padding: 20px;
@@ -218,14 +220,77 @@
     text-align: center;
 }
 
-#gachaDetail .static-image img {
+#lottryDetail .static-image img {
     max-width: 100%;
     height: auto;
 }
 
+/*選號區域*/
+.card-body {
+    background-color: var(--main-bg-gray);
+}
+
+.subtitles {
+    border: none;
+    background-color: #FEC265;
+    margin: 20px;
+    padding: 10px 20px 10px 20px;
+    color: #365B60;
+    border-radius: 10px;
+}
+
+.seat-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.seat {
+    width: 100px;
+    height: 40px;
+    margin: 5px;
+    text-align: center;
+    line-height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.seat.selected {
+    background-color: var(--main-yellow);
+    /* 已選中號碼的背景色 */
+    color: white;
+}
+
+.seat.booked {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+}
+
+.seat:hover:not(.booked):not(.selected) {
+    background-color: #ddd;
+    /* 滑鼠懸停時的樣式 */
+}
+
+.displayNumber {
+    width: 100%;
+    margin: 10px;
+}
+
+/*商品詳情區塊*/
+#lottryDetail .lottrydt {
+    background-color: var(--main-bg-gray);
+    padding: 10px;
+    width: 90%;
+    border-radius: 20px;
+    margin: 50px;
+}
+
 /* 底部商品切換 */
 /* Carousel 外框 */
-#gachaDetail .bottom-carousel {
+#lottryDetail .bottom-carousel {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -233,14 +298,14 @@
 }
 
 /* 滑動區域 */
-#gachaDetail .carousel-wrapper {
+#lottryDetail .carousel-wrapper {
     overflow: hidden;
     width: 80%;
     /* 設置展示區域寬度 */
 }
 
 /* 商品容器 */
-#gachaDetail .carousel-items {
+#lottryDetail .carousel-items {
     display: flex;
     transition: transform 0.3s ease-in-out;
     flex-wrap: nowrap;
@@ -273,8 +338,9 @@
 }
 
 /* 按鈕樣式 */
-#gachaDetail .carousel-btn {
-    height: 450px;
+#lottryDetail .carousel-btn {
+    top: 35%;
+    height: 50px;
     position: absolute;
     z-index: 10;
     border: none;
@@ -283,10 +349,10 @@
     border-radius: 50%;
 }
 
-#gachaDetail .carousel-btn.left {
+#lottryDetail .carousel-btn.left {
     left: 10px;
 }
 
-#gachaDetail .carousel-btn.right {
+#lottryDetail .carousel-btn.right {
     right: 10px;
 }

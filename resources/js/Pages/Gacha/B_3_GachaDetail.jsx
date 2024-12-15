@@ -65,8 +65,8 @@ function B_3_GachaDetail() {
     };
 
     const nextCarousel = () => {
-        const maxPosition = -(itemWidth * (totalItems - visibleItems));  
-        setCurrentPosition((prevPosition) => Math.max(prevPosition - itemWidth, maxPosition)); 
+        const maxPosition = -(itemWidth * (totalItems - visibleItems));
+        setCurrentPosition((prevPosition) => Math.max(prevPosition - itemWidth, maxPosition));
     };
 
 
@@ -134,7 +134,7 @@ function B_3_GachaDetail() {
 
                 {/* <!-- 商品種類小圖 --> */}
                 <div className="row mt-1 d-flex">
-                    <div className="col-xxl-7 row">
+                    <div className="col-xxl-7 row" id='sm-pd-grid'>
                         {allProducts.map((product, index) => (
                             <GachaDetailCard
                                 productName={product.name}
