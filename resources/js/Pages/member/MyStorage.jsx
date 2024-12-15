@@ -16,8 +16,9 @@ function MyStorage({ id }) {
     const [storageItem, setStorageItem] = useState([]);
 
     useEffect(() => {
-        const urlWall = '../app/Models//Post/UserBag.php'
-        $.post(urlWall, {
+        const urlStorage = '../app/Models/Post/UserBag.php'
+        console.log(urlStorage)
+        $.post(urlStorage, {
             user_id: user_id
         }, (response) => {
             console.log(response)
@@ -108,7 +109,7 @@ function MyStorage({ id }) {
                             {/* 儲藏資料 */}
                             <tbody>
                                 {typeof(storageItem) != "undefined" ? storageItem.map((v, index) => (
-                                    <MyStorageItem itemName={v.name} amount={v.amount} series={v.series} gift={v.gift} prize={v.prize} src={v.img} key={index}/>
+                                    <MyStorageItem itemName={v.name} amount="1" series={v.series} gift={v.gift} prize={v.prize} src={v.img} getDate={v.time} index={index} key={index}/>
                                 )):""}
                                 
                                 <tr>

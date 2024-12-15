@@ -1,17 +1,17 @@
 import React from 'react'
 
-function MyStorageItem({itemName ,amount, series, gift, prize="",src=""}) {
+function MyStorageItem({itemName ,amount, series, gift, getDate, index, prize="",src=""}) {
     return (
         <tr>
             <td className="text-start">
-                <span>1. &emsp;</span>
+                <span>{index+1}. &emsp;</span>
                 <img src={src} alt="商品圖片" />
             </td>
             <td className="text-start">{itemName}</td>
             <td>{prize}獎</td>
             <td>{series}</td>
             <td>{amount}</td>
-            <td>2024/01/03<br />2024/05/10<br />2024/10/15</td>
+            <td>{getDate}</td>
             <td>
                 <div className="d-flex align-items-center justify-content-center">
                     <button className="btn btn-secondary btn-circle btn-decrease">-</button>
