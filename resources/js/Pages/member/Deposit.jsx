@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import DepositOption from './DepositOption';
+import { usePage } from '@inertiajs/react';
 
 function Deposit({ gash }) {
+
+    const user = usePage().props.auth.user;
+    const user_id = user.id;
+    let gash_id = null;
+
     // 設定選擇的狀態，初始值為 null，表示沒有選擇
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -11,7 +17,43 @@ function Deposit({ gash }) {
     };
     const handleSubmit = () => {
         if (selectedOption !== null) {
+            switch(selectedOption) {
+                case 300: 
+                    gash_id = 1;
+                    break;
+                case 500: 
+                    gash_id = 2;
+                    break;
+                case 1000: 
+                    gash_id = 3;
+                    break;
+                case 3000: 
+                    gash_id = 4;
+                    break;
+                case 5000: 
+                    gash_id = 5;
+                    break;
+                case 10000: 
+                    gash_id = 6;
+                    break;
+                case 20000: 
+                    gash_id = 7;
+                    break;
+                case 30000: 
+                    gash_id = 8;
+                    break;
+                case 50000: 
+                    gash_id = 9;
+                    break;
+            }
             alert(`確定要儲值: NT ${selectedOption} 嗎?`);
+            const url = 'http://localhost/gachoraProject/app/Models/Post/TopUpGash.php'
+            $.post(url, {
+                user_id: user_id,
+                gash_id: gash_id
+            }, function(response) {
+                console.log(response)
+            })
         }
     };
     return (
@@ -49,7 +91,7 @@ function Deposit({ gash }) {
                     </div>
                     <div className="e5bottom">
                         <div>
-                            <span><input name="policy" type="checkbox" id="c1" required /><label htmlFor="c1">&nbsp; 我已詳細閱讀並同意<span style={{ color: "rgba(var(--bs-link-color-rgb)", textDecoration: "underline", cursor: "pointer" }}>付款條款</span></label></span>
+                            <span><input name="policy" type="checkbox" id="c1" /><label htmlFor="c1">&nbsp; 我已詳細閱讀並同意<span style={{ color: "rgba(var(--bs-link-color-rgb)", textDecoration: "underline", cursor: "pointer" }}>付款條款</span></label></span>
                             <span><input name="news" type="checkbox" id="c2" defaultChecked /><label htmlFor="c2">&nbsp; 訂閱Gachora收到最新資訊</label></span>
                         </div>
                         <br />
