@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -64,8 +65,5 @@ Route::view('/api', 'apihome');
 Route::view('/api/egg', 'apiEgg');
 Route::view('/api/ichiban', 'apiIchiban');
 Route::view('/api/user', 'apiUser');
-
-
-
 
 require __DIR__ . '/auth.php';
