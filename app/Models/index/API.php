@@ -1393,6 +1393,29 @@ class API
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
   }
+  function TopUpGash($user_id, $gash_id, $time)
+  {
+    $user_id = $_POST['user_id'];
+    $gash_id = $_POST['gash_id'];
+    $time = isset($_POST['time']) ? $_POST['time'] : time();
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call TopUpGash(:user_id, :time, :gash_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':gash_id', $gash_id, PDO::PARAM_INT);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':time', $time, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $jsonOutput[] = [
+    'error' => $output['error'] ?? ''
+    ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = [''];
+    return json_encode($jsonOutput);
+  }  
   function LineIn($series_id, $user_id)
   {
     $user_id = $_POST['user_id'];
@@ -1416,27 +1439,52 @@ class API
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
   }
-  function TopUpGash($user_id, $gash_id, $time)
+  function SeeWaitTime($series_id, $number)
   {
-    $user_id = $_POST['user_id'];
-    $gash_id = $_POST['gash_id'];
-    $time = isset($_POST['time']) ? $_POST['time'] : time();
+    $series_id = $_POST['series_id'];
+    $number = $_POST['number'];
     $db = new Connect;
     $jsonOutput = [];
-    $sql = "call TopUpGash(:user_id, :time, :gash_id);";
+    $sql = "call SeeWaitTime(:series_id, :number);";
     $stmt = $db->prepare($sql);
-    $stmt->bindValue(':gash_id', $gash_id, PDO::PARAM_INT);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->bindValue(':time', $time, PDO::PARAM_INT);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->bindValue(':number', $number, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $jsonOutput[] = [
-    'error' => $output['error'] ?? ''
+    $jsonOutput = [
+    'error' => $output['error'] ?? '',
+    'yournumber' => $output['yournumber'] ?? '',
+    'waiting' => $output['waiting'] ?? '',
+    'series_id' => $series_id
     ];
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput = [''];
+    if ($jsonOutput == []) $jsonOutput = ['' => ''];
+    return json_encode($jsonOutput);
+  }
+  function DeleteWait()
+  {
+    $series_id = $_POST['series_id'];
+    $number = $_POST['number'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call DeleteWaiting(:series_id, :number);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->bindValue(':number', $number, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $jsonOutput = [
+    'error' => $output['error'] ?? '',
+    'yournumber' => $output['yournumber'] ?? '',
+    'waiting' => $output['waiting'] ?? '',
+    'series_id' => $series_id
+    ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
   }
 }

@@ -1,3 +1,12 @@
+<style>
+    .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+    .selected {
+        background-color: greenyellow;
+    }
+</style>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- <script
     src="https://code.jquery.com/jquery-3.7.1.js"
@@ -15,8 +24,8 @@
 <script>
     const basePath = 'http://localhost/gachoraProject/app/Models'
     $(document).ready(function() {
-        let category = 2
-        // 蛋全域
+        // let category = 2
+        // 一番賞全域
         fetch(basePath + '/Fetch/AllIchiban.php')
             .then(response => response.json())
             .then(data => {
@@ -117,10 +126,13 @@
     //         console.log('不同頁數', response)
     //     })
     // })
-    // 選賞跳到詳細頁
+    // 給後端賞id跳到詳細頁
     $(document).on('click', '.ichibanid', function() {
+        ToDetailPage($(this).text().substr(-1))
+    })
+    // 詳細頁function
+    function ToDetailPage(series_id) {
         const url = basePath + '/Post/IchibanDetail.php'
-        let series_id = $(this).text().substr(-1)
         $.post(url, {
             series_id: series_id
         }, (response) => {
@@ -129,25 +141,122 @@
             $('.card').append(`
                 <div>
                 <span>賞詳細頁id</span><span>${response.series.series_id}</span><br>
-                <input placeholder="user_id" />
+                <input placeholder="post給我user_id(登入後)才能排隊抽" />
                 <button class="line" value="${response.series.series_id}">排隊</button>
+                <span class="timer"></span>
+                <span class="">你的號碼牌：</span><span class="yournumber"></span>
+                <button class="bye" value="${response.series.series_id}">中離</button>
+                <button class="done" series_id="${response.series.series_id}">抽</button>
                 </div>`)
             $('.labels').text('')
-            
-            $('.labels').append(``)
-        })
-        // 排隊
-        $(document).on('click', '.line', function() {
-            const user_id = $(this).prev().val()
-            const series_id = $(this).val()
-            const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'            
-            $.post(url, {
-                user_id: user_id,
-                series_id: series_id
-            }, (response) => {
-                console.log(response)
+            // 出籤response.series.total是總共籤數
+            for (let i = 1; i <= response.series.total; i++) {
+                $('.labels').append(`<button id="label${i}">${i}</button>`)
+            }
+            // 被抽的號碼碼掉response.label是已經被抽的
+            response.label.map((v) => {
+                $(`#label${v}`).prop('disabled', true)
             })
+            $('[id^="label"]').addClass('disabled')
         })
+    }
+    // 排隊
+    $(document).on('click', '.line', function() {
+        const user_id = $(this).prev().val()
+        const series_id = $(this).val()
+        const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'
+        $.post(url, {
+            user_id: user_id,
+            series_id: series_id
+        }, (response) => {
+            FrontTime(series_id, response[0].yournumber, response[0].waiting)
+            $('.yournumber').text(response[0].yournumber)
+        })
+    })
+    // 前端timer
+    function FrontTime(series_id, yournumber, wait) {
+        if (wait > 0) {
+            $('[id^="label"]').addClass('disabled')
+            if (wait % 10 > 1) {
+                $('.timer').text(`最晚等${Math.floor(wait / 60)}分${(wait % 60)}秒`)
+                wait -= 1
+                setTimeout(() => {
+                    FrontTime(series_id, yournumber, wait)
+                }, 1000)
+            } else {
+                SeeWaitTime(series_id, yournumber)
+            }
+        } else if (wait > -180) {
+            ToDetailPage(series_id)
+            $('[id^="label"]').removeClass('disabled')
+            if ((wait * -1) % 10 > 1) {
+                $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
+                wait -= 1
+                setTimeout(() => {
+                    FrontTime(series_id, yournumber, wait)
+                }, 1000)
+            } else {
+                SeeWaitTime(series_id, yournumber)
+            }
+        } else {
+            $('[id^="label"]').addClass('disabled')
+            DeleteWait(series_id, yournumber)
+            $('.timer').text('跳轉中...')
+        }
+    }
+    // 中離
+    $(document).on('click', '.bye', function() {
+        const series_id = $(this).val()
+        const yournumber = $(this).prev().text()
+        DeleteWait(series_id, yournumber)
+        $('.timer').text('bye')
+    })
+
+    // post series_id, 號碼牌，到後端確認時間
+    function SeeWaitTime(p_series_id, p_yournumber) {
+        const url = 'http://localhost/gachoraProject/app/Models/Post/SeeWaitTime.php'
+        $.post(url, {
+            series_id: p_series_id,
+            number: p_yournumber
+        }, ({
+            series_id,
+            waiting,
+            yournumber
+        }) => {
+            setTimeout(() => {
+                FrontTime(series_id, yournumber, waiting);
+            }, 1000);
+        })
+    }
+    // post series_id, 號碼牌，告訴後端中離與要離開
+    function DeleteWait(series_id, yournumber) {
+        $.post('http://localhost/gachoraProject/app/Models/Post/DeleteWait.php', {
+            series_id: series_id,
+            number: yournumber,
+        }, (response) => {})
+    }
+    // 取得籤號
+    $(document).on('click', '[id^=label]', function() {
+        $(this).hasClass('selected') ?
+            $(this).removeClass('selected') :
+            $(this).addClass('selected')
+    })
+    // 買一番賞
+    $(document).on('click', '.done', function() {
+        let result = ''
+        $('button[id^=label].selected').map((x, v) => {
+            return result += v.innerText + ','
+        })
+        let series_id = $(this).attr('series_id')
+        let yournumber = $(this).prev().prev().text()
+        console.log('抽的結果還在弄');
+        // $.post(url, {
+        //     series_id: series_id,
+        //     number: yournumber,
+        //     label: result
+        // }, (response) => {
+        //     console.log(response)
+        // })
     })
 
     // })

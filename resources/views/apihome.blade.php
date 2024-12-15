@@ -26,6 +26,7 @@
                     window.location.href = baseUrl + url
             }
         })
+        // 按儲值按鈕到儲值頁
         $(document).on('click', '#gin', function() {
             const url = 'http://localhost/gachoraProject/app/Models/Fetch/AllGash.php'
             $.post(url, {}, function(response) {
@@ -35,6 +36,7 @@
                 })
             })
         })
+        // 選擇要儲值多少
         $(document).on('click', '#deposititem', function() {
             gash_id = $(this).attr('gash_id')
             user_id = 1
