@@ -1,11 +1,12 @@
 /*大輪播*/
 #gachaHome .carouselimgsize {
-    width: 85vw;
+    width: 80vw;
     margin-left: auto;
+    padding: 50px 0 0 0;
 }
 
 #gachaHome .bigcarousel img {
-    height: 80vh;
+    height: 70vh;
     object-fit: cover;
     border-radius: 100px 0 0 100px;
 }
@@ -13,17 +14,20 @@
 /*小輪播*/
 #gachaHome .smallcarousel {
     background-color: #636363;
-    height: 20vh;
+    height: 15vh;
     width: 90vw;
     border-radius: 0px 50px 50px 0px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
 }
 
 #gachaHome .smallcarouselimg {
-    height: auto;
+    height: 10vh;
     width: 10vw;
     object-fit: cover;
     background-color: #FEC265;
-    margin: 5vh;
+    margin-right: 50px;
     border-radius: 30px;
     transition: transform 0.3s ease;
     border: #F2F1EC solid 2px;
