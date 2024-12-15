@@ -124,7 +124,7 @@ function MyWallet({ id, className = "" }) {
                             {walletLog.reverse().map((v, index) => (
                                 <MyWalletRecord key={index} rDate={v.date} rItem={v.item} rCate={v.category} rPrice={v.price} rAmount={v.amount}/>
                             ))}
-                            <tr>
+                            {/* <tr>
                                 <td className="text-start">2024/11/20</td>
                                 <td>XXX扭蛋</td>
                                 <td>扭蛋</td>
@@ -133,9 +133,10 @@ function MyWallet({ id, className = "" }) {
                                 <td>G 幣</td>
                                 <td>-G 1200</td>
                                 <td>G 1,650</td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>
+                    {walletLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前沒有任何交易紀錄...</h4>:""}
                 </div>
             </div>
         </>
