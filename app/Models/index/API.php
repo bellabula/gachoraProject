@@ -34,7 +34,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   // top 10 
   function EggTop10()
@@ -67,7 +66,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function AllEggNoUser()
   {
@@ -113,7 +111,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function AllEggWithUser($user_id)
   {
@@ -163,7 +160,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function AllIchibanNoUser()
   {
@@ -226,7 +222,7 @@ class API
       $stmt2->closeCursor();
       foreach ($jsonOutput as &$item) {
         if ($item['series_id'] == $series_id) {
-          $item['character'][] = $character;
+          $item['character'] = $character;
           break;
         }
       }
@@ -254,7 +250,7 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
+
   }
   function AllIchibanWithUser($user_id)
   {
@@ -264,6 +260,7 @@ class API
     $img = [];
     $character = [];
     $tmp = [];
+    $series_ids = [];
     $sql1 = "call GetAllCardByUserAndCategoryId(:user_id, 2)";
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -272,17 +269,17 @@ class API
       $series_ids[] = $output1['series_id'];
       $jsonOutput[] = [
         'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'amount' => $output1['amount'],
-        'rank' => $output1['rank'],
-        'rare' => $output1['rare'],
-        'release_time' => $output1['release_time'],
+        'theme' => $output1['theme'] ?? '',
+        'title' => $output1['series_title'] ?? '',
+        'name' => $output1['name'] ?? '',
+        'price' => $output1['price'] ?? '',
+        'amount' => $output1['amount'] ?? '',
+        'rank' => $output1['rank'] ?? '',
+        'rare' => $output1['rare'] ?? '',
+        'release_time' => $output1['release_time'] ?? '',
         'img' => $img,
         'character' => $character,
-        'collected' => $output1['collected']
+        'collected' => $output1['collected'] ?? ''
       ];
     }
     $stmt1->closeCursor();
@@ -320,7 +317,7 @@ class API
       $stmt2->closeCursor();
       foreach ($jsonOutput as &$item) {
         if ($item['series_id'] == $series_id) {
-          $item['character'][] = $character;
+          $item['character'] = $character;
           break;
         }
       }
@@ -348,7 +345,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
 
   // 扭蛋主頁post
@@ -408,7 +404,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   // 扭蛋分類fetch
   // 主題顯示
@@ -425,7 +420,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   // 扭蛋分類post
   function ThemeSort($theme, $page)
@@ -469,7 +463,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
 
   // 扭蛋詳細post
@@ -560,7 +553,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
 
   // 地址
@@ -580,7 +572,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   //一番賞首
   //精選
@@ -639,7 +630,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   // 賞主頁post
   function IchibanType($type, $page)
@@ -716,7 +706,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   // 賞分類post
   function IchibanThemeSort($theme, $page)
@@ -783,7 +772,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   // 一番賞種類
   function IchibanTheme()
@@ -799,7 +787,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   // 賞詳細post
   function IchibanDetail($series_id)
@@ -807,6 +794,7 @@ class API
     $series_id = $_POST['series_id'];
     $db = new Connect;
     $jsonOutput = [];
+    $theme = '';
     $sql1 = "select series_id, theme_id, theme, series_title, name, price from vw_ichiban where series_id = :series_id";
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
@@ -870,7 +858,7 @@ class API
         'img' => $img,
         'character' => $character
       ];
-      $jsonOutput['series'][] = array_merge($array0, $array3);
+      $jsonOutput['series'] = array_merge($array0, $array3);
     }
     // 賞主題推薦
     $sql1 = "select * from vw_Ichiban where theme = :theme limit 10";
@@ -933,7 +921,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function User($user_id)
   {
@@ -984,7 +971,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function Wall($user_id)
   {
@@ -1014,7 +1000,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function CollectionEgg($user_id)
   {
@@ -1090,7 +1075,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function CollectionIchiban($user_id)
   {
@@ -1166,7 +1150,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function Wallet($user_id)
   {
@@ -1190,7 +1173,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function Bag($user_id)
   {
@@ -1217,7 +1199,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function Cart($user_id)
   {
@@ -1241,7 +1222,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function Logistics($user_id)
   {
@@ -1265,7 +1245,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function Userinfo($user_id)
   {
@@ -1284,7 +1263,6 @@ class API
         'phone' => $output['phone'],
         'birth' => $output['birth'] === null ? '' : $output['birth'],
         'address' => $output['address'],
-        'credit' => $output['credit'],
         'recommend' => $output['recommend'],
       ];
     }
@@ -1292,7 +1270,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function LogisticsDetail($list_id)
   {
@@ -1330,7 +1307,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function ToCollection($user_id, $series_id)
   {
@@ -1348,9 +1324,8 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput === null) $jsonOutput =  'error, please try again';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function AddToProductReminder($user_id, $series_id)
   {
@@ -1368,27 +1343,100 @@ class API
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput === null) $jsonOutput =  'error, please try again';
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
   function AllGash()
   {
     $db = new Connect;
     $jsonOutput = [];
-    $sql = "SELECT gash, dollar FROM Gash WHERE 1;";
+    $sql = "SELECT id, gash, dollar FROM Gash WHERE 1;";
     $stmt = $db->prepare($sql);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
+        'id' => $output['id'],
         'gash' => $output['gash'],
         'dollar' => $output['dollar']
       ];
     }
     $stmt->closeCursor();
     $db = null;
-    // if (empty($jsonOutput)) $jsonOutput =  'error, please try again';
+    // if ($jsonOutput === null) $jsonOutput = ['error' => 'No results found, please try again'];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
+  }
+  function PlayEgg($user_id, $series_id, $amounts, $time)
+  {
+    $user_id = $_POST['user_id'];
+    $series_id = $_POST['series_id'];
+    $amounts = $_POST['amounts'];
+    $time = isset($_POST['time']) ? $_POST['time'] : time();
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call PlayEgg(:user_id, :series_id, :amounts, :time);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->bindValue(':amounts', $amounts, PDO::PARAM_INT);
+    $stmt->bindValue(':time', $time, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $jsonOutput[] = [
+    'error' => $output['error'] ?? '',
+    'name' => $output['name'] ?? '',
+    'img' => $output['img'] ?? '',
+    'amount' => $output['amount'] ?? ''
+    ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = ['' => ''];
+    return json_encode($jsonOutput);
+  }
+  function LineIn($series_id, $user_id)
+  {
+    $user_id = $_POST['user_id'];
+    $series_id = $_POST['series_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call LineUp(:series_id, :user_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $jsonOutput[] = [
+    'error' => $output['error'] ?? '',
+    'yournumber' => $output['yournumber'] ?? '',
+    'waiting' => $output['waiting'] ?? ''
+    ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = ['' => ''];
+    return json_encode($jsonOutput);
+  }
+  function TopUpGash($user_id, $gash_id, $time)
+  {
+    $user_id = $_POST['user_id'];
+    $gash_id = $_POST['gash_id'];
+    $time = isset($_POST['time']) ? $_POST['time'] : time();
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call TopUpGash(:user_id, :time, :gash_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':gash_id', $gash_id, PDO::PARAM_INT);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':time', $time, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $jsonOutput[] = [
+    'error' => $output['error'] ?? ''
+    ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = [''];
+    return json_encode($jsonOutput);
   }
 }
