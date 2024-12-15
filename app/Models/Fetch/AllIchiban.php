@@ -6,7 +6,6 @@ try {
   if (isset($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
     $result = $API->AllIchibanWithUser($user_id);
-    echo $result;
   } else {
     $result = $API->AllIchibanNoUser();
   }
