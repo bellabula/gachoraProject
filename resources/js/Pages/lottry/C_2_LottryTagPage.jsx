@@ -1,37 +1,37 @@
 import React from 'react'
 import Navbar from '@/Components/Navbar';
-import GachaPdCard from '@/Components/GachaPdCard';
+import PdCard from '@/Components/PdCard';
 import { Head, Link } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 
 function C_2_LottryTagPage() {
     // 假資料
-    // const [allProducts] = useState([
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "玩具", seriesName: "系列名", productName: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
-    // ]);
-    const [allProducts, setAllProducts] = useState([])
-    const [allProductsAPI, setAllProductsAPI] = useState([])
+    const [allProducts] = useState([
+        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
+        { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
+        { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+        { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+        { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+        { category: "玩具", seriesName: "系列名", productName: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+        { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
+    ]);
+    // const [allProducts, setAllProducts] = useState([])
+    // const [allProductsAPI, setAllProductsAPI] = useState([])
 
-    let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
-    React.useEffect(function () {
-        let callAPI = async function () {
-            let response = await fetch(url);
-            let data = await response.json()
-            setAllProductsAPI(data);
-            // let datanoImg =
-            // setAllProductsImg(data);
-        }
-        callAPI();
-    }, [])
+    // let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
+    // React.useEffect(function () {
+    //     let callAPI = async function () {
+    //         let response = await fetch(url);
+    //         let data = await response.json()
+    //         setAllProductsAPI(data);
+    //         // let datanoImg =
+    //         // setAllProductsImg(data);
+    //     }
+    //     callAPI();
+    // }, [])
     // useEffect(()=>{
     //     let basePath = '../app/Models'
     //     fetch(basePath + '/Fetch/AllEgg.php')
@@ -137,19 +137,22 @@ function C_2_LottryTagPage() {
                                         </button>
                                     </span>
                                 </div>
-
-
                                 <div className="row d-flex right-product"
                                     id="product-list">
                                     {/* 商品區 */}
                                     {productsToShow.map((product, index) => (
-                                        <GachaPdCard className="col-md-4 mb-4 d-flex flex-wrap justify-content-center"
-                                            seriesName={product.seriesName}
-                                            productName={product.productName}
-                                            productPrice={product.productPrice}
+                                        <PdCard className="col-xxl-4 mb-1 d-flex flex-wrap justify-content-center"
+                                            pdName={product.productName}
+                                            pdQuantity={5}
+                                            pdTotal={50}
+                                            pdPrice={product.productPrice}
+                                            pdAvailable={'尚有大賞'}
+                                            aPrizeName={'魯夫'}
+                                            bPrizeName={'魯夫'}
+                                            cPrizeName={'魯夫'}
                                             img={product.img}
                                             key={index}>
-                                        </GachaPdCard>
+                                        </PdCard>
                                     ))}
                                 </div>
 

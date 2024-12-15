@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 // import React from 'react'
 
 
-function PdCard({ pdName, pdQuantity, pdTotal, pdPrice, pdDraw, pdAvailable, aPrizeName, bPrizeName, cPrizeName, img = '' }) {
+function PdCard({ pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName, bPrizeName, cPrizeName, img = '' }) {
 
     const [isActive, setIsActive] = useState(false);
     const [newclass, setNewclass] = useState("")
@@ -23,13 +23,10 @@ function PdCard({ pdName, pdQuantity, pdTotal, pdPrice, pdDraw, pdAvailable, aPr
     return (
         <div id='pdcard'>
             <div className="cards">
-                <div className="product-card">
+                <div className="product-card" src="http://localhost/gachoraProject/public/images/gachoHome/少主貓貓.JPG">
                     <div className="heart-icon" >
-                        <img className={"heart " + newclass} onClick={toogleHeart} src='http://localhost/gachoraProject/public/images/heart.svg'></img>
+                        <img className={"heart " + newclass} onClick={toogleHeart} src='http://localhost/gachoraProject\public\images\heart.svg'></img>
                     </div>
-                </div>
-                <div className="product-image">
-                    <img src={img} alt="商品圖片" />
                 </div>
                 {/* <!-- 價格與獎品資訊 --> */}
                 <div className="price-info">
@@ -41,14 +38,12 @@ function PdCard({ pdName, pdQuantity, pdTotal, pdPrice, pdDraw, pdAvailable, aPr
                         </ul>
                     </div>
                     <div className="price-row">
-                        <h4>NT${pdPrice}/{pdDraw}</h4>
+                        <h4>NT${pdPrice}/抽</h4>
                         <p>{pdQuantity}/{pdTotal}<br />{pdAvailable}</p>
                     </div>
                 </div>
                 {/* <!-- 商品名稱 --> */}
-                <div>
-                    <h3 className="product-name">{pdName}</h3>
-                </div>
+                <h3 className="product-name">{pdName}</h3>
             </div>
         </div >
 
