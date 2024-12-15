@@ -32,7 +32,7 @@ function MyWallet({ id, className = "" }) {
             user_id: user_id
         }, (response) => {
             // console.log('交易紀錄：', response)
-            console.log(response)
+            // console.log(response)
             setWalletLog(response)
         })
     }, [user_id])
