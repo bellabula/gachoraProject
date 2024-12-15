@@ -7,7 +7,20 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             $("#bigNavbar-r").css("display", "none")
             $("nav div div.ps-4 img").css("display", "none")
             $("#offcanvasNavbar").css("display", "block")
-            $("nav").removeClass("navbar-expand-lg")
+            $("div.container-xxl").removeClass("container-xxl");
+
+
+            $("nav")
+                .removeClass("navbar-expand-lg")
+                .css({
+                    height:"100px"
+                })
+
+                $(".navbar-toggler-icon")
+                .css({
+                    backgroundImage: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")',
+                });
+
         }
     })
     return (
