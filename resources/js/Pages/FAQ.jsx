@@ -3,7 +3,10 @@ import FAAcomponent from "../Components/FAAcomponent";
 import { Head, usePage } from '@inertiajs/react';
 import Footer from "@/Components/Footer";
 import Navbar from "@/Components/Navbar";
-import { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
+// import axios from 'axios';
+import emailjs from '@emailjs/browser';
+
 
 export default function FAQ() {
 
@@ -35,6 +38,33 @@ export default function FAQ() {
     $(`#${categoryId + "g"}`).addClass('active');
 
   }
+
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    console.log(new FormData(e.target)); // 檢查送出的資料
+
+    emailjs
+      .sendForm('service_w2kzikj', 'template_6yrxgme', form.current, {
+        publicKey: 'XSNnYkDdyr6X8b0Tn',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
+  };
+
+  $(document).ready(function () {
+    $('.button2').on('click', function () {
+      alert('郵件已寄出!'); // 顯示訊息
+      // $('.formDetail').val(''); // 清空輸入框內容
+    });
+  });
 
   return (
     <>
@@ -214,17 +244,25 @@ export default function FAQ() {
                 </div>
               </div>
               <div id="faq-category-6" className="faq-category d-none" style={{ display: "flex" }}>
-                <div className="contact11">
+                <form className="contact11" ref={form} onSubmit={sendEmail}
+                // action="https://docs.google.com/forms/u/0/d/1LZXOqs0SHz_0kxbgvNFLESLd6wbL_fgg2xhhJHK7mp8/previewResponse" method="POST"
+                >
                   <p>若您有任何需要我們服務的地方，請填寫以下表單～<br />我們收到您的來信後，將於3~5日內回覆（不含週六例假日）</p>
                   <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">姓名</h3><input className="col-6" type="text" placeholder="請填寫姓名" name="name"/>
+                    <h3 className="col-4">姓名</h3><input className="col-6 formDetail" type="text" name="from_name" placeholder="請填寫姓名"
+                    // name="entry.196632432"
+                    />
                   </div>
                   <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">電子郵件</h3><input className="col-6" type="email" placeholder="請輸入電子郵件" name="email"/>
+                    <h3 className="col-4">電子郵件</h3><input className="col-6 formDetail" type="email" name="from_email" placeholder="請輸入電子郵件" 
+                    // name="entry.176927514"
+                    />
                   </div>
                   <div className="form" style={{ display: "flex" }}>
                     <h3 className="col-4">意見</h3>
-                    <textarea className="col-6" name="message" placeholder="請填寫意見內容" />
+                    <textarea className="col-6 formDetail" name="message" placeholder="請填寫意見內容" 
+                    // name="entry.894253798"
+                    />
                   </div>
                   <label className="check">
                     <input type="checkbox" />
@@ -232,9 +270,10 @@ export default function FAQ() {
                   </label>
                   <div className="buttonCheck">
                     <button className="button1" type="reset" >重新填寫</button>
-                    <button className="button2" type="submit" >完成送出</button>
+                    <button className="button2" type="submit" value="Send">完成送出</button>
+
                   </div>
-                </div>
+                </form>
                 <div className="contact22">
                   <p>聯絡我們</p>
                 </div>
