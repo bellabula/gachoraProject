@@ -4,7 +4,7 @@ function MyStorageItem({itemName ,amount, series, gift, prize="",src=""}) {
     return (
         <tr>
             <td className="text-start">
-                <span>1.</span>
+                <span>1. &emsp;</span>
                 <img src={src} alt="商品圖片" />
             </td>
             <td className="text-start">{itemName}</td>

@@ -107,9 +107,9 @@ function MyStorage({ id }) {
                             </thead>
                             {/* 儲藏資料 */}
                             <tbody>
-                                {storageItem.map((v, index) => (
+                                {typeof(storageItem) != "undefined" ? storageItem.map((v, index) => (
                                     <MyStorageItem itemName={v.name} amount={v.amount} series={v.series} gift={v.gift} prize={v.prize} src={v.img} key={index}/>
-                                ))}
+                                )):""}
                                 
                                 <tr>
                                     <td className="text-start">

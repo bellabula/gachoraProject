@@ -48,9 +48,9 @@ function MyFavor({ id }) {
                     {/* 扭蛋收藏 */}
                     <div id="gachofavor" className="tab-pane active">
                         <div className="row  row-gap-2">
-                            {gachoFavor.map((v, index) => (
+                            {typeof(gachoFavor) != "undefined" ? gachoFavor.map((v, index) => (
                                 <MyFavorCard key={index} src={v.img} href='' />
-                            ))}
+                            )):""}
                             <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" href='https://google.com' />
                             <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" />
                             <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" />
@@ -67,9 +67,9 @@ function MyFavor({ id }) {
                     {/* 一番賞收藏 */}
                     <div id="ichibanfavor" className="tab-pane">
                         <div className="row  row-gap-2">
-                            {ichibanFavor.map((v, index) => (
+                            {typeof(ichibanFavor) != "undefined" ? ichibanFavor.map((v, index) => (
                                 <MyFavorCard key={index} src={v.img} href='' />
-                            ))}
+                            )):""}
                             <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" href='https://google.com' />
                             <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" />
                             <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" />

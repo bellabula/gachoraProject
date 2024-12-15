@@ -8,15 +8,12 @@ import '../css/member.css';
 import '../css/forgetPassword.css';
 import '../css/home.css';
 
-import '../css/faq.css';
-import '../css/footer.css'
-
 import '../css/gachaHome.css';
 import '../css/gachaTagPage.css';
 import '../css/GachaPdCard.css';
 import '../css/home.css';
 import '../css/faq.css';
-import '../css/footer.css'
+import '../css/footer.css';
 
 import '../css/shoppingCart.css';
 

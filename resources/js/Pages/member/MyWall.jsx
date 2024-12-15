@@ -48,9 +48,9 @@ function MyWall({ id, className = "" }) {
                         <div className="d-flex justify-content-between" style={{ backgroundColor: "var(--main-darkblue)" }}>
                             <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" /></button>
                             <div id='gachoWall' className="d-flex gap-3 flex-wrap">
-                                {gachaItem.map((v, index) => (
+                                {typeof(gachaItem) != "undefined" ? gachaItem.map((v, index) => (
                                     <MyWallGacha key={index} src={v.img} />
-                                ))}
+                                )):""}
                                 <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
                                 <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
                                 <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
@@ -67,9 +67,9 @@ function MyWall({ id, className = "" }) {
                         <div className="d-flex justify-content-between">
                             <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" /></button>
                             <div className="d-flex gap-3 flex-wrap">
-                                {ichibanItem.map((v, index) => (
+                                {typeof(ichibanItem) != "undefined" ? ichibanItem.map((v, index) => (
                                     <img key={index} src={v.img} />
-                                ))}
+                                )):""}
                                 <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
                                 <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
                                 <img src="http://localhost/gachoraProject/public/images/ichiban1.png" />
