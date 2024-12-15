@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export default function FAQ() {
 
   const goto = usePage().props.goto
-  useEffect (()=> {
+  useEffect(() => {
     if (goto === 'contact') {
       $(`#faq-category-1`).addClass('d-none');
       $(`#faq-category-6`).removeClass('d-none');
@@ -32,7 +32,7 @@ export default function FAQ() {
     });
 
     // 選取特定的類別，讓他active
-    $(`#${categoryId+"g"}`).addClass('active');
+    $(`#${categoryId + "g"}`).addClass('active');
 
   }
 
@@ -49,7 +49,7 @@ export default function FAQ() {
           <div className="container">
             <div className="yellowsquare">
               <div className="sidebar">
-                <button id="faq-category-1g" className={goto === 'contact' ? '' : 'active'} onClick={() => showFaq('faq-category-1')} style={{marginTop:'10%'}}>扭蛋與一番賞</button>
+                <button id="faq-category-1g" className={goto === 'contact' ? '' : 'active'} onClick={() => showFaq('faq-category-1')} style={{ marginTop: '10%' }}>扭蛋與一番賞</button>
                 <button id="faq-category-2g" onClick={() => showFaq('faq-category-2')}>會員與優惠</button>
                 <button id="faq-category-3g" onClick={() => showFaq('faq-category-3')}>付款與交易</button>
                 <button id="faq-category-4g" onClick={() => showFaq('faq-category-4')}>活動與公告</button>
@@ -75,8 +75,8 @@ export default function FAQ() {
                     <FAAcomponent targetId="question12" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
                   </div>
 
-                   {/* <!-- 1-3 QA --> */}
-                   <div className="accordion-item">
+                  {/* <!-- 1-3 QA --> */}
+                  <div className="accordion-item">
                     <FAQcomponent targetId="question13">有沒有每日免費抽一次的活動？13</FAQcomponent>
                     <FAAcomponent targetId="question13" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
                   </div>
@@ -231,8 +231,8 @@ export default function FAQ() {
                     <span>我已詳細閱讀並同意</span><a href="#">會員條款</a>
                   </label>
                   <div className="buttonCheck">
-                    <button className="button1" type="submit" >重新填寫</button>
-                    <button className="button2" type="reset" >完成送出</button>
+                    <button className="button1" type="reset" >重新填寫</button>
+                    <button className="button2" type="submit" >完成送出</button>
                   </div>
                 </div>
                 <div className="contact22">
@@ -243,7 +243,7 @@ export default function FAQ() {
           </div>
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </>
   )
 }
