@@ -250,7 +250,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
 
   }
   function AllIchibanWithUser($user_id)
@@ -270,17 +269,17 @@ class API
       $series_ids[] = $output1['series_id'];
       $jsonOutput[] = [
         'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'amount' => $output1['amount'],
-        'rank' => $output1['rank'],
-        'rare' => $output1['rare'],
-        'release_time' => $output1['release_time'],
+        'theme' => $output1['theme'] ?? '',
+        'title' => $output1['series_title'] ?? '',
+        'name' => $output1['name'] ?? '',
+        'price' => $output1['price'] ?? '',
+        'amount' => $output1['amount'] ?? '',
+        'rank' => $output1['rank'] ?? '',
+        'rare' => $output1['rare'] ?? '',
+        'release_time' => $output1['release_time'] ?? '',
         'img' => $img,
         'character' => $character,
-        'collected' => $output1['collected']
+        'collected' => $output1['collected'] ?? ''
       ];
     }
     $stmt1->closeCursor();
@@ -346,7 +345,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-    unset($jsonOutput);
   }
 
   // 扭蛋主頁post
@@ -860,7 +858,7 @@ class API
         'img' => $img,
         'character' => $character
       ];
-      $jsonOutput['series'][] = array_merge($array0, $array3);
+      $jsonOutput['series'] = array_merge($array0, $array3);
     }
     // 賞主題推薦
     $sql1 = "select * from vw_Ichiban where theme = :theme limit 10";
@@ -1352,11 +1350,12 @@ class API
   {
     $db = new Connect;
     $jsonOutput = [];
-    $sql = "SELECT gash, dollar FROM Gash WHERE 1;";
+    $sql = "SELECT id, gash, dollar FROM Gash WHERE 1;";
     $stmt = $db->prepare($sql);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
+        'id' => $output['id'],
         'gash' => $output['gash'],
         'dollar' => $output['dollar']
       ];
@@ -1415,6 +1414,29 @@ class API
     $stmt->closeCursor();
     $db = null;
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
+    return json_encode($jsonOutput);
+  }
+  function TopUpGash($user_id, $gash_id, $time)
+  {
+    $user_id = $_POST['user_id'];
+    $gash_id = $_POST['gash_id'];
+    $time = isset($_POST['time']) ? $_POST['time'] : time();
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call TopUpGash(:user_id, :time, :gash_id);";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':gash_id', $gash_id, PDO::PARAM_INT);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':time', $time, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $jsonOutput[] = [
+    'error' => $output['error'] ?? ''
+    ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = [''];
     return json_encode($jsonOutput);
   }
 }

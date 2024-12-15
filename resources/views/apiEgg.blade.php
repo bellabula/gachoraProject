@@ -56,7 +56,7 @@
         this.previousSibling.previousSibling.innerText = amounts !== 0 ? amounts - 1 : 0
       }
       if (btn.indexOf('submit') !== -1) {
-        const user_id = 1
+        const user_id = '1'
         const amounts = (this
           .previousSibling
           .previousSibling
@@ -64,6 +64,8 @@
           .previousSibling
           .innerText)
         const series_id = btn.substr(6)
+        console.log(user_id, amounts, series_id);
+        
         // const time = Math.floor(Date.now() / 1000)
         // 扭蛋要傳給後端這些資料
         $.post(basePath + '/Post/PlayEgg.php', {
@@ -71,7 +73,7 @@
           series_id: series_id,
           amounts: amounts
         }, (response) => {
-          console.log('done');
+          // console.log('done');
           console.log(response)
 
         })
