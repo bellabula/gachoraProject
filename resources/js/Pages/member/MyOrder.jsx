@@ -1,17 +1,18 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { usePage } from '@inertiajs/react';
+import MyOrderLog from './MyOrderLog';
 
-function MyOrder({id}) {
+function MyOrder({ id }) {
 
-    useEffect(()=>{
+    useEffect(() => {
         // 取得今天的日期，並格式化為 YYYY-MM-DD
         const today = new Date();
         const formattedDate = today.toISOString().split('T')[0];
-    
+
         // #memberOrder
         $("#memberOrder .orderStartDate").prop("max", formattedDate)
         $("#memberOrder .orderEndDate").prop("max", formattedDate)
-    
+
         $("#memberOrder .orderStartDate").on("input", () => {
             $("#memberOrder .orderStartText").val($("#memberOrder .orderStartDate").val())
             $("#memberOrder .orderEndDate").prop("min", $("#memberOrder .orderStartDate").val())
@@ -20,7 +21,7 @@ function MyOrder({id}) {
             $("#memberOrder .orderEndText").val($("#memberOrder .orderEndDate").val())
             $("#memberOrder .orderStartDate").prop("max", $("#memberOrder .orderEndDate").val())
         })
-    
+
         $(document).on('click', function (event) {
             const classFilterList = [$('#memberWallet .classFilter'), $($('#memberWallet .itemFilter')[0]), $($('#memberWallet .itemFilter')[1])]
             // 檢查點擊是否發生在目標元素外部
@@ -30,7 +31,7 @@ function MyOrder({id}) {
                 }
             })
         });
-    
+
         const filerBtnList = [
             [$("#memberWallet .classFilterBtn"), $("#memberWallet .classFilter")],
             [$($('#memberWallet .itemFilterBtn')[0]), $($('#memberWallet .itemFilter')[0])],
@@ -43,6 +44,22 @@ function MyOrder({id}) {
             })
         });
     })
+
+    const user = usePage().props.auth.user;
+    let user_id = user.id
+
+    const [orderLog, setOrderLog] = useState([]);
+
+    useEffect(() => {
+        let basePath = '../app/Models'
+        const url = basePath + '/Post/UserLogistics.php'
+        $.post(url, {
+            user_id: user_id
+        }, (response) => {
+            // console.log('訂單：', response)
+            setOrderLog(response)
+        })
+    }, [user_id])
 
     return (
         <>
@@ -66,7 +83,7 @@ function MyOrder({id}) {
                 <hr />
                 <div>
                     <form className="mb-3">
-                        <label htmlFor="orderNumber">訂單查詢</label>
+                        <label htmlFor="orderNumber">訂單查詢</label> &nbsp;
                         <input id="orderNumber" type="text" className="rounded-1" placeholder="請輸入訂單編號" />&ensp;<input
                             type="submit" className="rounded-1" />
                     </form>
@@ -81,29 +98,13 @@ function MyOrder({id}) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td className="text-start">2024112200348</td>
-                                <td>2024/11/22</td>
-                                <td>待出貨</td>
-                                <td>宅配</td>
-                                <td><a href="">明細</a></td>
-                            </tr>
-                            <tr>
-                                <td className="text-start">2024101000331</td>
-                                <td>2024/10/10</td>
-                                <td>已出貨</td>
-                                <td>7-11</td>
-                                <td><a href="">明細</a></td>
-                            </tr>
-                            <tr>
-                                <td className="text-start">2024071800241</td>
-                                <td>2024/07/18</td>
-                                <td>已取貨</td>
-                                <td>宅配</td>
-                                <td><a href="">明細</a></td>
-                            </tr>
+                            {/* <MyOrderLog oId="GC16977356881" oDate="2024/11/22" oStatus="待出貨" dPath="宅配" /> */}
+                            {orderLog.reverse().map((v, index)=>(
+                                <MyOrderLog oId={v.no} oDate={v.time} oStatus={v.status} dPath={v.method} key={index}/>
+                            ))}
                         </tbody>
                     </table>
+                    {orderLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前沒有任何訂單紀錄...</h4>:""}
                 </div>
             </div>
         </>

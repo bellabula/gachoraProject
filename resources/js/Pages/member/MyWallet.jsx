@@ -1,14 +1,15 @@
-import React from 'react'
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
+import MyWalletRecord from './MyWalletRecord';
+import { usePage } from '@inertiajs/react';
 
-function MyWallet({id, className=""}) {
+function MyWallet({ id, className = "" }) {
     // 取得今天的日期，並格式化為 YYYY-MM-DD
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
-    useEffect(()=>{
+    useEffect(() => {
         $("#memberWallet .orderStartDate").prop("max", formattedDate)
         $("#memberWallet .orderEndDate").prop("max", formattedDate)
-    
+
         $("#memberWallet .orderStartDate").on("input", () => {
             $("#memberWallet .orderStartText").val($("#memberWallet .orderStartDate").val())
             $("#memberWallet .orderEndDate").prop("min", $("#memberWallet .orderStartDate").val())
@@ -18,6 +19,24 @@ function MyWallet({id, className=""}) {
             $("#memberWallet .orderStartDate").prop("max", $("#memberWallet .orderEndDate").val())
         })
     })
+
+    const user = usePage().props.auth.user;
+    let user_id = user.id
+
+    const [walletLog, setWalletLog] = useState([]);
+
+    useEffect(() => {
+        let basePath = '../app/Models'
+        const url = basePath + '/Post/UserWallet.php'
+        $.post(url, {
+            user_id: user_id
+        }, (response) => {
+            // console.log('交易紀錄：', response)
+            // console.log(response)
+            setWalletLog(response)
+        })
+    }, [user_id])
+
 
 
     return (
@@ -102,7 +121,10 @@ function MyWallet({id, className=""}) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {walletLog.reverse().map((v, index) => (
+                                <MyWalletRecord key={index} rDate={v.date} rItem={v.item} rCate={v.category} rPrice={v.price} rAmount={v.amount}/>
+                            ))}
+                            {/* <tr>
                                 <td className="text-start">2024/11/20</td>
                                 <td>XXX扭蛋</td>
                                 <td>扭蛋</td>
@@ -111,29 +133,10 @@ function MyWallet({id, className=""}) {
                                 <td>G 幣</td>
                                 <td>-G 1200</td>
                                 <td>G 1,650</td>
-                            </tr>
-                            <tr>
-                                <td className="text-start">2024/11/20</td>
-                                <td>XXX扭蛋</td>
-                                <td>扭蛋</td>
-                                <td>10</td>
-                                <td>G 1,200</td>
-                                <td>G 幣</td>
-                                <td>-G 1200</td>
-                                <td>G 1,650</td>
-                            </tr>
-                            <tr>
-                                <td className="text-start">2024/11/20</td>
-                                <td>XXX扭蛋</td>
-                                <td>扭蛋</td>
-                                <td>10</td>
-                                <td>G 1,200</td>
-                                <td>G 幣</td>
-                                <td>-G 1200</td>
-                                <td>G 1,650</td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>
+                    {walletLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前沒有任何交易紀錄...</h4>:""}
                 </div>
             </div>
         </>

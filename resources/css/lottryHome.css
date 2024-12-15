@@ -1,0 +1,280 @@
+body #lottrybody {
+	background-color: #365B60;
+}
+/*上方banner區域*/
+#lottryHome .scroll-x {
+	max-width: 100%;
+	height: 75vh;
+	overflow-x: auto;
+	overflow: hidden;
+	overscroll-behavior-x: contain;
+}
+
+#lottryHome .carousel-btn {
+	background-color: none;
+	height: 50px;
+	position: absolute;
+	z-index: 10;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	border-radius: 50%;
+}
+
+#lottryHome .carousel-btn.left {
+	left: 10px;
+
+}
+
+#lottryHome .carousel-btn.right {
+	right: 10px;
+}
+
+#lottryHome .wrapper {
+	--size: 100vw;
+	--gutter: 2rem;
+	--gap: 0rem;
+	scroll-snap-type: x mandatory;
+	display: flex;
+	padding-block: var(--gutter);
+	align-items: center;
+	grid-template-columns:
+		[full-start] 1fr [content-start] min(var(--size), 100% - var(--gutter) * 2) [content-end] 1fr [full-end];
+}
+
+#lottryHome .items {
+	grid-area: content;
+	display: flex;
+	gap: var(--gap);
+	transition: transform 0.3s ease-in-out;
+	padding: 0;
+	width: max-content;
+	overflow: hidden;
+
+	>li {
+		list-style-type: none;
+		padding-left: 0;
+	}
+
+	img {
+		border-radius: 40px;
+		width: 75vw;
+		height: 70vh;
+		object-fit: cover;
+	}
+
+	&::after {
+		content: "";
+		padding-inline-end: max(var(--gutter),
+				(100vw - var(--size)) / 2 - var(--gutter));
+	}
+
+	>* {
+		display: grid;
+		place-content: center;
+		flex-shrink: 0;
+		inline-size: var(--size);
+		block-size: 100vh;
+		scroll-snap-align: center;
+		color: white;
+		background-color: var(--color-fg);
+	}
+}
+
+@supports (animation-timeline: view()) {
+	.items>* {
+		--scale: 0.9;
+		--offset: 0;
+		animation: scale linear both, fade linear both;
+		animation-timeline: view(inline);
+		animation-range: cover 30% cover 70%, cover 5% cover 95%;
+	}
+
+	@keyframes scale {
+
+		from,
+		to {
+			scale: var(--scale);
+		}
+
+		50% {
+			scale: 1;
+		}
+
+		from {
+			translate: var(--offset) 0;
+		}
+
+		to {
+			translate: calc(var(--offset) * -1) 0;
+		}
+	}
+
+	@keyframes fade {
+
+		from,
+		to {
+			opacity: 0;
+		}
+
+		10%,
+		90% {
+			opacity: 1;
+		}
+	}
+}
+
+/*標籤連結*/
+#lottryHome .labelitem {
+	height: 10vh;
+	width: 100vw;
+	border-radius: 30px;
+}
+
+#lottryHome .item {
+	height: 50px;
+	width: 10vw;
+	background-color: #FEC265;
+	margin: 50px 50px 50px 0;
+	border-radius: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#lottryHome .item:hover {
+	background-color: #365B60
+}
+
+#lottryHome .item a {
+	text-decoration: none;
+	color: #365B60;
+}
+
+#lottryHome .item a:hover {
+	text-decoration: none;
+	color: #F2F1EC;
+}
+
+/*Title*/
+.lottryTitle {
+	text-align: center;
+	margin: 30px;
+	color: var(--main-darkblue);
+}
+
+
+/*top30區域*/
+#lottryHome .top30 {
+	display: flex;
+	align-items: center;
+	margin: 10px;
+}
+
+#lottryHome .top30BigProduct {
+	height: 50vh;
+	width: 20vw;
+	background-color: #FEC265;
+	border-radius: 50px;
+	min-width: 400px
+}
+
+#lottryHome .top30ProductImg {
+	height: 35vh;
+	width: 13vw;
+	background-color: #FEC265;
+	border-radius: 30px;
+	margin-top: 10vh;
+	min-width: 200px
+}
+
+#lottryHome .top30ProductText {
+
+	height: 100px;
+	width: 13vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 200px
+}
+
+/*扭蛋牆*/
+#lottryHome .scroll-container {
+	width: 100%;
+	margin: 0;
+	background-color: #e0e0e0;
+	padding: 0px;
+
+}
+
+/* 設定每排滾動區域 */
+#lottryHome .scroll-row {
+	/* 隱藏溢出內容 */
+	overflow: hidden;
+	margin-bottom: 20px;
+	/* 排與排之間的間距 */
+}
+
+/* 設定滾動內容樣式 */
+#lottryHome .scroll-content {
+	display: flex;
+	flex-wrap: nowrap;
+	animation: scroll-horizontal 15s linear infinite;
+	/* 加入無限循環動畫 */
+}
+
+/* 設定每個項目 */
+#lottryHome .GachaWall {
+	position: relative;
+	min-width: 200px;
+	height: 300px;
+	box-shadow: 1px 5px 5px #a3a1a1;
+	background-color: #f3f4f0;
+	margin: 0 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px;
+	transition: transform 0.3s ease;
+}
+
+#lottryHome .GachaWall img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	filter: grayscale(50%);
+	transition: filter 0.5s ease;
+}
+
+#lottryHome .img1 {
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+}
+
+#lottryHome .img2 {
+	z-index: 0;
+	width: 100%;
+	border-radius: 30px;
+}
+
+#lottryHome .GachaWall img:hover {
+	filter: grayscale(0%);
+}
+
+/* 無縫滾動動畫 */
+@keyframes scroll-horizontal {
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(-50%);
+		/* 滾動到一半，讓它看起來無縫 */
+	}
+}
+
+/* 滑鼠懸停時暫停動畫 */
+#lottryHome .scroll-row:hover .scroll-content {
+	animation-play-state: paused;
+}

@@ -1,15 +1,35 @@
-import React from 'react'
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
+import { usePage } from '@inertiajs/react';
+import MyStorageItem from './MyStorageItem';
 
 function MyStorage({ id }) {
 
-    function Storage({ stock }) {
-        let [count, setNumb] = React.useState(0)
-        function handleClickDec() { setNumb(count > 0 ? count - 1 : count) }
-        function handleClickInc() { setNumb(count < { stock } ? count + 1 : count) }
-    }
+    // function Storage({ stock }) {
+    //     let [count, setNumb] = React.useState(0)
+    //     function handleClickDec() { setNumb(count > 0 ? count - 1 : count) }
+    //     function handleClickInc() { setNumb(count < { stock } ? count + 1 : count) }
+    // }
+
+    const user = usePage().props.auth.user;
+    let user_id = user.id;
+
+    const [storageItem, setStorageItem] = useState([]);
 
     useEffect(() => {
+        const urlStorage = '../app/Models/Post/UserBag.php'
+        $.post(urlStorage, {
+            user_id: user_id
+        }, (response) => {
+            // console.log("戰利儲藏庫 : " + response)
+            setStorageItem(response)
+            // console.log(storageItem)
+        })
+    }, [user_id])
+
+
+    useEffect(() => {
+
+
         // 增加按鈕點擊事件
         $('#member .btn-increase').on('click', function () {
             let input = $(this).siblings('input');
@@ -48,6 +68,11 @@ function MyStorage({ id }) {
             {/* <!-- 3. 戰利儲藏庫 --> */}
             <div id={id} className="tab-pane">
                 <h1>戰利儲藏庫</h1>
+                <div>
+                    {/* {response.map((v, index) => {
+                        <p>v</p>
+                    })} */}
+                </div>
                 <div className="container my-5">
                     <div className="inventory-container">
                         <table className="w-100 text-center">
@@ -81,85 +106,14 @@ function MyStorage({ id }) {
                                     </th>
                                 </tr>
                             </thead>
+                            {/* 儲藏資料 */}
                             <tbody>
-                                <tr>
-                                    <td className="text-start">
-                                        <span>1.</span>
-                                        <img src="" alt="商品圖片" />
-                                    </td>
-                                    <td className="text-start">龍貓等公車xczczxcxz</td>
-                                    <td>A獎</td>
-                                    <td>宮崎駿001</td>
-                                    <td>3</td>
-                                    <td>2024/01/03<br />2024/05/10<br />2024/10/15</td>
-                                    <td>
-                                        <div className="d-flex align-items-center justify-content-center">
-                                            <button className="btn btn-secondary btn-circle btn-decrease">-</button>
-                                            <input type="text" value="0" className="form-control mx-2 text-center"
-                                                style={{ width: "50px" }} readOnly />
-                                            <button className="btn btn-secondary btn-circle btn-increase">+</button>
-                                        </div>
-                                    </td>
-                                    <td width="100px">
-                                        <button className="btn btn-exchange">兌換G幣</button>
-                                    </td>
-                                    <td width="100px">
-                                        <button className="btn btn-deli">幫我出貨</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="text-start">
-                                        <span>2.</span>
-                                        <img src="" alt="商品圖片" />
-                                    </td>
-                                    <td className="text-start">龍貓等公車</td>
-                                    <td>A獎</td>
-                                    <td>宮崎駿001</td>
-                                    <td>1</td>
-                                    <td>2024/11/12</td>
-                                    <td>
-                                        <div className="d-flex align-items-center justify-content-center">
-                                            <button className="btn btn-secondary btn-circle btn-decrease">-</button>
-                                            <input type="text" value="0" className="form-control mx-2 text-center"
-                                                style={{ width: "50px" }} readOnly />
-                                            <button className="btn btn-secondary btn-circle btn-increase">+</button>
-                                        </div>
-                                    </td>
-                                    <td width="100px">
-                                        <button className="btn btn-exchange">兌換G幣</button>
-                                    </td>
-                                    <td width="100px">
-                                        <button className="btn btn-deli">幫我出貨</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="text-start">
-                                        <span>3.</span>
-                                        <img src="" alt="商品圖片" />
-                                    </td>
-                                    <td className="text-start">龍貓等公車</td>
-                                    <td>A獎</td>
-                                    <td>宮崎駿001</td>
-                                    <td>5</td>
-                                    <td>2024/11/15<br />2024/11/15<br />2024/11/15<br />2024/11/22<br />2024/12/05</td>
-                                    <td>
-                                        <div className="d-flex align-items-center justify-content-center">
-                                            <button className="btn btn-secondary btn-circle btn-decrease">-</button>
-                                            <input type="text" value="0" className="form-control mx-2 text-center"
-                                                style={{ width: "50px" }} readOnly />
-                                            <button className="btn btn-secondary btn-circle btn-increase">+</button>
-                                        </div>
-                                    </td>
-                                    <td width="100px">
-                                        <button className="btn btn-exchange">兌換G幣</button>
-                                    </td>
-                                    <td width="100px">
-                                        <button className="btn btn-deli">幫我出貨</button>
-                                    </td>
-                                </tr>
-                                {/* <!-- Add more rows as needed --> */}
+                                {storageItem.map((v, index) => (
+                                    <MyStorageItem itemName={v.name} amount="1" series={v.series} gift={v.gift} prize={v.prize} src={v.img} getDate={v.time} index={index} key={index}/>
+                                ))}
                             </tbody>
                         </table>
+                        {storageItem.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前儲藏庫沒有商品...</h4>:""}
                     </div>
                     <p className="note mt-4">商品取貨規則：</p>
                     <ul>

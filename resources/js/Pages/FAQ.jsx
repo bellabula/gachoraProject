@@ -271,6 +271,7 @@ export default function FAQ() {
                   <div className="buttonCheck">
                     <button className="button1" type="reset" >重新填寫</button>
                     <button className="button2" type="submit" value="Send">完成送出</button>
+
                   </div>
                 </form>
                 <div className="contact22">

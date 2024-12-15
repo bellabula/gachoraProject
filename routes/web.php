@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -43,10 +44,26 @@ Route::get('/gachaHome', function () {
     return Inertia::render('Gacha/B_1_GachaHome');
 })->name('gachaHome');
 
+Route::get('/lottryHome', function () {
+    return Inertia::render('lottry/C_1_LottryHome');
+})->name('lottryHome');
+
+
+Route::get('/gachadetail', function () {
+    return Inertia::render('Gacha/B_3_GachaDetail');
+})->name('gachadetail');
+
+Route::get('/lottrydetail', function () {
+    return Inertia::render('lottry/C_3_LottryDetail');
+})->name('lottrydetail');
+
 Route::get('/gachatagpage', function () {
     return Inertia::render('Gacha/B_2_GachaTagPage');
 })->name('gachatagpage');
 
+Route::get('/lottrytagpage', function () {
+    return Inertia::render('lottry/C_2_LottryTagPage');
+})->name('lottrytagpage');
 
 Route::get('/shoppingCart', function () {
     return Inertia::render('shoppingCart/Cart');
@@ -58,8 +75,5 @@ Route::view('/api', 'apihome');
 Route::view('/api/egg', 'apiEgg');
 Route::view('/api/ichiban', 'apiIchiban');
 Route::view('/api/user', 'apiUser');
-
-
-
 
 require __DIR__ . '/auth.php';
