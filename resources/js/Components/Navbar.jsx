@@ -13,10 +13,10 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             $("nav")
                 .removeClass("navbar-expand-lg")
                 .css({
-                    height:"100px"
+                    height: "100px"
                 })
 
-                $(".navbar-toggler-icon")
+            $(".navbar-toggler-icon")
                 .css({
                     backgroundImage: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")',
                 });
@@ -41,7 +41,11 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 扭蛋
                             </Link>
                         </li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('lottryHome')} className="dropdown-item">
+                                一番賞
+                            </Link>
+                        </li>
 
                         <li className="nav-item fs-4 me-3">
                             <Link href={route('faq')} className="dropdown-item">
@@ -143,7 +147,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     聯絡我們
                                 </Link>
                             </li>
-                            <li className="nav-item" style={{ display: logout}}>
+                            <li className="nav-item" style={{ display: logout }}>
                                 <Link href={route('logout')} method="post" as="button" className="dropdown-item">
                                     登出
                                 </Link>
