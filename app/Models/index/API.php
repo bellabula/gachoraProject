@@ -1,4 +1,7 @@
 <?php
+
+use Mockery\Undefined;
+
 require_once __DIR__ . '/Connect.php';
 class API
 {
@@ -250,7 +253,6 @@ class API
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
-
   }
   function AllIchibanWithUser($user_id)
   {
@@ -1381,12 +1383,12 @@ class API
     $stmt->bindValue(':time', $time, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $jsonOutput[] = [
-    'error' => $output['error'] ?? '',
-    'name' => $output['name'] ?? '',
-    'img' => $output['img'] ?? '',
-    'amount' => $output['amount'] ?? ''
-    ];
+      $jsonOutput[] = [
+        'error' => $output['error'] ?? '',
+        'name' => $output['name'] ?? '',
+        'img' => $output['img'] ?? '',
+        'amount' => $output['amount'] ?? ''
+      ];
     }
     $stmt->closeCursor();
     $db = null;
@@ -1407,15 +1409,15 @@ class API
     $stmt->bindValue(':time', $time, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $jsonOutput[] = [
-    'error' => $output['error'] ?? ''
-    ];
+      $jsonOutput[] = [
+        'error' => $output['error'] ?? ''
+      ];
     }
     $stmt->closeCursor();
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [''];
     return json_encode($jsonOutput);
-  }  
+  }
   function LineIn($series_id, $user_id)
   {
     $user_id = $_POST['user_id'];
@@ -1428,11 +1430,11 @@ class API
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $jsonOutput[] = [
-    'error' => $output['error'] ?? '',
-    'yournumber' => $output['yournumber'] ?? '',
-    'waiting' => $output['waiting'] ?? ''
-    ];
+      $jsonOutput[] = [
+        'error' => $output['error'] ?? '',
+        'yournumber' => $output['yournumber'] ?? '',
+        'waiting' => $output['waiting'] ?? ''
+      ];
     }
     $stmt->closeCursor();
     $db = null;
@@ -1451,12 +1453,12 @@ class API
     $stmt->bindValue(':number', $number, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $jsonOutput = [
-    'error' => $output['error'] ?? '',
-    'yournumber' => $output['yournumber'] ?? '',
-    'waiting' => $output['waiting'] ?? '',
-    'series_id' => $series_id
-    ];
+      $jsonOutput = [
+        'error' => $output['error'] ?? '',
+        'yournumber' => $output['yournumber'] ?? '',
+        'waiting' => $output['waiting'] ?? '',
+        'series_id' => $series_id
+      ];
     }
     $stmt->closeCursor();
     $db = null;
@@ -1475,16 +1477,62 @@ class API
     $stmt->bindValue(':number', $number, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $jsonOutput = [
-    'error' => $output['error'] ?? '',
-    'yournumber' => $output['yournumber'] ?? '',
-    'waiting' => $output['waiting'] ?? '',
-    'series_id' => $series_id
-    ];
+      $jsonOutput = [
+        'error' => $output['error'] ?? '',
+        'yournumber' => $output['yournumber'] ?? '',
+        'waiting' => $output['waiting'] ?? '',
+        'series_id' => $series_id
+      ];
     }
     $stmt->closeCursor();
     $db = null;
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
+  }
+  function PlayIchiban($series_id, $number, $amounts, $label, $time)
+  {
+    // $series_id = $_POST['series_id'];
+    // $number = $_POST['number'];
+    // $amounts = $_POST['amounts'];
+    // $label = $_POST['label'];
+    // $time = isset($_POST['time']) ? $_POST['time'] : time();
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call PlayIchiban(:series_id, :number, :amounts, :label, :time)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->bindValue(':number', $number, PDO::PARAM_INT);
+    $stmt->bindValue(':amounts', $amounts, PDO::PARAM_INT);
+    $stmt->bindValue(':label', $label, PDO::PARAM_STR);
+    $stmt->bindValue(':time', $time, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'error' => $output['error'] ?? '',
+        'name' => $output['name'] ?? '',
+        'img' => $output['img'] ?? '',
+        'amount' => $output['amount'] ?? ''
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    if ($jsonOutput == []) $jsonOutput = [];
+    return json_encode($jsonOutput);
+  }
+  function GetLabels($series_id)
+  {
+    $series_id = $_POST['series_id'];
+    $db = new Connect;
+    $tmp = [];
+    $sql = "call GetLabelById(:series_id)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $tmp[] = $output['label'];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    return $tmp;
   }
 }
