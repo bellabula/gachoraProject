@@ -3,6 +3,7 @@
         pointer-events: none;
         opacity: 0.5;
     }
+
     .selected {
         background-color: greenyellow;
     }
@@ -128,10 +129,7 @@
     // })
     // 給後端賞id跳到詳細頁
     $(document).on('click', '.ichibanid', function() {
-        ToDetailPage($(this).text().substr(-1))
-    })
-    // 詳細頁function
-    function ToDetailPage(series_id) {
+        const series_id = $(this).text().substr(-1)
         const url = basePath + '/Post/IchibanDetail.php'
         $.post(url, {
             series_id: series_id
@@ -154,12 +152,14 @@
                 $('.labels').append(`<button id="label${i}">${i}</button>`)
             }
             // 被抽的號碼碼掉response.label是已經被抽的
-            response.label.map((v) => {
-                $(`#label${v}`).prop('disabled', true)
-            })
+            if (response.label) {
+                response.label.map((v) => {
+                    $(`#label${v}`).prop('disabled', true)
+                })
+            }
             $('[id^="label"]').addClass('disabled')
         })
-    }
+    })
     // 排隊
     $(document).on('click', '.line', function() {
         const user_id = $(this).prev().val()
@@ -174,10 +174,15 @@
         })
     })
     // 前端timer
+    let executed = false
+
     function FrontTime(series_id, yournumber, wait) {
         if (wait > 0) {
-            $('[id^="label"]').addClass('disabled')
-            if (wait % 10 > 1) {
+            if (!executed) {
+                $('[id^="label"]').addClass('disabled')
+                executed = true
+            }
+            if (wait % 10 > 0) {
                 $('.timer').text(`最晚等${Math.floor(wait / 60)}分${(wait % 60)}秒`)
                 wait -= 1
                 setTimeout(() => {
@@ -185,12 +190,34 @@
                 }, 1000)
             } else {
                 SeeWaitTime(series_id, yournumber)
+                executed = false
             }
         } else if (wait > -180) {
-            ToDetailPage(series_id)
-            $('[id^="label"]').removeClass('disabled')
+            // 重新抓剩的
+            if (!executed) {
+                $.post('http://localhost/gachoraProject/app/Models/Post/IchibanDetail.php', {
+                    series_id: series_id
+                }, (response) => {
+                    console.log('賞詳細頁', response);
+                    $('.labels').text('')
+                    // 出籤response.series.total是總共籤數
+                    for (let i = 1; i <= response.series.total; i++) {
+                        $('.labels').append(`<button id="label${i}">${i}</button>`)
+                    }
+                    // 被抽的號碼碼掉response.label是已經被抽的
+                    if (response.label) {
+                        response.label.map((v) => {
+                            $(`#label${v}`).prop('disabled', true)
+                        })
+                        // $('[id^="label"]').addClass('disabled')
+                    }
+                    $('[id^="label"]').removeClass('disabled')
+                })
+                executed = true
+            }
+
             if ((wait * -1) % 10 > 1) {
-                $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
+                $('.timer').text(`剩${Math.floor((170 + wait) / 60)}分${((170 + wait) % 60)}秒可以抽`)
                 wait -= 1
                 setTimeout(() => {
                     FrontTime(series_id, yournumber, wait)
@@ -201,7 +228,7 @@
         } else {
             $('[id^="label"]').addClass('disabled')
             DeleteWait(series_id, yournumber)
-            $('.timer').text('跳轉中...')
+            $('.timer').text('已結束...')
         }
     }
     // 中離
@@ -225,7 +252,7 @@
         }) => {
             setTimeout(() => {
                 FrontTime(series_id, yournumber, waiting);
-            }, 1000);
+            }, 0);
         })
     }
     // post series_id, 號碼牌，告訴後端中離與要離開
@@ -243,20 +270,41 @@
     })
     // 買一番賞
     $(document).on('click', '.done', function() {
+        // 籤號格式：'1,2,3,4'
         let result = ''
         $('button[id^=label].selected').map((x, v) => {
-            return result += v.innerText + ','
+            result += v.innerText + ','
+            return result
         })
+        $('button[id^=label].selected').removeClass('selected')
+        result = result.slice(0, -1)
+
         let series_id = $(this).attr('series_id')
         let yournumber = $(this).prev().prev().text()
-        console.log('抽的結果還在弄');
-        // $.post(url, {
-        //     series_id: series_id,
-        //     number: yournumber,
-        //     label: result
-        // }, (response) => {
-        //     console.log(response)
-        // })
+        const url = 'http://localhost/gachoraProject/app/Models/Post/PlayIchiban.php'
+        $.post(url, {
+            series_id: series_id,
+            number: yournumber,
+            label: result
+        }, (response) => {
+            console.log(response)
+            $.post('http://localhost/gachoraProject/app/Models/Post/IchibanDetail.php', {
+                series_id: series_id
+            }, (response) => {
+                $('.labels').text('')
+                // 刷新抽過的籤
+                for (let i = 1; i <= response.series.total; i++) {
+                    $('.labels').append(`<button id="label${i}">${i}</button>`)
+                }
+                if (response.label) {
+                    response.label.map((v) => {
+                        $(`#label${v}`).prop('disabled', true)
+                    })
+                    // $('[id^="label"]').addClass('disabled')
+                }
+            })
+
+        })
     })
 
     // })
