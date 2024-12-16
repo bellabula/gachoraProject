@@ -131,7 +131,7 @@ body #lottrybody {
 /*左側選單*/
 #lottryTagPage .left-pd {
 	background-color: var(--main-bg-gray);
-	padding: 20px;
+	padding: 10px;
 	border-radius: 20px;
 	height: 60vh;
 	overflow-y: auto;

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 function GachaPdCard({ seriesName, productName, productPrice, className = '', img = '' }) {
 
     const [isActive, setIsActive] = useState(false);
-    const [newcalss, setNewclass] = useState("")
+    const [newclass, setNewclass] = useState("")
 
     function toogleHeart() {
         if (!isActive) {
@@ -17,10 +17,10 @@ function GachaPdCard({ seriesName, productName, productPrice, className = '', im
 
     return (
         <>
-                <div className={"gachaPDCard " + className}>
+                <div className={"gachaPDCard " + className} id='gachaPDCard'>
                     <div className="product-card" style={{ backgroundImage: `url(${img})` }}>
                         <div className="heart-icon" >
-                            <img className={"heart " + newcalss} onClick={toogleHeart} src='http://localhost/gachoraProject\public\images\heart.svg'></img>
+                            <img className={"heart " + newclass} onClick={toogleHeart} src='http://localhost/gachoraProject\public\images\heart.svg'></img>
                         </div>
                     </div>
                     {/* <!-- 商品名稱 --> */}

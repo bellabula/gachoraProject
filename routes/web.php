@@ -69,6 +69,10 @@ Route::get('/shoppingCart', function () {
     return Inertia::render('shoppingCart/Cart');
 })->middleware(['auth', 'verified'])->name('shoppingCart');
 
+Route::get('/gachamachine', function () {
+    return Inertia::render('Gacha/B_2_3_GachaMachine');
+})->name('gachamachine');
+
 
 // 首頁: Gachora, 扭蛋, 一番賞, 會員
 Route::view('/api', 'apihome');

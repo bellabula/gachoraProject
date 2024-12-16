@@ -13,10 +13,10 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             $("nav")
                 .removeClass("navbar-expand-lg")
                 .css({
-                    height:"100px"
+                    height: "100px"
                 })
 
-                $(".navbar-toggler-icon")
+            $(".navbar-toggler-icon")
                 .css({
                     backgroundImage: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")',
                 });
@@ -41,8 +41,11 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 扭蛋
                             </Link>
                         </li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
-
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('lottryHome')} className="dropdown-item">
+                                一番賞
+                            </Link>
+                        </li>
                         <li className="nav-item fs-4 me-3">
                             <Link href={route('faq')} className="dropdown-item">
                                 常見問題
@@ -74,7 +77,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 <img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} />
                             </Link>
                         </li>
-                        <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li>
+                        {/* 語言切換 */}
+                        {/* <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li> */}
                         <li className="nav-item" style={{ display: logout }}>
                             <Link href={route('logout')} method="post" as="button" className="dropdown-item">
                                 <img src="http://localhost/gachoraProject/public/images/logout.svg" style={{ filter: svgColor }} title='logout' />
@@ -107,9 +111,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     扭蛋
                                 </a>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">扭蛋首頁</a></li>
-                                    <li><a className="dropdown-item" href="#">扭蛋分類頁</a></li>
-                                    <li><a className="dropdown-item" href="#">扭蛋商品頁</a></li>
+                                    <li><a className="dropdown-item" href={route('gachaHome')}>扭蛋首頁</a></li>
+                                    <li><a className="dropdown-item" href={route('gachatagpage')}>扭蛋商品頁</a></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
@@ -118,9 +121,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     一番賞
                                 </a>
                                 <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">一番賞首頁</a></li>
-                                    <li><a className="dropdown-item" href="#">一番賞分類頁</a></li>
-                                    <li><a className="dropdown-item" href="#">一番賞商品頁</a></li>
+                                    <li><a className="dropdown-item" href={route('lottryHome')}>一番賞首頁</a></li>
+                                    <li><a className="dropdown-item" href={route('lottrytagpage')}>一番賞商品頁</a></li>
                                 </ul>
                             </li>
                             <li className="nav-item">
@@ -143,14 +145,15 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     聯絡我們
                                 </Link>
                             </li>
-                            <li className="nav-item" style={{ display: logout}}>
+                            <li className="nav-item" style={{ display: logout }}>
                                 <Link href={route('logout')} method="post" as="button" className="dropdown-item">
                                     登出
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* 語言切換 */}
+                            {/* <li className="nav-item">
                                 <a className="nav-link" href="#">English</a>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>

@@ -7,6 +7,9 @@ import '../css/signUpStyle.css';
 import '../css/member.css';
 import '../css/forgetPassword.css';
 import '../css/home.css';
+import '../css/gachamachine.css'
+import '../css/faq.css';
+import '../css/footer.css'
 
 import '../css/gachaHome.css';
 import '../css/lottryHome.css';
