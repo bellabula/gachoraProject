@@ -53,8 +53,10 @@ Route::get('/gachadetail', function () {
     return Inertia::render('Gacha/B_3_GachaDetail');
 })->name('gachadetail');
 
-Route::get('/lottrydetail', function () {
-    return Inertia::render('lottry/C_3_LottryDetail');
+Route::get('/lottrydetail', function (Request $request) {
+    return Inertia::render('lottry/C_3_LottryDetail',[
+        'seriesId' => $request->query('seriesId'),
+    ]);
 })->name('lottrydetail');
 
 Route::get('/gachatagpage', function () {

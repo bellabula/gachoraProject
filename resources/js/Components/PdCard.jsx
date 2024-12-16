@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from '@inertiajs/react';
 
 
 // import React from 'react'
 
 
-function PdCard({ pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName, bPrizeName, cPrizeName, img = '' }) {
+function PdCard({seriesId, pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName, bPrizeName, cPrizeName, img = '', aRemain, aTotal, bRemain, bTotal, cRemain, cTotal }) {
 
     const [isActive, setIsActive] = useState(false);
     const [newclass, setNewclass] = useState("")
@@ -23,7 +24,10 @@ function PdCard({ pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName,
     return (
         <div id='pdcard'>
             <div className="cards">
-                <div className="product-card" src="http://localhost/gachoraProject/public/images/gachoHome/少主貓貓.JPG">
+                <div className="product-card">
+                    <Link href={route('lottrydetail', { seriesId: seriesId })}>
+                        <img src={img} alt="Product" className="product-card" />
+                    </Link>
                     <div className="heart-icon" >
                         <img className={"heart " + newclass} onClick={toogleHeart} src='http://localhost/gachoraProject\public\images\heart.svg'></img>
                     </div>
@@ -32,9 +36,9 @@ function PdCard({ pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName,
                 <div className="price-info">
                     <div className="details">
                         <ul>
-                            <li>A賞：{aPrizeName}</li>
-                            <li>B賞：{bPrizeName}</li>
-                            <li>C賞：{cPrizeName}</li>
+                            <li>A賞：{aPrizeName}&nbsp;&nbsp;{aRemain}/{aTotal}</li>
+                            <li>B賞：{bPrizeName}&nbsp;&nbsp;{bRemain}/{bTotal}</li>
+                            <li>C賞：{cPrizeName}&nbsp;&nbsp;{cRemain}/{cTotal}</li>
                         </ul>
                     </div>
                     <div className="price-row">

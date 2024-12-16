@@ -41,8 +41,11 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 扭蛋
                             </Link>
                         </li>
-                        <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">一番賞</a></li>
-
+                        <li className="nav-item fs-4 me-3">
+                            <Link href={route('lottryHome')} className="dropdown-item">
+                                一番賞
+                            </Link>
+                        </li>
                         <li className="nav-item fs-4 me-3">
                             <Link href={route('faq')} className="dropdown-item">
                                 常見問題
