@@ -109,7 +109,7 @@ function C_1_LottryHome() {
                     </div>
                     {/* <!--標籤連結--> */}
                     <div class="labelitem d-flex justify-content-end">
-                        <div class="ms-1 item"><a href="#">全部商品</a></div>
+                        <div class="ms-1 item"><a href={route('lottrytagpage')}>全部商品</a></div>
                         <div class="ms-1 item"><a href="#">熱門商品</a></div>
                         <div class="ms-1 item"><a href="#">最新商品</a></div>
                         <div class="ms-1 item"><a href="#">限時商品</a></div>
