@@ -1529,10 +1529,31 @@ class API
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $tmp[] = $output['label'];
+      $jsonOutput[] = $output['label'];
     }
     $stmt->closeCursor();
     $db = null;
-    return $tmp;
+    return $jsonOutput;
+  }
+  function MyTimer($user_id)
+  {
+    $user_id = $_POST['user_id'];
+    $db = new Connect;
+    $tmp = [];
+    $sql = "call GetWaitTimeById(:user_id)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'series_id' => $output['series_id'],
+        'name' => $output['series_name'],
+        'number' => $output['number'],
+        'waiting' => $output['waiting'],
+      ];
+    }
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
   }
 }
