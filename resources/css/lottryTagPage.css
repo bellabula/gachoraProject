@@ -1,0 +1,186 @@
+body #lottrybody {
+	background-color: #365B60;
+}
+
+/*最上方banner*/
+#lottryTagPage .detailbanner {
+	width: 80%;
+	height: 30vh;
+	border-radius: 50px;
+	margin: 20px auto;
+	position: relative;
+	top: 100%;
+	transform: translateX(0%);
+}
+
+#lottryTagPage .detailbanner img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 50px;
+
+}
+
+#lottryTagPage .row {
+	display: flex;
+}
+
+/* 下拉菜單 */
+#lottryTagPage .detail-dropdown {
+	position: relative;
+	display: inline-block;
+	margin: 10px;
+	background-color: var(--main-bg-gray);
+	color: var(--main-darkblue);
+	border-radius: 20px;
+	padding: 10px 30px;
+	cursor: pointer;
+	height: 40px;
+}
+
+#lottryTagPage .detail-dropdown-menu {
+	display: none;
+	position: absolute;
+	color: #22555c;
+	background-color: #f9f9f9;
+	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+	padding: 10px 0;
+	border-radius: 10px;
+	list-style-type: none;
+}
+
+#lottryTagPage .detail-dropdown-menu li {
+	white-space: nowrap;
+	padding: 8px 16px;
+	cursor: pointer;
+}
+
+#lottryTagPage .detail-dropdown-menu li:hover {
+	background-color: #e5e5e5;
+}
+
+#lottryTagPage .detail-dropdown:hover .detail-dropdown-menu {
+	display: block;
+}
+
+/*搜尋框*/
+#lottryTagPage input[type="search"] {
+	-webkit-appearance: none;
+	/* 移除 Webkit 瀏覽器的預設樣式 */
+	-moz-appearance: none;
+	/* 移除 Firefox 的預設樣式 */
+	appearance: none;
+	/* 移除現代瀏覽器的預設樣式 */
+	outline: none;
+	border: none;
+}
+
+/* 移除清除按鈕 (Webkit 瀏覽器專屬) */
+#lottryTagPage input[type="search"]::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+	appearance: none;
+	display: none;
+}
+
+#lottryTagPage .searchdiv {
+	position: relative;
+}
+
+#lottryTagPage .search-type {
+	background-color: var(--main-bg-gray);
+	width: 250px;
+	height: 40px;
+	border: 0;
+	border-radius: 20px;
+	margin: 10px 0 10px 10px;
+	color: var(--main-darkblue);
+	padding: 0 0 0 20px;
+	box-sizing: border-box;
+}
+
+#lottryTagPage input.search-type::placeholder {
+	color: var(--main-darkblue);
+	padding: 0 10px 0 10px;
+	transition: color 0.3s;
+}
+
+#lottryTagPage input.search-type:focus::placeholder {
+	color: transparent;
+}
+
+#lottryTagPage input.search-type:focus {
+	border: none;
+}
+
+#lottryTagPage .search-icon {
+	position: absolute;
+	right: 0;
+	height: 40px;
+	margin: 10px;
+	border: none;
+	background: none;
+	padding: 0;
+
+}
+
+#lottryTagPage .search-icon img {
+	height: 30px;
+}
+
+/*左側選單*/
+#lottryTagPage .left-pd {
+	background-color: var(--main-bg-gray);
+	padding: 10px;
+	border-radius: 20px;
+	height: 60vh;
+	overflow-y: auto;
+	position: sticky;
+	top: 5vh;
+	left: 1vh;
+	box-shadow: 0 4px 10px #5f5f5f;
+}
+
+/*滑動條樣式*/
+#lottryTagPage .left-pd::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+#lottryTagPage .left-pd::-webkit-scrollbar-track {
+	background-color: #F2F1EC;
+	border-radius: 10px;
+	margin: 50px;
+}
+
+#lottryTagPage .left-pd::-webkit-scrollbar-thumb {
+	background-color: #FEC265;
+	border-radius: 10px;
+}
+
+#lottryTagPage .category-list li {
+	color: var(--main-darkblue);
+	cursor: pointer;
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid var(--main-darkblue);
+	box-shadow: 1px 1px 3px var(--main-darkblue);
+	border-radius: 8px;
+}
+
+#lottryTagPage .category-list li:hover,
+#lottryTagPage .category-list li.active {
+	background-color: #FEC265;
+	font-weight: bold;
+}
+
+#lottryTagPage .page-link {
+	color: #365B60 !important;
+	background-color: #F2F1EC !important;
+	border: none !important;
+	border-radius: 8px !important;
+}
+
+#lottryTagPage .centered-container {
+	max-width: 1560px;
+}

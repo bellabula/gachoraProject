@@ -1,0 +1,358 @@
+body #lottrybody {
+    background-color: #365B60;
+}
+
+/* 商品圖片區塊 */
+#lottryDetail .product-image {
+    background-color: #365B60;
+    position: relative;
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 50px 50px 0;
+    margin: 0 0 20px 0;
+}
+
+#lottryDetail .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 50px 50px 0;
+}
+
+/* 商品資訊 */
+#lottryDetail .product-info {
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#lottryDetail .pdinfocolor {
+    background-color: var(--main-bg-gray);
+    height: auto;
+    border-radius: 50px 0 0 50px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 20px 0 20px 0;
+    padding: 20px 0 0;
+}
+
+#lottryDetail .pdinfocolor li {
+    list-style: none;
+}
+
+/*移除input nuber預設樣式*/
+#lottryDetail input[type="number"] {
+    -moz-appearance: textfield;
+    /* Firefox */
+    -webkit-appearance: none;
+    /* Safari 和 Chrome */
+    appearance: none;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+}
+
+/*移除預設上下醜箭頭*/
+#lottryDetail input[type="number"]::-webkit-inner-spin-button,
+#lottryDetail input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#lottryDetail .number-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 20px 10px 20px;
+}
+
+#lottryDetail .number-input input {
+    width: 100px;
+    text-align: center;
+    border-radius: 30px;
+    background-color: #F2F1EC;
+    border: #FEC265 solid 2px;
+    height: 35px;
+}
+
+#lottryDetail .number-input input:focus {
+    border: #365B60 solid 2px;
+}
+
+#lottryDetail .number-input button {
+    height: 35px;
+    border-radius: 30px;
+    width: 100px;
+    background-color: #FEC265;
+    border: hidden;
+    color: #365B60;
+}
+
+#lottryDetail .number-input button:hover {
+    border: #365B60 solid 2px;
+}
+
+/*收藏按鈕css*/
+#lottryDetail .Favorite_bt,
+#lottryDetail .Restock-bt {
+    border: none;
+    background-color: #FEC265;
+    margin: 10px;
+    padding: 10px 20px 10px 20px;
+    color: #365B60;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.lottrynumber {
+    border: none;
+    background-color: var(--main-bg-gray);
+    height: 50px;
+    width: 70%;
+    margin: 20px 0 20px 20px;
+    padding: 10px;
+    color: #365B60;
+    border-radius: 10px;
+}
+
+#lottryDetail .Favorite_bt img {
+    height: 20px;
+    width: auto;
+    margin: 0 10px 0 0;
+}
+
+#lottryDetail .Favorite_bt:hover {
+    border: #365B60 solid 2px;
+}
+
+#lottryDetail .Restock-bt:hover {
+    border: #365B60 solid 2px;
+}
+
+/* 商品種類小圖 */
+#lottryDetail #sm-pd-grid {
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0 0px 0;
+    background-color: var(--main-bg-gray);
+    border-radius: 10px;
+}
+
+
+/*滑動條樣式*/
+#lottryDetail #sm-pd-grid::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+#lottryDetail #sm-pd-grid::-webkit-scrollbar-track {
+    background-color: #F2F1EC;
+    border-radius: 10px;
+}
+
+#lottryDetail #sm-pd-grid::-webkit-scrollbar-thumb {
+    background-color: var(--main-yellow);
+    border-radius: 10px;
+}
+
+/* 大圖顯示區 */
+#lottryDetail .big-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    height: 50vh;
+    overflow: hidden;
+    margin: 20px;
+}
+
+#lottryDetail .big-image img {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+/* 導覽按鈕樣式 */
+#lottryDetail .nav-tabs {
+    border-bottom: 2px solid #365B60;
+}
+
+#lottryDetail .nav-tabs .nav-link {
+    border-bottom: #365B60 solid 1px;
+    color: #365B60;
+    background-color: #F2F1EC;
+    border-radius: 20px 20px 0 0;
+    margin-right: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+#lottryDetail .nav-tabs .nav-link:hover {
+    background-color: #FEC265;
+    color: #365B60;
+}
+
+#lottryDetail .nav-tabs .nav-link.active {
+    background-color: #365B60;
+    border-bottom: #FEC265 solid 2px;
+    color: #fff;
+    font-weight: bold;
+    height: 50px;
+}
+
+/* 調整按鈕群對齊方式 */
+#lottryDetail .nav-tabs.justify-content-center {
+    justify-content: center;
+}
+
+
+/* 靜態圖片區塊 */
+#lottryDetail .static-image {
+    background-color: #f8f9fa;
+    border: 1px dashed #ddd;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+}
+
+#lottryDetail .static-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+/*選號區域*/
+.card-body {
+    background-color: var(--main-bg-gray);
+}
+
+.subtitles {
+    border: none;
+    background-color: #FEC265;
+    margin: 20px;
+    padding: 10px 20px 10px 20px;
+    color: #365B60;
+    border-radius: 10px;
+}
+
+.seat-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.seat {
+    width: 100px;
+    height: 40px;
+    margin: 5px;
+    text-align: center;
+    line-height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.seat.selected {
+    background-color: var(--main-yellow);
+    /* 已選中號碼的背景色 */
+    color: white;
+}
+
+.seat.booked {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+}
+
+.seat:hover:not(.booked):not(.selected) {
+    background-color: #ddd;
+    /* 滑鼠懸停時的樣式 */
+}
+
+.displayNumber {
+    width: 100%;
+    margin: 10px;
+}
+
+/*商品詳情區塊*/
+#lottryDetail .lottrydt {
+    background-color: var(--main-bg-gray);
+    padding: 10px;
+    width: 90%;
+    border-radius: 20px;
+    margin: 50px;
+}
+
+/* 底部商品切換 */
+/* Carousel 外框 */
+#lottryDetail .bottom-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* 滑動區域 */
+#lottryDetail .carousel-wrapper {
+    overflow: hidden;
+    width: 80%;
+    /* 設置展示區域寬度 */
+}
+
+/* 商品容器 */
+#lottryDetail .carousel-items {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    flex-wrap: nowrap;
+    height: 450px;
+
+}
+
+/* 產品卡樣式 */
+.product-card {
+    text-align: center;
+    margin: 10px;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+}
+
+/* 輪播容器樣式 */
+.carousel-wrapper {
+    display: flex;
+    overflow: hidden;
+}
+
+.item {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* 按鈕樣式 */
+#lottryDetail .carousel-btn {
+    top: 35%;
+    height: 50px;
+    position: absolute;
+    z-index: 10;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#lottryDetail .carousel-btn.left {
+    left: 10px;
+}
+
+#lottryDetail .carousel-btn.right {
+    right: 10px;
+}

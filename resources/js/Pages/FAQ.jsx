@@ -3,13 +3,15 @@ import FAAcomponent from "../Components/FAAcomponent";
 import { Head, usePage } from '@inertiajs/react';
 import Footer from "@/Components/Footer";
 import Navbar from "@/Components/Navbar";
-import { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
+// import axios from 'axios';
+import emailjs from '@emailjs/browser';
 
 
 export default function FAQ() {
 
   const goto = usePage().props.goto
-  useEffect (()=> {
+  useEffect(() => {
     if (goto === 'contact') {
       $(`#faq-category-1`).addClass('d-none');
       $(`#faq-category-6`).removeClass('d-none');
@@ -33,9 +35,36 @@ export default function FAQ() {
     });
 
     // 選取特定的類別，讓他active
-    $(`#${categoryId+"g"}`).addClass('active');
+    $(`#${categoryId + "g"}`).addClass('active');
 
   }
+
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    console.log(new FormData(e.target)); // 檢查送出的資料
+
+    emailjs
+      .sendForm('service_w2kzikj', 'template_6yrxgme', form.current, {
+        publicKey: 'XSNnYkDdyr6X8b0Tn',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
+  };
+
+  $(document).ready(function () {
+    $('.button2').on('click', function () {
+      alert('郵件已寄出!'); // 顯示訊息
+      // $('.formDetail').val(''); // 清空輸入框內容
+    });
+  });
 
   return (
     <>
@@ -50,7 +79,7 @@ export default function FAQ() {
           <div className="container">
             <div className="yellowsquare">
               <div className="sidebar">
-                <button id="faq-category-1g" className={goto === 'contact' ? '' : 'active'} onClick={() => showFaq('faq-category-1')} style={{marginTop:'10%'}}>扭蛋與一番賞</button>
+                <button id="faq-category-1g" className={goto === 'contact' ? '' : 'active'} onClick={() => showFaq('faq-category-1')} style={{ marginTop: '10%' }}>扭蛋與一番賞</button>
                 <button id="faq-category-2g" onClick={() => showFaq('faq-category-2')}>會員與優惠</button>
                 <button id="faq-category-3g" onClick={() => showFaq('faq-category-3')}>付款與交易</button>
                 <button id="faq-category-4g" onClick={() => showFaq('faq-category-4')}>活動與公告</button>
@@ -76,8 +105,8 @@ export default function FAQ() {
                     <FAAcomponent targetId="question12" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
                   </div>
 
-                   {/* <!-- 1-3 QA --> */}
-                   <div className="accordion-item">
+                  {/* <!-- 1-3 QA --> */}
+                  <div className="accordion-item">
                     <FAQcomponent targetId="question13">有沒有每日免費抽一次的活動？13</FAQcomponent>
                     <FAAcomponent targetId="question13" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
                   </div>
@@ -215,27 +244,36 @@ export default function FAQ() {
                 </div>
               </div>
               <div id="faq-category-6" className="faq-category d-none" style={{ display: "flex" }}>
-                <div className="contact11">
+                <form className="contact11" ref={form} onSubmit={sendEmail}
+                // action="https://docs.google.com/forms/u/0/d/1LZXOqs0SHz_0kxbgvNFLESLd6wbL_fgg2xhhJHK7mp8/previewResponse" method="POST"
+                >
                   <p>若您有任何需要我們服務的地方，請填寫以下表單～<br />我們收到您的來信後，將於3~5日內回覆（不含週六例假日）</p>
                   <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">姓名</h3><input className="col-6" type="text" placeholder="請填寫姓名" />
+                    <h3 className="col-4">姓名</h3><input className="col-6 formDetail" type="text" name="from_name" placeholder="請填寫姓名"
+                    // name="entry.196632432"
+                    />
                   </div>
                   <div className="form" style={{ display: "flex" }}>
-                    <h3 className="col-4">電子郵件</h3><input className="col-6" type="email" placeholder="請輸入電子郵件" />
+                    <h3 className="col-4">電子郵件</h3><input className="col-6 formDetail" type="email" name="from_email" placeholder="請輸入電子郵件" 
+                    // name="entry.176927514"
+                    />
                   </div>
                   <div className="form" style={{ display: "flex" }}>
                     <h3 className="col-4">意見</h3>
-                    <textarea className="col-6" placeholder="請填寫意見內容" />
+                    <textarea className="col-6 formDetail" name="message" placeholder="請填寫意見內容" 
+                    // name="entry.894253798"
+                    />
                   </div>
                   <label className="check">
                     <input type="checkbox" />
                     <span>我已詳細閱讀並同意</span><a href="#">會員條款</a>
                   </label>
                   <div className="buttonCheck">
-                    <button className="button1">重新填寫</button>
-                    <button className="button2">完成送出</button>
+                    <button className="button1" type="reset" >重新填寫</button>
+                    <button className="button2" type="submit" value="Send">完成送出</button>
+
                   </div>
-                </div>
+                </form>
                 <div className="contact22">
                   <p>聯絡我們</p>
                 </div>
@@ -244,7 +282,7 @@ export default function FAQ() {
           </div>
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </>
   )
 }

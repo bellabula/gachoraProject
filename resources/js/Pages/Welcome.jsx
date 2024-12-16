@@ -160,10 +160,10 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
             <Head title="GachoraHome" />
 
-            <Navbar svgColor="none" textColor="white" homepage = "true"/>
-           
-            <main id="homepage" style={{ backgroundColor: "var(--main-darkblue)", margin: "0px" }}>
 
+
+            <main id="homepage" style={{ backgroundColor: "var(--main-darkblue)", margin: "0px" }}>
+                <Navbar svgColor="none" textColor="white" homepage="true" />
                 {/* 首頁開始/動畫/按鈕 */}
 
                 <div id="home">

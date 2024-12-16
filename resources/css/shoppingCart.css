@@ -441,7 +441,7 @@
   display: grid;
   grid-template-areas:
     "e5left e5center e5right";
-  grid-template-columns: 20vw 60vw 20vw;
+  grid-template-columns: 10% 80% 10%;
   grid-template-rows: 100vh;
   color: white;
 
@@ -468,15 +468,23 @@
       align-content: center;
       overflow-y: auto;
 
-      & button {
+      & div {
         border: 3px solid var(--main-darkblue);
         border-radius: 10px;
         background-color: var(--main-bg-gray);
-        min-width: 16vw;
-        min-height: 10vh;
+        width: 25%;
+        color: black;
+        /* min-width: 16vw; */
+        /* min-height: 10vh; */
         margin: 1.5vh;
         margin-bottom: 0;
-        font-size: 2vw;
+        font-size: 1.5vw;
+        cursor: pointer;
+      }
+      & .optionBox.selected {
+        background-color: #4CAF50;
+        border-color: #388E3C;
+        color: white;
       }
     }
 
@@ -484,8 +492,8 @@
       grid-area: e5down;
       border: 1px solid blanchedalmond;
       border-radius: 4px;
-      padding: 3vw;
-      font-size: 1.8vw;
+      padding: 1rem;
+      font-size: 1rem;
       align-content: center;
       overflow-y: auto;
 
@@ -510,7 +518,7 @@
 
         & span {
           flex: 1;
-          font-size: 2vw;
+          /* font-size: 2vw; */
         }
       }
 

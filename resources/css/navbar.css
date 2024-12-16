@@ -3,7 +3,8 @@
 }
 
 .navbar-toggler {
-    border: none
+    border: none;
+    z-index: 1000;
 }
 
 .navbar-toggler:focus {
@@ -18,34 +19,58 @@
     width: 300px;
 }
 
+#homepage .navbar-toggler-icon {
+    background-image: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")';
+    margin: "0px";
+    width: "7rem";
+    height: "7rem";
+    pointer-events: "auto";
+    position: "relative";
+}
+
 @media (max-width: 768px) {
-    .navbar-toggler-icon {
-        width: 3rem; 
-        height: 3rem; 
+    #homepage  .navbar-toggler-icon {
+        width: 3rem;
+        height: 3rem;
     }
 }
-@media (min-width: 992px){
+
+@media (min-width: 768px) {
+    #homepage .navbar-toggler-icon {
+        width: 5rem;
+        height: 5rem;
+    }
+}
+
+@media (min-width: 992px) {
     #offcanvasNavbar {
         display: none;
     }
-    .navbar-toggler-icon {
-        width: 6rem;  
-        height: 6rem; 
+
+    #homepage .navbar-toggler-icon {
+        width: 7rem;
+        height: 7rem;
     }
 }
-@media (max-width: 992px){
-    #bigNavbar-l, #bigNavbar-r {
+
+@media (max-width: 992px) {
+
+    #bigNavbar-l,
+    #bigNavbar-r {
         display: none;
     }
 }
-#bigNavbar-l li, #bigNavbar-r li {
+
+#bigNavbar-l li,
+#bigNavbar-r li {
     margin-left: 10px;
     margin-right: 10px;
     text-align: center;
     line-height: 80px;
     z-index: 1000;
 }
-@media (min-width: 1200px){
+
+@media (min-width: 1200px) {
     #bigNavbar-l li {
         margin-left: 20px;
         margin-right: 20px;
