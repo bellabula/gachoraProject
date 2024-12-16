@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '@/Components/Navbar';
 import GachaDetailCard from '@/Pages/Gacha/GachaDetailCard';
-import GachaPdCard from '@/Components/GachaPdCard';
+import PdCard from '@/Components/PdCard';
 import { Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -113,26 +113,18 @@ function C_3_LottryDetail() {
                         </div>
                         <div className="col-xxl-4">
                             <div className="product-info">
-                                <h1>商品名稱</h1>
+                                <h1 style={{color:'var(--main-bg-gray)'}}>商品名稱</h1>
                                 <div className="pdinfocolor">
                                     <ul>
                                         <li>配送時間:</li>
                                         <li>結束日期:</li>
-                                        <li>獎項介紹:</li>
-                                        <li>A賞:</li>
-                                        <li>B賞:</li>
-                                        <li>C賞:</li>
-                                        <li>D賞:</li>
-                                        <li>E賞:</li>
-                                        <li>F賞:</li>
-                                        <li>G賞:</li>
                                         <li>種類:共?種</li>
                                     </ul>
                                 </div>
-                                <h3 className='subtitles'>每抽價格:</h3>
-                                <p className='lottrynumber'>剩餘G幣:???</p>
-                                <p className='lottrynumber' >已抽人數/總數:</p>
-                                <p className='lottrynumber' >排隊人數/等待時間:</p>
+                                <h3 className='subtitles'>每抽價格:NT   /抽</h3>
+                                <span className='lottrynumber'>剩餘G幣:???</span>
+                                <span className='lottrynumber' >已抽數/總數:</span>
+                                <p className='lottrynumber' >目前排隊人數/預估等待時間:</p>
                                 <button className='Favorite_bt' >點擊往下排隊/抽選</button>
                                 <button
                                     className={`Favorite_bt ${isFavorited ? 'active' : ''}`}
@@ -306,13 +298,17 @@ function C_3_LottryDetail() {
                                     {/* 假設這裡放 10 個商品圖片 */}
                                     {allProducts.map((product, index) => (
                                         <div className="item" key={index}>
-                                            <GachaPdCard
-                                                className="d-flex flex-wrap justify-content-center"
-                                                seriesName={product.probability}
-                                                productName={product.name}
-                                                img={product.img}
-                                                productPrice="50">
-                                            </GachaPdCard>
+                                        <PdCard className="d-flex flex-wrap justify-content-center"
+                                            pdName={product.name}
+                                            pdQuantity={5}
+                                            pdTotal={50}
+                                            pdPrice={'500'}
+                                            pdAvailable={'尚有大賞'}
+                                            aPrizeName={'魯夫'}
+                                            bPrizeName={'魯夫'}
+                                            cPrizeName={'魯夫'}
+                                            img={product.img}>
+                                        </PdCard>
                                         </div>
                                     ))}
                                 </div>

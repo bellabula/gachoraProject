@@ -142,7 +142,8 @@ function B_2_GachaTagPage() {
                                 id="product-list">
                                 {/* 商品區 */}
                                 {productsToShow.map((product, index) => (
-                                    <GachaPdCard className="col-md-4 mb-4 d-flex flex-wrap justify-content-center"
+                                    <GachaPdCard 
+                                    className="col-md-4 mb-4 d-flex flex-wrap justify-content-center"
                                         seriesName={product.seriesName}
                                         productName={product.productName}
                                         productPrice={product.productPrice}
