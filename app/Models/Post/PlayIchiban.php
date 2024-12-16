@@ -34,7 +34,7 @@ try {
   }
 } catch (Exception $e) {
   if ($e->getCode() == 23000) {
-    echo json_encode(["error" => "Not Enough G point."]);
+    echo json_encode(["error" => "資料不一致"]);
   } else {
     echo json_encode(["error" => "Connection_fail: " . $e->getMessage()]);
   }
