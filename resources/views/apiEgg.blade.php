@@ -44,7 +44,8 @@
       })
     })
     $('.card').on('click', 'button', function() {
-      const btn = $(this).attr('btn')
+      let btn = $(this).attr('btn')
+      if (btn == undefined){btn = ''}
       if (btn.indexOf('add') !== -1) {
         let amounts = (parseInt(this.nextSibling.nextSibling.innerText))
         let series_id = 'amount' + btn.substr(5)
@@ -175,7 +176,8 @@
     // 選蛋跳到詳細頁
     $(document).on('click', '.eggid', function() {
       const url = basePath + '/Post/EggDetail.php'
-      let series = $(this).text().substr(-1)
+      let series = $(this).text().substr(7)
+      // console.log($(this).text().substr(7))
       $.post(url, {
         series_id: series
       }, (response) => {
