@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
 function B_2_3GachaMachine() {
@@ -48,17 +48,12 @@ function B_2_3GachaMachine() {
         });
 
         const handleClick = () => {
-            if (!isAnimationPlaying) {
-                setIsAnimationPlaying(true); // 標記動畫播放
-                setRemainingDraws((prev) => prev - 1); // 更新剩餘抽數
-                animation3InstanceRef.current.play();
-                animation3InstanceRef.current.addEventListener("complete", () => {
-                    setIsAnimationPlaying(false); // 播放結束
-                    setAnimation3Completed(true); // 標記 animation3 完成
-                });
-            }
+            // setRemainingDraws((prev) => prev - 1);
+            animationInstance3.play();
+            animationInstance3.addEventListener("complete", () => {
+                setAnimation3Completed(true); // animation3 播放完成
+            });
         };
-
         const animationContainer = document.getElementById("animation3");
         if (animationContainer) {
             animationContainer.addEventListener("click", handleClick);
@@ -104,12 +99,30 @@ function B_2_3GachaMachine() {
             setAnimation3Completed(false); // 重置 animation3 完成狀態
             setCurrentDraw((prev) => prev + 1); // 更新當前抽數
             setRemainingDraws((prev) => prev - 1); // 更新剩餘抽數
-        } else {
-            // 剩餘抽數為 0 時跳轉到 gachaHome
-            navigate('/gachaHome');
+            setCurrentDraw((prev) => prev + 1); // 更新當前抽數
+        }
+
+        if (remainingDraws === 0) {
+            navigate('/gachaHome'); // 最後一次抽完跳轉到 gachaHome 頁面
         }
     };
 
+    // 接資料庫
+    const user = usePage().props.auth.user;
+    const user_id = user.id
+    const gachaId = usePage().props.seriesId;
+    const basePath = '../app/Models'
+    const [response, setResponse] = useState([])
+    useEffect(() => {
+        $.post(basePath + '/Post/PlayEgg.php', {
+            user_id: user_id,
+            series_id: gachaId,
+            amounts: 1
+        }, (response) => {
+            setResponse(response)
+            console.log(response)
+        })
+    }, [])
     return (
         <>
             <Head title="GachaMachine" />
@@ -134,6 +147,12 @@ function B_2_3GachaMachine() {
                             <div id="animation5"></div>
                         </div>
                         <div className="content">
+                        {response.map((ele, index) => (
+                                <div key={index}>
+                                    <img src={ele.img} alt="扭蛋" />
+                                    <h3>{ele.name}</h3>
+                                </div>
+                            ))}
                             <img src="http://localhost/gachoraProject/public/images/扭蛋.jpg" alt="扭蛋" />
                             <h3>商品名稱</h3>
                         </div>

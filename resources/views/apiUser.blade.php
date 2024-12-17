@@ -73,6 +73,7 @@
                 user_id: user_id
             }, (response) => {
                 console.log('蛋收藏：', response)
+                console.log('蛋收藏：', [...response.has, ...response.no])
                 return $('#result').text('')
             })
         })

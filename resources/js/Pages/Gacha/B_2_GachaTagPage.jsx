@@ -1,24 +1,26 @@
 import React from 'react'
 import Navbar from '@/Components/Navbar';
 import GachaPdCard from '@/Components/GachaPdCard';
-import { Head, Link } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
-
 function B_2_GachaTagPage() {
+
+    const user = usePage().props.auth.user;
+    const user_id = user.id
     // 假資料
-    const [allProducts] = useState([
-        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "玩具", seriesName: "系列名", productName: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
-    ]);
-    // const [allProducts, setAllProducts] = useState([])
+    // const [allProducts] = useState([
+    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "玩具", seriesName: "系列名", productName: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
+    // ]);
+    const [allProducts, setAllProducts] = useState([])
     // const [allProductsAPI, setAllProductsAPI] = useState([])
 
     // let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
@@ -32,41 +34,57 @@ function B_2_GachaTagPage() {
     //     }
     //     callAPI();
     // }, [])
-    
-    // useEffect(()=>{
-    //     let basePath = '../app/Models'
-    //     fetch(basePath + '/Fetch/AllEgg.php')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             data.forEach((ele)=>{
-    //                 console.log(ele)
-    //             })
-    //             console.log(data)
-    //             // setAllProducts(data)
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching data:', error);
-    //         })
-    // }, [])
+    useEffect(() => {
+        let basePath = '../app/Models'
+        fetch(basePath + '/Fetch/AllEgg.php')
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data)
+                setAllProducts(data)
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            })
+    }, [])
+
+    const basePath = '../app/Models'
+    const [userFavor, setUerFavor] = useState([]);
+
+    let collectEgg = [];
+    useEffect(() => {
+        $.post(basePath + '/Post/UserCollectionEgg.php', {
+            user_id: user_id
+        }, (response) => {
+            if (typeof (response.has) != "undefined") {
+                collectEgg = [...response.has]
+            }
+            if (typeof (response.no) != "undefined") {
+                collectEgg = [...collectEgg, ...response.no]
+            }
+            setUerFavor(collectEgg.map(item => item.id))
+            // console.log(userFavor)
+            // console.log('蛋收藏：', [...response.has, ...response.no])
+        })
+    }, [user_id])
 
     const [currentPage, setcurrentPage] = useState(1);
     const [category, setcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const itemsPerPage = 6; // 每頁商品數量
 
-    // 動態篩選商品
+    // // 動態篩選商品
     const filteredProducts = allProducts.filter(product => {
-        const matchesCategory = category === "all" || product.category === category;
-        const matchesSearch = product.productName.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = category === "all" || product.theme === category;
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
     });
 
-    // 計算分頁
+    // // 計算分頁
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const productsToShow = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
-    //搜尋按鈕觸發
+    // //搜尋按鈕觸發
     const handleSearch = () => {
         const filtered = allProducts.filter(product =>
             product.productName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -77,13 +95,12 @@ function B_2_GachaTagPage() {
         setcurrentPage(1);
     };
 
-    // 分類切換
+    // // 分類切換
     const handleCategoryClick = (newCategory) => {
         setcategory(newCategory);
         setSearchQuery(""); // 切換分類時清空搜尋
         setcurrentPage(1); // 每次分類重置到第一頁
     };
-
 
     return (
         <>
@@ -143,12 +160,13 @@ function B_2_GachaTagPage() {
                                 id="product-list">
                                 {/* 商品區 */}
                                 {productsToShow.map((product, index) => (
-                                    <GachaPdCard 
-                                    className="col-md-4 mb-4 d-flex flex-wrap justify-content-center"
-                                        seriesName={product.seriesName}
-                                        productName={product.productName}
-                                        productPrice={product.productPrice}
-                                        img={product.img}
+                                    <GachaPdCard className="col-md-4 mb-4 d-flex flex-wrap justify-content-center"
+                                        seriesId={product.series_id}
+                                        seriesName={product.title}
+                                        productName={product.name}
+                                        productPrice={product.price}
+                                        img={product.img[0]}
+                                        userFavor={userFavor}
                                         key={index}>
                                     </GachaPdCard>
                                 ))}

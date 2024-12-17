@@ -51,8 +51,10 @@ Route::get('/lottryHome', function () {
 })->name('lottryHome');
 
 
-Route::get('/gachadetail', function () {
-    return Inertia::render('Gacha/B_3_GachaDetail');
+Route::get('/gachadetail', function (Request $request) {
+    return Inertia::render('Gacha/B_3_GachaDetail', [
+        'seriesId' => $request->query('seriesId'), // 將 seriesId 傳遞到前端
+    ]);
 })->name('gachadetail');
 
 Route::get('/lottrydetail', function (Request $request) {
@@ -73,8 +75,10 @@ Route::get('/shoppingCart', function () {
     return Inertia::render('shoppingCart/Cart');
 })->middleware(['auth', 'verified'])->name('shoppingCart');
 
-Route::get('/gachamachine', function () {
-    return Inertia::render('Gacha/B_2_3_GachaMachine');
+Route::get('/gachamachine', function (Request $request) {
+    return Inertia::render('Gacha/B_2_3_GachaMachine', [
+        'seriesId' => $request->query('seriesId'), // 將 seriesId 傳遞到前端
+    ]);
 })->name('gachamachine');
 
 Route::get('/lottryfunction', function () {
