@@ -1,14 +1,68 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '@/Components/Navbar';
 import GachaDetailCard from '@/Pages/Gacha/GachaDetailCard';
 import GachaPdCard from '@/Components/GachaPdCard';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 function B_3_GachaDetail() {
+    const basePath = '../app/Models'
+    const gachaId = usePage().props.seriesId;
+    const user = usePage().props.auth.user;
+    const user_id = user.id
+    const [userFavor, setUerFavor] = useState([]);
+
+    // //加入我的最愛事件
+    const [isFavorited, setIsFavorited] = useState(false);
+    function toggleFavorite() {
+        setIsFavorited(!isFavorited);
+    }
+
+    let collectEgg = [];
+    useEffect(() => {
+        $.post(basePath + '/Post/UserCollectionEgg.php', {
+            user_id: user_id
+        }, (response) => {
+            if (typeof (response.has) != "undefined") {
+                collectEgg = [...response.has]
+            }
+            if (typeof (response.no) != "undefined") {
+                collectEgg = [...collectEgg, ...response.no]
+            }
+            setUerFavor(collectEgg.map(item => item.id))
+            if (userFavor.includes(gachaId)) {
+                setIsFavorited(true)
+            }
+        })
+    }, [user_id])
+
+    const [characters, setCharacters] = useState([])
+    const [series, setSeries] = useState()
+    const [seriesImg, setSeriesImg] = useState()
+    const [recommend, setRecommend] = useState([])
+
+    const url = basePath + '/Post/EggDetail.php'
+    useEffect(() => {
+        $.post(url, {
+            series_id: gachaId
+        }, (response) => {
+            // console.log('扭蛋詳細頁', response);
+            setCharacters(response.character)
+            setSeries(response.series[0])
+            setSeriesImg(response.series[0].img)
+            // console.log(response.series[0].img)
+            // console.log(response.series)
+            // console.log(response.character)
+            // console.log(series)
+            setRecommend(response.recommend)
+            // console.log(response.recommend)
+        })
+    }, [gachaId])
 
     //上張圖、下張圖
-    const mainImages = ["https://via.placeholder.com/150", "https://via.placeholder.com/250"];
+    const mainImages = [seriesImg];
+    // console.log(seriesImg)
+    // const mainImages = series.img
     const [currentImageIndex, setcurrentImageIndex] = useState(0);
 
     function prevImage() {
@@ -19,12 +73,6 @@ function B_3_GachaDetail() {
         setcurrentImageIndex((currentImageIndex + 1) % mainImages.length)
     }
 
-    // //加入我的最愛事件
-    const [isFavorited, setIsFavorited] = useState(false);
-    function toggleFavorite() {
-        setIsFavorited(!isFavorited);
-    }
-
     //點集大圖切換
     const [bigImageSrc, setBigImageSrc] = useState(mainImages[0]);
 
@@ -33,17 +81,17 @@ function B_3_GachaDetail() {
     }
 
     // 模擬從資料庫取得的產品資料
-    const [allProducts] = useState([
-        { id: 1, name: "產品A", probability: "10%", img: "https://via.placeholder.com/150" },
-        { id: 2, name: "產品B", probability: "20%", img: "https://via.placeholder.com/250" },
-        { id: 3, name: "產品C", probability: "30%", img: "https://via.placeholder.com/350" },
-        { id: 4, name: "產品D", probability: "40%", img: "https://via.placeholder.com/450" },
-        { id: 5, name: "產品E", probability: "50%", img: "https://via.placeholder.com/550" },
-        { id: 6, name: "產品F", probability: "60%", img: "https://via.placeholder.com/650" },
-        { id: 7, name: "產品G", probability: "70%", img: "https://via.placeholder.com/750" },
-        { id: 8, name: "產品H", probability: "80%", img: "https://via.placeholder.com/850" },
-        { id: 9, name: "產品I", probability: "90%", img: "https://via.placeholder.com/950" }
-    ]);
+    // const [allProducts] = useState([
+    //     { id: 1, name: "產品A", probability: "10%", img: "https://via.placeholder.com/150" },
+    //     { id: 2, name: "產品B", probability: "20%", img: "https://via.placeholder.com/250" },
+    //     { id: 3, name: "產品C", probability: "30%", img: "https://via.placeholder.com/350" },
+    //     { id: 4, name: "產品D", probability: "40%", img: "https://via.placeholder.com/450" },
+    //     { id: 5, name: "產品E", probability: "50%", img: "https://via.placeholder.com/550" },
+    //     { id: 6, name: "產品F", probability: "60%", img: "https://via.placeholder.com/650" },
+    //     { id: 7, name: "產品G", probability: "70%", img: "https://via.placeholder.com/750" },
+    //     { id: 8, name: "產品H", probability: "80%", img: "https://via.placeholder.com/850" },
+    //     { id: 9, name: "產品I", probability: "90%", img: "https://via.placeholder.com/950" }
+    // ]);
 
     // 加減數量
     const [quantity, setQuantity] = useState(1);
@@ -58,7 +106,7 @@ function B_3_GachaDetail() {
     const [currentPosition, setCurrentPosition] = useState(0);
     const itemWidth = 33;
     const visibleItems = 3;
-    const totalItems = allProducts.length;
+    const totalItems = recommend.length;
     const prevCarousel = () => {
         setCurrentPosition((prevPosition) => Math.min(prevPosition + itemWidth, 0));
 
@@ -68,7 +116,6 @@ function B_3_GachaDetail() {
         const maxPosition = -(itemWidth * (totalItems - visibleItems));
         setCurrentPosition((prevPosition) => Math.max(prevPosition - itemWidth, maxPosition));
     };
-
 
     return (
         <>
@@ -81,7 +128,7 @@ function B_3_GachaDetail() {
                         <div className="product-image">
                             <img src={mainImages[currentImageIndex]}
                                 alt="商品圖片"
-                                id="mainProductImage" />
+                                id="mainProductImage" /> {/* {mainImages[currentImageIndex]} */}
                             <button className="carousel-control-prev"
                                 onClick={prevImage}>&#8249;</button>
                             <button className="carousel-control-next"
@@ -112,13 +159,13 @@ function B_3_GachaDetail() {
                                     onClick={minusValue} />
                                 <input type="number"
                                     id="quantityInput"
-                                    value={quantity}
+                                    defaultValue={quantity}
                                     min="1"
                                     max="100" />
                                 <img src="http://localhost/gachoraProject/public/images/gachoHome/add-square.png"
                                     className="increment"
                                     onClick={addValue} />
-                                <button>GO</button>
+                                <Link href={route('gachamachine', { seriesId: gachaId })} style={{textDecoration:"none", color:"var(--main-darkblue)"}}><button>GO</button></Link>
                             </div>
                             <button
                                 className={`Favorite_bt ${isFavorited ? 'active' : ''}`}
@@ -135,12 +182,12 @@ function B_3_GachaDetail() {
                 {/* <!-- 商品種類小圖 --> */}
                 <div className="row mt-1 d-flex">
                     <div className="col-xxl-7 row" id='sm-pd-grid'>
-                        {allProducts.map((product, index) => (
+                        {characters.map((chara, index) => (
                             <GachaDetailCard
-                                productName={product.name}
+                                productName={chara.name}
                                 switchBigImage={switchBigImage}
-                                probability={product.probability}
-                                productImg={product.img}
+                                probability="30%"
+                                productImg={chara.img}
                                 key={index}>
                             </GachaDetailCard>
                         ))}
@@ -220,7 +267,7 @@ function B_3_GachaDetail() {
                 {/* <!-- 靜態圖片區塊 --> */}
                 <div className="row mt-4">
                     <div className="col-12 static-image">
-                        <img src="static.jpg"
+                        <img src=""
                             alt="靜態教學圖"
                             className="img-fluid" />
                     </div>
@@ -236,14 +283,16 @@ function B_3_GachaDetail() {
                         <div className="carousel-wrapper">
                             <div className="carousel-items" style={{ transform: `translateX(${currentPosition}%)` }}>
                                 {/* 假設這裡放 10 個商品圖片 */}
-                                {allProducts.map((product, index) => (
+                                {recommend.map((ele, index) => (
                                     <div className="item" key={index}>
-                                        <GachaPdCard
-                                            className="d-flex flex-wrap justify-content-center"
-                                            seriesName={product.probability}
-                                            productName={product.name}
-                                            img={product.img}
-                                            productPrice="50">
+                                        <GachaPdCard className="col-md-4 mb-4 d-flex flex-wrap justify-content-center"
+                                            seriesId={ele.series_id}
+                                            seriesName={ele.title}
+                                            productName={ele.name}
+                                            productPrice={ele.price}
+                                            img={ele.img[0]}
+                                            userFavor={userFavor}
+                                            key={index}>
                                         </GachaPdCard>
                                     </div>
                                 ))}

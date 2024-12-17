@@ -1,9 +1,9 @@
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
 function B_2_3GachaMachine() {
     const [animation3Completed, setAnimation3Completed] = useState(false);
-    const [remainingDraws, setRemainingDraws] = useState(5); // 剩餘抽數
+    const [remainingDraws, setRemainingDraws] = useState(1); // 剩餘抽數
     const [currentDraw, setCurrentDraw] = useState(0); // 當前抽數
     const [isAnimationPlaying, setIsAnimationPlaying] = useState(false); // 控制動畫播放
     const [showNextDrawButton, setShowNextDrawButton] = useState(false); // 控制"下一抽"按鈕顯示
@@ -20,6 +20,7 @@ function B_2_3GachaMachine() {
         });
 
         const handleClick = () => {
+            // setRemainingDraws((prev) => prev - 1);
             animationInstance3.play();
             animationInstance3.addEventListener("complete", () => {
                 setAnimation3Completed(true); // animation3 播放完成
@@ -89,11 +90,27 @@ function B_2_3GachaMachine() {
             setCurrentDraw((prev) => prev + 1); // 更新當前抽數
         }
 
-        if (remainingDraws === 1) {
+        if (remainingDraws === 0) {
             navigate('/gachaHome'); // 最後一次抽完跳轉到 gachaHome 頁面
         }
     };
 
+    // 接資料庫
+    const user = usePage().props.auth.user;
+    const user_id = user.id
+    const gachaId = usePage().props.seriesId;
+    const basePath = '../app/Models'
+    const [response, setResponse] = useState([])
+    useEffect(() => {
+        $.post(basePath + '/Post/PlayEgg.php', {
+            user_id: user_id,
+            series_id: gachaId,
+            amounts: 1
+        }, (response) => {
+            setResponse(response)
+            console.log(response)
+        })
+    }, [])
     return (
         <>
             <Head title="GachaMachine" />
@@ -118,8 +135,12 @@ function B_2_3GachaMachine() {
                             <div id="animation5"></div>
                         </div>
                         <div className="content">
-                            <img src="http://localhost/gachoraProject/public/images/扭蛋.jpg" alt="扭蛋" />
-                            <h3>商品名稱</h3>
+                            {response.map((ele, index) => (
+                                <div key={index}>
+                                    <img src={ele.img} alt="扭蛋" />
+                                    <h3>{ele.name}</h3>
+                                </div>
+                            ))}
                         </div>
                         {showNextDrawButton && (
                             <button
