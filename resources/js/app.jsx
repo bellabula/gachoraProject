@@ -9,8 +9,8 @@ import '../css/forgetPassword.css';
 import '../css/home.css';
 import '../css/gachamachine.css'
 import '../css/faq.css';
-import '../css/footer.css'
-
+import '../css/footer.css';
+import '../css/lottryfunction.css';
 import '../css/gachaHome.css';
 import '../css/lottryHome.css';
 import '../css/gachaTagPage.css';
@@ -19,7 +19,7 @@ import '../css/GachaPdCard.css';
 import '../css/home.css';
 import '../css/faq.css';
 import '../css/footer.css';
-
+// import 'turn.js/dist/turn.min.css';  // 引入 Turn.js 的樣式
 import '../css/shoppingCart.css';
 import '../css/gachaDetail.css';
 import '../css/lottryDetail.css';

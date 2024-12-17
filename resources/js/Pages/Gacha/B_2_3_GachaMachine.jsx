@@ -3,15 +3,43 @@ import { useEffect, useRef, useState } from 'react';
 
 function B_2_3GachaMachine() {
     const [animation3Completed, setAnimation3Completed] = useState(false);
-    const [remainingDraws, setRemainingDraws] = useState(1); // 剩餘抽數
+    const [remainingDraws, setRemainingDraws] = useState(2); // 剩餘抽數
     const [currentDraw, setCurrentDraw] = useState(0); // 當前抽數
     const [isAnimationPlaying, setIsAnimationPlaying] = useState(false); // 控制動畫播放
     const [showNextDrawButton, setShowNextDrawButton] = useState(false); // 控制"下一抽"按鈕顯示
+    const animation3InstanceRef = useRef(null);
     const animation5InstanceRef = useRef(null);
 
     useEffect(() => {
-        // 初始化 animation3
-        const animationInstance3 = lottie.loadAnimation({
+        loadAnimation3();
+        return () => {
+            // 清理 animation3
+            if (animation3InstanceRef.current) {
+                animation3InstanceRef.current.destroy();
+                animation3InstanceRef.current = null;
+            }
+        };
+    }, [currentDraw]); // 依據當前抽數重置 animation3
+
+    useEffect(() => {
+        if (animation3Completed) {
+            // 只在 animation3 完成後載入 animation5
+            loadAndPlayAnimation5();
+        }
+        return () => {
+            // 清理 animation5
+            if (animation5InstanceRef.current) {
+                animation5InstanceRef.current.destroy();
+                animation5InstanceRef.current = null;
+            }
+        };
+    }, [animation3Completed]);
+
+    const loadAnimation3 = () => {
+        if (animation3InstanceRef.current) {
+            animation3InstanceRef.current.destroy(); // 清理之前的動畫實例
+        }
+        animation3InstanceRef.current = lottie.loadAnimation({
             container: document.getElementById("animation3"),
             renderer: "svg",
             loop: false,
@@ -26,7 +54,6 @@ function B_2_3GachaMachine() {
                 setAnimation3Completed(true); // animation3 播放完成
             });
         };
-
         const animationContainer = document.getElementById("animation3");
         if (animationContainer) {
             animationContainer.addEventListener("click", handleClick);
@@ -36,23 +63,8 @@ function B_2_3GachaMachine() {
             if (animationContainer) {
                 animationContainer.removeEventListener("click", handleClick);
             }
-            animationInstance3.destroy();
         };
-    }, []);
-
-    useEffect(() => {
-        if (animation3Completed) {
-            // 只在 animation3 完成後載入 animation5
-            loadAndPlayAnimation5();
-        }
-
-        return () => {
-            if (animation5InstanceRef.current) {
-                animation5InstanceRef.current.destroy(); // 清理動畫
-                animation5InstanceRef.current = null;
-            }
-        };
-    }, [animation3Completed]);
+    };
 
     const loadAndPlayAnimation5 = () => {
         if (animation5InstanceRef.current) {
@@ -63,7 +75,7 @@ function B_2_3GachaMachine() {
             container: document.getElementById("animation5"),
             renderer: "svg",
             loop: false,
-            autoplay: false, // 確保動畫不自動播放
+            autoplay: false,
             path: `http://localhost/gachoraProject/resources/json/扭蛋打開.json`,
         });
 
@@ -72,9 +84,8 @@ function B_2_3GachaMachine() {
 
     const playAnimation5 = () => {
         if (animation5InstanceRef.current && !isAnimationPlaying) {
-            setIsAnimationPlaying(true); // 標記動畫正在播放
+            setIsAnimationPlaying(true); // 標記動畫播放
             animation5InstanceRef.current.play();
-
             animation5InstanceRef.current.addEventListener("complete", () => {
                 setIsAnimationPlaying(false); // 動畫播放結束
                 setShowNextDrawButton(true); // 顯示"下一抽"按鈕
@@ -83,9 +94,10 @@ function B_2_3GachaMachine() {
     };
 
     const startNextDraw = () => {
-        if (remainingDraws > 0 && !isAnimationPlaying) {
+        if (remainingDraws >= 0) {
             setShowNextDrawButton(false); // 隱藏"下一抽"按鈕
-            loadAndPlayAnimation5(); // 重新加載並播放 animation5
+            setAnimation3Completed(false); // 重置 animation3 完成狀態
+            setCurrentDraw((prev) => prev + 1); // 更新當前抽數
             setRemainingDraws((prev) => prev - 1); // 更新剩餘抽數
             setCurrentDraw((prev) => prev + 1); // 更新當前抽數
         }
@@ -129,18 +141,20 @@ function B_2_3GachaMachine() {
                 </div>
 
                 {/* 扭蛋結果顯示 */}
-                {animation3Completed && remainingDraws > 0 && (
+                {animation3Completed && (
                     <div className="gacha-result active">
                         <div className="gacha-egg" onClick={playAnimation5}>
                             <div id="animation5"></div>
                         </div>
                         <div className="content">
-                            {response.map((ele, index) => (
+                        {response.map((ele, index) => (
                                 <div key={index}>
                                     <img src={ele.img} alt="扭蛋" />
                                     <h3>{ele.name}</h3>
                                 </div>
                             ))}
+                            <img src="http://localhost/gachoraProject/public/images/扭蛋.jpg" alt="扭蛋" />
+                            <h3>商品名稱</h3>
                         </div>
                         {showNextDrawButton && (
                             <button

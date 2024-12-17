@@ -54,10 +54,12 @@
 #button1,
 #button2 {
     display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
 #homepage .show-buttons {
-    display: inline-block !important;
+    display: inline-block;
     opacity: 1;
     transition: background-color 0.5s ease, color 0.5s ease;
     z-index: 999;
