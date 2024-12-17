@@ -174,6 +174,7 @@ class API
     $sql1 = "call GetAllCardByCategoryId(2)";
     $stmt1 = $db->prepare($sql1);
     $stmt1->execute();
+    $series_ids = [];
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_ids[] = $output1['series_id'];
       $jsonOutput[] = [
@@ -251,7 +252,7 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
+    // if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function AllIchibanWithUser($user_id)
@@ -529,7 +530,7 @@ class API
       $stmt3->execute();
       $img = [];
       while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output3['series_img'];
+        $img[] = 'http://localhost/gachoraProject/public/images' . $output3['series_img'];
       }
       $jsonOutput['recommend'][] = [
         'series_id' => $output['series_id'],
