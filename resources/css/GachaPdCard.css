@@ -36,6 +36,7 @@
   margin-top: 15px;
   margin-left: 20px;
   cursor: pointer;
+  z-index: 100;
 }
 
 #gachaPDCard .heart {
@@ -143,8 +144,8 @@
 #pdcard .heart-icon {
   position: absolute;
   cursor: pointer;
-  margin-top: 15px;
-  margin-left: 20px;
+  top: 15px;
+  left: 20px;
 }
 
 #pdcard .heart {

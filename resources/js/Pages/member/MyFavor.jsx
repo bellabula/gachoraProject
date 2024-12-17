@@ -13,13 +13,21 @@ function MyFavor({ id }) {
     const [gachoFavor, setgachoFavor] = useState([]);
     const [ichibanFavor, setIchibanFavor] = useState([]);
 
+    let collectEgg = []
     useEffect(() => {
         const gachaUrl = basePath + '/Post/UserCollectionEgg.php'
         $.post(gachaUrl, {
             user_id: user_id
-        }, ({ has }) => {
+        }, (response) => {
+            if (typeof (response.has) != "undefined") {
+                collectEgg = [...response.has]
+            }
+            if (typeof (response.no) != "undefined") {
+                collectEgg = [...collectEgg, ...response.no]
+            }
+            console.log('蛋收藏：', collectEgg)
             // console.log('蛋收藏：', has)
-            setgachoFavor(has)
+            setgachoFavor(collectEgg)
         })
         const ichibanUrl = basePath + '/Post/UserCollectionIchiban.php'
         $.post(ichibanUrl, {
