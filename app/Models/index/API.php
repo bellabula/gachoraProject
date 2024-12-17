@@ -174,6 +174,7 @@ class API
     $sql1 = "call GetAllCardByCategoryId(2)";
     $stmt1 = $db->prepare($sql1);
     $stmt1->execute();
+    $series_ids = [];
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_ids[] = $output1['series_id'];
       $jsonOutput[] = [
@@ -251,7 +252,7 @@ class API
       }
     }
     $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
+    // if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function AllIchibanWithUser($user_id)
@@ -529,7 +530,7 @@ class API
       $stmt3->execute();
       $img = [];
       while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output3['series_img'];
+        $img[] = 'http://localhost/gachoraProject/public/images' . $output3['series_img'];
       }
       $jsonOutput['recommend'][] = [
         'series_id' => $output['series_id'],
@@ -842,7 +843,7 @@ class API
       $character = [];
       while ($output5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
         $array2[] = [
-          'img' => $output5['character_img'],
+          'img' => 'http://localhost/gachoraProject/public/images' . $output5['character_img'],
           'size' => $output5['size'],
           'material' => $output5['material'],
         ];
@@ -985,7 +986,7 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['egg'][] = [
-        'img' => $output['img']
+        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
       ];
     }
     $stmt->closeCursor();
@@ -995,12 +996,12 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['ichiban'][] = [
-        'img' => $output['img']
+        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
       ];
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
+    if ($jsonOutput == []) $jsonOutput = [''];
     return json_encode($jsonOutput);
   }
   function CollectionEgg($user_id)
@@ -1188,7 +1189,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => $output['img'],
+        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
         'series_title' => $output['title'],
         'series' => $output['series'],
         'name' => $output['name'],
@@ -1214,7 +1215,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => $output['img'],
+        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
         'series' => $output['series'],
         'name' => $output['name'],
         'time' => date('Y/m/d', $output['time'])
@@ -1386,7 +1387,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => $output['img'] ?? '',
+        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
         'amount' => $output['amount'] ?? ''
       ];
     }
@@ -1510,7 +1511,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => $output['img'] ?? '',
+        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
         'amount' => $output['amount'] ?? ''
       ];
     }
