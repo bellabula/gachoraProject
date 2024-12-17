@@ -7,73 +7,88 @@ import { useState, useEffect } from 'react';
 
 function C_2_LottryTagPage() {
     // 假資料
-    const [allProducts] = useState([
-        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "玩具", seriesName: "系列名", productName: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-        { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
-    ]);
-    // const [allProducts, setAllProducts] = useState([])
-    // const [allProductsAPI, setAllProductsAPI] = useState([])
+    // const [allProducts] = useState([
+    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "玩具", seriesName: "系列名", productName: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
+    // ]);
 
-    // let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
-    // React.useEffect(function () {
-    //     let callAPI = async function () {
-    //         let response = await fetch(url);
-    //         let data = await response.json()
-    //         setAllProductsAPI(data);
-    //         // let datanoImg =
-    //         // setAllProductsImg(data);
-    //     }
-    //     callAPI();
-    // }, [])
-    // useEffect(()=>{
-    //     let basePath = '../app/Models'
-    //     fetch(basePath + '/Fetch/AllEgg.php')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             data.forEach((ele)=>{
-    //                 console.log(ele)
-    //             })
-    //             console.log(data)
-    //             // setAllProducts(data)
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching data:', error);
-    //         })
-    // }, [])
+
+
+    const [allProducts, setAllProducts] = useState([]);
+    const [error, setError] = useState(null);
+
+    let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
+    fetch(url)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.log(error));
+
+    React.useEffect(function () {
+        console.log("Fetching data...");
+        const callAPI = async function () {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error status:${response.status}`);
+                }
+                const data = await response.json();
+                setAllProducts(data);
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+        callAPI();
+    }, [])
+    if (error) return <div>Error: {error}</div>;
+    console.log("C_2_LottryTagPage rendered");
 
     const [currentPage, setcurrentPage] = useState(1);
     const [category, setcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
-    const itemsPerPage = 6; // 每頁商品數量
+    const itemsPerPage = 24; // 每頁商品數量
 
-    // 動態篩選商品
-    const filteredProducts = allProducts.filter(product => {
-        const matchesCategory = category === "all" || product.category === category;
-        const matchesSearch = product.productName.toLowerCase().includes(searchQuery.toLowerCase());
+
+    // 篩選和排序
+    const filteredProducts = [...allProducts].filter(product => {
+        // 判斷是否符合篩選條件（分類和搜尋）
+        const matchesCategory = category === "all" ||
+            (category === "最新商品" && product.release_time) ||
+            (category === "熱門商品" && product.rank) ||
+            (category === "限量商品" && product.rare);
+
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
+    }).sort((a, b) => {
+        // 根據分類排序商品
+        if (category === "最新商品") {
+            // 依照 release_time 排序（由新到舊）
+            return b.release_time - a.release_time;
+        } else if (category === "熱門商品") {
+            // 依照 rank 排序（由高到低）
+            return b.rank - a.rank;
+        } else if (category === "限量商品") {
+            // 依照 rare 排序（由小到大）
+            return a.rare - b.rare;
+        } else {
+            return 0; // 如果不需要排序，則保持原順序
+        }
     });
 
-    // 計算分頁
+    // 分頁
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const productsToShow = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
-    //搜尋按鈕觸發
+    // 搜尋處理
     const handleSearch = () => {
-        const filtered = allProducts.filter(product =>
-            product.productName.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        if (filtered.length === 0) {
-            alert("沒有找到符合條件的商品!");
-        }
-        setcurrentPage(1);
+        setcurrentPage(1); // 搜索時重設為第一頁
     };
 
     // 分類切換
@@ -82,6 +97,7 @@ function C_2_LottryTagPage() {
         setSearchQuery(""); // 切換分類時清空搜尋
         setcurrentPage(1); // 每次分類重置到第一頁
     };
+
 
 
     return (
@@ -99,12 +115,8 @@ function C_2_LottryTagPage() {
                             {/* <!-- 左側分類區 --> */}
                             <div className="col-md-2 d-flex flex-column left-pd">
                                 <ul className="category-list list-unstyled">
-                                    {["all", "熱門商品", "最新商品", "限時商品", "玩具"].map(cat => (
-                                        <li
-                                            key={cat}
-                                            className={cat === category ? "active" : ""}
-                                            onClick={() => handleCategoryClick(cat)}
-                                        >
+                                    {["all", "熱門商品", "最新商品", "限量商品"].map(cat => (
+                                        <li key={cat} onClick={() => handleCategoryClick(cat)}>
                                             {cat === "all" ? "所有商品" : cat}
                                         </li>
                                     ))}
@@ -126,34 +138,40 @@ function C_2_LottryTagPage() {
                                         </ul>
                                     </div>
                                     <span className='searchdiv'>
-                                        <input type="search"
-                                            className="search-type"
-                                            placeholder="搜尋品項"
+                                        <input type="search" className="search-type" placeholder="搜尋品項"
                                             value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-                                        <button className="search-icon">
-                                            <img src="http://localhost/gachoraProject/public/images/gachoHome/search-normal2.svg"
-                                                onClick={handleSearch}
-                                                alt="搜尋" />
+                                        <button className="search-icon" onClick={handleSearch}>
+                                            <img src="http://localhost/gachoraProject/public/images/gachoHome/search-normal2.svg" alt="搜尋" />
                                         </button>
                                     </span>
                                 </div>
                                 <div className="row d-flex right-product"
                                     id="product-list">
                                     {/* 商品區 */}
-                                    {productsToShow.map((product, index) => (
-                                        <PdCard className="col-xxl-4 mb-1 d-flex flex-wrap justify-content-center"
-                                            pdName={product.productName}
-                                            pdQuantity={5}
-                                            pdTotal={50}
-                                            pdPrice={product.productPrice}
-                                            pdAvailable={'尚有大賞'}
-                                            aPrizeName={'魯夫'}
-                                            bPrizeName={'魯夫'}
-                                            cPrizeName={'魯夫'}
-                                            img={product.img}
-                                            key={index}>
-                                        </PdCard>
-                                    ))}
+                                    {productsToShow.length === 0 ? (
+                                        <div>無符合資料</div> // 顯示正在加載訊息
+                                    ) : (
+                                        productsToShow.map((product, index) => (
+                                            <PdCard
+                                                key={index}
+                                                seriesId={product.series_id}
+                                                pdName={product.name}
+                                                pdPrice={product.price}
+                                                pdQuantity={product.remain}
+                                                pdTotal={product.total}
+                                                aPrizeName={product.character[0].name}
+                                                aRemain={product.character[0].remain}
+                                                aTotal={product.character[0].total}
+                                                bPrizeName={product.character[1].name}
+                                                bRemain={product.character[1].remain}
+                                                bTotal={product.character[1].total}
+                                                cPrizeName={product.character[2].name}
+                                                cRemain={product.character[2].remain}
+                                                cTotal={product.character[2].total}
+                                                img={product.img[0]}
+                                            />
+                                        ))
+                                    )}
                                 </div>
 
                                 {/* <!-- 分頁按鈕 --> */}
@@ -177,6 +195,7 @@ function C_2_LottryTagPage() {
 
                 </main>
             </body>
+
         </>
     )
 }
