@@ -1,15 +1,74 @@
 import React from 'react'
 import Navbar from '@/Components/Navbar';
 import GachaDetailCard from '@/Pages/Gacha/GachaDetailCard';
-import GachaPdCard from '@/Components/GachaPdCard';
+import PdCard from '@/Components/PdCard';
 import { Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function C_3_LottryDetail() {
+function C_3_LottryDetail({ seriesId }) {
+
+    const [seriesData, setSeriesData] = useState(null);  //抓id
+    const [currentImageIndex, setcurrentImageIndex] = useState(0);  //上張圖下張圖
+    const [isFavorited, setIsFavorited] = useState(false);  //我的最愛切換
+    const [bigImageSrc, setBigImageSrc] = useState("https://via.placeholder.com/150");
+    const [allProducts] = useState([{ id: 1, name: "產品A", probability: "10%", img: "https://via.placeholder.com/250" }, //假資料
+    { id: 2, name: "產品B", probability: "20%", img: "https://via.placeholder.com/250" },
+    { id: 3, name: "產品C", probability: "30%", img: "https://via.placeholder.com/350" },
+    { id: 4, name: "產品D", probability: "40%", img: "https://via.placeholder.com/450" },
+    { id: 5, name: "產品E", probability: "50%", img: "https://via.placeholder.com/550" },
+    { id: 6, name: "產品F", probability: "60%", img: "https://via.placeholder.com/650" },
+    { id: 7, name: "產品G", probability: "70%", img: "https://via.placeholder.com/750" },
+    { id: 8, name: "產品H", probability: "80%", img: "https://via.placeholder.com/850" },
+    { id: 9, name: "產品I", probability: "90%", img: "https://via.placeholder.com/950" }]);
+    const [currentPosition, setCurrentPosition] = useState(0);  //推薦商品切換
+    const [isOpen, setIsOpen] = useState(false);  //判斷開關
+    const [selectedNumbers, setSelectedNumbers] = useState([]);  //已經選中的號碼
+
+
+    // 當 seriesId 改變時，發送請求獲取詳細資料
+    useEffect(() => {
+        if (!seriesId) return;  // 如果沒有 seriesId 就不發送請求
+
+        const fetchSeriesDetail = async () => {
+            const url = `http://localhost/gachoraProject/app/Models/Post/IchibanDetail.php`; // 使用 POST 請求
+            console.log('請求的 URL:', url);  // 輸出請求的 URL 來檢查
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',  // 使用 POST 方法
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',  // 設定請求的 Content-Type
+                    },
+                    body: new URLSearchParams({
+                        series_id: seriesId,  // 傳送 series_id 參數
+                    }),
+                });
+
+                // 檢查請求是否成功
+                if (!response.ok) {
+                    throw new Error('獲取資料失敗');
+                }
+
+                const data = await response.json();
+                console.log('返回的資料:', data);  // 查看後端返回的資料
+                setSeriesData(data);
+                console.log('查看', seriesData.series.character)
+            } catch (error) {
+                console.error('獲取資料失敗', error);  // 錯誤處理
+            }
+        };
+
+        fetchSeriesDetail();
+    }, [seriesId]);  // 當 seriesId 改變時重新觸發
+
+
+    // 當 seriesData 還沒有加載完成時，顯示 loading 或其他提示
+    if (!seriesData) {
+        return <div>載入中...</div>;
+    }
 
     //上張圖、下張圖
     const mainImages = ["https://via.placeholder.com/150", "https://via.placeholder.com/250"];
-    const [currentImageIndex, setcurrentImageIndex] = useState(0);
 
     function prevImage() {
         setcurrentImageIndex((currentImageIndex - 1 + mainImages.length) % mainImages.length)
@@ -20,42 +79,16 @@ function C_3_LottryDetail() {
     }
 
     // //加入我的最愛事件
-    const [isFavorited, setIsFavorited] = useState(false);
     function toggleFavorite() {
         setIsFavorited(!isFavorited);
     }
 
     //點集大圖切換
-    const [bigImageSrc, setBigImageSrc] = useState(mainImages[0]);
-
     function switchBigImage(imageSrc) {
         setBigImageSrc(imageSrc);
     }
 
-    // 模擬從資料庫取得的產品資料
-    const [allProducts] = useState([
-        { id: 1, name: "產品A", probability: "10%", img: "https://via.placeholder.com/250" },
-        { id: 2, name: "產品B", probability: "20%", img: "https://via.placeholder.com/250" },
-        { id: 3, name: "產品C", probability: "30%", img: "https://via.placeholder.com/350" },
-        { id: 4, name: "產品D", probability: "40%", img: "https://via.placeholder.com/450" },
-        { id: 5, name: "產品E", probability: "50%", img: "https://via.placeholder.com/550" },
-        { id: 6, name: "產品F", probability: "60%", img: "https://via.placeholder.com/650" },
-        { id: 7, name: "產品G", probability: "70%", img: "https://via.placeholder.com/750" },
-        { id: 8, name: "產品H", probability: "80%", img: "https://via.placeholder.com/850" },
-        { id: 9, name: "產品I", probability: "90%", img: "https://via.placeholder.com/950" }
-    ]);
-
-    // 加減數量
-    const [quantity, setQuantity] = useState(1);
-    const minusValue = () => {
-        setQuantity(quantity - 1 > 0 ? quantity - 1 : 1);
-    };
-    const addValue = () => {
-        setQuantity(quantity + 1);
-    };
-
     //推薦商品左右切換
-    const [currentPosition, setCurrentPosition] = useState(0);
     const itemWidth = 33;
     const visibleItems = 3;
     const totalItems = allProducts.length;
@@ -69,18 +102,14 @@ function C_3_LottryDetail() {
         setCurrentPosition((prevPosition) => Math.max(prevPosition - itemWidth, maxPosition));
     };
 
-    const [isOpen, setIsOpen] = useState(false);
-
     // 切換摺疊區域的展開/收起
     const toggleCollapse = () => {
         setIsOpen(!isOpen);
     };
 
     // 模擬從資料庫獲取的數據
-    const seatNumbers = Array.from({ length: 50 }, (_, i) => i + 1); // 生成 1~50 的號碼
-    const bookedSeats = [5, 10, 15, 25, 30]; // 模擬已被買走的號碼
-
-    const [selectedNumbers, setSelectedNumbers] = useState([]); // 已選中的號碼
+    const seatNumbers = Array.from({ length: seriesData.total }, (_, i) => i + 1); // 生成 1~50 的號碼
+    const bookedSeats = seriesData.label; // 模擬已被買走的號碼
 
     // 處理座位選中/取消的函數
     const toggleSeatSelection = (number) => {
@@ -113,26 +142,18 @@ function C_3_LottryDetail() {
                         </div>
                         <div className="col-xxl-4">
                             <div className="product-info">
-                                <h1>商品名稱</h1>
+                                <h1 style={{ color: 'var(--main-bg-gray)' }}>{seriesData.series.name}</h1>
                                 <div className="pdinfocolor">
                                     <ul>
                                         <li>配送時間:</li>
                                         <li>結束日期:</li>
-                                        <li>獎項介紹:</li>
-                                        <li>A賞:</li>
-                                        <li>B賞:</li>
-                                        <li>C賞:</li>
-                                        <li>D賞:</li>
-                                        <li>E賞:</li>
-                                        <li>F賞:</li>
-                                        <li>G賞:</li>
                                         <li>種類:共?種</li>
                                     </ul>
                                 </div>
-                                <h3 className='subtitles'>每抽價格:</h3>
-                                <p className='lottrynumber'>剩餘G幣:???</p>
-                                <p className='lottrynumber' >已抽人數/總數:</p>
-                                <p className='lottrynumber' >排隊人數/等待時間:</p>
+                                <h3 className='subtitles'>價格:NT{seriesData.series.price}/抽</h3>
+                                <span className='lottrynumber'>剩餘G幣:</span>
+                                <span className='lottrynumber' >已抽數/總數:{seriesData.series.remain}/{seriesData.series.total}</span>
+                                <p className='lottrynumber' >目前排隊人數/預估等待時間:</p>
                                 <button className='Favorite_bt' >點擊往下排隊/抽選</button>
                                 <button
                                     className={`Favorite_bt ${isFavorited ? 'active' : ''}`}
@@ -306,13 +327,17 @@ function C_3_LottryDetail() {
                                     {/* 假設這裡放 10 個商品圖片 */}
                                     {allProducts.map((product, index) => (
                                         <div className="item" key={index}>
-                                            <GachaPdCard
-                                                className="d-flex flex-wrap justify-content-center"
-                                                seriesName={product.probability}
-                                                productName={product.name}
-                                                img={product.img}
-                                                productPrice="50">
-                                            </GachaPdCard>
+                                            <PdCard className="d-flex flex-wrap justify-content-center"
+                                                pdName={product.name}
+                                                pdQuantity={5}
+                                                pdTotal={50}
+                                                pdPrice={'500'}
+                                                pdAvailable={'尚有大賞'}
+                                                aPrizeName={'魯夫'}
+                                                bPrizeName={'魯夫'}
+                                                cPrizeName={'魯夫'}
+                                                img={product.img}>
+                                            </PdCard>
                                         </div>
                                     ))}
                                 </div>

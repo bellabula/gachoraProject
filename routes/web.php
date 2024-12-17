@@ -9,6 +9,8 @@ use App\Http\Controllers\HomeDirectToController;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\MemberController;
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -53,8 +55,10 @@ Route::get('/gachadetail', function () {
     return Inertia::render('Gacha/B_3_GachaDetail');
 })->name('gachadetail');
 
-Route::get('/lottrydetail', function () {
-    return Inertia::render('lottry/C_3_LottryDetail');
+Route::get('/lottrydetail', function (Request $request) {
+    return Inertia::render('lottry/C_3_LottryDetail',[
+        'seriesId' => $request->query('seriesId'),
+    ]);
 })->name('lottrydetail');
 
 Route::get('/gachatagpage', function () {
@@ -83,5 +87,7 @@ Route::view('/api', 'apihome');
 Route::view('/api/egg', 'apiEgg');
 Route::view('/api/ichiban', 'apiIchiban');
 Route::view('/api/user', 'apiUser');
+
+Route::get('/sendBirthdayGifts', [MemberController::class, 'sendBirthdayGifts']);
 
 require __DIR__ . '/auth.php';

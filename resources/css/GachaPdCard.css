@@ -143,8 +143,9 @@
 #pdcard .heart-icon {
   position: absolute;
   cursor: pointer;
-  margin-top: 15px;
+  margin-top: -280px;
   margin-left: 20px;
+  z-index: 100;
 }
 
 #pdcard .heart {
