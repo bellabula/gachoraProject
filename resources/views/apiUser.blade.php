@@ -41,9 +41,11 @@
             })
             $('#result').append('<br>')
             console.log('一番賞戰力牆：', ichiban)
-            ichiban.map((v) => {
-                return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
-            })
+            if(ichiban != undefined){
+                ichiban.map((v) => {
+                    return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
+                })
+            }
         })
 
         $('#wall').click(() => {
@@ -54,16 +56,18 @@
                 egg,
                 ichiban
             }) => {
-                console.log('扭蛋戰力牆：', egg)
+                // console.log('扭蛋戰力牆：', egg)
                 $('#result').text('')
                 egg.map((v) => {
                     return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
                 })
                 $('#result').append('<br>')
-                console.log('一番賞戰力牆：', ichiban)
-                ichiban.map((v) => {
-                    return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
-                })
+                // console.log('一番賞戰力牆：', ichiban)
+                if(ichiban != undefined){
+                    ichiban.map((v) => {
+                        return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
+                    })
+                }
             })
 
         })
@@ -73,7 +77,8 @@
                 user_id: user_id
             }, (response) => {
                 console.log('蛋收藏：', response)
-                console.log('蛋收藏：', [...response.has, ...response.no])
+                console.log('蛋收藏有庫存：', response.has && [...response.has])
+                console.log('蛋收藏沒庫存：', response.no != undefined && [...response.no])
                 return $('#result').text('')
             })
         })
