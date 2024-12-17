@@ -1,0 +1,135 @@
+#lottryfunction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100vw;
+    height: 80vh; /* 讓容器充滿視口高度 */
+    overflow-y: hidden;
+}
+/* 一番賞info */
+#lottryfunction .gacha-info {
+    position: absolute;
+    top: 0px;
+    left: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--main-darkblue);
+    font-size: 2rem;
+    /* border: 5px solid red; */
+}
+#lottryfunction .gacha-info img {
+    width: 130px;
+    height: auto;
+}
+/* 背景层样式 */
+#lottryfunction .bg-img-wrapper {
+    position: absolute; /* 絕對定位，便於重疊 */
+    top: 49.5%; /* 設置到畫面正中 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 水平和垂直居中 */
+    width: 33%; /* 調整背景寬度 */
+    z-index: 1; /* 在 .book 下方 */
+    pointer-events: none; /* 防止干擾用戶操作 */
+}
+
+/* 背景图片 */
+#lottryfunction .bg-img {
+    width: 100%; /* 填滿背景層 */
+    height: auto; /* 保持比例 */
+    object-fit: contain; /* 保持圖片比例 */
+}
+
+/* 商品名稱 */
+#lottryfunction .product-name {
+    position: absolute;
+    top: 60%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 完全居中 */
+    z-index: 2; /* 确保在书本和背景图片上方 */
+    font-size: 24px; /* 默认字体大小 */
+    color: var(--main-darkblue); /* 字体颜色，根据需要调整 */
+}
+
+/* 翻頁書本樣式 */
+#lottryfunction .book {
+    position: relative; /* 絕對定位，便於重疊 */
+    top: -1%; /* 設置到畫面正中 */
+    left: -12.4%;
+    transform: translate(-50%, -50%); /* 水平和垂直居中 */
+    z-index: 3; /* 在背景層之上 */
+}
+
+#lottryfunction .custom-btn{
+    display: inline-block;
+    margin-top: 120%;
+    top: 80%;
+    /* border: 5px solid red; */
+    border-radius: 50px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    background-color: var(--main-bg-gray);
+    color: var(--main-yellow);
+    width: 150px;
+    font-size: 1.4rem;
+    padding: 0.4rem 1rem;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    cursor: pointer;
+}
+#lottryfunction .custom-btn:hover {
+    color: var(--main-bg-gray);
+    background-color: var(--main-yellow);
+}
+
+#lottryfunction .next-draw-wrapper {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    margin-top: 20px; /* 添加与上方书本的距离 */
+    width: 100%; /* 占满宽度，确保按钮不会并列 */
+}
+
+
+/* 响应式设计 */
+@media screen and (max-width: 768px) {
+    /* 手机屏幕 */
+    #lottryfunction {
+        height: 70vh; /* 适应较小的屏幕 */
+    }
+
+    #lottryfunction .bg-img-wrapper {
+        width: 65%; /* 背景图片在手机上变宽 */
+    }
+
+    #lottryfunction .book {
+        top: 4%; /* 微调书本的位置 */
+        left: -25%; /* 微调书本的位置 */
+    }
+    #lottryfunction .product-name {
+        font-size: 18px; /* 更小的屏幕上进一步缩小字体 */
+        transform: translate(-50%, -50%); /* 保持居中 */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* 更小的屏幕（如小型手机） */
+    #lottryfunction {
+        height: 60vh; /* 进一步调整高度 */
+    }
+
+    #lottryfunction .bg-img-wrapper {
+        width: 60%; /* 背景图片进一步扩大 */
+    }
+
+    #lottryfunction .book {
+        top: 12%; /* 调整书本位置 */
+        left: -25%; /* 调整书本位置 */
+    }
+    #lottryfunction .product-name {
+        font-size: 16px; /* 手机屏幕上进一步缩小字体 */
+        top: 58%; /* 可以微调商品名称的垂直位置 */
+        transform: translate(-50%, -50%); /* 保持居中 */
+    }
+}

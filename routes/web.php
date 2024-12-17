@@ -73,6 +73,10 @@ Route::get('/gachamachine', function () {
     return Inertia::render('Gacha/B_2_3_GachaMachine');
 })->name('gachamachine');
 
+Route::get('/lottryfunction', function () {
+    return Inertia::render('lottry/C_3_3_LottryFuntion');
+})->name('lottryfunction');
+
 
 // 首頁: Gachora, 扭蛋, 一番賞, 會員
 Route::view('/api', 'apihome');

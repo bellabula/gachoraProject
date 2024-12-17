@@ -12,6 +12,9 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
+    <!-- 引入 jQuery -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
     @routes
     @viteReactRefresh
     @vite(['resources/sass/app.scss',
@@ -27,8 +30,11 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script> -->
     <script src="http://localhost/gachoraProject/public/assets/jquery.js"></script>
+    <!-- 引入 turn.js -->
+    <!-- <script src="http://localhost/gachoraProject/public/assets/turn.js"></script> -->
+    <script src="http://www.turnjs.com/lib/turn.min.js"></script>
     <script src="http://localhost/gachoraProject/public/assets/lottie.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
 </body>
 
 </html>

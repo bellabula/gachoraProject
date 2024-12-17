@@ -17,6 +17,9 @@ export default defineConfig({
     resolve: {
         alias: {
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+            'jquery': path.resolve(__dirname, 'node_modules/jquery'),  // 添加 jQuery 的別名
+            'turn.js': path.resolve(__dirname, 'node_modules/turn.js')  // 添加 Turn.js 的別名
         }
     }
+    
 });
