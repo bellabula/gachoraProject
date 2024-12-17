@@ -101,7 +101,7 @@ class API
       $stmt2->execute();
       $img = [];
       while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output2['series_img'];
+        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
       }
       $stmt2->closeCursor();
       foreach ($jsonOutput as &$item) {
@@ -150,7 +150,7 @@ class API
       $stmt2->execute();
       $img = [];
       while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output2['series_img'];
+        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
       }
       $stmt2->closeCursor();
       foreach ($jsonOutput as &$item) {
@@ -198,7 +198,7 @@ class API
       $stmt2->execute();
       $img = [];
       while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output2['series_img'];
+        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
       }
       $stmt2->closeCursor();
       foreach ($jsonOutput as &$item) {
@@ -292,7 +292,7 @@ class API
       $stmt2->execute();
       $img = [];
       while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output2['series_img'];
+        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
       }
       $stmt2->closeCursor();
       foreach ($jsonOutput as &$item) {
