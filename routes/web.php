@@ -9,6 +9,8 @@ use App\Http\Controllers\HomeDirectToController;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\MemberController;
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -75,5 +77,7 @@ Route::view('/api', 'apihome');
 Route::view('/api/egg', 'apiEgg');
 Route::view('/api/ichiban', 'apiIchiban');
 Route::view('/api/user', 'apiUser');
+
+Route::get('/sendBirthdayGifts', [MemberController::class, 'sendBirthdayGifts']);
 
 require __DIR__ . '/auth.php';
