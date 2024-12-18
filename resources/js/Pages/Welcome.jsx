@@ -31,6 +31,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             console.log('Animation complete');
             const button1 = document.getElementById('button1');
             const button2 = document.getElementById('button2');
+            // 添加類名來顯示按鈕
             button1.classList.add('show-buttons');
             button2.classList.add('show-buttons');
             console.log(button1, button2);  // Confirm buttons' visibility change

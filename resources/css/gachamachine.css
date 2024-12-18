@@ -7,10 +7,9 @@
     height: 100vh;
     margin: 0;
     background-color: var(--main-darkblue);
-    overflow: hidden;
-    /* border: 5px solid red; */
+    overflow-y: hidden;
     position: relative;
-    /* Ensure proper positioning of child elements */
+   
 }
 
 /* 扭蛋幾抽info */

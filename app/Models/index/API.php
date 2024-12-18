@@ -5,6 +5,22 @@ use Mockery\Undefined;
 require_once __DIR__ . '/Connect.php';
 class API
 {
+  private function fetchSeriesImages($db, &$jsonOutput)
+  {
+    foreach ($jsonOutput as $series_id => &$item) {
+      $sql2 = "SELECT * FROM vw_series_img WHERE series_id = :series_id";
+      $stmt2 = $db->prepare($sql2);
+      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt2->execute();
+
+      $img = [];
+      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
+      }
+      $stmt2->closeCursor();
+      $item['img'] = $img;
+    }
+  }
   // 扭蛋主頁fetch
   // 精選
   function EggBling()
@@ -74,13 +90,11 @@ class API
   {
     $db = new Connect;
     $jsonOutput = [];
-    $img = [];
     $sql1 = "call GetAllCardByCategoryId(1)";
     $stmt1 = $db->prepare($sql1);
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_ids[] = $output1['series_id'];
-      $jsonOutput[] = [
+      $jsonOutput[$output1['series_id']] = [
         'series_id' => $output1['series_id'],
         'theme' => $output1['theme'],
         'title' => $output1['series_title'],
@@ -90,45 +104,25 @@ class API
         'rank' => $output1['rank'],
         'rare' => $output1['rare'],
         'release_time' => $output1['release_time'],
-        'img' => $img
+        'img' => []
       ];
     }
     $stmt1->closeCursor();
-    foreach ($series_ids as $series_id) {
-      $sql2 = "select * from vw_series_img where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
-      }
-      $stmt2->closeCursor();
-      foreach ($jsonOutput as &$item) {
-        if ($item['series_id'] == $series_id) {
-          $item['img'] = $img;
-          break;
-        }
-      }
-    }
+    $this->fetchSeriesImages($db, $jsonOutput);
     $db = null;
     if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
+    return json_encode(array_values($jsonOutput));
   }
   function AllEggWithUser($user_id)
   {
-    $user_id = $_POST['user_id'];
     $db = new Connect;
     $jsonOutput = [];
-    $img = [];
-    $series_ids = [];
     $sql1 = "call GetAllCardByUserAndCategoryId(:user_id, 1)";
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_ids[] = $output1['series_id'];
-      $jsonOutput[] = [
+      $jsonOutput[$output1['series_id']] = [
         'series_id' => $output1['series_id'],
         'theme' => $output1['theme'],
         'title' => $output1['series_title'],
@@ -138,37 +132,19 @@ class API
         'rank' => $output1['rank'],
         'rare' => $output1['rare'],
         'release_time' => $output1['release_time'],
-        'img' => $img,
+        'img' => [],
         'collected' => $output1['collected']
       ];
     }
     $stmt1->closeCursor();
-    foreach ($series_ids as $series_id) {
-      $sql2 = "select * from vw_series_img where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
-      }
-      $stmt2->closeCursor();
-      foreach ($jsonOutput as &$item) {
-        if ($item['series_id'] == $series_id) {
-          $item['img'] = $img;
-          break;
-        }
-      }
-    }
+    $this->fetchSeriesImages($db, $jsonOutput);
     $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
+    return json_encode(array_values($jsonOutput));
   }
   function AllIchibanNoUser()
   {
     $db = new Connect;
     $jsonOutput = [];
-    $img = [];
     $character = [];
     $tmp = [];
     $sql1 = "call GetAllCardByCategoryId(2)";
@@ -177,7 +153,7 @@ class API
     $series_ids = [];
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_ids[] = $output1['series_id'];
-      $jsonOutput[] = [
+      $jsonOutput[$output1['series_id']] = [
         'series_id' => $output1['series_id'],
         'theme' => $output1['theme'],
         'title' => $output1['series_title'],
@@ -187,28 +163,12 @@ class API
         'rank' => $output1['rank'],
         'rare' => $output1['rare'],
         'release_time' => $output1['release_time'],
-        'img' => $img,
+        'img' => [],
         'character' => $character
       ];
     }
     $stmt1->closeCursor();
-    foreach ($series_ids as $series_id) {
-      $sql2 = "select * from vw_series_img where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
-      }
-      $stmt2->closeCursor();
-      foreach ($jsonOutput as &$item) {
-        if ($item['series_id'] == $series_id) {
-          $item['img'] = $img;
-          break;
-        }
-      }
-    }
+    $this->fetchSeriesImages($db, $jsonOutput);
     foreach ($series_ids as $series_id) {
       $sql2 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
       $stmt2 = $db->prepare($sql2);
@@ -270,7 +230,7 @@ class API
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_ids[] = $output1['series_id'];
-      $jsonOutput[] = [
+      $jsonOutput[$output1['series_id']] = [
         'series_id' => $output1['series_id'],
         'theme' => $output1['theme'] ?? '',
         'title' => $output1['series_title'] ?? '',
@@ -280,29 +240,13 @@ class API
         'rank' => $output1['rank'] ?? '',
         'rare' => $output1['rare'] ?? '',
         'release_time' => $output1['release_time'] ?? '',
-        'img' => $img,
+        'img' => [],
         'character' => $character,
         'collected' => $output1['collected'] ?? ''
       ];
     }
     $stmt1->closeCursor();
-    foreach ($series_ids as $series_id) {
-      $sql2 = "select * from vw_series_img where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
-      }
-      $stmt2->closeCursor();
-      foreach ($jsonOutput as &$item) {
-        if ($item['series_id'] == $series_id) {
-          $item['img'] = $img;
-          break;
-        }
-      }
-    }
+    $this->fetchSeriesImages($db, $jsonOutput);
     foreach ($series_ids as $series_id) {
       $sql2 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
       $stmt2 = $db->prepare($sql2);
@@ -478,7 +422,7 @@ class API
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
-    $sql1 = "select * from vw_blingEgg where series_id = :series_id";
+    $sql1 = "select * from vw_allEgg where series_id = :series_id";
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt1->execute();
@@ -843,7 +787,7 @@ class API
       $character = [];
       while ($output5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
         $array2[] = [
-          'img' => 'http://localhost/gachoraProject/public/images' . $output5['character_img'],
+          'img' => $output5['character_img'],
           'size' => $output5['size'],
           'material' => $output5['material'],
         ];
@@ -986,7 +930,7 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['egg'][] = [
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
+        'img' => $output['img']
       ];
     }
     $stmt->closeCursor();
@@ -996,12 +940,12 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['ichiban'][] = [
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
+        'img' => $output['img']
       ];
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput = [''];
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function CollectionEgg($user_id)
@@ -1189,7 +1133,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
+        'img' => $output['img'],
         'series_title' => $output['title'],
         'series' => $output['series'],
         'name' => $output['name'],
@@ -1215,7 +1159,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
+        'img' => $output['img'],
         'series' => $output['series'],
         'name' => $output['name'],
         'time' => date('Y/m/d', $output['time'])
@@ -1387,7 +1331,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
+        'img' => $output['img'] ?? '',
         'amount' => $output['amount'] ?? ''
       ];
     }
@@ -1511,7 +1455,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
+        'img' => $output['img'] ?? '',
         'amount' => $output['amount'] ?? ''
       ];
     }
@@ -1540,7 +1484,7 @@ class API
   {
     $user_id = $_POST['user_id'];
     $db = new Connect;
-    $tmp = [];
+    $jsonOutput = [];
     $sql = "call GetWaitTimeById(:user_id)";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -1557,4 +1501,60 @@ class API
     $db = null;
     return json_encode($jsonOutput);
   }
+  function ToG($record_id)
+  {
+    $record_id = $_POST['record_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call ChangeStatusByIdAndStatus(:record_id, 3)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = ['error' => 'to G done'];
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+  }
+  function ToCart($record_id)
+  {
+    $record_id = $_POST['record_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call ChangeStatusByIdAndStatus(:record_id, 5)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = ['error' => 'to cart done'];
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+  }
+  function ToBag($record_id)
+  {
+    $record_id = $_POST['record_id'];
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call ChangeStatusByIdAndStatus(:record_id, 4)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = ['error' => 'to bag done'];
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+  }
+  function changeStatus($record_id, $status)
+{
+    $db = new Connect;
+    $jsonOutput = [];
+    $sql = "call ChangeStatusByIdAndStatus(:record_id, :status)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
+    $stmt->bindValue(':status', $status, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = ['error' => 'Status changed to ' . $status];
+    $stmt->closeCursor();
+    $db = null;
+    return json_encode($jsonOutput);
+}
 }

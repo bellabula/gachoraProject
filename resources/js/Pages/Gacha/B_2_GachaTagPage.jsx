@@ -7,7 +7,8 @@ import { useState, useEffect } from 'react';
 function B_2_GachaTagPage() {
 
     const user = usePage().props.auth.user;
-    const user_id = user.id
+    console.log(user ? "userId" : "none")
+    // const user_id = user.id
     // 假資料
     // const [allProducts] = useState([
     //     { category: "熱門商品", seriesName: "系列名", name: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
@@ -41,6 +42,7 @@ function B_2_GachaTagPage() {
             .then(data => {
                 // console.log(data)
                 setAllProducts(data)
+                console.log(data)
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -50,22 +52,22 @@ function B_2_GachaTagPage() {
     const basePath = '../app/Models'
     const [userFavor, setUerFavor] = useState([]);
 
-    let collectEgg = [];
-    useEffect(() => {
-        $.post(basePath + '/Post/UserCollectionEgg.php', {
-            user_id: user_id
-        }, (response) => {
-            if (typeof (response.has) != "undefined") {
-                collectEgg = [...response.has]
-            }
-            if (typeof (response.no) != "undefined") {
-                collectEgg = [...collectEgg, ...response.no]
-            }
-            setUerFavor(collectEgg.map(item => item.id))
-            // console.log(userFavor)
-            // console.log('蛋收藏：', [...response.has, ...response.no])
-        })
-    }, [user_id])
+    // let collectEgg = [];
+    // useEffect(() => {
+    //     $.post(basePath + '/Post/UserCollectionEgg.php', {
+    //         user_id: user_id
+    //     }, (response) => {
+    //         if (typeof (response.has) != "undefined") {
+    //             collectEgg = [...response.has]
+    //         }
+    //         if (typeof (response.no) != "undefined") {
+    //             collectEgg = [...collectEgg, ...response.no]
+    //         }
+    //         setUerFavor(collectEgg.map(item => item.id))
+    //         // console.log(userFavor)
+    //         // console.log('蛋收藏：', [...response.has, ...response.no])
+    //     })
+    // }, [user_id])
 
     const [currentPage, setcurrentPage] = useState(1);
     const [category, setcategory] = useState("all");

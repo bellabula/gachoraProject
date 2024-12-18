@@ -7,6 +7,11 @@
 <button id="wallet">錢包</button>
 <button id="go">訂單</button>
 <button id="elem">基本</button>
+<div> 
+下次再出貨：url = basePath + '/Post/ChangeToBag.php'<br>
+加入出貨：url = basePath + '/Post/ChangeToCart.php'<br>
+兌換G幣：url = basePath + '/Post/ChangeToG.php'<br>
+以上都post record_id 給後端</div>
 <div id="info"></div>
 <div id="result"></div>
 
@@ -41,11 +46,9 @@
             })
             $('#result').append('<br>')
             console.log('一番賞戰力牆：', ichiban)
-            if(ichiban != undefined){
-                ichiban.map((v) => {
-                    return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
-                })
-            }
+            ichiban.map((v) => {
+                return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
+            })
         })
 
         $('#wall').click(() => {
@@ -56,18 +59,16 @@
                 egg,
                 ichiban
             }) => {
-                // console.log('扭蛋戰力牆：', egg)
+                console.log('扭蛋戰力牆：', egg)
                 $('#result').text('')
                 egg.map((v) => {
                     return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
                 })
                 $('#result').append('<br>')
-                // console.log('一番賞戰力牆：', ichiban)
-                if(ichiban != undefined){
-                    ichiban.map((v) => {
-                        return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
-                    })
-                }
+                console.log('一番賞戰力牆：', ichiban)
+                ichiban.map((v) => {
+                    return $('#result').append(`<img style="width: 200px; margin: 20px;" src="${v.img}"/>`)
+                })
             })
 
         })
@@ -77,8 +78,7 @@
                 user_id: user_id
             }, (response) => {
                 console.log('蛋收藏：', response)
-                console.log('蛋收藏有庫存：', response.has && [...response.has])
-                console.log('蛋收藏沒庫存：', response.no != undefined && [...response.no])
+                console.log('蛋收藏：', [...response.has, ...response.no])
                 return $('#result').text('')
             })
         })
@@ -151,5 +151,9 @@
                 return $('#result').text('')
             })
         })
+        // url = basePath + '/Post/ChangeToBag.php'
+        // url = basePath + '/Post/ChangeToCart.php'
+        // url = basePath + '/Post/ChangeToG.php'
+        // post record_id 給後端
     })
 </script>

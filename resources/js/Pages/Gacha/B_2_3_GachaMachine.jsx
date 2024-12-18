@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 function B_2_3GachaMachine() {
     const [animation3Completed, setAnimation3Completed] = useState(false);
-    const [remainingDraws, setRemainingDraws] = useState(3); // 剩餘抽數
+    const [remainingDraws, setRemainingDraws] = useState(1); // 剩餘抽數
     const [currentDraw, setCurrentDraw] = useState(0); // 當前抽數
     const [isAnimationPlaying, setIsAnimationPlaying] = useState(false); // 控制動畫播放
     const [showNextDrawButton, setShowNextDrawButton] = useState(false); // 控制"下一抽"按鈕顯示
