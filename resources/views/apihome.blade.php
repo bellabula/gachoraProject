@@ -94,5 +94,6 @@
                 $('#remainingTime').text('')
             }
         }
+
     })
 </script>

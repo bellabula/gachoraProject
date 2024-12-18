@@ -5,432 +5,358 @@ use Mockery\Undefined;
 require_once __DIR__ . '/Connect.php';
 class API
 {
+  /**
+   * 初始化
+   */
+  private $db;
+
+  public function __construct()
+  {
+    $this->db = new Connect;
+  }
+  /**
+   * 扭蛋商品卡
+   */
+  public function AllEggNoUser()
+  {
+    return $this->fetchEggData(null);
+  }
+  public function AllEggWithUser($user_id)
+  {
+    return $this->fetchEggData($user_id);
+  }
+  public function fetchEggData($user_id)
+  {
+    return $this->fetchData($user_id, 1, 'mapEggCard');
+  }
+
+  /**
+   * 一番賞商品卡
+   */
+  public function AllIchibanNoUser()
+  {
+    return $this->fetchIchibanData(null);
+  }
+  public function AllIchibanWithUser($user_id)
+  {
+    return $this->fetchIchibanData($user_id);
+  }
+  public function fetchIchibanData($user_id)
+  {
+    return $this->fetchData($user_id, 2, 'mapIchibanCard');
+  }
+  /**
+   * 執行sql
+   */
+  private function fetchData($user_id, $categoryId, $mapFunction)
+  {
+    $jsonOutput = [];
+    $sql = $user_id ?
+      "call GetAllCardbyUserAndCategoryId(:user_id, :categoryId)" :
+      "call GetAllCardbyCategoryId(:categoryId)";
+    $stmt = $this->db->prepare($sql);
+    if ($user_id) $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[$output['series_id']] = $this->$mapFunction($output, $user_id);
+    }
+    $stmt->closeCursor();
+    $this->fetchSeriesImages($this->db, $jsonOutput);
+    if ($categoryId == 2) {
+      $this->fetchIchibanSeriesTotalInfo($this->db, $jsonOutput);
+      $this->fetchIchibanCharacterInfo($this->db, $jsonOutput);
+    }
+    $this->db = null;
+    return json_encode(array_values($jsonOutput));
+  }
   private function fetchSeriesImages($db, &$jsonOutput)
   {
     foreach ($jsonOutput as $series_id => &$item) {
-      $sql2 = "SELECT * FROM vw_series_img WHERE series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-
+      $sql = "SELECT * FROM vw_series_img WHERE series_id = :series_id";
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt->execute();
       $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
+      while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $img[] = 'http://localhost/gachoraProject/public/images' . $output['series_img'];
       }
-      $stmt2->closeCursor();
+      $stmt->closeCursor();
       $item['img'] = $img;
     }
   }
+  private function fetchIchibanCharacterInfo($db, &$jsonOutput)
+  {
+    foreach ($jsonOutput as $series_id => &$item) {
+      $sql = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt->execute();
+      $character = [];
+      while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $character[] = [
+          'prize' => $output['prize'],
+          'name' => $output['name'],
+          'remain' => $output['remain'],
+          'total' => $output['amount']
+        ];
+      }
+      $stmt->closeCursor();
+      $item['character'] = $character;
+    }
+  }
+  /**
+   * 一番賞總數
+   */
+  private function fetchIchibanSeriesTotalInfo($db, &$jsonOutput)
+  {
+    foreach ($jsonOutput as $series_id => &$item) {
+      $sql = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt->execute();
+      $tmp = [];
+      while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $tmp = [
+          'remain' => $output['all_remain'],
+          'total' => $output['all_amount']
+        ];
+      }
+      $stmt->closeCursor();
+      $item = [...$item, ...$tmp];
+    }
+  }
+  /**
+   * 印出資料
+   */
+  private function mapEggCard($output, $user_id)
+  {
+    return $this->mapCard($output, $user_id);
+  }
+  private function mapIchibanCard($output, $user_id)
+  {
+    return $this->mapCard($output, $user_id);
+  }
+  private function mapCard($output, $user_id)
+  {
+    $data = [
+      'series_id' => $output['series_id'],
+      'theme' => $output['theme'] ?? '',
+      'title' => $output['series_title'] ?? '',
+      'name' => $output['name'] ?? '',
+      'price' => $output['price'] ?? '',
+      'amount' => $output['amount'] ?? '',
+      'rank' => $output['rank'] ?? '',
+      'rare' => $output['rare'] ?? '',
+      'release_time' => $output['release_time'] ?? '',
+      'img' => [],
+      'character' => []
+    ];
+    if ($user_id) $data['collected'] = $output['collected'] ?? '';
+    return $data;
+  }
+  // ---------
   // 扭蛋主頁fetch
   // 精選
-  function EggBling()
-  {
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql1 = "select * from vw_blingEgg";
-    $stmt1 = $db->prepare($sql1);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_id = $output1['series_id'];
-      $sql2 = "select * from vw_series_img where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output2['series_img'];
-      }
-      $jsonOutput[] = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'amount' => $output1['amount'],
-        'img' => $img
-      ];
-    }
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
-  }
+  // function EggBling()
+  // {
+  //   $this->db = new Connect;
+  //   $jsonOutput = [];
+  //   $sql1 = "select * from vw_blingEgg";
+  //   $stmt1 = $this->db->prepare($sql1);
+  //   $stmt1->execute();
+  //   while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+  //     $series_id = $output1['series_id'];
+  //     $sql2 = "select * from vw_series_img where series_id = :series_id";
+  //     $stmt2 = $this->db->prepare($sql2);
+  //     $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+  //     $stmt2->execute();
+  //     $img = [];
+  //     while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+  //       $img[] = $output2['series_img'];
+  //     }
+  //     $jsonOutput[] = [
+  //       'series_id' => $output1['series_id'],
+  //       'theme' => $output1['theme'],
+  //       'title' => $output1['series_title'],
+  //       'name' => $output1['name'],
+  //       'price' => $output1['price'],
+  //       'amount' => $output1['amount'],
+  //       'img' => $img
+  //     ];
+  //   }
+  //   $this->db = null;
+  //   if ($jsonOutput == []) $jsonOutput = [];
+  //   return json_encode($jsonOutput);
+  // }
   // top 10 
-  function EggTop10()
-  {
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql1 = "select * from vw_hotEgg limit 10";
-    $stmt1 = $db->prepare($sql1);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_id = $output1['series_id'];
-      $sql2 = "select * from vw_series_img where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output2['series_img'];
-      }
-      $jsonOutput[] = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'amount' => $output1['amount'],
-        'img' => $img
-      ];
-    }
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
-  }
-  function AllEggNoUser()
-  {
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql1 = "call GetAllCardByCategoryId(1)";
-    $stmt1 = $db->prepare($sql1);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput[$output1['series_id']] = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'amount' => $output1['amount'],
-        'rank' => $output1['rank'],
-        'rare' => $output1['rare'],
-        'release_time' => $output1['release_time'],
-        'img' => []
-      ];
-    }
-    $stmt1->closeCursor();
-    $this->fetchSeriesImages($db, $jsonOutput);
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode(array_values($jsonOutput));
-  }
-  function AllEggWithUser($user_id)
-  {
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql1 = "call GetAllCardByUserAndCategoryId(:user_id, 1)";
-    $stmt1 = $db->prepare($sql1);
-    $stmt1->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput[$output1['series_id']] = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'amount' => $output1['amount'],
-        'rank' => $output1['rank'],
-        'rare' => $output1['rare'],
-        'release_time' => $output1['release_time'],
-        'img' => [],
-        'collected' => $output1['collected']
-      ];
-    }
-    $stmt1->closeCursor();
-    $this->fetchSeriesImages($db, $jsonOutput);
-    $db = null;
-    return json_encode(array_values($jsonOutput));
-  }
-  function AllIchibanNoUser()
-  {
-    $db = new Connect;
-    $jsonOutput = [];
-    $character = [];
-    $tmp = [];
-    $sql1 = "call GetAllCardByCategoryId(2)";
-    $stmt1 = $db->prepare($sql1);
-    $stmt1->execute();
-    $series_ids = [];
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_ids[] = $output1['series_id'];
-      $jsonOutput[$output1['series_id']] = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'amount' => $output1['amount'],
-        'rank' => $output1['rank'],
-        'rare' => $output1['rare'],
-        'release_time' => $output1['release_time'],
-        'img' => [],
-        'character' => $character
-      ];
-    }
-    $stmt1->closeCursor();
-    $this->fetchSeriesImages($db, $jsonOutput);
-    foreach ($series_ids as $series_id) {
-      $sql2 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $character[] = [
-          'prize' => $output2['prize'],
-          'name' => $output2['name'],
-          'remain' => $output2['remain'],
-          'total' => $output2['amount']
-        ];
-      }
-      $stmt2->closeCursor();
-      foreach ($jsonOutput as &$item) {
-        if ($item['series_id'] == $series_id) {
-          $item['character'] = $character;
-          break;
-        }
-      }
-    }
-    foreach ($series_ids as $series_id) {
-      $sql2 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $tmp = [
-          'remain' => $output2['all_remain'],
-          'total' => $output2['all_amount']
-        ];
-      }
-      $stmt2->closeCursor();
-      foreach ($jsonOutput as &$item) {
-        if ($item['series_id'] == $series_id) {
-          $item = [...$item, ...$tmp];
-          break;
-        }
-      }
-    }
-    $db = null;
-    // if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
-  }
-  function AllIchibanWithUser($user_id)
-  {
-    $user_id = $_POST['user_id'];
-    $db = new Connect;
-    $jsonOutput = [];
-    $img = [];
-    $character = [];
-    $tmp = [];
-    $series_ids = [];
-    $sql1 = "call GetAllCardByUserAndCategoryId(:user_id, 2)";
-    $stmt1 = $db->prepare($sql1);
-    $stmt1->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_ids[] = $output1['series_id'];
-      $jsonOutput[$output1['series_id']] = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'] ?? '',
-        'title' => $output1['series_title'] ?? '',
-        'name' => $output1['name'] ?? '',
-        'price' => $output1['price'] ?? '',
-        'amount' => $output1['amount'] ?? '',
-        'rank' => $output1['rank'] ?? '',
-        'rare' => $output1['rare'] ?? '',
-        'release_time' => $output1['release_time'] ?? '',
-        'img' => [],
-        'character' => $character,
-        'collected' => $output1['collected'] ?? ''
-      ];
-    }
-    $stmt1->closeCursor();
-    $this->fetchSeriesImages($db, $jsonOutput);
-    foreach ($series_ids as $series_id) {
-      $sql2 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $character[] = [
-          'prize' => $output2['prize'],
-          'name' => $output2['name'],
-          'remain' => $output2['remain'],
-          'total' => $output2['amount']
-        ];
-      }
-      $stmt2->closeCursor();
-      foreach ($jsonOutput as &$item) {
-        if ($item['series_id'] == $series_id) {
-          $item['character'] = $character;
-          break;
-        }
-      }
-    }
-    foreach ($series_ids as $series_id) {
-      $sql2 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $tmp = [
-          'remain' => $output2['all_remain'],
-          'total' => $output2['all_amount']
-        ];
-      }
-      $stmt2->closeCursor();
-      foreach ($jsonOutput as &$item) {
-        if ($item['series_id'] == $series_id) {
-          $item = [...$item, ...$tmp];
-          break;
-        }
-      }
-    }
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
-  }
+  // function EggTop10()
+  // {
+  //   $this->db = new Connect;
+  //   $jsonOutput = [];
+  //   $sql1 = "select * from vw_hotEgg limit 10";
+  //   $stmt1 = $this->db->prepare($sql1);
+  //   $stmt1->execute();
+  //   while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+  //     $series_id = $output1['series_id'];
+  //     $sql2 = "select * from vw_series_img where series_id = :series_id";
+  //     $stmt2 = $this->db->prepare($sql2);
+  //     $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+  //     $stmt2->execute();
+  //     $img = [];
+  //     while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+  //       $img[] = $output2['series_img'];
+  //     }
+  //     $jsonOutput[] = [
+  //       'series_id' => $output1['series_id'],
+  //       'theme' => $output1['theme'],
+  //       'title' => $output1['series_title'],
+  //       'name' => $output1['name'],
+  //       'price' => $output1['price'],
+  //       'amount' => $output1['amount'],
+  //       'img' => $img
+  //     ];
+  //   }
+  //   $this->db = null;
+  //   if ($jsonOutput == []) $jsonOutput = [];
+  //   return json_encode($jsonOutput);
+  // }
 
   // 扭蛋主頁post
-  function EggType($type, $page)
-  {
-    $type = $_POST['type'];
-    $db = new Connect;
-    $jsonOutput = [];
-    if (is_null($type)) {
-      $sql1 = "select * from vw_allEgg limit :page, 24";
-      $sql2 = "select count(*) from vw_allEgg";
-    }
-    if ($type == 'all') {
-      $sql1 = "select * from vw_allEgg limit :page, 24";
-      $sql2 = "select count(*) from vw_allEgg";
-    }
-    if ($type == 'hot') {
-      $sql1 = "select * from vw_hotEgg limit :page, 24";
-      $sql2 = "select count(*) from vw_hotEgg";
-    }
-    if ($type == 'rare') {
-      $sql1 = "select * from vw_rareEgg limit :page, 24";
-      $sql2 = "select count(*) from vw_rareEgg";
-    }
-    if ($type == 'new') {
-      $sql1 = "select * from vw_newEgg limit :page, 24";
-      $sql2 = "select count(*) from vw_newEgg";
-    }
-    $stmt1 = $db->prepare($sql1);
-    $stmt2 = $db->prepare($sql2);
-    $stmt1->bindValue(':page', ($page - 1) * 24, PDO::PARAM_STR);
-    $stmt1->execute();
-    $stmt2->execute();
-    while ($output = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_id = $output['series_id'];
-      $sql3 = "select * from vw_series_img where series_id = :series_id";
-      $stmt3 = $db->prepare($sql3);
-      $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt3->execute();
-      $img = [];
-      while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output3['series_img'];
-      }
-      $jsonOutput['series'][] = [
-        'series_id' => $output['series_id'],
-        'theme' => $output['theme'],
-        'title' => $output['series_title'],
-        'name' => $output['name'],
-        'price' => $output['price'],
-        'amount' => $output['amount'],
-        'img' => $img
-      ];
-    }
-    while ($output = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
-    }
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
-  }
+  // function EggType($type, $page)
+  // {
+  //   $type = $_POST['type'];
+  //   $this->db = new Connect;
+  //   $jsonOutput = [];
+  //   if (is_null($type)) {
+  //     $sql1 = "select * from vw_allEgg limit :page, 24";
+  //     $sql2 = "select count(*) from vw_allEgg";
+  //   }
+  //   if ($type == 'all') {
+  //     $sql1 = "select * from vw_allEgg limit :page, 24";
+  //     $sql2 = "select count(*) from vw_allEgg";
+  //   }
+  //   if ($type == 'hot') {
+  //     $sql1 = "select * from vw_hotEgg limit :page, 24";
+  //     $sql2 = "select count(*) from vw_hotEgg";
+  //   }
+  //   if ($type == 'rare') {
+  //     $sql1 = "select * from vw_rareEgg limit :page, 24";
+  //     $sql2 = "select count(*) from vw_rareEgg";
+  //   }
+  //   if ($type == 'new') {
+  //     $sql1 = "select * from vw_newEgg limit :page, 24";
+  //     $sql2 = "select count(*) from vw_newEgg";
+  //   }
+  //   $stmt1 = $this->db->prepare($sql1);
+  //   $stmt2 = $this->db->prepare($sql2);
+  //   $stmt1->bindValue(':page', ($page - 1) * 24, PDO::PARAM_STR);
+  //   $stmt1->execute();
+  //   $stmt2->execute();
+  //   while ($output = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+  //     $series_id = $output['series_id'];
+  //     $sql3 = "select * from vw_series_img where series_id = :series_id";
+  //     $stmt3 = $this->db->prepare($sql3);
+  //     $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+  //     $stmt3->execute();
+  //     $img = [];
+  //     while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+  //       $img[] = $output3['series_img'];
+  //     }
+  //     $jsonOutput['series'][] = [
+  //       'series_id' => $output['series_id'],
+  //       'theme' => $output['theme'],
+  //       'title' => $output['series_title'],
+  //       'name' => $output['name'],
+  //       'price' => $output['price'],
+  //       'amount' => $output['amount'],
+  //       'img' => $img
+  //     ];
+  //   }
+  //   while ($output = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+  //     $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
+  //   }
+  //   $this->db = null;
+  //   if ($jsonOutput == []) $jsonOutput = [];
+  //   return json_encode($jsonOutput);
+  // }
   // 扭蛋分類fetch
   // 主題顯示
-  function Theme()
-  {
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql1 = "select Theme from vw_theme m left join Theme t on m.theme_id = t.id where category_id = 1 group by Theme";
-    $stmt1 = $db->prepare($sql1);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput[] = $output1['Theme'];
-    }
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
-  }
+  // function Theme()
+  // {
+  //   $this->db = new Connect;
+  //   $jsonOutput = [];
+  //   $sql1 = "select Theme from vw_theme m left join Theme t on m.theme_id = t.id where category_id = 1 group by Theme";
+  //   $stmt1 = $this->db->prepare($sql1);
+  //   $stmt1->execute();
+  //   while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+  //     $jsonOutput[] = $output1['Theme'];
+  //   }
+  //   $this->db = null;
+  //   if ($jsonOutput == []) $jsonOutput = [];
+  //   return json_encode($jsonOutput);
+  // }
   // 扭蛋分類post
-  function ThemeSort($theme, $page)
-  {
-    $theme = $_POST['theme'];
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql1 = "select * from vw_eggcard where theme = :theme limit :page, 24";
-    $sql2 = "select count(*) from vw_eggcard";
+  // function ThemeSort($theme, $page)
+  // {
+  //   $theme = $_POST['theme'];
+  //   $this->db = new Connect;
+  //   $jsonOutput = [];
+  //   $sql1 = "select * from vw_eggcard where theme = :theme limit :page, 24";
+  //   $sql2 = "select count(*) from vw_eggcard";
 
-    $stmt1 = $db->prepare($sql1);
-    $stmt2 = $db->prepare($sql2);
-    $stmt1->bindValue(':theme', $theme, PDO::PARAM_STR);
-    $stmt1->bindValue(':page', ($page - 1) * 24, PDO::PARAM_STR);
-    $stmt1->execute();
-    $stmt2->execute();
-    $jsonOutput['series'] = [];
-    while ($output = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_id = $output['series_id'];
-      $sql3 = "select * from vw_EggCardImg where series_id = :series_id";
-      $stmt3 = $db->prepare($sql3);
-      $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt3->execute();
-      $img = [];
-      while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = $output3['series_img'];
-      }
-      $jsonOutput['series'][] = [
-        'series_id' => $output['series_id'],
-        'theme' => $output['theme'],
-        'title' => $output['series_title'],
-        'name' => $output['name'],
-        'price' => $output['price'],
-        'amount' => $output['amount'],
-        'img' => $img
-      ];
-    }
-    while ($output = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
-    }
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
-  }
+  //   $stmt1 = $this->db->prepare($sql1);
+  //   $stmt2 = $this->db->prepare($sql2);
+  //   $stmt1->bindValue(':theme', $theme, PDO::PARAM_STR);
+  //   $stmt1->bindValue(':page', ($page - 1) * 24, PDO::PARAM_STR);
+  //   $stmt1->execute();
+  //   $stmt2->execute();
+  //   $jsonOutput['series'] = [];
+  //   while ($output = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+  //     $series_id = $output['series_id'];
+  //     $sql3 = "select * from vw_EggCardImg where series_id = :series_id";
+  //     $stmt3 = $this->db->prepare($sql3);
+  //     $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+  //     $stmt3->execute();
+  //     $img = [];
+  //     while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+  //       $img[] = $output3['series_img'];
+  //     }
+  //     $jsonOutput['series'][] = [
+  //       'series_id' => $output['series_id'],
+  //       'theme' => $output['theme'],
+  //       'title' => $output['series_title'],
+  //       'name' => $output['name'],
+  //       'price' => $output['price'],
+  //       'amount' => $output['amount'],
+  //       'img' => $img
+  //     ];
+  //   }
+  //   while ($output = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+  //     $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
+  //   }
+  //   $this->db = null;
+  //   if ($jsonOutput == []) $jsonOutput = [];
+  //   return json_encode($jsonOutput);
+  // }
 
   // 扭蛋詳細post
   function EggDetail($series_id)
   {
     $series_id = $_POST['series_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "select * from vw_detail where series_id = :series_id";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
-    $sql1 = "select * from vw_allEgg where series_id = :series_id";
-    $stmt1 = $db->prepare($sql1);
-    $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+    $theme = '';
+    while ($output1 = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output1['series_id'];
       $theme = $output1['theme'];
       $sql2 = "select * from vw_series_img where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
+      $stmt2 = $this->db->prepare($sql2);
       $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt2->execute();
       $img = [];
@@ -460,8 +386,8 @@ class API
     $sql1 = "select * from vw_eggcard where theme = :theme limit 10";
     $sql2 = "select count(*) from vw_eggcard";
 
-    $stmt1 = $db->prepare($sql1);
-    $stmt2 = $db->prepare($sql2);
+    $stmt1 = $this->db->prepare($sql1);
+    $stmt2 = $this->db->prepare($sql2);
     $stmt1->bindValue(':theme', $theme, PDO::PARAM_STR);
     $stmt1->execute();
     $stmt2->execute();
@@ -469,7 +395,7 @@ class API
     while ($output = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output['series_id'];
       $sql3 = "select * from vw_EggCardImg where series_id = :series_id";
-      $stmt3 = $db->prepare($sql3);
+      $stmt3 = $this->db->prepare($sql3);
       $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt3->execute();
       $img = [];
@@ -488,7 +414,7 @@ class API
     }
     // 扭蛋剩餘
     $sql4 = "call GetAmountById(:series_id)";
-    $stmt4 = $db->prepare($sql4);
+    $stmt4 = $this->db->prepare($sql4);
     $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt4->execute();
     while ($output4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
@@ -497,7 +423,7 @@ class API
         'total' => $output4['total']
       ];
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
@@ -505,10 +431,10 @@ class API
   // 地址
   function City($input)
   {
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "SELECT * from City where id = $input";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[$output['id']] = [
@@ -516,7 +442,7 @@ class API
         'city' => $output['city']
       ];
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
@@ -524,15 +450,15 @@ class API
   //精選
   function IchibanBling()
   {
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql1 = "select series_id, theme_id, theme, series_title, name, price from vw_ichiban order by release_time";
-    $stmt1 = $db->prepare($sql1);
+    $stmt1 = $this->db->prepare($sql1);
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output1['series_id'];
       $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
+      $stmt2 = $this->db->prepare($sql2);
       $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt2->execute();
       $img = [];
@@ -541,7 +467,7 @@ class API
       }
       // 數量
       $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt3 = $db->prepare($sql3);
+      $stmt3 = $this->db->prepare($sql3);
       $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt3->execute();
       while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
@@ -551,7 +477,7 @@ class API
         ];
       }
       $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt4 = $db->prepare($sql4);
+      $stmt4 = $this->db->prepare($sql4);
       $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt4->execute();
       $character = [];
@@ -574,7 +500,7 @@ class API
       ];
       $jsonOutput[] = array_merge($array1, $array2);
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
@@ -582,7 +508,7 @@ class API
   function IchibanType($type, $page)
   {
     $type = $_POST['type'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     if (is_null($type)) {
       $sql1 = "select series_id, theme_id, theme, series_title, name, price from vw_ichiban order by stock desc limit :page, 24";
@@ -596,13 +522,13 @@ class API
     if ($type == 'new') {
       $sql1 = "select series_id, theme_id, theme, series_title, name, price from vw_ichiban order by release_time desc limit :page, 24";
     }
-    $stmt1 = $db->prepare($sql1);
+    $stmt1 = $this->db->prepare($sql1);
     $stmt1->bindValue(':page', ($page - 1) * 24, PDO::PARAM_INT);
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output1['series_id'];
       $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
+      $stmt2 = $this->db->prepare($sql2);
       $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt2->execute();
       $img = [];
@@ -611,7 +537,7 @@ class API
       }
       // 數量
       $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt3 = $db->prepare($sql3);
+      $stmt3 = $this->db->prepare($sql3);
       $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt3->execute();
       while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
@@ -621,7 +547,7 @@ class API
         ];
       }
       $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt4 = $db->prepare($sql4);
+      $stmt4 = $this->db->prepare($sql4);
       $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt4->execute();
       $character = [];
@@ -644,13 +570,13 @@ class API
       ];
       $jsonOutput['series'][] = array_merge($array1, $array2);
       $sql2 = "select count(*) from vw_IchibanImg";
-      $stmt2 = $db->prepare($sql2);
+      $stmt2 = $this->db->prepare($sql2);
       $stmt2->execute();
       while ($output = $stmt2->fetch(PDO::FETCH_ASSOC)) {
         $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
       }
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
@@ -658,17 +584,17 @@ class API
   function IchibanThemeSort($theme, $page)
   {
     $theme = $_POST['theme'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql1 = "select * from vw_Ichiban where theme = :theme limit :page, 24";
-    $stmt1 = $db->prepare($sql1);
+    $stmt1 = $this->db->prepare($sql1);
     $stmt1->bindValue(':theme', $theme, PDO::PARAM_STR);
     $stmt1->bindValue(':page', ($page - 1) * 24, PDO::PARAM_INT);
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output1['series_id'];
       $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
+      $stmt2 = $this->db->prepare($sql2);
       $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt2->execute();
       $img = [];
@@ -677,7 +603,7 @@ class API
       }
       // 數量
       $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt3 = $db->prepare($sql3);
+      $stmt3 = $this->db->prepare($sql3);
       $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt3->execute();
       while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
@@ -687,7 +613,7 @@ class API
         ];
       }
       $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt4 = $db->prepare($sql4);
+      $stmt4 = $this->db->prepare($sql4);
       $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt4->execute();
       $character = [];
@@ -710,28 +636,28 @@ class API
       ];
       $jsonOutput['series'][] = array_merge($array1, $array2);
       $sql2 = "select count(*) from vw_Ichiban";
-      $stmt2 = $db->prepare($sql2);
+      $stmt2 = $this->db->prepare($sql2);
       $stmt2->execute();
       while ($output = $stmt2->fetch(PDO::FETCH_ASSOC)) {
         $jsonOutput['pages'] = floor($output['count(*)'] / 24) + 1;
       }
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   // 一番賞種類
   function IchibanTheme()
   {
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql1 = "select Theme from vw_theme m left join Theme t on m.theme_id = t.id where category_id = 2 group by Theme";
-    $stmt1 = $db->prepare($sql1);
+    $stmt1 = $this->db->prepare($sql1);
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = $output1['Theme'];
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
@@ -739,16 +665,16 @@ class API
   function IchibanDetail($series_id)
   {
     $series_id = $_POST['series_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $theme = '';
     $sql1 = "select series_id, theme_id, theme, series_title, name, price from vw_ichiban where series_id = :series_id";
-    $stmt1 = $db->prepare($sql1);
+    $stmt1 = $this->db->prepare($sql1);
     $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
+      $stmt2 = $this->db->prepare($sql2);
       $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt2->execute();
       $img = [];
@@ -757,7 +683,7 @@ class API
       }
       // 數量
       $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt3 = $db->prepare($sql3);
+      $stmt3 = $this->db->prepare($sql3);
       $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt3->execute();
       while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
@@ -768,7 +694,7 @@ class API
       }
       //character
       $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt4 = $db->prepare($sql4);
+      $stmt4 = $this->db->prepare($sql4);
       $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt4->execute();
       $character = [];
@@ -781,7 +707,7 @@ class API
         ];
       }
       $sql5 = "select character_img, size, material from vw_detail where series_id = :series_id";
-      $stmt5 = $db->prepare($sql5);
+      $stmt5 = $this->db->prepare($sql5);
       $stmt5->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt5->execute();
       $character = [];
@@ -809,13 +735,13 @@ class API
     }
     // 賞主題推薦
     $sql1 = "select * from vw_Ichiban where theme = :theme limit 10";
-    $stmt1 = $db->prepare($sql1);
+    $stmt1 = $this->db->prepare($sql1);
     $stmt1->bindValue(':theme', $theme, PDO::PARAM_STR);
     $stmt1->execute();
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output1['series_id'];
       $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
-      $stmt2 = $db->prepare($sql2);
+      $stmt2 = $this->db->prepare($sql2);
       $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt2->execute();
       $img = [];
@@ -823,7 +749,7 @@ class API
         $img[] = $output2['series_img'];
       }
       $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt4 = $db->prepare($sql4);
+      $stmt4 = $this->db->prepare($sql4);
       $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt4->execute();
       $character = [];
@@ -846,7 +772,7 @@ class API
       ];
       // 數量
       $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt3 = $db->prepare($sql3);
+      $stmt3 = $this->db->prepare($sql3);
       $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt3->execute();
       while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
@@ -858,24 +784,24 @@ class API
       $jsonOutput['recommend'][] = array_merge($array3, $array5);
       // 已抽籤號
       $sql = "call GetLabelById(:series_id)";
-      $stmt = $db->prepare($sql);
+      $stmt = $this->db->prepare($sql);
       $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt->execute();
       while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $jsonOutput['label'][] = $output['label'];
       }
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function User($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetUserNameById(:user_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -883,7 +809,7 @@ class API
     }
     $stmt->closeCursor();
     $sql = "call GetPastAYearGashById(:user_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -891,7 +817,7 @@ class API
     }
     $stmt->closeCursor();
     $sql = "call GetGashNowById(:user_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -899,7 +825,7 @@ class API
     }
     $stmt->closeCursor();
     $sql = "call GetGiftExpireDateById(:user_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -915,17 +841,17 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Wall($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetRecordsByIdAndCategory(:user_id, 1);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -935,7 +861,7 @@ class API
     }
     $stmt->closeCursor();
     $sql = "call GetRecordsByIdAndCategory(:user_id, 2);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -944,17 +870,17 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
+    $this->db = null;
+    if ($jsonOutput == []) $jsonOutput = [''];
     return json_encode($jsonOutput);
   }
   function CollectionEgg($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetCollectionHasByIdAndCategory(:user_id, 1);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     $series_ids = [];
@@ -971,7 +897,7 @@ class API
     $stmt->closeCursor();
     foreach ($series_ids as $series_id) {
       $sql1 = "call GetSeriesImgById(:series_id);";
-      $stmt1 = $db->prepare($sql1);
+      $stmt1 = $this->db->prepare($sql1);
       $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt1->execute();
       $img = [];
@@ -987,7 +913,7 @@ class API
       }
     }
     $sql = "call GetCollectionNoByIdAndCategory(:user_id, 1);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     $series_ids = [];
@@ -1004,7 +930,7 @@ class API
     $stmt->closeCursor();
     foreach ($series_ids as $series_id) {
       $sql1 = "call GetSeriesImgById(:series_id);";
-      $stmt1 = $db->prepare($sql1);
+      $stmt1 = $this->db->prepare($sql1);
       $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt1->execute();
       $img = [];
@@ -1019,17 +945,17 @@ class API
         }
       }
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function CollectionIchiban($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetCollectionHasByIdAndCategory(:user_id, 2);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     $series_ids = [];
@@ -1046,7 +972,7 @@ class API
     $stmt->closeCursor();
     foreach ($series_ids as $series_id) {
       $sql1 = "call GetSeriesImgById(:series_id);";
-      $stmt1 = $db->prepare($sql1);
+      $stmt1 = $this->db->prepare($sql1);
       $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt1->execute();
       $img = [];
@@ -1062,7 +988,7 @@ class API
       }
     }
     $sql = "call GetCollectionNoByIdAndCategory(:user_id, 2);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     $series_ids = [];
@@ -1079,7 +1005,7 @@ class API
     $stmt->closeCursor();
     foreach ($series_ids as $series_id) {
       $sql1 = "call GetSeriesImgById(:series_id);";
-      $stmt1 = $db->prepare($sql1);
+      $stmt1 = $this->db->prepare($sql1);
       $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt1->execute();
       $img = [];
@@ -1094,17 +1020,17 @@ class API
         }
       }
     }
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Wallet($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
-    $sql = "call GetUserWalletRecordById(:user_id);";
-    $stmt = $db->prepare($sql);
+    $sql = "call GetUserWalletRecordbyId(:user_id);";
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -1117,17 +1043,17 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Bag($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetBagCartByIdAndStatus(:user_id, 4);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -1143,17 +1069,17 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Cart($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetBagCartByIdAndStatus(:user_id, 5);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -1166,17 +1092,17 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Logistics($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetAllLogisticsById(:user_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -1189,17 +1115,17 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Userinfo($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetUserinfoById(:user_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -1214,17 +1140,17 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function LogisticsDetail($list_id)
   {
     $list_id = $_POST['list_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetLogisticsDetailById(:list_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':list_id', $list_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -1241,7 +1167,7 @@ class API
     }
     $stmt->closeCursor();
     $sql = "call GetLogisticsItemById(:list_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':list_id', $list_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -1251,7 +1177,7 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
@@ -1259,10 +1185,10 @@ class API
   {
     $user_id = $_POST['user_id'];
     $series_id = $_POST['series_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call UpdateCollectionByUserSeries(:user_id, :series_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
@@ -1270,7 +1196,7 @@ class API
       $jsonOutput = $output;
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
@@ -1278,10 +1204,10 @@ class API
   {
     $user_id = $_POST['user_id'];
     $series_id = $_POST['series_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call AlterCollectionStatusByUserSeriesStatus(:user_id, :series_id, 11);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
@@ -1289,16 +1215,16 @@ class API
       $jsonOutput = $output;
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function AllGash()
   {
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "SELECT id, gash, dollar FROM Gash WHERE 1;";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
@@ -1308,7 +1234,7 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     // if ($jsonOutput === null) $jsonOutput = ['error' => 'No results found, please try again'];
     return json_encode($jsonOutput);
   }
@@ -1318,10 +1244,10 @@ class API
     $series_id = $_POST['series_id'];
     $amounts = $_POST['amounts'];
     $time = isset($_POST['time']) ? $_POST['time'] : time();
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call PlayEgg(:user_id, :series_id, :amounts, :time);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->bindValue(':amounts', $amounts, PDO::PARAM_INT);
@@ -1336,7 +1262,7 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
   }
@@ -1345,10 +1271,10 @@ class API
     $user_id = $_POST['user_id'];
     $gash_id = $_POST['gash_id'];
     $time = isset($_POST['time']) ? $_POST['time'] : time();
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call TopUpGash(:user_id, :time, :gash_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':gash_id', $gash_id, PDO::PARAM_INT);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->bindValue(':time', $time, PDO::PARAM_INT);
@@ -1359,7 +1285,7 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [''];
     return json_encode($jsonOutput);
   }
@@ -1367,10 +1293,10 @@ class API
   {
     $user_id = $_POST['user_id'];
     $series_id = $_POST['series_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call LineUp(:series_id, :user_id);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
@@ -1382,7 +1308,7 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
   }
@@ -1390,10 +1316,10 @@ class API
   {
     $series_id = $_POST['series_id'];
     $number = $_POST['number'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call SeeWaitTime(:series_id, :number);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->bindValue(':number', $number, PDO::PARAM_INT);
     $stmt->execute();
@@ -1406,7 +1332,7 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
   }
@@ -1414,10 +1340,10 @@ class API
   {
     $series_id = $_POST['series_id'];
     $number = $_POST['number'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call DeleteWaiting(:series_id, :number);";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->bindValue(':number', $number, PDO::PARAM_INT);
     $stmt->execute();
@@ -1430,7 +1356,7 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
   }
@@ -1441,10 +1367,10 @@ class API
     // $amounts = $_POST['amounts'];
     // $label = $_POST['label'];
     // $time = isset($_POST['time']) ? $_POST['time'] : time();
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call PlayIchiban(:series_id, :number, :amounts, :label, :time)";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->bindValue(':number', $number, PDO::PARAM_INT);
     $stmt->bindValue(':amounts', $amounts, PDO::PARAM_INT);
@@ -1460,33 +1386,33 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function GetLabels($series_id)
   {
     $series_id = $_POST['series_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $tmp = [];
     $sql = "call GetLabelById(:series_id)";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = $output['label'];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
     return $jsonOutput;
   }
   function MyTimer($user_id)
   {
     $user_id = $_POST['user_id'];
-    $db = new Connect;
+    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetWaitTimeById(:user_id)";
-    $stmt = $db->prepare($sql);
+    $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -1498,63 +1424,51 @@ class API
       ];
     }
     $stmt->closeCursor();
-    $db = null;
+    $this->db = null;
+    $jsonOutput == [] ? $jsonOutput = ['waiting' => ''] : $jsonOutput;
+    return json_encode($jsonOutput);
+  }
+  private function changeStatus($record_id, $status)
+  {
+    $jsonOutput = [];
+    $sql = "CALL ChangeStatusByIdAndStatus(:record_id, :status)";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
+    $stmt->bindValue(':status', $status, PDO::PARAM_INT);
+    $stmt->execute();
+    switch ($status) {
+      case 3:
+        $jsonOutput = ['error' => 'to G done'];
+        break;
+      case 4:
+        $jsonOutput = ['error' => 'to bag done'];
+        break;
+      case 5:
+        $jsonOutput = ['error' => 'to cart done'];
+        break;
+      default:
+        $jsonOutput = ['error' => 'invalid status'];
+        break;
+    }
+    $stmt->closeCursor();
+    $this->db = null;
     return json_encode($jsonOutput);
   }
   function ToG($record_id)
   {
-    $record_id = $_POST['record_id'];
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql = "call ChangeStatusByIdAndStatus(:record_id, 3)";
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $jsonOutput = ['error' => 'to G done'];
-    $stmt->closeCursor();
-    $db = null;
-    return json_encode($jsonOutput);
+    // $record_id = $_POST['record_id'];
+    return $this->changeStatus($record_id, 3);
   }
+
   function ToCart($record_id)
   {
-    $record_id = $_POST['record_id'];
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql = "call ChangeStatusByIdAndStatus(:record_id, 5)";
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $jsonOutput = ['error' => 'to cart done'];
-    $stmt->closeCursor();
-    $db = null;
-    return json_encode($jsonOutput);
+    // $record_id = $_POST['record_id'];
+    return $this->changeStatus($record_id, 5);
   }
+
   function ToBag($record_id)
   {
-    $record_id = $_POST['record_id'];
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql = "call ChangeStatusByIdAndStatus(:record_id, 4)";
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $jsonOutput = ['error' => 'to bag done'];
-    $stmt->closeCursor();
-    $db = null;
-    return json_encode($jsonOutput);
+    // $record_id = $_POST['record_id'];
+    return $this->changeStatus($record_id, 4);
   }
-  function changeStatus($record_id, $status)
-{
-    $db = new Connect;
-    $jsonOutput = [];
-    $sql = "call ChangeStatusByIdAndStatus(:record_id, :status)";
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':record_id', $record_id, PDO::PARAM_INT);
-    $stmt->bindValue(':status', $status, PDO::PARAM_INT);
-    $stmt->execute();
-    $jsonOutput = ['error' => 'Status changed to ' . $status];
-    $stmt->closeCursor();
-    $db = null;
-    return json_encode($jsonOutput);
-}
 }
