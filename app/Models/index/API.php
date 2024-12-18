@@ -787,7 +787,7 @@ class API
       $character = [];
       while ($output5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
         $array2[] = [
-          'img' => 'http://localhost/gachoraProject/public/images' . $output5['character_img'],
+          'img' => $output5['character_img'],
           'size' => $output5['size'],
           'material' => $output5['material'],
         ];
@@ -930,7 +930,7 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['egg'][] = [
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
+        'img' => $output['img']
       ];
     }
     $stmt->closeCursor();
@@ -940,12 +940,12 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['ichiban'][] = [
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
+        'img' => $output['img']
       ];
     }
     $stmt->closeCursor();
     $db = null;
-    if ($jsonOutput == []) $jsonOutput = [''];
+    if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function CollectionEgg($user_id)
@@ -1133,7 +1133,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
+        'img' => $output['img'],
         'series_title' => $output['title'],
         'series' => $output['series'],
         'name' => $output['name'],
@@ -1159,7 +1159,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
+        'img' => $output['img'],
         'series' => $output['series'],
         'name' => $output['name'],
         'time' => date('Y/m/d', $output['time'])
@@ -1331,7 +1331,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
+        'img' => $output['img'] ?? '',
         'amount' => $output['amount'] ?? ''
       ];
     }
@@ -1455,7 +1455,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
+        'img' => $output['img'] ?? '',
         'amount' => $output['amount'] ?? ''
       ];
     }
