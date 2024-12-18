@@ -352,7 +352,7 @@ class API
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
     $theme = '';
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+    while ($output1 = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output1['series_id'];
       $theme = $output1['theme'];
       $sql2 = "select * from vw_series_img where series_id = :series_id";
