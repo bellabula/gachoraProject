@@ -149,6 +149,7 @@ class API
       'amount' => $output['amount'] ?? '',
       'rank' => $output['rank'] ?? '',
       'rare' => $output['rare'] ?? '',
+      'series_label' => $output['series_label'] ?? '',
       'release_time' => $output['release_time'] ?? '',
       'img' => [],
       'character' => []
