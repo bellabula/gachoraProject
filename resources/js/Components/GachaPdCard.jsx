@@ -4,7 +4,7 @@ import { usePage, Link } from '@inertiajs/react';
 function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavor, className = '', img = '' }) {
 
     const user = usePage().props.auth.user;
-    const user_id = user.id
+    // const user_id = user.id
 
     const basePath = '../app/Models'
     const url = basePath + '/Post/ToCollection.php'
@@ -12,24 +12,25 @@ function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavo
     const [isActive, setIsActive] = useState(false);
     const [newclass, setNewclass] = useState("");
 
-    useEffect(() => {
-        if (userFavor.includes(seriesId)) {
-            setIsActive(true)
-            setNewclass("active")
-        }
-    }, [user_id])
+    // useEffect(() => {
+    //     if (userFavor.includes(seriesId)) {
+    //         setIsActive(true)
+    //         setNewclass("active")
+    //     }
+    // }, [user_id])
 
     function toogleHeart() {
-        $.post(url, {
-            user_id: user_id,
-            series_id: seriesId
-        })
-        if (!isActive) {
-            setNewclass("active")
-        } else {
-            setNewclass("")
-        }
-        setIsActive(!isActive)
+        console.log("stop heart")
+        // $.post(url, {
+        //     user_id: user_id,
+        //     series_id: seriesId
+        // })
+        // if (!isActive) {
+        //     setNewclass("active")
+        // } else {
+        //     setNewclass("")
+        // }
+        // setIsActive(!isActive)
     }
 
     return (

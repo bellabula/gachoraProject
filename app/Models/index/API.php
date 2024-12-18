@@ -422,7 +422,7 @@ class API
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
-    $sql1 = "select * from vw_blingEgg where series_id = :series_id";
+    $sql1 = "select * from vw_allEgg where series_id = :series_id";
     $stmt1 = $db->prepare($sql1);
     $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt1->execute();

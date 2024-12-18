@@ -35,7 +35,7 @@ function B_2_3GachaMachine() {
         };
     }, [animation3Completed]);
 
-    const loadAnimation3 = () => {
+    const loadAnimation3 = (() => {
         if (animation3InstanceRef.current) {
             animation3InstanceRef.current.destroy(); // 清理之前的動畫實例
         }
@@ -68,7 +68,7 @@ function B_2_3GachaMachine() {
             animationInstance3.destroy();
             console.log("刪除扭蛋機動畫")
         };
-    }, []);
+    });
 
     useEffect(() => {
         if (animation3Completed) {
@@ -84,7 +84,7 @@ function B_2_3GachaMachine() {
                 animation5InstanceRef.current = null;
             }
         };
-    };
+    }, []);
 
     const loadAndPlayAnimation5 = () => {
         console.log(animation5InstanceRef.current)
@@ -122,8 +122,8 @@ function B_2_3GachaMachine() {
 
     const startNextDraw = () => {
         console.log("按下按鈕")
-        console.log("remain:"+remainingDraws)
-        console.log("isAnimationPlaying:"+isAnimationPlaying)
+        console.log("remain:" + remainingDraws)
+        console.log("isAnimationPlaying:" + isAnimationPlaying)
         if (remainingDraws > 0 && !isAnimationPlaying) {
             console.log("Do")
             setShowNextDrawButton(false); // 隱藏"下一抽"按鈕
@@ -177,7 +177,7 @@ function B_2_3GachaMachine() {
                             <div id="animation5"></div>
                         </div>
                         <div className="content">
-                        {response.map((ele, index) => (
+                            {response.map((ele, index) => (
                                 <div key={index}>
                                     <img src={ele.img} alt="扭蛋" />
                                     <h3>{ele.name}</h3>
@@ -197,7 +197,7 @@ function B_2_3GachaMachine() {
                         {showNextDrawButton && remainingDraws == 0 && (
                             <button
                                 className="next-draw-button custom-btn btn-lg"
-                                // onClick={startNextDraw}
+                            // onClick={startNextDraw}
                             >
                                 查看獎品
                             </button>
