@@ -10,15 +10,15 @@ function B_2_GachaTagPage() {
     const user_id = user.id
     // 假資料
     // const [allProducts] = useState([
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "玩具", seriesName: "系列名", productName: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
+    //     { category: "熱門商品", seriesName: "系列名", name: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "熱門商品", seriesName: "系列名", name: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "最新商品", seriesName: "系列名", name: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "最新商品", seriesName: "系列名", name: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "限時商品", seriesName: "系列名", name: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "限時商品", seriesName: "系列名", name: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "玩具", seriesName: "系列名", name: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "玩具", seriesName: "系列名", name: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
+    //     { category: "熱門商品", seriesName: "系列名", name: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
     // ]);
     const [allProducts, setAllProducts] = useState([])
     // const [allProductsAPI, setAllProductsAPI] = useState([])
@@ -182,7 +182,7 @@ function B_2_GachaTagPage() {
                                             key={index}
                                             onClick={() => setcurrentPage(index + 1)}
                                         >
-                                            <a className="page-link" href="">{index + 1}</a>
+                                            <a className="page-link" href="#">{index + 1}</a>
                                         </li>
                                     ))}
                                 </ul>
