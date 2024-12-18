@@ -9,7 +9,7 @@ use App\Http\Controllers\HomeDirectToController;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\MemberController;
+use App\Http\Controllers\BirthdayController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -88,6 +88,6 @@ Route::view('/api/egg', 'apiEgg');
 Route::view('/api/ichiban', 'apiIchiban');
 Route::view('/api/user', 'apiUser');
 
-Route::get('/sendBirthdayGifts', [MemberController::class, 'sendBirthdayGifts']);
+Route::get('/sendBirthdayGifts', [BirthdayController::class, 'sendBirthdayGifts']);
 
 require __DIR__ . '/auth.php';
