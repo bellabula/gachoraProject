@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f98520ecaec8caa354780a1c86c5540",
+    "content-hash": "7c0631269700eb171b1a7f380d37737f",
     "packages": [
         {
             "name": "brick/math",
@@ -509,6 +509,46 @@
                 }
             ],
             "time": "2023-10-06T06:47:41+00:00"
+        },
+        {
+            "name": "epay/payment-api-client",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/epay-technology/php-payment-api-client.git",
+                "reference": "b5926ba9ac481a33afa8da1d2022687d679f9908"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/epay-technology/php-payment-api-client/zipball/b5926ba9ac481a33afa8da1d2022687d679f9908",
+                "reference": "b5926ba9ac481a33afa8da1d2022687d679f9908",
+                "shasum": ""
+            },
+            "require-dev": {
+                "illuminate/support": "^10.43"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Epay\\PaymentClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nikolaj Boel Jensen",
+                    "email": "nbj@lindekrogen.dk"
+                }
+            ],
+            "description": "PHP client for communicating with epay's payment api",
+            "support": {
+                "issues": "https://github.com/epay-technology/php-payment-api-client/issues",
+                "source": "https://github.com/epay-technology/php-payment-api-client/tree/0.0.1"
+            },
+            "time": "2024-03-11T06:29:05+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -9127,7 +9167,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
