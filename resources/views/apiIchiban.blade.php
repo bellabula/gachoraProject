@@ -129,7 +129,7 @@
     // })
     // 給後端賞id跳到詳細頁
     $(document).on('click', '.ichibanid', function() {
-        const series_id = $(this).text().substr(-1)
+        const series_id = $(this).text().substr(6)
         const url = basePath + '/Post/IchibanDetail.php'
         $.post(url, {
             series_id: series_id
@@ -175,7 +175,7 @@
     })
     // 前端timer
     let executed = false
-
+    let timerId
     function FrontTime(series_id, yournumber, wait) {
         if (wait > 0) {
             if (!executed) {
@@ -217,12 +217,14 @@
             }
 
             if ((wait * -1) % 10 > 1) {
-                $('.timer').text(`剩${Math.floor((170 + wait) / 60)}分${((170 + wait) % 60)}秒可以抽`)
+                $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
                 wait -= 1
-                setTimeout(() => {
+                timerId = setTimeout(() => {
                     FrontTime(series_id, yournumber, wait)
+                    console.log('1', timerId)
                 }, 1000)
             } else {
+                $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
                 SeeWaitTime(series_id, yournumber)
             }
         } else {
@@ -236,6 +238,8 @@
         const series_id = $(this).val()
         const yournumber = $(this).prev().text()
         DeleteWait(series_id, yournumber)
+        clearTimeout(timerId)
+        console.log('2', timerId)
         $('.timer').text('bye')
     })
 
