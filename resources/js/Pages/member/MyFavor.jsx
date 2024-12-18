@@ -58,11 +58,8 @@ function MyFavor({ id }) {
                         {typeof (gachoFavor) != "undefined" ?
                             <div className="row  row-gap-2">
                                 {gachoFavor.map((v, index) => (
-                                    <MyFavorCard key={index} src={v.img} href='' />
+                                    <MyFavorCard key={index} src={"images" + v.img} href={'gachadetail?seriesId=' + v.id} />
                                 ))}
-                                <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" href='https://google.com' />
-                                {/* <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
-                                {/* <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋收藏... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></h4>}
                     </div>
                     {/* 一番賞收藏 */}
@@ -72,11 +69,6 @@ function MyFavor({ id }) {
                                 {ichibanFavor.map((v, index) => (
                                     <MyFavorCard key={index} src={v.img} href='' />
                                 ))}
-                                {/* <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" href='https://google.com' /> */}
-                                {/* <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
-                                {/* <MyFavorCard src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
-                                {/* <div className="col-3"><a href=""><img className="w-100" src="http://localhost/gachoraProject/public/images/gachoMachineA.png" alt="" /></a>
-                            </div> */}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何一番賞收藏... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往一番賞</button></h4>}
                     </div>
                 </div>
