@@ -14,6 +14,7 @@ function MyStorage({ id }) {
     let user_id = user.id;
 
     const [storageItem, setStorageItem] = useState([]);
+    const [rerender, setRerender] = useState(0);
 
     useEffect(() => {
         const urlStorage = '../app/Models/Post/UserBag.php'
@@ -22,31 +23,28 @@ function MyStorage({ id }) {
         }, (response) => {
             // console.log("戰利儲藏庫 : " + response)
             setStorageItem(response)
-            // console.log(storageItem)
         })
-    }, [user_id])
+    }, [rerender])
 
 
     useEffect(() => {
-
-
         // 增加按鈕點擊事件
-        $('#member .btn-increase').on('click', function () {
-            let input = $(this).siblings('input');
-            let currentValue = parseInt(input.val());
-            if (currentValue < $(this).parent().parent().parent().children().eq(4).text()) {
-                input.val(currentValue + 1);
-            }
-        });
+        // $('#member .btn-increase').on('click', function () {
+        //     let input = $(this).siblings('input');
+        //     let currentValue = parseInt(input.val());
+        //     if (currentValue < $(this).parent().parent().parent().children().eq(4).text()) {
+        //         input.val(currentValue + 1);
+        //     }
+        // });
 
         // 減少按鈕點擊事件
-        $('#member .btn-decrease').on('click', function () {
-            let input = $(this).siblings('input');
-            let currentValue = parseInt(input.val());
-            if (currentValue > 0) {
-                input.val(currentValue - 1);
-            }
-        });
+        // $('#member .btn-decrease').on('click', function () {
+        //     let input = $(this).siblings('input');
+        //     let currentValue = parseInt(input.val());
+        //     if (currentValue > 0) {
+        //         input.val(currentValue - 1);
+        //     }
+        // });
 
         // 篩選器
         // 點擊篩選按鈕後出現篩選區塊
@@ -63,6 +61,28 @@ function MyStorage({ id }) {
             }
         });
     });
+
+    function handleToCart(recordId) {
+        const url = '../app/Models/Post/ChangeToCart.php'
+        $.post(url, {
+            record_id: recordId
+        }, (response) => {
+            console.log('ToCart：', response)
+        })
+        setRerender((prev) => prev + 1)
+        console.log("ToCart:" + rerender)
+    }
+    function handleToG(recordId) {
+        const url = '../app/Models/Post/ChangeToG.php'
+        $.post(url, {
+            record_id: recordId
+        }, (response) => {
+            console.log('ToG：', response)
+        })
+        setRerender((prev) => prev + 1)
+        console.log("ToG:" + rerender)
+    }
+
     return (
         <>
             {/* <!-- 3. 戰利儲藏庫 --> */}
@@ -84,7 +104,7 @@ function MyStorage({ id }) {
                                     <th>系列</th>
                                     <th>擁有數量</th>
                                     <th>抽扭日期</th>
-                                    <th>選取數量</th>
+                                    {/* <th>選取數量</th> */}
                                     <th>兌換G幣</th>
                                     <th className="position-relative">
                                         <div className="d-flex align-items-center justify-content-center">
@@ -109,11 +129,11 @@ function MyStorage({ id }) {
                             {/* 儲藏資料 */}
                             <tbody>
                                 {storageItem.map((v, index) => (
-                                    <MyStorageItem itemName={v.name} amount="1" series={v.series} gift={v.gift} prize={v.prize} src={v.img} getDate={v.time} index={index} key={index}/>
+                                    <MyStorageItem recordId={v.id} itemName={v.name} amount="1" series={v.series} gift={v.gift} prize={v.prize} src={v.img} getDate={v.time} clickToCart={handleToCart} clickToG={handleToG} index={index} key={index} />
                                 ))}
                             </tbody>
                         </table>
-                        {storageItem.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前儲藏庫沒有商品...</h4>:""}
+                        {storageItem.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前儲藏庫沒有商品...</h4> : ""}
                     </div>
                     <p className="note mt-4">商品取貨規則：</p>
                     <ul>

@@ -25,7 +25,7 @@ function MyFavor({ id }) {
             if (typeof (response.no) != "undefined") {
                 collectEgg = [...collectEgg, ...response.no]
             }
-            console.log('蛋收藏：', collectEgg)
+            // console.log('蛋收藏：', collectEgg)
             // console.log('蛋收藏：', has)
             setgachoFavor(collectEgg)
         })

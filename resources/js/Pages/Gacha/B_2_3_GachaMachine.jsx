@@ -153,7 +153,7 @@ function B_2_3GachaMachine() {
                         <div className="content">
                             {response.map((ele, index) => (
                                 <div key={index}>
-                                    <img src={ele.img} alt="扭蛋" />
+                                    <img src={"images" + ele.img} alt="扭蛋" />
                                     <h3>{ele.name}</h3>
                                 </div>
                             ))}
