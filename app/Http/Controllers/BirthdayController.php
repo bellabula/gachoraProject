@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
-class MemberController extends Controller
+class BirthdayController extends Controller
 {
     /**
      * 發送生日禮金
@@ -31,18 +31,29 @@ class MemberController extends Controller
 
         foreach ($members as $member) {
 
+
             // ('user_id', $member->id) 將 user_id 變成 $member 的 id
 
             // 檢查gift表中是否存在指定的user_id
-            
+
             // 添加新欄位
             DB::table('gift')->insert([
                 'user_id' => $member->id,
-                'category_id'=> 4,
+                'category_id' => 4,
                 'amount' => 200,
-                'expire_at' => now()
+                'update_at' => time(),
+                'expire_at' => time() + (30 * 24 * 60 * 60),
             ]);
-            
+
+            // 把records的table加進來
+            DB::table('records')->insert([
+                'time' => time(),
+                'user_id' => $member->id,
+                'character_id' => 14,
+                'label' => null,
+                'status_id' => 2,
+            ]);
+
 
             // 發送生日祝福郵件
 
@@ -61,7 +72,7 @@ class MemberController extends Controller
             // 更新會員的「最後一次收到生日禮金的年份」
 
             // => 用於將一個鍵 key 配對給一個值 value 形成陣列元素 (如果要改的東西很多的話)
-            $member->update(['last_birthday_gift' => now()->year]);
+            DB::table('users')->update(['last_birthday_gift' => now()->year]);
 
             echo "已為會員 {$member->name} 發送生日禮金並寄出祝福郵件！<br>";
         }
