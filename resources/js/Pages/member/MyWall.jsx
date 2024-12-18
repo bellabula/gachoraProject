@@ -52,27 +52,10 @@ function MyWall({ id, className = "" }) {
                                 <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" /></button>
                                 <div id='gachoWall' className="d-flex gap-3 flex-wrap">
                                     {gachaItem.map((v, index) => (
-                                        <MyWallGacha key={index} src={v.img} />
-                                    ))}
-                                    {/* <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
-                                    {/* <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
-                                    {/* <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" /> */}
-                                </div>
+                                        <MyWallGacha key={index} src={"images" + v.img} />
+                                    ))}                                </div>
                                 <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowRight.svg" /></button>
                             </div> : <h4 className='text-center' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋戰利品... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></h4>}
-                        {/* <div className="d-flex justify-content-between" style={{ backgroundColor: "var(--main-darkblue)" }}>
-                            <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" /></button>
-                            <div id='gachoWall' className="d-flex gap-3 flex-wrap">
-                                <h4>目前沒有任何扭蛋戰利品</h4>
-                                {typeof (gachaItem) != "undefined" ? gachaItem.map((v, index) => (
-                                    <MyWallGacha key={index} src={v.img} />
-                                )) : ""}
-                                <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
-                                <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
-                                <MyWallGacha src="http://localhost/gachoraProject/public/images/dodolong.png" />
-                            </div>
-                            <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowRight.svg" /></button>
-                        </div> */}
                     </div>
 
                     {/* <!-- 一番賞獲利檔 --> */}

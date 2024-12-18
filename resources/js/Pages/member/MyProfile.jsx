@@ -89,7 +89,7 @@ function MyProfile({ id, className="" }) {
                         {/* <!-- 推薦碼 --> */}
                         <div className="mb-3">
                             <label className="form-label">我的推薦碼</label>
-                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue={"GACHO" + user.id} readOnly />
+                            <input type="text" className="form-control-plaintext rounded-pill px-3" defaultValue={"GCR" + user.id + "657"} readOnly />
                         </div>
 
                         {/* <!-- 修改按鈕 --> */}

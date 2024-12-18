@@ -9,8 +9,10 @@ function B_3_GachaDetail() {
     const basePath = '../app/Models'
     const gachaId = usePage().props.seriesId;
     const user = usePage().props.auth.user;
-    const user_id = user.id
+    // const user_id = user.id
     const [userFavor, setUerFavor] = useState([]);
+    console.log(user)
+    console.log(gachaId)
 
     // //加入我的最愛事件
     const [isFavorited, setIsFavorited] = useState(false);
@@ -19,22 +21,22 @@ function B_3_GachaDetail() {
     }
 
     let collectEgg = [];
-    useEffect(() => {
-        $.post(basePath + '/Post/UserCollectionEgg.php', {
-            user_id: user_id
-        }, (response) => {
-            if (typeof (response.has) != "undefined") {
-                collectEgg = [...response.has]
-            }
-            if (typeof (response.no) != "undefined") {
-                collectEgg = [...collectEgg, ...response.no]
-            }
-            setUerFavor(collectEgg.map(item => item.id))
-            if (userFavor.includes(gachaId)) {
-                setIsFavorited(true)
-            }
-        })
-    }, [user_id])
+    // useEffect(() => {
+    //     $.post(basePath + '/Post/UserCollectionEgg.php', {
+    //         user_id: user_id
+    //     }, (response) => {
+    //         if (typeof (response.has) != "undefined") {
+    //             collectEgg = [...response.has]
+    //         }
+    //         if (typeof (response.no) != "undefined") {
+    //             collectEgg = [...collectEgg, ...response.no]
+    //         }
+    //         setUerFavor(collectEgg.map(item => item.id))
+    //         if (userFavor.includes(gachaId)) {
+    //             setIsFavorited(true)
+    //         }
+    //     })
+    // }, [user_id])
 
     const [characters, setCharacters] = useState([])
     const [series, setSeries] = useState()
@@ -46,6 +48,7 @@ function B_3_GachaDetail() {
         $.post(url, {
             series_id: gachaId
         }, (response) => {
+            console.log(response)
             // console.log('扭蛋詳細頁', response);
             setCharacters(response.character)
             setSeries(response.series[0])

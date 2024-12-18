@@ -23,7 +23,7 @@
         }
         .header {
             text-align: center;
-            background-color: var(--main-darkblue);
+            background-color: #365B60;
             color: white;
             padding: 15px;
             border-radius: 5px 5px 0 0;
@@ -48,7 +48,7 @@
         </div>
         <div class="content">
             <p>親愛的 {{ $name }}，</p>
-            <p>我們很高興祝福你生日快樂！我們為您提供了 300 的G幣作為生日禮金。</p>
+            <p>我們很高興祝福你生日快樂！我們為您提供了 200 的G幣作為生日禮金。</p>
             <p>希望您度過愉快的生日！</p>
         </div>
         <div class="footer">

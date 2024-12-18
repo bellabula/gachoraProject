@@ -351,11 +351,6 @@ class API
     $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
-    // 之前是vw_bling
-    $sql1 = "select * from vw_allEgg where series_id = :series_id";
-    $stmt1 = $this->db->prepare($sql1);
-    $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-    $stmt1->execute();
     $theme = '';
     while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output1['series_id'];
@@ -718,7 +713,7 @@ class API
       $character = [];
       while ($output5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
         $array2[] = [
-          'img' => 'http://localhost/gachoraProject/public/images' . $output5['character_img'],
+          'img' => $output5['character_img'],
           'size' => $output5['size'],
           'material' => $output5['material'],
         ];
@@ -861,7 +856,7 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['egg'][] = [
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
+        'img' => $output['img']
       ];
     }
     $stmt->closeCursor();
@@ -871,7 +866,7 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['ichiban'][] = [
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
+        'img' => $output['img']
       ];
     }
     $stmt->closeCursor();
@@ -1064,7 +1059,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
+        'img' => $output['img'],
         'series_title' => $output['title'],
         'series' => $output['series'],
         'name' => $output['name'],
@@ -1090,7 +1085,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
+        'img' => $output['img'],
         'series' => $output['series'],
         'name' => $output['name'],
         'time' => date('Y/m/d', $output['time'])
@@ -1262,7 +1257,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
+        'img' => $output['img'] ?? '',
         'amount' => $output['amount'] ?? ''
       ];
     }
@@ -1386,7 +1381,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
+        'img' => $output['img'] ?? '',
         'amount' => $output['amount'] ?? ''
       ];
     }
