@@ -9,6 +9,7 @@ function B_2_GachaTagPage() {
     const user = usePage().props.auth.user;
     console.log(user ? "userId" : "none")
     // const user_id = user.id
+
     const [allProducts, setAllProducts] = useState([])
     // const [allProductsAPI, setAllProductsAPI] = useState([])
 
