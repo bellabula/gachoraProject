@@ -11,8 +11,8 @@ function B_3_GachaDetail() {
     const user = usePage().props.auth.user;
     // const user_id = user.id
     const [userFavor, setUerFavor] = useState([]);
-    console.log(user)
-    console.log(gachaId)
+    // console.log(user)
+    // console.log(gachaId)
 
     // //加入我的最愛事件
     const [isFavorited, setIsFavorited] = useState(false);
@@ -168,7 +168,7 @@ function B_3_GachaDetail() {
                                 <img src="http://localhost/gachoraProject/public/images/gachoHome/add-square.png"
                                     className="increment"
                                     onClick={addValue} />
-                                <Link href={route('gachamachine', { seriesId: gachaId })} style={{textDecoration:"none", color:"var(--main-darkblue)"}}><button>GO</button></Link>
+                                <Link href={route('gachamachine', { seriesId: gachaId })} style={{ textDecoration: "none", color: "var(--main-darkblue)" }}><button>GO</button></Link>
                             </div>
                             <button
                                 className={`Favorite_bt ${isFavorited ? 'active' : ''}`}
@@ -199,7 +199,8 @@ function B_3_GachaDetail() {
                         <span className="big-image">
                             <img src={bigImageSrc}
                                 alt="大圖"
-                                id="bigProductImage" />
+                                id="bigProductImage"
+                            />
                         </span>
                     </div>
                 </div>
