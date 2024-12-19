@@ -11,6 +11,22 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\BirthdayController;
 
+//設定綠界金流
+use App\Http\Controllers\PaymentController;
+
+
+
+
+Route::post('/ecpay-payment', [PaymentController::class, 'createOrder']);
+Route::post('/ecpay-callback', [PaymentController::class, 'paymentCallback']);
+Route::get('/order-result', [PaymentController::class, 'orderResult']);
+
+Route::get('/csrf-token', function () {
+    return response()->json(['csrfToken' => csrf_token()]);
+});
+
+
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -74,6 +90,10 @@ Route::get('/lottrytagpage', function () {
 Route::get('/shoppingCart', function () {
     return Inertia::render('shoppingCart/Cart');
 })->middleware(['auth', 'verified'])->name('shoppingCart');
+
+Route::get('/paymenttext', function () {
+    return Inertia::render('shoppingCart/paymenttext');
+})->name('paymenttext');
 
 Route::get('/gachamachine', function (Request $request) {
     return Inertia::render('Gacha/B_2_3_GachaMachine', [
