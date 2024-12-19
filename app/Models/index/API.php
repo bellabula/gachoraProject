@@ -855,7 +855,6 @@ class API
   function Wall($user_id)
   {
     $user_id = $_POST['user_id'];
-    $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call GetRecordsByIdAndCategory(:user_id, 1);";
     $stmt = $this->db->prepare($sql);
@@ -1163,7 +1162,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput = [
         'no' => $output['no'],
-        'time' => date('Y/t/m', $output['time']),
+        'time' => date('Y/m/d', $output['time']),
         'status' => $output['status'],
         'name' => $output['user'],
         'method' => $output['method'],
