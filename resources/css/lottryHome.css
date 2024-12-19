@@ -162,7 +162,7 @@ body #lottrybody {
 .lottryTitle {
 	text-align: center;
 	margin: 30px;
-	color: var(--main-darkblue);
+	color: var(--main-bg-gray);
 }
 
 
@@ -179,6 +179,13 @@ body #lottrybody {
 	margin: 0 50px 0 30px;
 	background-color: #FEC265;
 	border-radius: 50px;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50px;
+	}
 }
 
 #lottryHome .top30ProductImg {
@@ -187,6 +194,12 @@ body #lottrybody {
 	width: 260px;
 	border-radius: 50px;
 
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50px;
+	}
 }
 
 #lottryHome .top30ProductText {
@@ -214,7 +227,6 @@ body #lottrybody {
 	height: 90%;
 	text-align: center;
 	box-sizing: border-box;
-
 	margin: 0 20px 0 20px;
 }
 
@@ -316,4 +328,74 @@ body #lottrybody {
 /* 滑鼠懸停時暫停動畫 */
 #lottryHome .scroll-row:hover .scroll-content {
 	animation-play-state: paused;
+}
+
+
+/* 底部商品切換 */
+/* Carousel 外框 */
+#lottryDetail .bottom-carousel {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+/* 滑動區域 */
+#lottryHome .carousel-wrapper {
+	overflow: hidden;
+	width: 80%;
+	/* 設置展示區域寬度 */
+}
+
+/* 商品容器 */
+#lottryHome .carousel-items {
+	display: flex;
+	transition: transform 0.3s ease-in-out;
+	flex-wrap: nowrap;
+	height: 500px;
+
+}
+
+/* 產品卡樣式 */
+#lottryHome .product-card {
+	text-align: center;
+	margin: 10px;
+}
+
+#lottryHome .product-image {
+	width: 100%;
+	height: auto;
+}
+
+/* 輪播容器樣式 */
+#lottryHome .carousel-wrapper {
+	display: flex;
+	overflow: hidden;
+}
+
+#lottryHome .itembottom {
+	flex: 0 0 auto;
+	width: auto;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+/* 按鈕樣式 */
+#lottryHome .carousel-btn {
+	top: 35%;
+	height: 50px;
+	position: absolute;
+	z-index: 10;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	border-radius: 50%;
+}
+
+#lottryHome .carousel-btn.left {
+	left: 10px;
+}
+
+#lottryHome .carousel-btn.right {
+	right: 10px;
 }

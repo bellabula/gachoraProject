@@ -2,43 +2,38 @@ import Navbar from '@/Components/Navbar';
 import LottryWallItem from '@/Pages/lottry/LottryWallItem';
 import { Head, Link } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
+import PdCard from '@/Components/PdCard';
 
 function C_1_LottryHome() {
-        const [allProducts,setallProducts]=useState([]);
-        const [error, setError] = useState();
-    
-        let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
-        fetch(url)
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.log(error));
-    
-        React.useEffect(function () {
-            console.log("Fetching data...");
-            const callAPI = async function () {
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error status:${response.status}`);
-                    }
-                    const data = await response.json();
-                    setallProducts(data);
-                    console.log(data[0].title)
-                } catch (err) {
-                    setError(err.message);
-                }
-            };
-            callAPI();
-        }, [])
-        if (error) return <div>Error: {error}</div>;
+    const [allProducts, setallProducts] = useState([]);
+    const [error, setError] = useState();
 
-        // const top10list = ({data})=>{
-        //     const sortedData = data
-        //         .sort((a,b)=>b.rank - a.rank)
-        //         .slice(10)
-        //     }
-            
-        // }
+    let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
+
+    React.useEffect(function () {
+        console.log("Fetching data...");
+        const callAPI = async function () {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error status:${response.status}`);
+                }
+                const data = await response.json();
+                setallProducts(data);
+                console.log(data[0].title)
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+        callAPI();
+    }, [])
+    if (error) return <div>Error: {error}</div>;
+
+    const top10Products = allProducts
+        .sort((a, b) => b.rank - a.rank) // 按 rank 從大到小排序
+        .slice(0, 10); // 取前 10 筆資料
+
+    console.log(top10Products)
 
     useEffect(() => {
         const itemsContainer = document.querySelector('.items'); // 獲取滑動容器
@@ -106,38 +101,27 @@ function C_1_LottryHome() {
             if (rightButton) rightButton.removeEventListener('click', scrollRight);
         };
     }, []);
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    // const allProducts = [
-    //     { name: "商品 1", img: "#" },
-    //     { name: "商品 2", img: "#" },
-    //     { name: "商品 3", img: "#" },
-    //     { name: "商品 4", img: "#" },
-    //     { name: "商品 5", img: "#" },
-    //     { name: "商品 6", img: "#" },
-    //     { name: "商品 7", img: "#" },
-    //     { name: "商品 8", img: "#" },
-    //     { name: "商品 9", img: "#" },
-    //     { name: "商品 10", img: "#" },
-    // ];
 
     const [currentPosition, setCurrentPosition] = useState(0);
-
-    const itemWidth = 33.33;  // 每個商品占的百分比寬度 (33.33%)
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const itemWidth = 260 + 20 + 20;
     const visibleItems = 3;   // 顯示的商品數量
-    const totalItems = allProducts.length; // 商品總數量
+    const totalItems = 10; // 商品總數量
 
     // 上一個按鈕邏輯
     const prevCarousel = () => {
         setCurrentPosition((prevPosition) => Math.min(prevPosition + itemWidth, 0));
+        console.log(prevPosition)
+        setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     };
 
     // 下一個按鈕邏輯
     const nextCarousel = () => {
         const maxPosition = -(itemWidth * (totalItems - visibleItems));  // 計算最大移動位置，防止滑動超過最後一個商品
+        console.log(maxPosition)
         setCurrentPosition((prevPosition) => Math.max(prevPosition - itemWidth, maxPosition));
+        setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, top10Products.length - 1));  // 防止索引超過最大值
     };
-
 
 
     return (
@@ -196,13 +180,13 @@ function C_1_LottryHome() {
                                 <div className="carousel-wrapper row">
                                     <div className="carousel-items col-xl-4" style={{ transform: `translateX(${currentPosition}%)` }}>
                                         {/* 顯示商品 */}
-                                        {allProducts.map((product, index) => (
+                                        {top10Products.map((product, index) => (
                                             <div className="top10item" key={index} >
                                                 <div className="top30ProductImg">
-                                                    <img src={product.img} />
+                                                    <img src={product.img} alt={`商品圖片 ${index + 1}`} />
                                                 </div>
                                                 <div className="top30ProductText">
-                                                    {product.name}
+                                                    {product.title}
                                                 </div>
                                             </div>
                                         ))}
@@ -217,7 +201,7 @@ function C_1_LottryHome() {
 
                         {/* 右側大圖 */}
                         <div className="col-xxl-4">
-                            <div className="top30BigProduct"></div>
+                            <div className="top30BigProduct"><img src={top10Products[currentIndex]?.img} alt={`商品 ${currentIndex + 1}`} /></div>
                         </div>
                     </div>
                     <section>
@@ -255,6 +239,37 @@ function C_1_LottryHome() {
                         </section>
                     </section>
                     <div className="b-example-divider"></div>
+                    {/* <!-- 底部商品切換 --> */}
+                    <h1 className="text-center lottryTitle">推薦商品</h1>
+                    <div className="mt-4">
+                        <div className=" position-relative d-flex justify-content-center">
+                            {/* <!-- 左右按鈕 --> */}
+                            <button className="carousel-btn left"
+                                onClick={prevCarousel} ><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" alt="" /></button>
+                            <div className="carousel-wrapper">
+                                <div className="carousel-items" style={{ transform: `translateX(${currentPosition}%)` }}>
+                                    {/* 假設這裡放 10 個商品圖片 */}
+                                    {allProducts.map((product, index) => (
+                                        <div className="itembottom" key={index}>
+                                            <PdCard className="d-flex flex-wrap justify-content-center"
+                                                pdName={product.name}
+                                                pdQuantity={5}
+                                                pdTotal={50}
+                                                pdPrice={'500'}
+                                                pdAvailable={'尚有大賞'}
+                                                aPrizeName={'魯夫'}
+                                                bPrizeName={'魯夫'}
+                                                cPrizeName={'魯夫'}
+                                                img={product.img}>
+                                            </PdCard>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <button className="carousel-btn right"
+                                onClick={nextCarousel}><img src="http://localhost/gachoraProject/public/images/arrowRight.svg" alt="" /></button>
+                        </div>
+                    </div>
                 </main>
             </body>
         </>
