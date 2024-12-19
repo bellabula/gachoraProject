@@ -1460,21 +1460,24 @@ class API
     $this->db = null;
     return json_encode($jsonOutput);
   }
+  // 換幣
   function ToG($record_id)
   {
-    // $record_id = $_POST['record_id'];
     return $this->changeStatus($record_id, 3);
   }
-
+  // 到購物車
   function ToCart($record_id)
   {
-    // $record_id = $_POST['record_id'];
     return $this->changeStatus($record_id, 5);
   }
-
+  // 到儲存庫
   function ToBag($record_id)
   {
-    // $record_id = $_POST['record_id'];
     return $this->changeStatus($record_id, 4);
+  }
+  // 出貨中
+  function ToPrepare($record_id)
+  {
+    return $this->changeStatus($record_id, 6);
   }
 }
