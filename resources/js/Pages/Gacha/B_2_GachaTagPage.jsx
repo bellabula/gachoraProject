@@ -9,18 +9,7 @@ function B_2_GachaTagPage() {
     const user = usePage().props.auth.user;
     console.log(user ? "userId" : "none")
     // const user_id = user.id
-    // 假資料
-    // const [allProducts] = useState([
-    //     { category: "熱門商品", seriesName: "系列名", name: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "熱門商品", seriesName: "系列名", name: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "最新商品", seriesName: "系列名", name: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "最新商品", seriesName: "系列名", name: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "限時商品", seriesName: "系列名", name: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "限時商品", seriesName: "系列名", name: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "玩具", seriesName: "系列名", name: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "玩具", seriesName: "系列名", name: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "熱門商品", seriesName: "系列名", name: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
-    // ]);
+
     const [allProducts, setAllProducts] = useState([])
     // const [allProductsAPI, setAllProductsAPI] = useState([])
 
@@ -74,12 +63,41 @@ function B_2_GachaTagPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const itemsPerPage = 6; // 每頁商品數量
 
-    // // 動態篩選商品
-    const filteredProducts = allProducts.filter(product => {
-        const matchesCategory = category === "all" || product.theme === category;
+    let filteredProducts = [...allProducts]
+    // !!!! 待確認 !!!!
+    // 篩選和排序
+    console.log(category)
+    filteredProducts = [...allProducts].filter(product => {
+        // 判斷是否符合篩選條件（分類和搜尋）
+        const matchesCategory = category === "all" ||
+            (category === "最新商品" && product.release_time) ||
+            (category === "熱門商品" && product.rank) ||
+            (category === "限量商品" && product.rare);
+
         const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
+    }).sort((a, b) => {
+        // 根據分類排序商品
+        if (category === "最新商品") {
+            // 依照 release_time 排序（由新到舊）
+            return b.release_time - a.release_time;
+        } else if (category === "熱門商品") {
+            // 依照 rank 排序（由高到低）
+            return b.rank - a.rank;
+        } else if (category === "限量商品") {
+            // 依照 rare 排序（由小到大）
+            return a.rare - b.rare;
+        } else {
+            return 0; // 如果不需要排序，則保持原順序
+        }
     });
+
+    // // 動態篩選商品
+    // const filteredProducts = allProducts.filter(product => {
+    //     const matchesCategory = category === "all" || product.theme === category;
+    //     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+    //     return matchesCategory && matchesSearch;
+    // });
 
     // // 計算分頁
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -118,7 +136,7 @@ function B_2_GachaTagPage() {
                         {/* <!-- 左側分類區 --> */}
                         <div className="col-md-2 d-flex flex-column left-pd">
                             <ul className="category-list list-unstyled">
-                                {["all", "熱門商品", "最新商品", "限時商品", "玩具"].map(cat => (
+                                {["all", "熱門商品", "最新商品", "限量商品", "玩具"].map(cat => (
                                     <li
                                         key={cat}
                                         className={cat === category ? "active" : ""}
