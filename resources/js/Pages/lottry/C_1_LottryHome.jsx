@@ -4,6 +4,42 @@ import { Head, Link } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 
 function C_1_LottryHome() {
+        const [allProducts,setallProducts]=useState([]);
+        const [error, setError] = useState();
+    
+        let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
+        fetch(url)
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.log(error));
+    
+        React.useEffect(function () {
+            console.log("Fetching data...");
+            const callAPI = async function () {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error status:${response.status}`);
+                    }
+                    const data = await response.json();
+                    setallProducts(data);
+                    console.log(data[0].title)
+                } catch (err) {
+                    setError(err.message);
+                }
+            };
+            callAPI();
+        }, [])
+        if (error) return <div>Error: {error}</div>;
+
+        // const top10list = ({data})=>{
+        //     const sortedData = data
+        //         .sort((a,b)=>b.rank - a.rank)
+        //         .slice(10)
+        //     }
+            
+        // }
+
     useEffect(() => {
         const itemsContainer = document.querySelector('.items'); // 獲取滑動容器
 
@@ -72,18 +108,18 @@ function C_1_LottryHome() {
     }, []);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const allProducts = [
-        { name: "商品 1", img: "#" },
-        { name: "商品 2", img: "#" },
-        { name: "商品 3", img: "#" },
-        { name: "商品 4", img: "#" },
-        { name: "商品 5", img: "#" },
-        { name: "商品 6", img: "#" },
-        { name: "商品 7", img: "#" },
-        { name: "商品 8", img: "#" },
-        { name: "商品 9", img: "#" },
-        { name: "商品 10", img: "#" },
-    ];
+    // const allProducts = [
+    //     { name: "商品 1", img: "#" },
+    //     { name: "商品 2", img: "#" },
+    //     { name: "商品 3", img: "#" },
+    //     { name: "商品 4", img: "#" },
+    //     { name: "商品 5", img: "#" },
+    //     { name: "商品 6", img: "#" },
+    //     { name: "商品 7", img: "#" },
+    //     { name: "商品 8", img: "#" },
+    //     { name: "商品 9", img: "#" },
+    //     { name: "商品 10", img: "#" },
+    // ];
 
     const [currentPosition, setCurrentPosition] = useState(0);
 
@@ -112,11 +148,11 @@ function C_1_LottryHome() {
                 <main id='lottryHome'>
                     {/* <!--輪播圖區--> */}
                     <div className='lottrybody'>
-                        <div class="wrapper scroll-x">
-                            <button class="carousel-btn left"
+                        <div className="wrapper scroll-x">
+                            <button className="carousel-btn left"
                                 id="leftButton"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg"
                                     alt="" /></button>
-                            <ul class="items">
+                            <ul className="items">
                                 <li>
                                     <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 1" />
                                 </li>
@@ -134,17 +170,17 @@ function C_1_LottryHome() {
                                 </li>
 
                             </ul>
-                            <button class="carousel-btn right"
+                            <button className="carousel-btn right"
                                 id="rightButton"><img src="http://localhost/gachoraProject/public/images/arrowRight.svg"
                                     alt="" /></button>
                         </div>
                     </div>
                     {/* <!--標籤連結--> */}
-                    <div class="labelitem d-flex justify-content-end">
-                        <div class="ms-1 item"><a href={route('lottrytagpage')}>全部商品</a></div>
-                        <div class="ms-1 item"><a href="#">熱門商品</a></div>
-                        <div class="ms-1 item"><a href="#">最新商品</a></div>
-                        <div class="ms-1 item"><a href="#">限時商品</a></div>
+                    <div className="labelitem d-flex justify-content-end">
+                        <div className="ms-1 item"><a href={route('lottrytagpage')}>全部商品</a></div>
+                        <div className="ms-1 item"><a href="#">熱門商品</a></div>
+                        <div className="ms-1 item"><a href="#">最新商品</a></div>
+                        <div className="ms-1 item"><a href="#">限時商品</a></div>
                     </div>
                     <h1 className='lottryTitle'>人氣TOP10</h1>
                     {/* <!--TOP30區--> */}
@@ -186,10 +222,10 @@ function C_1_LottryHome() {
                     </div>
                     <section>
                         {/* <!-- 三排滾動區域 --> */}
-                        <section class="scroll-container">
+                        <section className="scroll-container">
                             <br />
-                            <div class="scroll-row">
-                                <div class="scroll-content">
+                            <div className="scroll-row">
+                                <div className="scroll-content">
                                     <LottryWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
                                     <LottryWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
                                     <LottryWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
@@ -202,8 +238,8 @@ function C_1_LottryHome() {
                                     <LottryWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
                                 </div>
                             </div>
-                            <div class="scroll-row">
-                                <div class="scroll-content">
+                            <div className="scroll-row">
+                                <div className="scroll-content">
                                     <LottryWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
                                     <LottryWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
                                     <LottryWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
@@ -218,7 +254,7 @@ function C_1_LottryHome() {
                             </div>
                         </section>
                     </section>
-                    <div class="b-example-divider"></div>
+                    <div className="b-example-divider"></div>
                 </main>
             </body>
         </>
