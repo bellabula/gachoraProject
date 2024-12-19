@@ -23,7 +23,12 @@ const C_3_3_LottryFuntion = () => {
     };
 
     const [bookSize, setBookSize] = useState(calculateBookSize());
-
+    useEffect(() => {
+        if (remainingDraws === 0) {
+            setShowResultButton(true);
+            setShowNextDrawButton(false);
+        }
+    }, [remainingDraws]);
     useEffect(() => {
         const resizeHandler = () => {
             const newBookSize = calculateBookSize();
@@ -46,9 +51,9 @@ const C_3_3_LottryFuntion = () => {
                             setRemainingDraws((prev) => prev - 1);
                             setCurrentDraw((prev) => prev + 1);
                             setShowNextDrawButton(true);
-                        }else if (page === pages.length && remainingDraws === 0) {
-                        showResults(); // 直接顯示結果
-                    }
+                        } else if (page === pages.length && remainingDraws === 0) {
+                            showResults(); // 直接顯示結果
+                        }
                     },
                 },
             });
@@ -78,8 +83,8 @@ const C_3_3_LottryFuntion = () => {
 
     const showResults = () => {
         const mockResults = [
-            { id: 1, name: 'A賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-1.png' },
-            { id: 2, name: 'C賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-3.png' },
+            { id: 1, prize: 'A賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-1.png', name: '商品名稱' },
+            { id: 2, prize: 'C賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-3.png', name: '商品名稱' },
         ];
         setDrawResults(mockResults);
         setShowResultsOnly(true);
@@ -116,7 +121,7 @@ const C_3_3_LottryFuntion = () => {
                         ))}
                     </div>
 
-                    {showNextDrawButton && (
+                    {showNextDrawButton && remainingDraws > 0 && (
                         <div className="next-draw-wrapper">
                             <button
                                 className="next-draw-button custom-btn btn-lg"
@@ -133,7 +138,7 @@ const C_3_3_LottryFuntion = () => {
                                 className="result-button custom-btn btn-lg"
                                 onClick={showResults}
                             >
-                                開獎结果
+                                查看獎品
                             </button>
                         </div>
                     )}
@@ -144,8 +149,9 @@ const C_3_3_LottryFuntion = () => {
                 <div className="result-list">
                     {drawResults.map((item) => (
                         <div key={item.id} className="result-item">
-                            <h4>{item.name}</h4>
+                            <h4>{item.prize}</h4>
                             <img src={item.img} alt={item.name} />
+                            <h4>{item.name}</h4>
                         </div>
                     ))}
                 </div>

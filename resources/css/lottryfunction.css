@@ -68,7 +68,7 @@
 
 /* 自定义按钮样式 */
 #lottryfunction .custom-btn {
-    display: flex;
+    display: block;
     margin: 0 auto;
     margin-top: 20px;
     border-radius: 50px;
@@ -100,36 +100,42 @@
     justify-content: center;
     width: 100%;
 }
+#lottryfunction .result-wrapper {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 
 /* 商品抽獎結果 */
 #lottryfunction .result-list {
-    display: inline-block;
-    justify-content: center;
-    /* Center the items horizontally */
-    align-items: flex-start;
-    /* Align items at the top */
-    flex-wrap: wrap;
-    /* Allow wrapping if needed */
-    margin-top: 50px;
+    display: flex;
+    flex-direction: row; /* 改为水平排列 */
+    justify-content: flex-start; /* 确保从左到右排列 */
+    align-items: flex-start; /* 顶部对齐 */
+    flex-wrap: nowrap; /* 禁止换行 */
+    margin-top: 10px;
+    overflow-x: auto; /* 添加水平滚动条（如果超出屏幕宽度） */
 }
 
 #lottryfunction .result-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px;
-    width: 100%;
-    /* Adjust size */
-    height: auto;
+    margin: 0 10px; /* 水平间距 */
+    width: 200px; /* 固定宽度，避免每项太宽 */
     text-align: center;
 }
 
 #lottryfunction .result-item img {
-    width: 50%;
-    /* Adjust the image size */
+    width: 100%; /* 图片适配容器宽度 */
     height: auto;
-    margin-bottom: 10x;
+    margin-bottom: 10px;
 }
+
 
 #lottryfunction .result-item h4 {
     font-size: 24px;
