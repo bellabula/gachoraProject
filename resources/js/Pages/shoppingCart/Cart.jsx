@@ -99,7 +99,7 @@ function Cart() {
                         <div className="checkoutContainer">
                             {typeof (cartItems) != "undefined" ?
                                 cartItems.map((v, index) => (
-                                    <CartItem itemId={v.id} seriesName={v.series} itemName={v.name} imgsrc={"images" + v.img} clickToStorage={handleBackStorage} key={index} />
+                                    <CartItem itemId={v.id} seriesName={v.series} itemName={v.name} imgsrc={v.img} clickToStorage={handleBackStorage} key={index} />
                                 ))
                                 : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前購物車沒有任何商品... </h4>}
                         </div>

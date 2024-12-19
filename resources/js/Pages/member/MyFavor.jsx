@@ -58,7 +58,7 @@ function MyFavor({ id }) {
                         {typeof (gachoFavor) != "undefined" ?
                             <div className="row  row-gap-2">
                                 {gachoFavor.map((v, index) => (
-                                    <MyFavorCard key={index} src={"images" + v.img} href={'gachadetail?seriesId=' + v.id} />
+                                    <MyFavorCard key={index} src={v.img} href={'gachadetail?seriesId=' + v.id} />
                                 ))}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋收藏... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></h4>}
                     </div>

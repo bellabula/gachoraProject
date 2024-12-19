@@ -3,7 +3,7 @@ import React from 'react'
 function CartStorage({itemId, clickToCart, imgsrc = "" }) {
     return (
         <div className="cardContainer">
-            <img src={"images" + imgsrc} />
+            <img src={imgsrc} />
             <button onClick={()=> clickToCart(itemId)}><svg xmlns="http://www.w3.org/2000/svg" width="1.2vw" height="1.2vw" fill="currentColor"
                 className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                 <path

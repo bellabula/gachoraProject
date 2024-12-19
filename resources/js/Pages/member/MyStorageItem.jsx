@@ -5,7 +5,7 @@ function MyStorageItem({recordId, itemName, amount, series, gift, getDate, index
         <tr>
             <td className="text-start">
                 <span>{index + 1}. &emsp;</span>
-                <img src={"images" + src} alt="商品圖片" />
+                <img src={src} alt="商品圖片" />
             </td>
             <td className="text-start">{itemName}</td>
             <td>{prize}獎</td>
