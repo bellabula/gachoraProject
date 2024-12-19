@@ -23,7 +23,6 @@ function MyStorage({ id }) {
         }, (response) => {
             console.log("戰利儲藏庫 : " + response)
             setStorageItem(response)
-            console.log(storageItem)
         })
     }, [rerender])
 

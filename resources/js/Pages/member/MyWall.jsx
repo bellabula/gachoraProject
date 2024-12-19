@@ -21,7 +21,7 @@ function MyWall({ id, className = "" }) {
             setgachaItem(egg)
             setichibanItem(ichiban)
         })
-    })
+    }, [user_id])
     return (
         <>
             {/* <!-- 1. 戰利牆 --> */}
@@ -52,7 +52,7 @@ function MyWall({ id, className = "" }) {
                                 <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" /></button>
                                 <div id='gachoWall' className="d-flex gap-3 flex-wrap">
                                     {gachaItem.map((v, index) => (
-                                        <MyWallGacha key={index} src={"images" + v.img} />
+                                        <MyWallGacha key={index} src={v.img} />
                                     ))}                                </div>
                                 <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowRight.svg" /></button>
                             </div> : <h4 className='text-center' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋戰利品... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></h4>}

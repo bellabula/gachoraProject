@@ -1,11 +1,60 @@
 import Navbar from '@/Components/Navbar'
-import React, { useEffect } from 'react'
-import { Head } from '@inertiajs/react';
+import React, { useEffect, useState } from 'react'
+import { Head, usePage } from '@inertiajs/react';
 import Payment from './Payment';
 import ConfirmOrder from './ConfirmOrder';
 import CompleteOrder from './CompleteOrder';
+import CartItem from './CartItem';
+import CartDetail from './CartDetail';
+import CartStorage from './CartStorage';
 
 function Cart() {
+
+    const user = usePage().props.auth.user;
+    let user_id = user.id;
+
+    const [cartItems, setCartItems] = useState([])
+    const [storageItem, setStorageItem] = useState([])
+    const url = '../app/Models/Post/UserCart.php'
+    const storageUrl = '../app/Models/Post/UserBag.php'
+    let [rerender, setRerender] = useState(0)
+    useEffect(() => {
+        $.post(url, {
+            user_id: user_id
+        }, (response) => {
+            // console.log('購物車：', response)
+            setCartItems(response)
+        })
+
+        $.post(storageUrl, {
+            user_id: user_id
+        }, (response) => {
+            // console.log("戰利儲藏庫 : " + response)
+            setStorageItem(response)
+        })
+    }, [rerender])
+
+    function handleToCart(itemId) {
+        const url = '../app/Models/Post/ChangeToCart.php'
+        $.post(url, {
+            record_id: itemId
+        }, (response) => {
+            console.log('ToCart：', response)
+        })
+        setRerender((prev) => prev + 1)
+        console.log("ToCart+1:"+rerender)
+    }
+
+    function handleBackStorage(itemId) {
+        const url = '../app/Models/Post/ChangeToBag.php'
+        $.post(url, {
+            record_id: itemId
+        }, (response) => {
+            console.log('ToBag：', response)
+        })
+        setRerender((prev) => prev + 1)
+        console.log("BackStorage+1:"+rerender)
+    }
 
     function checkout() {
         $("#e1").css("display", "none")
@@ -37,82 +86,22 @@ function Cart() {
                     <div className="left2">
                         <div className="title">戰利品儲藏庫</div>
                         <div className="cardsContainer">
-                            <div className="cardContainer">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
-                                <button><svg xmlns="http://www.w3.org/2000/svg" width="1.2vw" height="1.2vw" fill="currentColor"
-                                    className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                                </svg>&nbsp;加入出貨</button>
-                            </div>
-                            <div className="cardContainer">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
-                                <button><svg xmlns="http://www.w3.org/2000/svg" width="1.2vw" height="1.2vw" fill="currentColor"
-                                    className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                                </svg>&nbsp;加入出貨</button>
-                            </div>
+                            {typeof (storageItem) != "undefined" ?
+                                storageItem.map((v, index) => (
+                                    <CartStorage itemId={v.id} imgsrc={v.img} clickToCart={handleToCart} key={index} />
+                                ))
+                                : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前儲藏庫沒有任何商品... </h4>}
                         </div>
                     </div>
                     {/* <!-- 待出貨區 --> */}
                     <div className="left3">
                         <div className="title">待出貨區</div>
                         <div className="checkoutContainer">
-                            <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
-                                <div className="checkoutItemDetail">
-                                    <div>系列名稱</div>
-                                    <div>角色名稱</div>
-                                    <div>數量: 1</div>
-                                    <button>下次再出貨</button>
-                                </div>
-                            </div>
-                            <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
-                                <div className="checkoutItemDetail">
-                                    <div>系列名稱</div>
-                                    <div>角色名稱</div>
-                                    <div>數量: 1</div>
-                                    <button>下次再出貨</button>
-                                </div>
-                            </div>
-                            <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
-                                <div className="checkoutItemDetail">
-                                    <div>系列名稱</div>
-                                    <div>角色名稱</div>
-                                    <div>數量: 1</div>
-                                    <button>下次再出貨</button>
-                                </div>
-                            </div>
-                            <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
-                                <div className="checkoutItemDetail">
-                                    <div>系列名稱</div>
-                                    <div>角色名稱</div>
-                                    <div>數量: 1</div>
-                                    <button>下次再出貨</button>
-                                </div>
-                            </div>
-                            <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
-                                <div className="checkoutItemDetail">
-                                    <div>系列名稱</div>
-                                    <div>角色名稱</div>
-                                    <div>數量: 1</div>
-                                    <button>下次再出貨</button>
-                                </div>
-                            </div>
-                            <div className="checkoutItem">
-                                <img src="http://localhost/gachoraProject/public/images/dodolong.png" alt="" />
-                                <div className="checkoutItemDetail">
-                                    <div>系列名稱</div>
-                                    <div>角色名稱</div>
-                                    <div>數量: 1</div>
-                                    <button>下次再出貨</button>
-                                </div>
-                            </div>
+                            {typeof (cartItems) != "undefined" ?
+                                cartItems.map((v, index) => (
+                                    <CartItem itemId={v.id} seriesName={v.series} itemName={v.name} imgsrc={v.img} clickToStorage={handleBackStorage} key={index} />
+                                ))
+                                : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前購物車沒有任何商品... </h4>}
                         </div>
                     </div>
                     {/* <!-- 重要提醒 --> */}
@@ -131,26 +120,16 @@ function Cart() {
                         <div className="listContainer">
                             <div className="title">待結帳商品明細</div>
                             <div className="detail">
-                                <div className="itemContainer">
-                                    <span className="character">海賊王</span>
-                                    <span className="amount">數量: 1</span>
-                                    <div className="cut"></div>
-                                </div>
-                                <div className="itemContainer">
-                                    <span className="character">海賊王</span>
-                                    <span className="amount">數量: 1</span>
-                                    <div className="cut"></div>
-                                </div>
-                                <div className="itemContainer">
-                                    <span className="character">海賊王</span>
-                                    <span className="amount">數量: 1</span>
-                                    <div className="cut"></div>
-                                </div>
+                                {typeof (cartItems) != "undefined" ?
+                                    cartItems.map((v, index) => (
+                                        <CartDetail itemName={v.name} key={index} />
+                                    ))
+                                    : <p className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前購物車沒有任何商品... </p>}
                             </div>
                             <div className="totalLine"></div>
                             <div className="total">
                                 <span>商品總數</span>
-                                <span>1項</span>
+                                <span>{cartItems.length}項</span>
                             </div>
                             <div>
                                 <button className="btn-icon d-inline-block">繼續扭蛋/抽賞</button>
