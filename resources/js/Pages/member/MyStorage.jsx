@@ -21,7 +21,7 @@ function MyStorage({ id }) {
         $.post(urlStorage, {
             user_id: user_id
         }, (response) => {
-            // console.log("戰利儲藏庫 : " + response)
+            console.log("戰利儲藏庫 : " + response)
             setStorageItem(response)
         })
     }, [rerender])

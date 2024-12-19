@@ -1,30 +1,40 @@
 import React, { useEffect, useRef, useState } from 'react';
 import $ from 'jquery';
-import 'turn.js'; // 引入 Turn.js
+import 'turn.js';
 
 const C_3_3_LottryFuntion = () => {
     const bookRef = useRef(null);
-    const [remainingDraws, setRemainingDraws] = useState(3); // 剩餘抽數
-    const [currentDraw, setCurrentDraw] = useState(0); // 當前抽數
-    const [showNextDrawButton, setShowNextDrawButton] = useState(false); // 控制 "下一抽" 按鈕顯示
+    const [remainingDraws, setRemainingDraws] = useState(3);
+    const [currentDraw, setCurrentDraw] = useState(0);
+    const [showNextDrawButton, setShowNextDrawButton] = useState(false);
+    const [showResultButton, setShowResultButton] = useState(false);
+    const [drawResults, setDrawResults] = useState([]);
+    const [showResultsOnly, setShowResultsOnly] = useState(false);
+
     const pages = [
         'http://localhost/gachoraProject/public/images/一番賞FT.svg',
         'http://localhost/gachoraProject/public/images/一番賞A.svg',
     ];
 
     const calculateBookSize = () => {
-        const containerWidth = window.innerWidth * 0.5; // 書本寬度為螢幕寬度的 80%
-        const containerHeight = containerWidth * 0.29; // 書本高度按比例設定
+        const containerWidth = window.innerWidth * 0.5; // Set book width to 50% of window width
+        const containerHeight = containerWidth * 0.29; // Set book height proportionally
         return { width: containerWidth, height: containerHeight };
     };
 
-    const [bookSize, setBookSize] = useState(calculateBookSize()); // 初始化書本尺寸
-
+    const [bookSize, setBookSize] = useState(calculateBookSize());
+    useEffect(() => {
+        if (remainingDraws === 0) {
+            setShowResultButton(true);
+            setShowNextDrawButton(false);
+        }
+    }, [remainingDraws]);
     useEffect(() => {
         const resizeHandler = () => {
-            setBookSize(calculateBookSize());
+            const newBookSize = calculateBookSize();
+            setBookSize(newBookSize); // Update the state with new dimensions
             if (bookRef.current) {
-                $(bookRef.current).turn('size', bookSize.width, bookSize.height);
+                $(bookRef.current).turn('size', newBookSize.width, newBookSize.height); // Reinitialize Turn.js with new size
             }
         };
 
@@ -32,84 +42,118 @@ const C_3_3_LottryFuntion = () => {
 
         if (typeof $.fn.turn === 'function') {
             $(bookRef.current).turn({
-                width: bookSize.width, // 書本動態寬度
-                height: bookSize.height, // 書本動態高度
+                width: bookSize.width,
+                height: bookSize.height,
                 autoCenter: true,
                 when: {
                     turned: (event, page) => {
-                        console.log(`Page turned to: ${page}`);
-                        if (page === pages.length) {
-                            setShowNextDrawButton(true); // 顯示 "下一抽" 按鈕
+                        if (page === pages.length && remainingDraws >= 0) {
+                            setRemainingDraws((prev) => prev - 1);
+                            setCurrentDraw((prev) => prev + 1);
+                            setShowNextDrawButton(true);
+                        } else if (page === pages.length && remainingDraws === 0) {
+                            showResults(); // 直接顯示結果
                         }
                     },
                 },
             });
         } else {
-            console.error('Turn.js 未正確加載');
+            console.error('Turn.js failed to load');
         }
 
         return () => {
-            // 清理 Turn.js 資源
             window.removeEventListener('resize', resizeHandler);
             if (bookRef.current) {
-                $(bookRef.current).turn('destroy');
+                $(bookRef.current).turn('destroy'); // Destroy Turn.js on cleanup
             }
         };
     }, [bookSize]);
 
     const startNextDraw = () => {
-        if (remainingDraws > 1) {
-            setShowNextDrawButton(false); // 隱藏按鈕
-            setRemainingDraws((prev) => prev - 1); // 減少剩餘抽數
-            setCurrentDraw((prev) => prev + 1); // 增加當前抽數
-            $(bookRef.current).turn('page', 1); // 重置到第一頁
+        if (remainingDraws > 0) {
+            setShowNextDrawButton(false);
+            setCurrentDraw((prev) => prev + 1);
+            $(bookRef.current).turn('page', 1); // Reset to the first page after the draw
         } else {
-            console.log('抽獎已完成，跳轉至首頁');
-            // navigate('/gachaHome'); // 跳轉至首頁
+            setRemainingDraws(0);
+            setShowNextDrawButton(false);
+            setShowResultButton(true);
         }
+    };
+
+    const showResults = () => {
+        const mockResults = [
+            { id: 1, prize: 'A賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-1.png', name: '商品名稱' },
+            { id: 2, prize: 'C賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-3.png', name: '商品名稱' },
+        ];
+        setDrawResults(mockResults);
+        setShowResultsOnly(true);
     };
 
     return (
         <main id="lottryfunction">
-            {/* 剩餘抽數顯示 */}
-            <span className="gacha-info">
-                <img src="http://localhost/gachoraProject/public/images/一番賞.svg" alt="gachaball" />
-                <h3>X {remainingDraws}</h3>
-            </span>
-            {/* 背景層 */}
-            <div className="bg-img-wrapper">
-                <img
-                    className="bg-img"
-                    src="http://localhost/gachoraProject/public/images/一番賞bg.svg"
-                    alt="背景圖片"
-                />
-            </div>
+            {!showResultsOnly && (
+                <>
+                    <span className="gacha-info">
+                        <img src="http://localhost/gachoraProject/public/images/一番賞.svg" alt="gachaball" />
+                        <h3>X {remainingDraws}</h3>
+                    </span>
 
-            {/* 商品名稱 */}
-            <h3 className="product-name">商品名稱</h3>
-
-            {/* 翻頁書 */}
-            <div
-                ref={bookRef}
-                className="book"
-                style={{ width: bookSize.width, height: bookSize.height }}
-            >
-                {pages.map((page, index) => (
-                    <div key={index} className="page">
-                        <img src={page} alt={`page-${index + 1}`} />
+                    <div className="bg-img-wrapper">
+                        <img
+                            className="bg-img"
+                            src="http://localhost/gachoraProject/public/images/一番賞bg.svg"
+                            alt="背景圖片"
+                        />
                     </div>
-                ))}
-            </div>
 
-            {/* "下一番" 按鈕 */}
-            {showNextDrawButton && (
-                <div className="next-draw-wrapper">
-                    <button
-                        className="next-draw-button custom-btn btn-lg"
-                        onClick={startNextDraw}
+                    <h3 className="product-name">商品名稱</h3>
+
+                    <div
+                        ref={bookRef}
+                        className="book"
+                        style={{ width: bookSize.width, height: bookSize.height }}
                     >
-                        下一抽
-                    </button>
+                        {pages.map((page, index) => (
+                            <div key={index} className="page">
+                                <img src={page} alt={`page-${index + 1}`} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {showNextDrawButton && remainingDraws > 0 && (
+                        <div className="next-draw-wrapper">
+                            <button
+                                className="next-draw-button custom-btn btn-lg"
+                                onClick={startNextDraw}
+                            >
+                                下一抽
+                            </button>
+                        </div>
+                    )}
+
+                    {showResultButton && (
+                        <div className="result-wrapper">
+                            <button
+                                className="result-button custom-btn btn-lg"
+                                onClick={showResults}
+                            >
+                                查看獎品
+                            </button>
+                        </div>
+                    )}
+                </>
+            )}
+
+            {showResultsOnly && drawResults.length > 0 && (
+                <div className="result-list">
+                    {drawResults.map((item) => (
+                        <div key={item.id} className="result-item">
+                            <h4>{item.prize}</h4>
+                            <img src={item.img} alt={item.name} />
+                            <h4>{item.name}</h4>
+                        </div>
+                    ))}
                 </div>
             )}
         </main>

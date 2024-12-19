@@ -19,8 +19,6 @@ function C_2_LottryTagPage() {
     //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
     // ]);
 
-
-
     const [allProducts, setAllProducts] = useState([]);
     const [error, setError] = useState(null);
 
@@ -52,7 +50,7 @@ function C_2_LottryTagPage() {
     const [currentPage, setcurrentPage] = useState(1);
     const [category, setcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
-    const itemsPerPage = 24; // 每頁商品數量
+    const itemsPerPage = 6; // 每頁商品數量
 
 
     // 篩選和排序
@@ -130,9 +128,7 @@ function C_2_LottryTagPage() {
                                         <span>
                                             商品排序 ▼
                                         </span>
-                                        <ul className="detail-dropdown-menu">
-                                            <li>【上架時間】由新到舊</li>
-                                            <li>【上架時間】由舊到新</li>
+                                        <ul className="detail-dropdown-menu" style={{zIndex:"9999", cursor:"pointer"}}>
                                             <li>【價格】由高至低</li>
                                             <li>【價格】由低至高</li>
                                         </ul>
@@ -184,7 +180,7 @@ function C_2_LottryTagPage() {
                                                 key={index}
                                                 onClick={() => setcurrentPage(index + 1)}
                                             >
-                                                <a className="page-link" href="">{index + 1}</a>
+                                                <a className="page-link" href="#">{index + 1}</a>
                                             </li>
                                         ))}
                                     </ul>
