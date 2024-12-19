@@ -1,6 +1,6 @@
 <?php
 
-use Mockery\Undefined;
+// use Mockery\Undefined;
 
 require_once __DIR__ . '/Connect.php';
 class API
@@ -71,6 +71,7 @@ class API
     $this->db = null;
     return json_encode(array_values($jsonOutput));
   }
+
   private function fetchSeriesImages($db, &$jsonOutput)
   {
     foreach ($jsonOutput as $series_id => &$item) {
@@ -86,6 +87,7 @@ class API
       $item['img'] = $img;
     }
   }
+
   private function fetchIchibanCharacterInfo($db, &$jsonOutput)
   {
     foreach ($jsonOutput as $series_id => &$item) {
@@ -352,8 +354,11 @@ class API
     $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
-    $theme = '';
-    while ($output1 = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $sql1 = "select * from vw_allEgg where series_id = :series_id";
+    $stmt1 = $this->db->prepare($sql1);
+    $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt1->execute();
+    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
       $series_id = $output1['series_id'];
       $theme = $output1['theme'];
       $sql2 = "select * from vw_series_img where series_id = :series_id";
@@ -374,6 +379,7 @@ class API
         'img' => $img
       ];
     }
+    $this->fetchSeriesImages($this->db, $jsonOutput);
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['character'][] = [
         'prize' => $output['prize'],
