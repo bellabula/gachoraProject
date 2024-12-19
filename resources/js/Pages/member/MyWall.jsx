@@ -21,7 +21,7 @@ function MyWall({ id, className = "" }) {
             setgachaItem(egg)
             setichibanItem(ichiban)
         })
-    })
+    }, [user_id])
     return (
         <>
             {/* <!-- 1. 戰利牆 --> */}
