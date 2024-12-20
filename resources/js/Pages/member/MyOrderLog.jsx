@@ -18,15 +18,6 @@ function MyOrderLog({list_id, oId, oDate, oStatus, dPath }) {
             console.log(response)
             setDetails(response)
         })
-
-        // const transactionDetails = {
-        //     no: zNo,
-        //     time: zTime,
-        //     status: zStatus,
-        //     name: zName,
-        //     method: zMethod,
-        // };
-        // setDetails(transactionDetails); // 交易明細
         setShowModal(true); // 彈跳視窗
     };
 

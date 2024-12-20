@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState }  from 'react'
 import StoreSelector  from './StoreSelector ';
+import { usePage } from '@inertiajs/react';
 
-function Checkout({ id, display = "block" }) {
+
+function Checkout({ id, display = "block"}) {
     function checkBill() {
         $("#e21").css("display", "none")
         $("#e3").css("display", "block")
     }
+
+        const [userInfo, setUserInfo] = useState({});
+
+        const user = usePage().props.auth.user;
+        let user_id = user.id
+        // let basePath = '../../../app/Models'
+        useEffect(()=>{
+            const url = 'http://localhost/gachoraProject/app/Models/Post/Userinfo.php'
+            $.post(url, {
+                user_id
+            }, (response) => {
+                console.log('會員資料：', response)
+                setUserInfo(response)
+            })
+        },[user_id]
+        )
+        console.log('userinfo:',(userInfo[0] != undefined)? userInfo[0].name : userInfo.name)
     return (
         <>
             {/* <Head title="paymentInfo" /> */}
@@ -55,30 +74,34 @@ function Checkout({ id, display = "block" }) {
                             <div className="text nobg">
                             <StoreSelector />
                                 {/* <button className="yellow">★選擇常用門市</button><br /> */}
-                                <div>
-                                    <div>門市名稱：(xx門市)</div>
-                                    <div>地址：408台中市大進街387號大墩十二街151號1樓1樓</div>
-                                    <div className="grey">取件時需配合門市相關規範，部分門市已陸續調整為「自助取件」，可重新依地圖選擇確認。</div>
-                                </div>
                             </div>
                         </div>
                         <div className="e2_group">
                             <div className="title">會員資訊</div>
                             <div className="text nobg">
-                                姓名：套彩榕placeholder<br />
-                                電話：<br />
-                                信箱：<br />
+                                <br />
+                                <p>姓名：{(userInfo[0] != undefined)? userInfo[0].name : userInfo.name}</p>
+                                <p>電話：{(userInfo[0] != undefined)? userInfo[0].phone : userInfo.phone}</p>
+                                <p>信箱：{(userInfo[0] != undefined)? userInfo[0].email : userInfo.email}</p>
                             </div>
                         </div>
                         <div className="e2_group">
                             <div className="title">收件人資訊</div>
                             <div className="text nobg">
-                                <button>★常用收件人資訊</button><br />
-                                姓名：套彩榕placeholder<br />
-                                電話：<br />
-                                信箱：<br />
-                                地址：<br />
-                                時間：<br />
+                                {/* <button>★常用收件人資訊</button><br /> */}
+                                姓名：<input type="text" defaultValue={(userInfo[0] != undefined)? userInfo[0].name : ''}/><br/>
+                                信箱：<input type="text" defaultValue={(userInfo[0] != undefined)? userInfo[0].email : ''}/><br/>
+                                地址：<input type="text" defaultValue={(userInfo[0] != undefined)? userInfo[0].address : ''}/><br/>
+                                時間：<select name="" id="">
+                                    <option value="">任意</option>
+                                    <option value="">早上(09:00~12:00)</option>
+                                    <option value="">中午(12:00~17:00)</option>
+                                    <option value="">晚上(17:00~21:00)</option>
+                                </select>
+                                {/* 電話：<input type="text" value={defaultValue[0].name}/>
+                                信箱：<input type="text" value={defaultValue[0].name}/>
+                                地址：<input type="text" value={defaultValue[0].name}/>
+                                時間：<input type="text" value={defaultValue[0].name}/> */}
                             </div>
                         </div>
                         <div className="e2_group">
