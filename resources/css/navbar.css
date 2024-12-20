@@ -29,6 +29,21 @@
     margin-top: 10px;
 }
 
+.cartCount {
+    background-color:red;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: absolute;
+    top: 25px;
+    right: -10px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    color: white;
+    font-size: 12px;
+}
+
 #homepage .navbar-toggler-icon {
     background-image: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")';
     margin: "0px";

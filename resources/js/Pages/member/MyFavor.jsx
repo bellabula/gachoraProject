@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { usePage } from '@inertiajs/react';
 
 
-function MyFavor({ id }) {
+function MyFavor({ id, className="" }) {
 
     const user = usePage().props.auth.user;
     let user_id = user.id
@@ -41,7 +41,7 @@ function MyFavor({ id }) {
     return (
         <>
             {/* <!-- 2. 收藏清單 --> */}
-            <div id={id} className="tab-pane">
+            <div id={id} className={"tab-pane " + className}>
                 <div className="favor-section">
                     <ul className="nav nav-pills justify-content-center nav-justified">
                         <li className="nav-item">

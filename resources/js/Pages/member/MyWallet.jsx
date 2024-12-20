@@ -33,7 +33,7 @@ function MyWallet({ id, className = "" }) {
         }, (response) => {
             // console.log('交易紀錄：', response)
             // console.log(response)
-            setWalletLog(response)
+            setWalletLog(response.reverse())
         })
     }, [user_id])
 
@@ -121,7 +121,7 @@ function MyWallet({ id, className = "" }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {walletLog.reverse().map((v, index) => (
+                            {walletLog.map((v, index) => (
                                 <MyWalletRecord key={index} rDate={v.date} rItem={v.item} rCate={v.category} rPrice={v.price} rAmount={v.amount}/>
                             ))}
                             {/* <tr>

@@ -166,6 +166,7 @@ function B_2_GachaTagPage() {
                                         value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                                     <button className="search-icon">
                                         <img src="http://localhost/gachoraProject/public/images/gachoHome/search-normal2.svg"
+                                            style={{filter:"var(--white-filter)"}}
                                             onClick={handleSearch}
                                             alt="搜尋" />
                                     </button>

@@ -51,7 +51,7 @@ try {
     $ecpay->Send['ReturnURL'] = "http://localhost/your_project/ecpay-callback.php"; // 回傳付款結果通知
     $ecpay->Send['MerchantTradeNo'] = "GC" . time() . $user_id . "R"; // 唯一訂單編號
     $ecpay->Send['MerchantTradeDate'] = date('Y/m/d H:i:s'); // 交易時間
-    $ecpay->Send['TotalAmount'] = 1000; // 交易金額
+    $ecpay->Send['TotalAmount'] = $money; // 交易金額
     $ecpay->Send['TradeDesc'] = "儲值明細"; // 交易描述
     $ecpay->Send['ChoosePayment'] = ECPay_PaymentMethod::ALL; // 付款方式: 全部
     $ecpay->Send['OrderResultURL'] = $backToURL;
