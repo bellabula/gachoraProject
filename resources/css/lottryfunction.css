@@ -4,7 +4,8 @@
     align-items: center;
     position: relative;
     width: 100vw;
-    height: 80vh; /* 讓容器充滿視口高度 */
+    height: 80vh;
+    /* 讓容器充滿視口高度 */
     overflow-y: hidden;
 }
 
@@ -61,11 +62,13 @@
     left: -12.4%;
     transform: translate(-50%, -50%);
     z-index: 3;
+
 }
+
 
 /* 自定义按钮样式 */
 #lottryfunction .custom-btn {
-    display: flex;
+    display: block;
     margin: 0 auto;
     margin-top: 20px;
     border-radius: 50px;
@@ -97,9 +100,53 @@
     justify-content: center;
     width: 100%;
 }
+#lottryfunction .result-wrapper {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* 商品抽獎結果 */
+#lottryfunction .result-list {
+    display: flex;
+    flex-direction: row; /* 改为水平排列 */
+    justify-content: flex-start; /* 确保从左到右排列 */
+    align-items: flex-start; /* 顶部对齐 */
+    flex-wrap: nowrap; /* 禁止换行 */
+    margin-top: 10px;
+    overflow-x: auto; /* 添加水平滚动条（如果超出屏幕宽度） */
+}
+
+#lottryfunction .result-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px; /* 水平间距 */
+    width: 200px; /* 固定宽度，避免每项太宽 */
+    text-align: center;
+}
+
+#lottryfunction .result-item img {
+    width: 100%; /* 图片适配容器宽度 */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+
+#lottryfunction .result-item h4 {
+    font-size: 24px;
+    /* Adjust font size */
+    margin: 0;
+    color: var(--main-darkblue);
+}
 
 /* 响应式设计 */
 @media screen and (max-width: 768px) {
+
     /* 平板 */
     #lottryfunction {
         height: 70vh;
@@ -110,15 +157,26 @@
     }
 
     #lottryfunction .bg-img-wrapper {
-        width: 50%;
+        width: 35%;
+        /* border: 5px solid red; */
     }
 
     #lottryfunction .book {
-        top: 4%;
-        left: -25%;
+        position: relative;
     }
 
+    #lottryfunction .book .page {
+        position: absolute;
+        top: 4%;
+        left: -20%;
+        width: 100%;
 
+    }
+
+    #lottryfunction .product-name {
+        font-size: 16px;
+        top: 52%;
+    }
 
     #lottryfunction .next-draw-wrapper {
         top: 90%;
@@ -129,12 +187,15 @@
     #lottryfunction {
         height: 50vh;
     }
+
     #lottryfunction .bg-img-wrapper {
-        width: 70%;
+        width: 35%;
+        /* border: 5px solid red; */
     }
 }
 
 @media screen and (max-width: 480px) {
+
     /* 手机 */
     #lottryfunction {
         height: 60vh;
@@ -145,21 +206,29 @@
     }
 
     #lottryfunction .bg-img-wrapper {
-        width: 60%;
+        width: 35%;
+        /* border: 5px solid red; */
     }
 
     #lottryfunction .book {
+        position: relative;
+
+    }
+
+    #lottryfunction .book .page {
+        position: absolute;
         top: 10%;
         left: 20%;
         width: 30%;
     }
 
     #lottryfunction .product-name {
-        font-size: 16px;
-        top: 55%;
+        font-size: 12px;
+        top: 51%;
     }
 
     #lottryfunction .next-draw-wrapper {
         top: 92%;
     }
 }
+
