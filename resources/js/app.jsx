@@ -23,6 +23,7 @@ import '../css/footer.css';
 import '../css/shoppingCart.css';
 import '../css/gachaDetail.css';
 import '../css/lottryDetail.css';
+import '../css/Carousel.css';
 
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';

@@ -3,6 +3,7 @@ import LottryWallItem from '@/Pages/lottry/LottryWallItem';
 import { Head, Link } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import PdCard from '@/Components/PdCard';
+import Carousel from '@/Components/Carousel'
 
 function C_1_LottryHome() {
     const [allProducts, setallProducts] = useState([]);
@@ -161,10 +162,10 @@ function C_1_LottryHome() {
                     </div>
                     {/* <!--標籤連結--> */}
                     <div className="labelitem d-flex justify-content-end">
-                        <div className="ms-1 item"><a href={route('lottrytagpage')}>全部商品</a></div>
-                        <div className="ms-1 item"><a href="#">熱門商品</a></div>
-                        <div className="ms-1 item"><a href="#">最新商品</a></div>
-                        <div className="ms-1 item"><a href="#">限時商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('lottrytagpage')}>全部商品</a></div>
+                        <div className="ms-1 itemtag"><a href="#">熱門商品</a></div>
+                        <div className="ms-1 itemtag"><a href="#">最新商品</a></div>
+                        <div className="ms-1 itemtag"><a href="#">限時商品</a></div>
                     </div>
                     <h1 className='lottryTitle'>人氣TOP10</h1>
                     {/* <!--TOP30區--> */}
@@ -270,6 +271,39 @@ function C_1_LottryHome() {
                                 onClick={nextCarousel}><img src="http://localhost/gachoraProject/public/images/arrowRight.svg" alt="" /></button>
                         </div>
                     </div>
+                    <div className="texttext">
+                        <Carousel cols={3} gap={0}>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <div className="item"><PdCard></PdCard></div>
+                            </Carousel.Item>
+                        </Carousel>
+                    </div>
+
+
                 </main>
             </body>
         </>

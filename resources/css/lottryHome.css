@@ -132,7 +132,7 @@ body #lottrybody {
 	border-radius: 30px;
 }
 
-#lottryHome .item {
+#lottryHome .itemtag {
 	height: 50px;
 	width: 10vw;
 	background-color: var(--main-bg-gray);
@@ -143,17 +143,17 @@ body #lottrybody {
 	justify-content: center;
 }
 
-#lottryHome .item:hover {
+#lottryHome .itemtag:hover {
 	background-color: var(--main-yellow);
 	cursor: pointer
 }
 
-#lottryHome .item a {
+#lottryHome .itemtag a {
 	text-decoration: none;
 	color: #365B60;
 }
 
-#lottryHome .item a:hover {
+#lottryHome .itemtag a:hover {
 	text-decoration: none;
 	color: var(--main-darkblue)
 }
@@ -399,3 +399,14 @@ body #lottrybody {
 #lottryHome .carousel-btn.right {
 	right: 10px;
 }
+
+#lottryHome .texttext {
+	width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+	display:"block";
+  }
+  
+  #lottryHome .item {
+	text-align: center;
+  }
