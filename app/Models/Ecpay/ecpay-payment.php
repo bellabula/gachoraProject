@@ -3,6 +3,7 @@ require_once('ECPay.Payment.Integration.php'); // 確保你有這個檔案
 
 $money = $_POST['money'];
 $user_id = $_POST['user_id'];
+$backToURL = 'http://localhost/gachoraProject/app/Models/Ecpay/redirect.php';
 $gash = '';
 if(isset($_POST['money'])){
     switch ($money) {
@@ -53,13 +54,14 @@ try {
     $ecpay->Send['TotalAmount'] = 1000; // 交易金額
     $ecpay->Send['TradeDesc'] = "儲值明細"; // 交易描述
     $ecpay->Send['ChoosePayment'] = ECPay_PaymentMethod::ALL; // 付款方式: 全部
+    $ecpay->Send['OrderResultURL'] = $backToURL;
 
     // 商品資料
     array_push($ecpay->Send['Items'], [
         'Name' => "儲值" . $gash . "G幣",
         'Price' => (int)$money,
         'Currency' => "元",
-        'Quantity' => (int) "1"
+        'Quantity' => (int) "1",
     ]);
 
     // 產生並送出表單
