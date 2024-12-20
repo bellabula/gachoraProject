@@ -7,8 +7,8 @@ function Deposit({ gash }) {
 
     const user = usePage().props.auth.user;
     const user_id = user.id;
+    togreen1 = user_id
     let gash_id = null;
-    togreen1 = user.id
 
     // 設定選擇的狀態，初始值為 null，表示沒有選擇
     const [selectedOption, setSelectedOption] = useState(null);
@@ -48,7 +48,6 @@ function Deposit({ gash }) {
                     gash_id = 9;
                     break;
             }
-            togreen2 = selectedOption
             alert(`確定要儲值: NT ${selectedOption} 嗎?`);
             const url = 'http://localhost/gachoraProject/app/Models/Post/TopUpGash.php'
             $.post(url, {
@@ -56,41 +55,51 @@ function Deposit({ gash }) {
                 gash_id: gash_id
             }, function (response) {
                 console.log(response)
+                togreen2 = selectedOption
                 if (response[0].error == 'done') {
+                    localStorage.setItem("tmpurl",  window.location.href)
                     toGreen(togreen1, togreen2)
                 }
             })
         }
     };
+
     // 提交綠界表單
     // 4311-9522-2222-2222
-    function toGreen(green1, green2){
-        let form = document.createElement('form');
-        form.action = 'http://localhost/gachoraProject/app/Models/Ecpay/ecpay-payment.php';
-        form.method = 'POST';
+    function toGreen(green1, green2) {
+        let form = document.createElement('form')
+        form.action = 'http://localhost/gachoraProject/app/Models/Ecpay/ecpay-payment.php'
+        form.method = 'POST'
 
-        let gashInput = document.createElement('input');
-        gashInput.type = 'number';
-        gashInput.value = green2;
-        gashInput.name = 'money';
-        gashInput.required = true;
+        let gashInput = document.createElement('input')
+        gashInput.type = 'number'
+        gashInput.value = green2
+        gashInput.name = 'money'
+        gashInput.required = true
 
-        let uidInput = document.createElement('input');
-        uidInput.type = 'number';
-        uidInput.value = green1;
-        uidInput.name = 'user_id';
-        uidInput.required = true;
+        let uidInput = document.createElement('input')
+        uidInput.type = 'number'
+        uidInput.value = green1
+        uidInput.name = 'user_id'
+        uidInput.required = true
 
-        let submitButton = document.createElement('button');
-        submitButton.type = 'submit';
+        // let urlInput = document.createElement('input')
+        // urlInput.type = 'text'
+        // urlInput.value = 'http://localhost/gachoraProject/public/gachadetail?seriesId=1'
+        // urlInput.name = 'backToURL'
+        // urlInput.required = true
 
-        form.appendChild(gashInput);
-        form.appendChild(uidInput);
-        form.appendChild(submitButton);
+        let submitButton = document.createElement('button')
+        submitButton.type = 'submit'
 
-        document.body.appendChild(form);
+        form.appendChild(gashInput)
+        form.appendChild(uidInput)
+        // form.appendChild(urlInput)
+        form.appendChild(submitButton)
 
-        form.submit();
+        document.body.appendChild(form)
+
+        form.submit()
 
     }
     return (
