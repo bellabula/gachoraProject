@@ -7,8 +7,27 @@ import { useState, useEffect } from 'react';
 function B_2_GachaTagPage() {
 
     const user = usePage().props.auth.user;
-    console.log(user ? "userId" : "none")
-    // const user_id = user.id
+    const basePath = '../app/Models'
+    const [userFavor, setUerFavor] = useState([]);
+    if (user) {
+        const user_id = user.id
+        let collectEgg = [];
+        useEffect(() => {
+            $.post(basePath + '/Post/UserCollectionEgg.php', {
+                user_id: user_id
+            }, (response) => {
+                if (typeof (response.has) != "undefined") {
+                    collectEgg = [...response.has]
+                }
+                if (typeof (response.no) != "undefined") {
+                    collectEgg = [...collectEgg, ...response.no]
+                }
+                setUerFavor(collectEgg.map(item => item.id))
+                // console.log(userFavor)
+                // console.log('蛋收藏：', [...response.has, ...response.no])
+            })
+        }, [user_id])
+    }
 
     const [allProducts, setAllProducts] = useState([])
     // const [allProductsAPI, setAllProductsAPI] = useState([])
@@ -37,26 +56,6 @@ function B_2_GachaTagPage() {
                 console.error('Error fetching data:', error);
             })
     }, [])
-
-    const basePath = '../app/Models'
-    const [userFavor, setUerFavor] = useState([]);
-
-    // let collectEgg = [];
-    // useEffect(() => {
-    //     $.post(basePath + '/Post/UserCollectionEgg.php', {
-    //         user_id: user_id
-    //     }, (response) => {
-    //         if (typeof (response.has) != "undefined") {
-    //             collectEgg = [...response.has]
-    //         }
-    //         if (typeof (response.no) != "undefined") {
-    //             collectEgg = [...collectEgg, ...response.no]
-    //         }
-    //         setUerFavor(collectEgg.map(item => item.id))
-    //         // console.log(userFavor)
-    //         // console.log('蛋收藏：', [...response.has, ...response.no])
-    //     })
-    // }, [user_id])
 
     const [currentPage, setcurrentPage] = useState(1);
     const [category, setcategory] = useState("all");

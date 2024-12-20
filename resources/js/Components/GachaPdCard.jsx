@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { usePage, Link } from '@inertiajs/react';
+// import { useFloatingPanel } from '@headlessui/react/dist/internal/floating';
 
 function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavor, className = '', img = '' }) {
 
     const user = usePage().props.auth.user;
-    // const user_id = user.id
 
     const basePath = '../app/Models'
     const url = basePath + '/Post/ToCollection.php'
@@ -12,25 +12,32 @@ function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavo
     const [isActive, setIsActive] = useState(false);
     const [newclass, setNewclass] = useState("");
 
-    // useEffect(() => {
-    //     if (userFavor.includes(seriesId)) {
-    //         setIsActive(true)
-    //         setNewclass("active")
-    //     }
-    // }, [user_id])
-
+    let user_id = null
+    if (user) {
+        user_id = user.id
+        // setUserId(user.id)
+        useEffect(() => {
+            if (userFavor.includes(seriesId)) {
+                setIsActive(true)
+                setNewclass("active")
+            }
+        }, [user_id])
+    }
     function toogleHeart() {
-        console.log("stop heart")
-        // $.post(url, {
-        //     user_id: user_id,
-        //     series_id: seriesId
-        // })
-        // if (!isActive) {
-        //     setNewclass("active")
-        // } else {
-        //     setNewclass("")
-        // }
-        // setIsActive(!isActive)
+        if(user_id){
+            $.post(url, {
+                user_id: user_id,
+                series_id: seriesId
+            })
+            if (!isActive) {
+                setNewclass("active")
+            } else {
+                setNewclass("")
+            }
+            setIsActive(!isActive)
+        }else{
+            alert("請先登入")
+        }
     }
 
     return (
