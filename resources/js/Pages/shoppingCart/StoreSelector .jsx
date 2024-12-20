@@ -1,40 +1,27 @@
-import React, {useState} from 'react'
-
-const storeData = {
-    "南屯區": [
-        { name: "南屯門市", address: "台中市南屯區XXX路" },
-        { name: "大墩門市", address: "台中市南屯區YYY路" }
-    ],
-    "東區": [
-        { name: "東門門市", address: "台中市東區ZZZ路" },
-        { name: "成功門市", address: "台中市東區AAA路" }
-    ]
-};
+import React, { useState } from 'react';
 
 function StoreSelector() {
-    const [selectedDistrict, setSelectedDistrict] = useState(""); // 選中的行政區
-//     const [stores, setStores] = useState([]); // 顯示的門市列表
+    const [storeInfo, setStoreInfo] = useState(''); // 用來儲存選擇的門市資訊
 
-//     // 當選擇行政區時觸發
-    const handleDistrictChange = (event) => {
-        const district = event.target.value; // 獲取選中的值。指向觸發事件的 DOM 物件。
-        setSelectedDistrict(district);
-
-        // 更新門市列表
-        // 如果有選取(district存在)
-        if (district && storeData[district]) {
-            setStores(storeData[district]);
+    const handleStreetChange = (event) => {
+        const selectedStreet = event.target.value;
+        if (selectedStreet === '昌進門市') {
+            setStoreInfo(
+                '昌進門市\n台中市南屯區大進街387號1樓\n大墩十二街151號1樓'
+            );
         } else {
-            setStores([]); // 清空門市列表
+            setStoreInfo('');
         }
-    }
-        return (
-            <>
-                <div>
-                    請選擇欲查詢門市 :
-                    &nbsp;&nbsp;&nbsp;
+    };
+    return (
+        <>
+            <div style={{display: 'flex'}}>
+                <div style={{ display: 1}}>
+                    <p></p>
+                    請選擇縣市 :
+                    <br />
                     <select>
-                        <option value="">全部縣市</option>
+                        <option value="">請選擇</option>
                         <option value="">臺北市</option>
                         <option value="">新北市</option>
                         <option value="">基隆市</option>
@@ -56,31 +43,11 @@ function StoreSelector() {
                         <option value="">花蓮縣</option>
                         <option value="">臺東縣</option>
                     </select>
-                    &nbsp;&nbsp;&nbsp;
-                    <select onChange={handleDistrictChange} value={selectedDistrict}>
-                    <option value="">全部行政區</option>
-                {/* {Object.keys(storeData).map((district, index) => ( */}
-                    <option value={district} key={index}>
-                        {district}
-                    </option>
-                {/* ) */}
-                {/* ) */}
-                {/* } */}
-            </select>
-              {/* 門市列表 */}
-              {/* <ul>
-                {stores.length > 0 ? (
-                    stores.map((store, index) => (
-                        <li key={index}>
-                            {store.name} - {store.address}
-                        </li>
-                    ))
-                ) : (
-                    <li>請選擇行政區查看門市資料</li>
-                )}
-            </ul> */}
-                    {/* <select name="" id="">
-                        <option value="">全部行政區</option>
+                    <br />
+                    請選擇鄉、鎮、市、區 :
+                    <br />
+                    <select>
+                        <option value="">請選擇</option>
                         <option value="">中區</option>
                         <option value="">東區</option>
                         <option value="">西區</option>
@@ -110,11 +77,34 @@ function StoreSelector() {
                         <option value="">石岡區</option>
                         <option value="">大安區</option>
                         <option value="">新社區</option>
-                    </select> */}
+                    </select>
+                    <br />
+                    請選擇街道:
+                    <br />
+                    <select name="" id="">
+                        <option value="">請選擇</option>
+                        <option value="">大進街</option>
+                    </select>
+                    <br />
+                    請選擇門市:
+                    <br />
+                    <select onChange={handleStreetChange}>
+                        <option value="">請選擇</option>
+                        <option value="昌進門市">昌進門市</option>
+                    </select>
                 </div>
-            </>
-        )
-//     }
+                <div style={{ marginTop: '20px', whiteSpace: 'pre-line', display: 1 }}>
+                    {storeInfo && (
+                        <>
+                            <strong>門市資訊：</strong>
+                            <p>{storeInfo}</p>
+                        </>
+                    )}
+                    <p className="grey">取件時需配合門市相關規範，部分門市已陸續調整為「自助取件」，可重新依地圖選擇確認。</p>
+                </div>
+            </div>
+        </>
+    )
 }
 
 export default StoreSelector 
