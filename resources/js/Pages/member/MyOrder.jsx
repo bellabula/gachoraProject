@@ -56,7 +56,7 @@ function MyOrder({ id }) {
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            // console.log('訂單：', response)
+            console.log('訂單：', response)
             setOrderLog(response)
         })
     }, [user_id])
@@ -100,7 +100,7 @@ function MyOrder({ id }) {
                         <tbody>
                             {/* <MyOrderLog oId="GC16977356881" oDate="2024/11/22" oStatus="待出貨" dPath="宅配" /> */}
                             {orderLog.reverse().map((v, index)=>(
-                                <MyOrderLog oId={v.no} oDate={v.time} oStatus={v.status} dPath={v.method} key={index}/>
+                                <MyOrderLog list_id={v.id} oId={v.no} oDate={v.time} oStatus={v.status} dPath={v.method} key={index}/>
                             ))}
                         </tbody>
                     </table>
