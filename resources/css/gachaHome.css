@@ -44,7 +44,7 @@
     border-radius: 30px;
 }
 
-#gachaHome .item {
+#gachaHome .itemtag {
     height: 50px;
     width: 10vw;
     background-color: #FEC265;
@@ -53,71 +53,113 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* cursor: pointer; */
 }
 
-#gachaHome .item:hover {
+#gachaHome .itemtag.ms-1:hover {
     background-color: #365B60;
 }
 
-#gachaHome a.item {
+#gachaHome a.itemtag {
     text-decoration: none;
     color: #365B60;
 }
 
-#gachaHome a.item:hover {
+#gachaHome a.itemtag.ms-1:hover {
     text-decoration: none;
     color: #F2F1EC;
 }
 
+/*Title*/
+.gachaTitle {
+    text-align: center;
+    margin: 50px;
+    color: var(--main-darkblue);
+}
+
+
 /*top30區域*/
 #gachaHome .top30 {
-    display: flex;
+    position: relative;
     align-items: center;
+    justify-content: center;
+    height: 50vh;
+
+    h3 {
+        text-align: center;
+        color: var(--main-darkblue);
+    }
 }
 
 #gachaHome .top30BigProduct {
     height: 50vh;
-    width: 20vw;
+    margin: 0 50px 0 30px;
     background-color: #FEC265;
-    border-radius: 300px;
-    min-width: 400px
+    border-radius: 100px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 100px;
+    }
 }
 
 #gachaHome .top30ProductImg {
-    height: 35vh;
-    width: 13vw;
     background-color: #FEC265;
-    border-radius: 200px;
-    margin-top: 10vh;
-    min-width: 200px
+    height: 40vh;
+    width: 300px;
+    border-radius: 100px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 100px;
+    }
 }
 
 #gachaHome .top30ProductText {
+    font-size: 24px;
+    color: var(--main-darkblue);
+    margin: 10px;
+    width: 300px;
+}
 
-    height: 100px;
-    width: 13vw;
+#gachaHome .carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 90%;
+    height: 50vh;
+    padding: 0;
+    margin: 0;
+}
+
+#gachaHome .carousel-items {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 200px
+    transition: transform 0.3s ease;
+}
+
+#gachaHome .top10item {
+    width: 100%;
+    height: 90%;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 /*扭蛋牆*/
 #gachaHome .scroll-container {
     width: 100%;
-    margin: 0;
-    background-color: #e0e0e0;
-    padding: 0px;
+    margin: 50px 0 50px 0;
+    background-color: var(--main-yellow);
+    padding: 20px 0 20px 0;
 
 }
 
 /* 設定每排滾動區域 */
 #gachaHome .scroll-row {
-    /* 隱藏溢出內容 */
     overflow: hidden;
     margin-bottom: 20px;
-    /* 排與排之間的間距 */
+
 }
 
 /* 設定滾動內容樣式 */
@@ -125,7 +167,6 @@
     display: flex;
     flex-wrap: nowrap;
     animation: scroll-horizontal 15s linear infinite;
-    /* 加入無限循環動畫 */
 }
 
 /* 設定每個項目 */
@@ -160,6 +201,8 @@
 #gachaHome .img2 {
     z-index: 0;
     width: 100%;
+    height: 60%;
+    object-fit: cover;
     border-radius: 30px;
 }
 
@@ -175,11 +218,60 @@
 
     100% {
         transform: translateX(-50%);
-        /* 滾動到一半，讓它看起來無縫 */
     }
 }
 
 /* 滑鼠懸停時暫停動畫 */
 #gachaHome .scroll-row:hover .scroll-content {
     animation-play-state: paused;
+}
+
+.molly3 {
+    transform: translate3d(-400px, 0px, -300px) scale(0.3);
+    ;
+    transition: transform 5s ease;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.molly3:hover {
+    transform: translate3d(150px, 80px, 0) scale(1);
+    cursor: pointer;
+}
+
+.molly3.active {
+    transform: translate3d(150px, 80px, 0) scale(1);
+    cursor: pointer;
+}
+
+#gachaHome .mollyClick:hover {
+    background-color: var(--main-bg-gray);
+    color: var(--main-darkblue);
+}
+
+/* 輪播容器樣式 */
+#gachaHome .carousel-wrapper {
+    display: flex;
+    overflow: hidden;
+}
+
+#gachaHome .itembottom {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* 按鈕樣式 */
+
+#gachaHome .texttext {
+
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: "block";
+}
+
+#gachaHome .item {
+    text-align: center;
 }

@@ -1,25 +1,47 @@
-import React, { useState } from 'react';
-import { Link } from '@inertiajs/react';
+import React, { useState, useEffect } from 'react';
+import { Link, usePage } from '@inertiajs/react';
 
 
 // import React from 'react'
 
 
-function PdCard({ seriesId, pdTitle, pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName, bPrizeName, cPrizeName, img = '', aRemain, aTotal, bRemain, bTotal, cRemain, cTotal }) {
+function PdCard({ seriesId, userFavor, pdTitle, pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName, bPrizeName, cPrizeName, img = '', aRemain, aTotal, bRemain, bTotal, cRemain, cTotal }) {
+
+    const user = usePage().props.auth.user;
+
+    const basePath = '../app/Models'
+    const url = basePath + '/Post/ToCollection.php'
 
     const [isActive, setIsActive] = useState(false);
-    const [newclass, setNewclass] = useState("")
+    const [newclass, setNewclass] = useState("");
 
-    function toogleHeart() {
-        if (!isActive) {
-            setNewclass("active")
-        } else {
-            setNewclass("")
-        }
-        setIsActive(!isActive)
+    let user_id = null
+    if (user) {
+        user_id = user.id
+        // setUserId(user.id)
+        useEffect(() => {
+            if (userFavor.includes(seriesId)) {
+                setIsActive(true)
+                setNewclass("active")
+            }
+        }, [user_id])
     }
-
-
+    function toogleHeart() {
+        if (user_id) {
+            $.post(url, {
+                user_id: user_id,
+                series_id: seriesId
+            })
+            if (!isActive) {
+                setNewclass("active")
+            } else {
+                setNewclass("")
+            }
+            setIsActive(!isActive)
+        } else {
+            alert("請先登入")
+        }
+    }
 
     return (
         <div id='pdcard'>
