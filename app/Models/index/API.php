@@ -1480,4 +1480,170 @@ class API
   {
     return $this->changeStatus($record_id, 6);
   }
+  function AllCity()
+  {
+    $this->db = new Connect;
+    $jsonOutput = [];
+    $sql = "select id, city from City";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['id'],
+        'city' => $output['city'],
+      ];
+    }
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput == [] ? $jsonOutput = ['error' => 'something wrong with db'] : $jsonOutput;
+    return json_encode($jsonOutput);
+  }
+  function AllCounty($city_id)
+  {
+    $city_id = $_POST['city_id'];
+    $this->db = new Connect;
+    $jsonOutput = [];
+    $sql = "select id, county from County where city_id = :city_id";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':city_id', $city_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['id'],
+        'county' => $output['county'],
+      ];
+    }
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput == [] ? $jsonOutput = ['error' => 'something wrong with db'] : $jsonOutput;
+    return json_encode($jsonOutput);
+  }
+  function LogisticsPeople($user_id)
+  {
+    $user_id = $_POST['user_id'];
+    $this->db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetUsefulLogisticPeopleById(:user_id)";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['id'],
+        'name' => $output['name'],
+        'phone' => $output['phone'],
+        'email' => $output['email'],
+      ];
+    }
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput == [] ? $jsonOutput = ['error' => 'something wrong with db'] : $jsonOutput;
+    return json_encode($jsonOutput);
+  }
+  function LogisticsAddress($user_id)
+  {
+    // $user_id = $_POST['user_id'];
+    $this->db = new Connect;
+    $jsonOutput = [];
+    $sql = "call GetUsefulAddressById(:user_id)";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[] = [
+        'id' => $output['id'],
+        'title' => $output['title'],
+        'address' => $output['address'],
+      ];
+    }
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput == [] ? $jsonOutput = ['error' => 'something wrong with db'] : $jsonOutput;
+    return json_encode($jsonOutput);
+  }
+  function SimpleCheckout(
+    $user_id, 
+    $logistics_people_id,
+    $method_id,
+    $address_id,
+    $record_ids,
+    $time,
+    $amounts
+    )
+  {
+    // $user_id = $_POST['user_id'];
+    $this->db = new Connect;
+    $jsonOutput = [];
+    $sql = "call insertLogisticsById(
+      :user_id, 
+      :logistics_people_id,
+      :method_id,
+      :address_id,
+      :record_ids,
+      :time,
+      :amounts
+    )";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':logistics_people_id', $logistics_people_id, PDO::PARAM_INT);
+    $stmt->bindValue(':method_id', $method_id, PDO::PARAM_INT);
+    $stmt->bindValue(':address_id', $address_id, PDO::PARAM_INT);
+    $stmt->bindValue(':record_ids', $record_ids, PDO::PARAM_STR);
+    $stmt->bindValue(':time', $time, PDO::PARAM_INT);
+    $stmt->bindValue(':amounts', $amounts, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt->closeCursor();
+    $this->db = null;
+    return json_encode(['error' => 'done']);
+  }
+  function ComplicatedCheckout(
+    $user_id, 
+    $county_id,
+    $road,
+    $title,
+    $status_id,
+    $phone,
+    $email,
+    $method_id,
+    $record_ids,
+    $time,
+    $name,
+    $amounts
+    )
+  {
+    // $user_id = $_POST['user_id'];
+    $this->db = new Connect;
+    $jsonOutput = [];
+    $sql = "call insertAllLogistics(
+      :user_id, 
+      :county_id,
+      :road,
+      :title,
+      :status_id,
+      :phone,
+      :email,
+      :method_id,
+      :record_ids,
+      :time,
+      :name,
+      :amounts
+    )";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':county_id', $county_id, PDO::PARAM_INT);
+    $stmt->bindValue(':road', $road, PDO::PARAM_STR);
+    $stmt->bindValue(':title', $title, PDO::PARAM_STR);
+    $stmt->bindValue(':status_id', $status_id, PDO::PARAM_INT);
+    $stmt->bindValue(':phone', $phone, PDO::PARAM_STR);
+    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+    $stmt->bindValue(':method_id', $method_id, PDO::PARAM_INT);
+    $stmt->bindValue(':record_ids', $record_ids, PDO::PARAM_STR);
+    $stmt->bindValue(':time', $time, PDO::PARAM_INT);
+    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+    $stmt->bindValue(':amounts', $amounts, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt->closeCursor();
+    $this->db = null;
+    return json_encode(['error' => 'done']);
+  }
 }
