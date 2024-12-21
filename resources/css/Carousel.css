@@ -1,0 +1,38 @@
+#CarouselCss .Carousel {
+  position: relative;
+  width: 100%;
+}
+
+#CarouselCss .Carousel__railWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+#CarouselCss .Carousel__rail {
+  margin: 0 40px 0 40px;
+  display: grid;
+  position: relative;
+  transition: left 0.5s cubic-bezier(0.2, 1, 0.3, 1) 0s;
+}
+
+.Carousel__btn--prev,
+.Carousel__btn--next {
+  position: absolute;
+  height: 50px;
+  z-index: 9999;
+  cursor: pointer;
+  transform: translateY(-50%);
+  background-color: var(--main-bg-gray);
+  border-radius: 100px;
+  border: none;
+}
+
+#CarouselCss .Carousel__btn--prev {
+  top: 0;
+  top: 50%;
+}
+
+#CarouselCss .Carousel__btn--next {
+  right: 0px;
+  top: 50%;
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { usePage } from '@inertiajs/react';
 import MyStorageItem from './MyStorageItem';
 
-function MyStorage({ id }) {
+function MyStorage({ id, className="" }) {
 
     // function Storage({ stock }) {
     //     let [count, setNumb] = React.useState(0)
@@ -86,7 +86,7 @@ function MyStorage({ id }) {
     return (
         <>
             {/* <!-- 3. 戰利儲藏庫 --> */}
-            <div id={id} className="tab-pane">
+            <div id={id} className={"tab-pane " + className}>
                 <h1>戰利儲藏庫</h1>
                 <div>
                     {/* {response.map((v, index) => {

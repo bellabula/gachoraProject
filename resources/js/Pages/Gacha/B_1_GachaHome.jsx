@@ -81,25 +81,25 @@ function B_1_GachaHome() {
                     </div>
                 </div>
                 {/* <!--標籤連結--> */}
-                <div class="labelitem d-flex justify-content-end">
-                    <div class="ms-1 item"><a href={route('gachatagpage')}>全部商品</a></div>
-                    <div class="ms-1 item"><a href="#">熱門商品</a></div>
-                    <div class="ms-1 item"><a href="#">最新商品</a></div>
-                    <div class="ms-1 item"><a href="#">限時商品</a></div>
+                <div className="labelitem d-flex justify-content-end">
+                    <a className="ms-1 item" href={route('gachatagpage')}><div>全部商品</div></a>
+                    <a className="ms-1 item" href="#"><div >熱門商品</div></a>
+                    <a className="ms-1 item" href="#"><div >最新商品</div></a>
+                    <a className="ms-1 item" href="#"><div >限時商品</div></a>
                 </div>
                 {/* <!--TOP30區--> */}
-                <div class="top30 d-flex flex-wrap justify-content-center">
+                <div className="top30 d-flex flex-wrap justify-content-center">
                     {/* <!--左側大圖--> */}
-                    <div class="ms-5">
-                        <div class="top30BigProduct"></div>
+                    <div className="ms-5">
+                        <div className="top30BigProduct"></div>
                     </div>
                     {/* <!--右側小圖--> */}
-                    <div class="ms-5">
+                    <div className="ms-5">
                         {/* <!--垂直flex--> */}
-                        <div class="d-flex flex-column ">
+                        <div className="d-flex flex-column ">
                             <img src="#"
-                                class="top30ProductImg"></img>
-                            <div class="top30ProductText text-center">
+                                className="top30ProductImg"></img>
+                            <div className="top30ProductText text-center">
                                 【食小福 第一彈】
                                 <br/>
                                     狐狸小穗、貓貓栗子
@@ -107,12 +107,12 @@ function B_1_GachaHome() {
                         </div>
                     </div>
                     {/* <!--右側小圖--> */}
-                    <div class="ms-5 ">
+                    <div className="ms-5 ">
                         {/* <!--垂直flex--> */}
-                        <div class="d-flex flex-column ">
+                        <div className="d-flex flex-column ">
                             <img src="#"
-                                class="top30ProductImg"></img>
-                            <div class="top30ProductText text-center">
+                                className="top30ProductImg"></img>
+                            <div className="top30ProductText text-center">
                                 【食小福 第一彈】
                                 <br/>
                                     狐狸小穗、貓貓栗子
@@ -120,54 +120,54 @@ function B_1_GachaHome() {
                         </div>
                     </div>
                     {/* <!--右側小圖--> */}
-                    <div class="ms-5 ">
+                    <div className="ms-5 ">
                         {/* <!--垂直flex--> */}
-                        <div class="d-flex flex-column ">
+                        <div className="d-flex flex-column ">
                             <img src="#"
-                                class="top30ProductImg"></img>
-                            <div class="top30ProductText text-center">
+                                className="top30ProductImg"></img>
+                            <div className="top30ProductText text-center">
                                 【食小福 第一彈】
-                                <br/>
-                                    狐狸小穗、貓貓栗子
+                                <br />
+                                狐狸小穗、貓貓栗子
                             </div>
                         </div>
                     </div>
                 </div>
                 <section>
-			{/* <!-- 三排滾動區域 --> */}
-			<section class="scroll-container">
-				<br/>
-				<div class="scroll-row">
-					<div class="scroll-content">
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-					</div>
-				</div>
-                <div class="scroll-row">
-					<div class="scroll-content">
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-					</div>
-				</div>
-			</section>
-		</section>
-		<div class="b-example-divider"></div>
+                    {/* <!-- 三排滾動區域 --> */}
+                    <section className="scroll-container">
+                        <br />
+                        <div className="scroll-row">
+                            <div className="scroll-content">
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                            </div>
+                        </div>
+                        <div className="scroll-row">
+                            <div className="scroll-content">
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                            </div>
+                        </div>
+                    </section>
+                </section>
+                <div className="b-example-divider"></div>
             </main>
 
         </>

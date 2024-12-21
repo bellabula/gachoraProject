@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
 import MyOrderLog from './MyOrderLog';
 
-function MyOrder({ id }) {
+function MyOrder({ id, className="" }) {
 
     useEffect(() => {
         // 取得今天的日期，並格式化為 YYYY-MM-DD
@@ -64,7 +64,7 @@ function MyOrder({ id }) {
     return (
         <>
             {/* <!-- 5. 我的訂單 --> */}
-            <div id={id} className="tab-pane">
+            <div id={id} className={"tab-pane " + className}>
                 <p className="h1 d-inline-block me-3">我的訂單</p>
                 <form className="d-inline-block">
                     <input className="date-input orderStartText" type="text" placeholder="起始日" readOnly />

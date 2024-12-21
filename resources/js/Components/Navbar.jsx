@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { useEffect } from 'react';
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none", homepage = false }) {
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none", homepage = false, dCount="none", cartCount=0 }) {
     useEffect(() => {
         if (homepage) {
             $("#bigNavbar-l").css("display", "none")
@@ -73,8 +73,9 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link href={route('shoppingCart')} className="dropdown-item">
+                            <Link href={route('shoppingCart')} className="dropdown-item position-relative">
                                 <img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} />
+                                <span className='cartCount' style={{display:`${dCount}`}}>{cartCount}</span>
                             </Link>
                         </li>
                         {/* 語言切換 */}

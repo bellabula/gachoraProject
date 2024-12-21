@@ -132,7 +132,8 @@ body #lottrybody {
 	border-radius: 30px;
 }
 
-#lottryHome .item {
+#lottryHome .itemtag {
+	color: var(--main-darkblue);
 	height: 50px;
 	width: 10vw;
 	background-color: var(--main-bg-gray);
@@ -143,17 +144,17 @@ body #lottrybody {
 	justify-content: center;
 }
 
-#lottryHome .item:hover {
+#lottryHome .itemtag:hover {
 	background-color: var(--main-yellow);
 	cursor: pointer
 }
 
-#lottryHome .item a {
+#lottryHome .itemtag a {
 	text-decoration: none;
 	color: #365B60;
 }
 
-#lottryHome .item a:hover {
+#lottryHome .itemtag a:hover {
 	text-decoration: none;
 	color: var(--main-darkblue)
 }
@@ -161,8 +162,8 @@ body #lottrybody {
 /*Title*/
 .lottryTitle {
 	text-align: center;
-	margin: 30px;
-	color: var(--main-darkblue);
+	margin: 50px;
+	color: var(--main-bg-gray);
 }
 
 
@@ -172,6 +173,11 @@ body #lottrybody {
 	align-items: center;
 	justify-content: center;
 	height: 50vh;
+
+	h3 {
+		text-align: center;
+		color: var(--main-bg-gray);
+	}
 }
 
 #lottryHome .top30BigProduct {
@@ -179,23 +185,37 @@ body #lottrybody {
 	margin: 0 50px 0 30px;
 	background-color: #FEC265;
 	border-radius: 50px;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50px;
+	}
 }
 
 #lottryHome .top30ProductImg {
 	background-color: #FEC265;
 	height: 40vh;
-	width: 260px;
+	width: 300px;
 	border-radius: 50px;
 
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50px;
+	}
 }
 
 #lottryHome .top30ProductText {
-	font-size: 20px;
+	font-size: 24px;
 	color: var(--main-bg-gray);
 	margin: 10px;
+	width: 300px;
 }
 
-.carousel-wrapper {
+#lottryHome .carousel-wrapper {
 	position: relative;
 	overflow: hidden;
 	width: 90%;
@@ -204,21 +224,19 @@ body #lottrybody {
 	margin: 0;
 }
 
-.carousel-items {
+#lottryHome .carousel-items {
 	display: flex;
 	transition: transform 0.3s ease;
 }
 
-.top10item {
+#lottryHome .top10item {
 	width: 100%;
 	height: 90%;
 	text-align: center;
 	box-sizing: border-box;
-
-	margin: 0 20px 0 20px;
 }
 
-.carousel-btn {
+#lottryHome .carousel-btn {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
@@ -229,37 +247,42 @@ body #lottrybody {
 	z-index: 10;
 }
 
-.left {
+#lottryHome .left {
 	left: 0;
 }
 
-.right {
+#lottryHome .right {
 	right: 0;
 }
 
-/*扭蛋牆*/
+/*票卷牆*/
 #lottryHome .scroll-container {
 	width: 100%;
-	margin: 0;
-	background-color: #e0e0e0;
-	padding: 0px;
+	margin: 50px 0 50px 0;
+	background-color: var(--main-bg-gray);
+	padding: 50px 0 50px 0;
 
 }
 
 /* 設定每排滾動區域 */
 #lottryHome .scroll-row {
-	/* 隱藏溢出內容 */
 	overflow: hidden;
 	margin-bottom: 20px;
-	/* 排與排之間的間距 */
 }
 
 /* 設定滾動內容樣式 */
 #lottryHome .scroll-content {
+	width: 200%;
 	display: flex;
 	flex-wrap: nowrap;
+}
+
+#lottryHome .scroll-content.top {
+	animation: scroll-horizontal 20s linear infinite;
+}
+
+#lottryHome .scroll-content.bottom {
 	animation: scroll-horizontal 15s linear infinite;
-	/* 加入無限循環動畫 */
 }
 
 /* 設定每個項目 */
@@ -267,7 +290,6 @@ body #lottrybody {
 	position: relative;
 	width: 350px;
 	height: 200px;
-	box-shadow: 1px 5px 5px #a3a1a1;
 	background-color: none;
 	margin: 0 10px;
 	display: flex;
@@ -279,21 +301,24 @@ body #lottrybody {
 
 #lottryHome .GachaWall img {
 	position: absolute;
-	top: 0;
-	left: 0;
+	top: 5px;
+	left: 35px;
 	filter: grayscale(50%);
 	transition: filter 0.5s ease;
 }
 
 #lottryHome .img1 {
 	z-index: 1;
-	width: 100%;
+	width: 50%;
 	height: 100%;
+	background-color: none;
 }
 
 #lottryHome .img2 {
 	z-index: 0;
-	width: 100%;
+	width: 72%;
+	height: 90%;
+	object-fit: cover;
 	border-radius: 30px;
 }
 
@@ -309,11 +334,67 @@ body #lottrybody {
 
 	100% {
 		transform: translateX(-50%);
-		/* 滾動到一半，讓它看起來無縫 */
 	}
 }
 
 /* 滑鼠懸停時暫停動畫 */
 #lottryHome .scroll-row:hover .scroll-content {
 	animation-play-state: paused;
+}
+
+/*強檔活動*/
+@keyframes float {
+
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-30px);
+	}
+}
+
+/* 輪播容器樣式 */
+#lottryHome .carousel-wrapper {
+	display: flex;
+	overflow: hidden;
+}
+
+#lottryHome .itembottom {
+	flex: 0 0 auto;
+	width: auto;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+/* 按鈕樣式 */
+#lottryHome .carousel-btn {
+	top: 35%;
+	height: 50px;
+	position: absolute;
+	z-index: 10;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	border-radius: 50%;
+}
+
+#lottryHome .carousel-btn.left {
+	left: 10px;
+}
+
+#lottryHome .carousel-btn.right {
+	right: 10px;
+}
+
+#lottryHome .texttext {
+	width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+	display: "block";
+}
+
+#lottryHome .item {
+	text-align: center;
 }

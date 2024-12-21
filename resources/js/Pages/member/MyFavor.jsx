@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { usePage } from '@inertiajs/react';
 
 
-function MyFavor({ id }) {
+function MyFavor({ id, className="" }) {
 
     const user = usePage().props.auth.user;
     let user_id = user.id
@@ -41,7 +41,7 @@ function MyFavor({ id }) {
     return (
         <>
             {/* <!-- 2. 收藏清單 --> */}
-            <div id={id} className="tab-pane">
+            <div id={id} className={"tab-pane " + className}>
                 <div className="favor-section">
                     <ul className="nav nav-pills justify-content-center nav-justified">
                         <li className="nav-item">
@@ -58,7 +58,7 @@ function MyFavor({ id }) {
                         {typeof (gachoFavor) != "undefined" ?
                             <div className="row  row-gap-2">
                                 {gachoFavor.map((v, index) => (
-                                    <MyFavorCard key={index} src={v.img} href={'gachadetail?seriesId=' + v.id} />
+                                    <MyFavorCard key={index} src={v.img[0]} href={'gachadetail?seriesId=' + v.id} />
                                 ))}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋收藏... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></h4>}
                     </div>
