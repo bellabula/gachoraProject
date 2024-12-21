@@ -6,28 +6,10 @@ import { useState, useEffect } from 'react';
 
 
 function C_2_LottryTagPage() {
-    // 假資料
-    // const [allProducts] = useState([
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$100", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$120", img: "https://via.placeholder.com/301x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$50", img: "https://via.placeholder.com/302x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "最新商品", seriesName: "系列名", productName: "最新商品", productPrice: "$60", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$30", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "限時商品", seriesName: "系列名", productName: "限時商品", productPrice: "$40", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "玩具", seriesName: "系列名", productName: "玩具1", productPrice: "$20", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "玩具", seriesName: "系列名", productName: "玩具2", productPrice: "$25", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" },
-    //     { category: "熱門商品", seriesName: "系列名", productName: "熱門商品", productPrice: "$110", img: "https://via.placeholder.com/300x200", img2: "https://via.placeholder.com/500x700" }
-    // ]);
-
     const [allProducts, setAllProducts] = useState([]);
     const [error, setError] = useState(null);
 
     let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
-    fetch(url)
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.log(error));
-
     React.useEffect(function () {
         console.log("Fetching data...");
         const callAPI = async function () {
@@ -128,7 +110,7 @@ function C_2_LottryTagPage() {
                                         <span>
                                             商品排序 ▼
                                         </span>
-                                        <ul className="detail-dropdown-menu" style={{zIndex:"9999", cursor:"pointer"}}>
+                                        <ul className="detail-dropdown-menu" style={{ zIndex: "9999", cursor: "pointer" }}>
                                             <li>【價格】由高至低</li>
                                             <li>【價格】由低至高</li>
                                         </ul>
@@ -152,6 +134,7 @@ function C_2_LottryTagPage() {
                                                 key={index}
                                                 seriesId={product.series_id}
                                                 pdName={product.name}
+                                                pdTitle={product.title}
                                                 pdPrice={product.price}
                                                 pdQuantity={product.remain}
                                                 pdTotal={product.total}

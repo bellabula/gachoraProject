@@ -101,8 +101,8 @@ function B_1_GachaHome() {
                                 className="top30ProductImg"></img>
                             <div className="top30ProductText text-center">
                                 【食小福 第一彈】
-                                <br />
-                                狐狸小穗、貓貓栗子
+                                <br/>
+                                    狐狸小穗、貓貓栗子
                             </div>
                         </div>
                     </div>
@@ -114,8 +114,8 @@ function B_1_GachaHome() {
                                 className="top30ProductImg"></img>
                             <div className="top30ProductText text-center">
                                 【食小福 第一彈】
-                                <br />
-                                狐狸小穗、貓貓栗子
+                                <br/>
+                                    狐狸小穗、貓貓栗子
                             </div>
                         </div>
                     </div>
