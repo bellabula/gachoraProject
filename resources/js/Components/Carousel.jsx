@@ -28,25 +28,23 @@ const Carousel = ({ cols = 1, gap = 0, children }) => {
     const handleNext = useCallback(() => {
         setCurrentPage(p => p + 1)
     }, [])
-   console.log(gap)
 
     return (
         <div className="Carousel" id='CarouselCss'>
-
             <div className="Carousel__railWrapper">
-            <button
-                className="Carousel__btn--prev"
-                hidden={currentPage <= 0}
-                onClick={handlePrev}>
-                <img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" alt="" />
-            </button>
+                <button
+                    className="Carousel__btn--prev"
+                    hidden={currentPage <= 0}
+                    onClick={handlePrev}>
+                    <img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" alt="" />
+                </button>
                 <div
                     className="Carousel__rail"
                     style={{
                         gridTemplateColumns: `repeat(${page}, 100%)`,
                         left: `calc(${-100 * currentPage}% - ${gap * currentPage}px)`,
                         gridColumnGap: `${gap}px`,
-                        width:'100%'
+                        width: '100%'
                     }}
                 >
                     {itemSetList.map((set, i) => (
@@ -57,7 +55,7 @@ const Carousel = ({ cols = 1, gap = 0, children }) => {
                                 display: 'grid',
                                 gridTemplateColumns: `repeat(${cols}, 1fr)`,
                                 gridGap: `${gap}px`,
-                                width:'100%'
+                                width: '100%'
                             }}
                         >
                             {set}
@@ -65,11 +63,11 @@ const Carousel = ({ cols = 1, gap = 0, children }) => {
                     ))}
                 </div>
                 <button
-                className="Carousel__btn--next"
-                hidden={currentPage === page - 1}
-                onClick={handleNext}>
-                <img src="http://localhost/gachoraProject/public/images/arrowRight.svg" alt="" />
-            </button>
+                    className="Carousel__btn--next"
+                    hidden={currentPage === page - 1}
+                    onClick={handleNext}>
+                    <img src="http://localhost/gachoraProject/public/images/arrowRight.svg" alt="" />
+                </button>
             </div>
 
         </div>

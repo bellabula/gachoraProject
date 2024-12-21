@@ -101,8 +101,8 @@ function B_1_GachaHome() {
                                 class="top30ProductImg"></img>
                             <div class="top30ProductText text-center">
                                 【食小福 第一彈】
-                                <br/>
-                                    狐狸小穗、貓貓栗子
+                                <br />
+                                狐狸小穗、貓貓栗子
                             </div>
                         </div>
                     </div>
@@ -114,8 +114,8 @@ function B_1_GachaHome() {
                                 class="top30ProductImg"></img>
                             <div class="top30ProductText text-center">
                                 【食小福 第一彈】
-                                <br/>
-                                    狐狸小穗、貓貓栗子
+                                <br />
+                                狐狸小穗、貓貓栗子
                             </div>
                         </div>
                     </div>
@@ -127,47 +127,47 @@ function B_1_GachaHome() {
                                 class="top30ProductImg"></img>
                             <div class="top30ProductText text-center">
                                 【食小福 第一彈】
-                                <br/>
-                                    狐狸小穗、貓貓栗子
+                                <br />
+                                狐狸小穗、貓貓栗子
                             </div>
                         </div>
                     </div>
                 </div>
                 <section>
-			{/* <!-- 三排滾動區域 --> */}
-			<section class="scroll-container">
-				<br/>
-				<div class="scroll-row">
-					<div class="scroll-content">
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-					</div>
-				</div>
-                <div class="scroll-row">
-					<div class="scroll-content">
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-                        <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"/>
-					</div>
-				</div>
-			</section>
-		</section>
-		<div class="b-example-divider"></div>
+                    {/* <!-- 三排滾動區域 --> */}
+                    <section class="scroll-container">
+                        <br />
+                        <div class="scroll-row">
+                            <div class="scroll-content">
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                            </div>
+                        </div>
+                        <div class="scroll-row">
+                            <div class="scroll-content">
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                                <GachaWallItem src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg" />
+                            </div>
+                        </div>
+                    </section>
+                </section>
+                <div class="b-example-divider"></div>
             </main>
 
         </>

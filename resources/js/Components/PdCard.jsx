@@ -5,7 +5,7 @@ import { Link } from '@inertiajs/react';
 // import React from 'react'
 
 
-function PdCard({seriesId, pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName, bPrizeName, cPrizeName, img = '', aRemain, aTotal, bRemain, bTotal, cRemain, cTotal }) {
+function PdCard({ seriesId, pdTitle, pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aPrizeName, bPrizeName, cPrizeName, img = '', aRemain, aTotal, bRemain, bTotal, cRemain, cTotal }) {
 
     const [isActive, setIsActive] = useState(false);
     const [newclass, setNewclass] = useState("")
@@ -47,6 +47,7 @@ function PdCard({seriesId, pdName, pdQuantity, pdTotal, pdPrice, pdAvailable, aP
                     </div>
                 </div>
                 {/* <!-- 商品名稱 --> */}
+                <h5 className="product-name">{pdTitle}</h5>
                 <h3 className="product-name">{pdName}</h3>
             </div>
         </div >

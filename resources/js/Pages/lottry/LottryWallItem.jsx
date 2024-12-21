@@ -8,8 +8,8 @@ function LottryWallItem({ src }) {
                 style={{
                     backgroundImage: 'url(http://localhost/gachoraProject/public/images/gachoHome/一番賞票卡框.svg)',
                     backgroundSize: 'contain',
-                    width: '800px',
-                    height: '350px',
+                    width: '350px',
+                    height: '350px'
                 }}
             />
             <img class="img2" src={src} />
