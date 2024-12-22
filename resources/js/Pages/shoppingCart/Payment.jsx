@@ -19,12 +19,12 @@ function Checkout({ id, display = "block"}) {
             $.post(url, {
                 user_id
             }, (response) => {
-                console.log('會員資料：', response)
+                // console.log('會員資料：', response)
                 setUserInfo(response)
             })
         },[user_id]
         )
-        console.log('userinfo:',(userInfo[0] != undefined)? userInfo[0].name : userInfo.name)
+        // console.log('userinfo:',(userInfo[0] != undefined)? userInfo[0].name : userInfo.name)
     return (
         <>
             {/* <Head title="paymentInfo" /> */}

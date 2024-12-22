@@ -39,10 +39,10 @@ function Cart() {
         $.post(url, {
             record_id: itemId
         }, (response) => {
-            console.log('ToCart：', response)
+            // console.log('ToCart：', response)
         })
         setRerender((prev) => prev + 1)
-        console.log("ToCart+1:"+rerender)
+        // console.log("ToCart+1:"+rerender)
     }
 
     function handleBackStorage(itemId) {
@@ -50,10 +50,10 @@ function Cart() {
         $.post(url, {
             record_id: itemId
         }, (response) => {
-            console.log('ToBag：', response)
+            // console.log('ToBag：', response)
         })
         setRerender((prev) => prev + 1)
-        console.log("BackStorage+1:"+rerender)
+        // console.log("BackStorage+1:"+rerender)
     }
 
     function checkout() {
