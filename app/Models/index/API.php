@@ -27,7 +27,7 @@ class API
   }
   public function fetchEggData($user_id)
   {
-    return $this->fetchData($user_id, 1, 'mapEggCard');
+    return $this->fetchData($user_id, 1);
   }
 
   /**
@@ -43,39 +43,45 @@ class API
   }
   public function fetchIchibanData($user_id)
   {
-    return $this->fetchData($user_id, 2, 'mapIchibanCard');
+    return $this->fetchData($user_id, 2);
   }
   /**
    * 執行sql
    */
-  private function fetchData($user_id, $categoryId, $mapFunction)
+  private function fetchData($user_id, $categoryId)
   {
     $jsonOutput = [];
+
     $sql = $user_id ?
       "call GetAllCardbyUserAndCategoryId(:user_id, :categoryId)" :
       "call GetAllCardbyCategoryId(:categoryId)";
+      
     $stmt = $this->db->prepare($sql);
     if ($user_id) $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
     $stmt->execute();
 
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput[$output['series_id']] = $this->$mapFunction($output, $user_id);
+      $jsonOutput[$output['series_id']] = $this->mapCard($output);
     }
     $stmt->closeCursor();
+
     $this->fetchSeriesImages($this->db, $jsonOutput);
+    // 一番賞需要的商品卡訊息
     if ($categoryId == 2) {
       $this->fetchIchibanSeriesTotalInfo($this->db, $jsonOutput);
       $this->fetchIchibanCharacterInfo($this->db, $jsonOutput);
     }
     $this->db = null;
-    return json_encode(array_values($jsonOutput));
+    return json_encode(array_values(array_filter($jsonOutput)));
   }
-
+  /**
+   * 系列照
+   */
   private function fetchSeriesImages($db, &$jsonOutput)
   {
     foreach ($jsonOutput as $series_id => &$item) {
-      $sql = "SELECT * FROM vw_series_img WHERE series_id = :series_id";
+      $sql = "select series_img from vw_series_img WHERE series_id = :series_id";
       $stmt = $db->prepare($sql);
       $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt->execute();
@@ -87,7 +93,9 @@ class API
       $item['img'] = $img;
     }
   }
-
+  /**
+   * 一番賞分類角色
+   */
   private function fetchIchibanCharacterInfo($db, &$jsonOutput)
   {
     foreach ($jsonOutput as $series_id => &$item) {
@@ -101,11 +109,49 @@ class API
           'prize' => $output['prize'],
           'name' => $output['name'],
           'remain' => $output['remain'],
-          'total' => $output['amount']
+          'total' => $output['amount'],
+          'img' => [],
+          'size' => [],
+          'material' => [],
+        ];
+      }
+
+      $stmt->closeCursor();
+      if (isset($item['character'])) {
+        $item['character'] = array_merge($item['character'], $character);
+        } else {
+            $item['character'] = $character;
+        }
+      }
+  }
+  /**
+   * 執行一番賞角色詳細資訊
+   */
+  private function fetchIchibanCharacterInfoDetail($db, &$jsonOutput)
+  {
+    foreach ($jsonOutput as $series_id => &$item) {
+      $sql = "select character_img, size, material from vw_detail where series_id = :series_id";
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      $stmt->execute();
+      $details = [];
+      while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $details[] = [
+          'img' => 'http://localhost/gachoraProject/public/images' . $output['character_img'],
+          'size' => $output['size'],
+          'material' => $output['material'],
         ];
       }
       $stmt->closeCursor();
-      $item['character'] = $character;
+      if (isset($item['character'])) {
+        foreach ($item['character'] as $index => &$character) {
+          if (isset($details[$index])) {
+              $character['img'] = $details[$index]['img'] ?? '';
+              $character['size'] = $details[$index]['size'] ?? '';
+              $character['material'] = $details[$index]['material'] ?? '';
+          }
+        }
+      }
     }
   }
   /**
@@ -118,45 +164,44 @@ class API
       $stmt = $db->prepare($sql);
       $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
       $stmt->execute();
-      $tmp = [];
+      $partOfJsonOutput = [];
       while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $tmp = [
+        $partOfJsonOutput = [
           'remain' => $output['all_remain'],
           'total' => $output['all_amount']
         ];
       }
       $stmt->closeCursor();
-      $item = [...$item, ...$tmp];
+      $item = [...$item, ...$partOfJsonOutput];
     }
   }
   /**
    * 印出資料
    */
-  private function mapEggCard($output, $user_id)
+  // private function mapEggCard($output, $user_id)
+  // {
+  //   return $this->mapCard($output, $user_id);
+  // }
+  // private function mapIchibanCard($output, $user_id)
+  // {
+  //   return $this->mapCard($output, $user_id);
+  // }
+  private function mapCard($output)
   {
-    return $this->mapCard($output, $user_id);
-  }
-  private function mapIchibanCard($output, $user_id)
-  {
-    return $this->mapCard($output, $user_id);
-  }
-  private function mapCard($output, $user_id)
-  {
-    $data = [
-      'series_id' => $output['series_id'],
-      'theme' => $output['theme'] ?? '',
-      'title' => $output['series_title'] ?? '',
-      'name' => $output['name'] ?? '',
-      'price' => $output['price'] ?? '',
-      'amount' => $output['amount'] ?? '',
-      'rank' => $output['rank'] ?? '',
-      'rare' => $output['rare'] ?? '',
-      'series_label' => $output['series_label'] ?? '',
-      'release_time' => $output['release_time'] ?? '',
-      'img' => [],
-      'character' => []
-    ];
-    if ($user_id) $data['collected'] = $output['collected'] ?? '';
+    $data = [];
+    if (isset($output['series_id'])) $data['series_id'] = $output['series_id'];
+    if (isset($output['theme'])) $data['theme'] = $output['theme'];
+    if (isset($output['series_title'])) $data['title'] = $output['series_title'];
+    if (isset($output['name'])) $data['name'] = $output['name'];
+    if (isset($output['price'])) $data['price'] = $output['price'];
+    if (isset($output['amount'])) $data['amount'] = $output['amount'];
+    if (isset($output['rank'])) $data['rank'] = $output['rank'];
+    if (isset($output['rare'])) $data['rare'] = $output['rare'];
+    if (isset($output['series_label'])) $data['series_label'] = $output['series_label'];
+    if (isset($output['release_time'])) $data['release_time'] = $output['release_time'];
+    if (isset($output['collected'])) $data['collected'] = $output['collected'];
+    $data['img'] = [];
+    $data['character'] = [];
     return $data;
   }
   // ---------
@@ -668,139 +713,164 @@ class API
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
+
   // 賞詳細post
   function IchibanDetail($series_id)
   {
-    $series_id = $_POST['series_id'];
-    $this->db = new Connect;
     $jsonOutput = [];
-    $theme = '';
-    $sql1 = "select series_id, theme_id, theme, series_title, name, price from vw_ichiban where series_id = :series_id";
-    $stmt1 = $this->db->prepare($sql1);
-    $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
-      $stmt2 = $this->db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
-      }
-      // 數量
-      $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt3 = $this->db->prepare($sql3);
-      $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt3->execute();
-      while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
-        $array0 = [
-          'remain' => $output3['all_remain'],
-          'total' => $output3['all_amount']
-        ];
-      }
-      //character
-      $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt4 = $this->db->prepare($sql4);
-      $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt4->execute();
-      $character = [];
-      while ($output4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
-        $array1[] = [
-          'prize' => $output4['prize'],
-          'name' => $output4['name'],
-          'remain' => $output4['remain'],
-          'total' => $output4['amount']
-        ];
-      }
-      $sql5 = "select character_img, size, material from vw_detail where series_id = :series_id";
-      $stmt5 = $this->db->prepare($sql5);
-      $stmt5->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt5->execute();
-      $character = [];
-      while ($output5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
-        $array2[] = [
-          'img' => 'http://localhost/gachoraProject/public/images' . $output5['character_img'],
-          'size' => $output5['size'],
-          'material' => $output5['material'],
-        ];
-      }
-      foreach ($array1 as $index => $element) {
-        $character[] = array_merge($element, $array2[$index]);
-      }
-      $theme = $output1['theme'];
-      $array3 = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'img' => $img,
-        'character' => $character
-      ];
-      $jsonOutput['series'] = array_merge($array0, $array3);
+    $theme_id = '';
+    $series_id = $_POST['series_id'];
+    $jsonOutput = [];
+    $sql = "select series_id, theme_id, theme, series_title, name, price from vw_ichiban where series_id = :series_id";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[$output['series_id']] = $this->mapCard($output);
+      $theme_id = $output['theme_id'];
     }
+    $stmt->closeCursor();
+    // fetchIchibanDetail
+    // $sql1 = "select series_id, theme_id, theme, series_title, name, price from vw_ichiban where series_id = :series_id";
+    // $stmt1 = $this->db->prepare($sql1);
+    // $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    // $stmt1->execute();
+    $this->fetchSeriesImages($this->db, $jsonOutput);
+
+    // while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+    //   $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
+    //   $stmt2 = $this->db->prepare($sql2);
+    //   $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    //   $stmt2->execute();
+    //   $img = [];
+    //   while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+    //     $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
+    //   }
+    $this->fetchIchibanSeriesTotalInfo($this->db, $jsonOutput);
+    // 數量fetchIchibanSeriesTotalInfo
+    // $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
+    // $stmt3 = $this->db->prepare($sql3);
+    // $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    // $stmt3->execute();
+    // while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+    //   $array0 = [
+    //     'remain' => $output3['all_remain'],
+    //     'total' => $output3['all_amount']
+    //   ];
+    // }
+    $this->fetchIchibanCharacterInfo($this->db, $jsonOutput);
+    //character: fetchIchibanCharacterInfo
+    // $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
+    // $stmt4 = $this->db->prepare($sql4);
+    // $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    // $stmt4->execute();
+    // $character = [];
+    // while ($output4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
+    //   $array1[] = [
+    //     'prize' => $output4['prize'],
+    //     'name' => $output4['name'],
+    //     'remain' => $output4['remain'],
+    //     'total' => $output4['amount']
+    //   ];
+    // }
+    $this->fetchIchibanCharacterInfoDetail($this->db, $jsonOutput);
+    // fetchIchibanCharacterInfoDetail
+    // $sql5 = "select character_img, size, material from vw_detail where series_id = :series_id";
+    // $stmt5 = $this->db->prepare($sql5);
+    // $stmt5->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    // $stmt5->execute();
+    // $character = [];
+    // while ($output5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
+    //   $array2[] = [
+    //     'img' => 'http://localhost/gachoraProject/public/images' . $output5['character_img'],
+    //     'size' => $output5['size'],
+    //     'material' => $output5['material'],
+    //   ];
+    // }
+    //   foreach ($array1 as $index => $element) {
+    //     $character[] = array_merge($element, $array2[$index]);
+    //   }
+    //   $theme = $output1['theme'];
+    //   $array3 = [
+    //     'series_id' => $output1['series_id'],
+    //     'theme' => $output1['theme'],
+    //     'title' => $output1['series_title'],
+    //     'name' => $output1['name'],
+    //     'price' => $output1['price'],
+    //     'img' => $img,
+    //     'character' => $character
+    //   ];
+    //   $jsonOutput['series'] = array_merge($array0, $array3);
+    // }
+    if (!empty($jsonOutput)) {
+      $jsonOutput = ['series' => reset($jsonOutput)];
+    }
+    // 已抽籤號
+    $sql = "call GetLabelById(:series_id)";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput['label'][] = $output['label'];
+    }
+    $stmt->closeCursor();
     // 賞主題推薦
-    $sql1 = "select * from vw_Ichiban where theme = :theme limit 10";
-    $stmt1 = $this->db->prepare($sql1);
-    $stmt1->bindValue(':theme', $theme, PDO::PARAM_STR);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_id = $output1['series_id'];
-      $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
-      $stmt2 = $this->db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
-      }
-      $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
-      $stmt4 = $this->db->prepare($sql4);
-      $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt4->execute();
-      $character = [];
-      while ($output4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
-        $character[] = [
-          'prize' => $output4['prize'],
-          'name' => $output4['name'],
-          'remain' => $output4['remain'],
-          'total' => $output4['amount']
-        ];
-      }
-      $array5 = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'img' => $img,
-        'character' => $character
-      ];
+    $sql = "select * from vw_Ichiban where theme_id = :theme_id limit 10";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':theme_id', $theme_id, PDO::PARAM_STR);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput['recommend'][$output['series_id']] = $this->mapCard($output);
+      $this->fetchSeriesImages($this->db, $jsonOutput['recommend']);
+      // $sql2 = "select * from vw_IchibanImg where series_id = :series_id";
+      // $stmt2 = $this->db->prepare($sql2);
+      // $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      // $stmt2->execute();
+      // $img = [];
+      // while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+      //   $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
+      // }
+      $this->fetchIchibanCharacterInfo($this->db, $jsonOutput['recommend']);
+      // $sql4 = "select prize, name, remain, amount from vw_RemainTotal where series_id = :series_id";
+      // $stmt4 = $this->db->prepare($sql4);
+      // $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      // $stmt4->execute();
+      // $character = [];
+      // while ($output4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
+      //   $character[] = [
+      //     'prize' => $output4['prize'],
+      //     'name' => $output4['name'],
+      //     'remain' => $output4['remain'],
+      //     'total' => $output4['amount']
+      //   ];
+      // }
+      // $array5 = [
+      //   'series_id' => $output1['series_id'],
+      //   'theme' => $output1['theme'],
+      //   'title' => $output1['series_title'],
+      //   'name' => $output1['name'],
+      //   'price' => $output1['price'],
+      //   'img' => $img,
+      //   'character' => $character
+      // ];
+      $this->fetchIchibanSeriesTotalInfo($this->db, $jsonOutput['recommend']);
       // 數量
-      $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
-      $stmt3 = $this->db->prepare($sql3);
-      $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt3->execute();
-      while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
-        $array3 = [
-          'remain' => $output3['all_remain'],
-          'total' => $output3['all_amount']
-        ];
-      }
-      $jsonOutput['recommend'][] = array_merge($array3, $array5);
-      // 已抽籤號
-      $sql = "call GetLabelById(:series_id)";
-      $stmt = $this->db->prepare($sql);
-      $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt->execute();
-      while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $jsonOutput['label'][] = $output['label'];
-      }
+      // $sql3 = "select all_remain, all_amount from vw_IchibanRemainTotal where series_id = :series_id";
+      // $stmt3 = $this->db->prepare($sql3);
+      // $stmt3->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      // $stmt3->execute();
+      // while ($output3 = $stmt3->fetch(PDO::FETCH_ASSOC)) {
+      //   $array3 = [
+      //     'remain' => $output3['all_remain'],
+      //     'total' => $output3['all_amount']
+      //   ];
+      // }
+      // $jsonOutput['recommend'][] = array_merge($array3, $array5);
     }
+    $jsonOutput['recommend'] = array_values($jsonOutput['recommend']);
     $this->db = null;
-    if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode($jsonOutput);
+    // if ($jsonOutput == []) $jsonOutput = [];
+    return json_encode(array_filter($jsonOutput));
   }
   function User($user_id)
   {
@@ -862,7 +932,7 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['egg'][] = [
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
+        'img' => !empty($output['img']) ? 'http://localhost/gachoraProject/public/images/' . $output['img'] : ''
       ];
     }
     $stmt->closeCursor();
@@ -872,7 +942,7 @@ class API
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['ichiban'][] = [
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img']
+        'img' => !empty($output['img']) ? 'http://localhost/gachoraProject/public/images/' . $output['img'] : ''
       ];
     }
     $stmt->closeCursor();
@@ -908,7 +978,7 @@ class API
       $stmt1->execute();
       $img = [];
       while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output1['img'];
+        $img[] = !empty($output1['img']) ? 'http://localhost/gachoraProject/public/images/' . $output1['img'] : '';
       }
       $stmt1->closeCursor();
       foreach ($jsonOutput['has'] as &$item) {
@@ -941,7 +1011,7 @@ class API
       $stmt1->execute();
       $img = [];
       while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output1['img'];
+        $img[] = !empty($output1['img']) ? 'http://localhost/gachoraProject/public/images/' . $output1['img'] : '';
       }
       $stmt1->closeCursor();
       foreach ($jsonOutput['no'] as &$item) {
@@ -983,7 +1053,7 @@ class API
       $stmt1->execute();
       $img = [];
       while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output1['img'];
+        $img[] = !empty($output1['img']) ? 'http://localhost/gachoraProject/public/images/' . $output1['img'] : '';
       }
       $stmt1->closeCursor();
       foreach ($jsonOutput['has'] as &$item) {
@@ -1016,7 +1086,7 @@ class API
       $stmt1->execute();
       $img = [];
       while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output1['img'];
+        $img[] = !empty($output1['img']) ? 'http://localhost/gachoraProject/public/images/' . $output1['img'] : '';
       }
       $stmt1->closeCursor();
       foreach ($jsonOutput['no'] as &$item) {
@@ -1065,7 +1135,7 @@ class API
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput[] = [
         'id' => $output['record_id'],
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'],
+        'img' => !empty($output['img']) ? 'http://localhost/gachoraProject/public/images/' . $output['img'] : '',
         'series_title' => $output['title'],
         'series' => $output['series'],
         'name' => $output['name'],
@@ -1263,7 +1333,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
+        'img' => !empty($output['img']) ? 'http://localhost/gachoraProject/public/images/' . $output['img'] : '',
         'amount' => $output['amount'] ?? ''
       ];
     }
@@ -1387,7 +1457,7 @@ class API
       $jsonOutput[] = [
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
-        'img' => 'http://localhost/gachoraProject/public/images' . $output['img'] ?? '',
+        'img' => !empty($output['img']) ? 'http://localhost/gachoraProject/public/images/' . $output['img'] : '',
         'amount' => $output['amount'] ?? ''
       ];
     }
@@ -1400,7 +1470,7 @@ class API
   {
     $series_id = $_POST['series_id'];
     $this->db = new Connect;
-    $tmp = [];
+    $jsonOutput = [];
     $sql = "call GetLabelById(:series_id)";
     $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
@@ -1411,6 +1481,7 @@ class API
     $stmt->closeCursor();
     $this->db = null;
     return $jsonOutput;
+
   }
   function MyTimer($user_id)
   {
