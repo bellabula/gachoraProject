@@ -17,7 +17,8 @@ try {
     $labelArray = array_map('intval', $labelarray);
     // 重複取消
     $tmp = $API->GetLabels($series_id);
-    $label = array_diff($labelarray, $tmp);
+    if ($tmp === null) $tmp = []; 
+    $label = array_diff(array_values($labelarray), array_values($tmp));
     $amounts = count($label);
     $label = $string = json_encode(array_map('strval', $label));
     // echo json_encode($label);
