@@ -1,11 +1,11 @@
 import Navbar from '@/Components/Navbar';
 import LottryWallItem from '@/Pages/lottry/LottryWallItem';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import PdCard from '@/Components/PdCard';
 import Carousel from '@/Components/Carousel'
 
-function C_1_LottryHome({ seriesId }) {
+function C_1_LottryHome() {
 
     //叫資料
     const [allProducts, setallProducts] = useState([]);
@@ -30,8 +30,30 @@ function C_1_LottryHome({ seriesId }) {
         callAPI();
     }, [])
     if (error) return <div>Error: {error}</div>;
+    //導入會員資料
+    const user = usePage().props.auth.user;
+    const basePath = '../app/Models'
+    const [userFavor, setUerFavor] = useState([]);
+    if (user) {
+        const user_id = user.id
+        let collectEgg = [];
+        useEffect(() => {
+            $.post(basePath + '/Post/UserCollectionEgg.php', {
+                user_id: user_id
+            }, (response) => {
+                if (typeof (response.has) != "undefined") {
+                    collectEgg = [...response.has]
+                }
+                if (typeof (response.no) != "undefined") {
+                    collectEgg = [...collectEgg, ...response.no]
+                }
+                setUerFavor(collectEgg.map(item => item.id))
+                // console.log(userFavor)
+                // console.log('蛋收藏：', [...response.has, ...response.no])
+            })
+        }, [user_id])
+    }
 
-    console.log()
     //top10
     const top10Products = allProducts
         .sort((a, b) => b.rank - a.rank)
@@ -103,6 +125,7 @@ function C_1_LottryHome({ seriesId }) {
         };
     }, []);
 
+    //top10大圖自動輪播
     const [currentIndex, setCurrentIndex] = useState(0);
     useEffect(() => {
         const interval = setInterval(() => {
@@ -154,7 +177,6 @@ function C_1_LottryHome({ seriesId }) {
                                 <li>
                                     <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 5" />
                                 </li>
-
                             </ul>
                             <button className="carousel-btn right"
                                 id="rightButton"><img src="http://localhost/gachoraProject/public/images/arrowRight.svg"
@@ -270,6 +292,7 @@ function C_1_LottryHome({ seriesId }) {
                                             cPrizeName={product.character?.[2]?.name || 0}
                                             cRemain={product.character?.[2]?.remain || 0}
                                             cTotal={product.character?.[2]?.total || 0}
+                                            userFavor={userFavor}
                                             img={product.img[0]}>
                                         </PdCard>
                                     </div>

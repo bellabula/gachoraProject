@@ -236,25 +236,6 @@ body #lottrybody {
 	box-sizing: border-box;
 }
 
-#lottryHome .carousel-btn {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	color: white;
-	border: none;
-	padding: 10px;
-	cursor: pointer;
-	z-index: 10;
-}
-
-#lottryHome .left {
-	left: 0;
-}
-
-#lottryHome .right {
-	right: 0;
-}
-
 /*票卷牆*/
 #lottryHome .scroll-container {
 	width: 100%;
@@ -355,39 +336,7 @@ body #lottrybody {
 	}
 }
 
-/* 輪播容器樣式 */
-#lottryHome .carousel-wrapper {
-	display: flex;
-	overflow: hidden;
-}
-
-#lottryHome .itembottom {
-	flex: 0 0 auto;
-	width: auto;
-	padding: 10px;
-	box-sizing: border-box;
-}
-
-/* 按鈕樣式 */
-#lottryHome .carousel-btn {
-	top: 35%;
-	height: 50px;
-	position: absolute;
-	z-index: 10;
-	border: none;
-	padding: 10px;
-	cursor: pointer;
-	border-radius: 50%;
-}
-
-#lottryHome .carousel-btn.left {
-	left: 10px;
-}
-
-#lottryHome .carousel-btn.right {
-	right: 10px;
-}
-
+/* 底部樣式 */
 #lottryHome .texttext {
 	width: 100%;
 	padding: 20px;
