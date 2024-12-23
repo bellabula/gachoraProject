@@ -169,6 +169,7 @@
             user_id: user_id,
             series_id: series_id
         }, (response) => {
+            console.log(response)
             FrontTime(series_id, response[0].yournumber, response[0].waiting)
             $('.yournumber').text(response[0].yournumber)
         })
@@ -230,7 +231,7 @@
         } else {
             $('[id^="label"]').addClass('disabled')
             DeleteWait(series_id, yournumber)
-            $('.timer').text('已結束...')
+            $('.timer').text('已結束...雙擊排隊以重新排隊')
         }
     }
     // 中離
@@ -241,6 +242,7 @@
         clearTimeout(timerId)
         console.log('2', timerId)
         $('.timer').text('bye')
+        $('[id^="label"]').prop('disabled', true)
     })
 
     // post series_id, 號碼牌，到後端確認時間

@@ -874,54 +874,79 @@ class API
   }
   function User($user_id)
   {
-    $user_id = $_POST['user_id'];
-    $this->db = new Connect;
+    // $this->db = new Connect;
     $jsonOutput = [];
-    $sql = "call GetUserNameById(:user_id);";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['name'] = $output['name'];
+    $sqls = [
+      "call GetUserNameById(:user_id);" => 'name', 
+      "call GetPastAYearGashById(:user_id);" => 'gash_level',
+      "call GetGashNowById(:user_id);" => 'gash',
+      "call GetGiftExpireDateById(:user_id);" => 'gift'
+    ];
+
+    foreach($sqls as $sql => $jsonOutputKey){
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+      $stmt->execute();
+      
+      if($jsonOutputKey == 'gift'){
+        while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          $jsonOutput['gift'][] = [
+            'amount' => $output['gift'],
+            'expire_at' => date('Y-m-d H:i:s', $output['expire_at'])
+          ];
+        }
+        if (empty($jsonOutput['gift'])) {
+          $jsonOutput['gift'][] = [
+            'amount' => '沒',
+            'expire_at' => '某時'
+          ];
+        }
+      }else{
+        if ($output = $stmt->fetch(PDO::FETCH_ASSOC)) $jsonOutput[$jsonOutputKey] = $output[$jsonOutputKey];
+      }
+      $stmt->closeCursor();
     }
-    $stmt->closeCursor();
-    $sql = "call GetPastAYearGashById(:user_id);";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['gash_level'] = $output['gash'];
-    }
-    $stmt->closeCursor();
-    $sql = "call GetGashNowById(:user_id);";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['gash'] = $output['gash'];
-    }
-    $stmt->closeCursor();
-    $sql = "call GetGiftExpireDateById(:user_id);";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['gift'][] = [
-        'amount' => $output['gift'],
-        'expire_at' => date('Y-m-d H:i:s', $output['expire_at'])
-      ];
-    }
-    if (!isset($jsonOutput['gift'])) {
-      $jsonOutput['gift'][] = [
-        'amount' => '沒',
-        'expire_at' => '某時'
-      ];
-    }
-    $stmt->closeCursor();
+
+    // $sql = "call GetUserNameById(:user_id);";
+    // $stmt->execute();
+    // $sql = "call GetPastAYearGashById(:user_id);";
+    // $stmt = $this->db->prepare($sql);
+    // $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    // $stmt->execute();
+    // while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    //   $jsonOutput['gash_level'] = $output['gash'];
+    // }
+    // $stmt->closeCursor();
+    // $sql = "call GetGashNowById(:user_id);";
+    // $stmt = $this->db->prepare($sql);
+    // $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    // $stmt->execute();
+    // while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    //   $jsonOutput['gash'] = $output['gash'];
+    // }
+    // $stmt->closeCursor();
+    // $sql = "call GetGiftExpireDateById(:user_id);";
+    // $stmt = $this->db->prepare($sql);
+    // $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    // $stmt->execute();
+    // while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    //   $jsonOutput['gift'][] = [
+    //     'amount' => $output['gift'],
+    //     'expire_at' => date('Y-m-d H:i:s', $output['expire_at'])
+    //   ];
+    // }
+    // if (!isset($jsonOutput['gift'])) {
+    //   $jsonOutput['gift'][] = [
+    //     'amount' => '沒',
+    //     'expire_at' => '某時'
+    //   ];
+    // }
+    // $stmt->closeCursor();
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
+  
   function Wall($user_id)
   {
     $user_id = $_POST['user_id'];
@@ -1505,7 +1530,7 @@ class API
     $jsonOutput == [] ? $jsonOutput = ['waiting' => ''] : $jsonOutput;
     return json_encode($jsonOutput);
   }
-  private function changeStatus($record_id, $status)
+  function changeStatus($record_id, $status)
   {
     $jsonOutput = [];
     $sql = "CALL ChangeStatusByIdAndStatus(:record_id, :status)";
