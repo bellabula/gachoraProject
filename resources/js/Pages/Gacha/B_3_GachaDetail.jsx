@@ -12,7 +12,7 @@ function B_3_GachaDetail() {
     let user_id = null;
     const [userFavor, setUerFavor] = useState([]);
     const [myGash, setmyGash] = useState(null)
-    // //加入我的最愛事件
+    // 加入我的最愛事件
     const [isFavorited, setIsFavorited] = useState(false);
     if (user) {
         user_id = user.id
@@ -109,7 +109,7 @@ function B_3_GachaDetail() {
         setQuantity(quantity - 1 > 0 ? quantity - 1 : 1);
     };
     const addValue = () => {
-        setQuantity(quantity + 1);
+        setQuantity(quantity + 1 <= series.remain ? quantity + 1 : quantity);
     };
 
     //推薦商品左右切換
@@ -131,6 +131,7 @@ function B_3_GachaDetail() {
         if (myGash < series.price * $("#quantityInput").val()) {
             alert("你沒有足夠的G幣")
         } else {
+            localStorage.setItem("quantity", $("#quantityInput").val())
             window.location.replace("http://localhost/gachoraProject/public/gachamachine?seriesId=" + gachaId);
         }
     }
@@ -172,11 +173,11 @@ function B_3_GachaDetail() {
                             <div className="pdinfocolor">
                                 <ul>
                                     <h4>價格 : {series.price}</h4>
-                                    {/* <li>配送時間:</li> */}
                                     {/* <li>結束日期:</li> */}
                                     {/* <li>產品尺寸:</li> */}
                                     {/* <li>產品材質:</li> */}
                                     <li>種類:共{characters.length}種</li>
+                                    <li>配送時間:下單後3~7天出貨</li>
                                 </ul>
                             </div>
                             <p>機台剩餘數量：<span id="stockCount">{series.remain}</span></p>
@@ -189,9 +190,9 @@ function B_3_GachaDetail() {
                                     onClick={minusValue} />
                                 <input type="number"
                                     id="quantityInput"
-                                    defaultValue={quantity}
+                                    value={quantity}
                                     min="1"
-                                    max="100" />
+                                    max={series.remain} />
                                 <img src="http://localhost/gachoraProject/public/images/gachoHome/add-square.png"
                                     className="increment"
                                     onClick={addValue} />

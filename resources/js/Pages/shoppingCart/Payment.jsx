@@ -1,15 +1,36 @@
-import React, { useEffect, useState }  from 'react'
-import StoreSelector  from './StoreSelector ';
+import React, { useEffect, useState } from 'react'
+import StoreSelector from './StoreSelector ';
 import { usePage } from '@inertiajs/react';
 
 
-function Checkout({ id, display = "block"}) {
+function Checkout({ id, display = "block" }) {
+
+    const inputStyle = {
+        borderColor: 'var(--main-darkblue)',
+        borderRadius: '10px',
+        height: '3vw',
+        marginTop: '1vw',
+        padding: '1vw'
+    };
+
+    const selectStyle = {
+        borderColor: 'var(--main-darkblue)',
+        borderRadius: '10px',
+        height: '3vw',
+        marginTop: '1vw'
+    };
+
     function checkBill() {
         $("#e21").css("display", "none")
         $("#e3").css("display", "block")
     }
 
-        const [userInfo, setUserInfo] = useState({});
+    function previous() {
+        $("#e21").css("display", "none")
+        $("#e1").css("display", "grid")
+    }
+
+    const [userInfo, setUserInfo] = useState({});
 
         const user = usePage().props.auth.user;
         let user_id = user.id
@@ -19,12 +40,12 @@ function Checkout({ id, display = "block"}) {
             $.post(url, {
                 user_id
             }, (response) => {
-                console.log('會員資料：', response)
+                // console.log('會員資料：', response)
                 setUserInfo(response)
             })
         },[user_id]
         )
-        console.log('userinfo:',(userInfo[0] != undefined)? userInfo[0].name : userInfo.name)
+        // console.log('userinfo:',(userInfo[0] != undefined)? userInfo[0].name : userInfo.name)
     return (
         <>
             {/* <Head title="paymentInfo" /> */}
@@ -49,7 +70,7 @@ function Checkout({ id, display = "block"}) {
                         <div className="e2_group">
                             <div className="title">選擇配送方式</div>
                             <div className="text">
-                                <input name="delivery" type="radio" value="0" id="d1" /><label htmlFor="d1" >7-11取貨</label>
+                                <input name="delivery" type="radio" value="0" id="d1" checked /><label htmlFor="d1" >7-11取貨</label>
                                 <hr />
                                 {/* <input name="delivery" type="radio" value="1" id="d2" /><label htmlFor="d2" >全家取貨</label>
                                 <hr />
@@ -60,7 +81,7 @@ function Checkout({ id, display = "block"}) {
                         <div className="e2_group">
                             <div className="title">選擇付款方式</div>
                             <div className="text">
-                                <input name="pay" type="radio" value="0" id="p1" /><label htmlFor="p1">貨到付款</label>
+                                <input name="pay" type="radio" value="0" id="p1" checked /><label htmlFor="p1">貨到付款</label>
                                 <hr />
                                 {/* <input name="pay" type="radio" value="1" id="p2" /><label htmlFor="p2">信用卡</label>
                                 <hr />
@@ -72,7 +93,7 @@ function Checkout({ id, display = "block"}) {
                         <div className="e2_group">
                             <div className="title">選擇門市</div>
                             <div className="text nobg">
-                            <StoreSelector />
+                                <StoreSelector />
                                 {/* <button className="yellow">★選擇常用門市</button><br /> */}
                             </div>
                         </div>
@@ -80,19 +101,19 @@ function Checkout({ id, display = "block"}) {
                             <div className="title">會員資訊</div>
                             <div className="text nobg">
                                 <br />
-                                <p>姓名：{(userInfo[0] != undefined)? userInfo[0].name : userInfo.name}</p>
-                                <p>電話：{(userInfo[0] != undefined)? userInfo[0].phone : userInfo.phone}</p>
-                                <p>信箱：{(userInfo[0] != undefined)? userInfo[0].email : userInfo.email}</p>
+                                <p>姓名：{(userInfo[0] != undefined) ? userInfo[0].name : userInfo.name}</p>
+                                <p>電話：{(userInfo[0] != undefined) ? userInfo[0].phone : userInfo.phone}</p>
+                                <p>信箱：{(userInfo[0] != undefined) ? userInfo[0].email : userInfo.email}</p>
                             </div>
                         </div>
                         <div className="e2_group">
                             <div className="title">收件人資訊</div>
                             <div className="text nobg">
                                 {/* <button>★常用收件人資訊</button><br /> */}
-                                姓名：<input type="text" defaultValue={(userInfo[0] != undefined)? userInfo[0].name : ''}/><br/>
-                                信箱：<input type="text" defaultValue={(userInfo[0] != undefined)? userInfo[0].email : ''}/><br/>
-                                地址：<input type="text" defaultValue={(userInfo[0] != undefined)? userInfo[0].address : ''}/><br/>
-                                時間：<select name="" id="">
+                                姓名：<input type="text" defaultValue={(userInfo[0] != undefined) ? userInfo[0].name : ''} style={inputStyle} /><br />
+                                信箱：<input type="text" defaultValue={(userInfo[0] != undefined) ? userInfo[0].email : ''} style={inputStyle} /><br />
+                                地址：<input type="text" defaultValue={(userInfo[0] != undefined) ? userInfo[0].address : ''} style={inputStyle} /><br />
+                                時間：<select name="" id="" style={selectStyle}>
                                     <option value="">任意</option>
                                     <option value="">早上(09:00~12:00)</option>
                                     <option value="">中午(12:00~17:00)</option>
@@ -111,7 +132,7 @@ function Checkout({ id, display = "block"}) {
                             </div>
                         </div>
                         <div className="go">
-                            <button>◀︎上一步</button>
+                            <button onClick={previous}>◀︎上一步</button>
                             <button className="bg" onClick={checkBill}>下一步▶︎</button>
                         </div>
                     </div>

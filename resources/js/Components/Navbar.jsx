@@ -1,6 +1,9 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none", homepage = false, dCount="none", cartCount=0 }) {
+    if (usePage().props.auth.user){
+        logout = "item-list"
+    }
     useEffect(() => {
         if (homepage) {
             $("#bigNavbar-l").css("display", "none")
@@ -93,10 +96,10 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 </button>
                 <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div className="offcanvas-header">
-                        <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Gachora</h5>
+                        <h5 className="offcanvas-title" id="offcanvasNavbarLabel"><img src="http://localhost/gachoraProject/public/images/logo2.png" width="70%" /></h5>
                         <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                    <div className="offcanvas-body">
+                    <div className="offcanvas-body pt-0">
                         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li className="nav-item">
                                 <Link href={route('login')} className="nav-link">
@@ -104,7 +107,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">首頁</a>
+                                <a className="nav-link active" aria-current="page" href={route('home')}>首頁</a>
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

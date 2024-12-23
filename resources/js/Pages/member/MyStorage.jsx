@@ -21,7 +21,7 @@ function MyStorage({ id, className="" }) {
         $.post(urlStorage, {
             user_id: user_id
         }, (response) => {
-            console.log("戰利儲藏庫 : " + response)
+            // console.log("戰利儲藏庫 : " + response)
             setStorageItem(response)
         })
     }, [rerender])
@@ -67,20 +67,20 @@ function MyStorage({ id, className="" }) {
         $.post(url, {
             record_id: recordId
         }, (response) => {
-            console.log('ToCart：', response)
+            // console.log('ToCart：', response)
         })
         setRerender((prev) => prev + 1)
-        console.log("ToCart:" + rerender)
+        // console.log("ToCart:" + rerender)
     }
     function handleToG(recordId) {
         const url = '../app/Models/Post/ChangeToG.php'
         $.post(url, {
             record_id: recordId
         }, (response) => {
-            console.log('ToG：', response)
+            // console.log('ToG：', response)
         })
         setRerender((prev) => prev + 1)
-        console.log("ToG:" + rerender)
+        // console.log("ToG:" + rerender)
     }
 
     return (

@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 
 function StoreSelector() {
+
+    const selectStyle = {
+        borderColor: 'var(--main-darkblue)',
+        borderRadius: '10px',
+        height: '3vw',
+        marginTop: '1vw'
+    };
+
     const [storeInfo, setStoreInfo] = useState(''); // 用來儲存選擇的門市資訊
 
     const handleStreetChange = (event) => {
@@ -16,11 +24,11 @@ function StoreSelector() {
     return (
         <>
             <div style={{display: 'flex'}}>
-                <div style={{ display: 1}}>
+                <div style={{ flex: 1, textAlign: "left"}}>
                     <p></p>
                     請選擇縣市 :
                     <br />
-                    <select>
+                    <select style={selectStyle}>
                         <option value="">請選擇</option>
                         <option value="">臺北市</option>
                         <option value="">新北市</option>
@@ -46,7 +54,7 @@ function StoreSelector() {
                     <br />
                     請選擇鄉、鎮、市、區 :
                     <br />
-                    <select>
+                    <select style={selectStyle}>
                         <option value="">請選擇</option>
                         <option value="">中區</option>
                         <option value="">東區</option>
@@ -81,19 +89,19 @@ function StoreSelector() {
                     <br />
                     請選擇街道:
                     <br />
-                    <select name="" id="">
+                    <select name="" id="" style={selectStyle}>
                         <option value="">請選擇</option>
                         <option value="">大進街</option>
                     </select>
                     <br />
                     請選擇門市:
                     <br />
-                    <select onChange={handleStreetChange}>
+                    <select onChange={handleStreetChange} style={selectStyle}>
                         <option value="">請選擇</option>
                         <option value="昌進門市">昌進門市</option>
                     </select>
                 </div>
-                <div style={{ marginTop: '20px', whiteSpace: 'pre-line', display: 1 }}>
+                <div style={{ marginTop: '20px', whiteSpace: 'pre-line', flex: 1, textAlign: "left" }}>
                     {storeInfo && (
                         <>
                             <strong>門市資訊：</strong>

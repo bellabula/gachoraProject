@@ -24,16 +24,20 @@ function MyWallet({ id, className = "" }) {
     let user_id = user.id
 
     const [walletLog, setWalletLog] = useState([]);
-
     useEffect(() => {
         let basePath = '../app/Models'
         const url = basePath + '/Post/UserWallet.php'
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            // console.log('交易紀錄：', response)
-            // console.log(response)
+            console.log('交易紀錄：', response)
+            response[0]["gashRemain"] = response[0].price * response[0].amount
+            for (let i = 1; i<response.length; i++) {
+                response[i]["gashRemain"] = response[i-1].gashRemain + response[i].price * response[i].amount
+            }
+            console.log('交易紀錄：', response)
             setWalletLog(response.reverse())
+
         })
     }, [user_id])
 
@@ -122,18 +126,8 @@ function MyWallet({ id, className = "" }) {
                         </thead>
                         <tbody>
                             {walletLog.map((v, index) => (
-                                <MyWalletRecord key={index} rDate={v.date} rItem={v.item} rCate={v.category} rPrice={v.price} rAmount={v.amount}/>
+                                <MyWalletRecord key={index} rDate={v.date} rItem={v.item} rCate={v.category} rPrice={v.price} rAmount={v.amount} rTotal={v.gashRemain}/>
                             ))}
-                            {/* <tr>
-                                <td className="text-start">2024/11/20</td>
-                                <td>XXX扭蛋</td>
-                                <td>扭蛋</td>
-                                <td>10</td>
-                                <td>G 1,200</td>
-                                <td>G 幣</td>
-                                <td>-G 1200</td>
-                                <td>G 1,650</td>
-                            </tr> */}
                         </tbody>
                     </table>
                     {walletLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前沒有任何交易紀錄...</h4>:""}

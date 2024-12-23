@@ -171,8 +171,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
 
 
-
-
     return (
         <>
 
@@ -192,12 +190,12 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         <img src="http://localhost/gachoraProject/public/images/darkclouds.svg" className="d_cloud" />
                         <img src="http://localhost/gachoraProject/public/images/lightclouds.svg" className="l_cloud" />
                         <div className="mycontainer">
-                            <button type="button" className="btn custom-btn btn-lg" id="button1">
+                            <a href={route('gachaHome')}><button type="button" className="btn custom-btn btn-lg" id="button1">
                                 前往扭蛋頁面
-                            </button>
-                            <button type="button" className="btn custom-btn btn-lg" id="button2">
+                            </button></a>
+                            <a href={route('lottryHome')}><button type="button" className="btn custom-btn btn-lg" id="button2">
                                 前往一番賞頁面
-                            </button>
+                            </button></a>
                         </div>
                     </section>
                     <div className="scroll-hint">

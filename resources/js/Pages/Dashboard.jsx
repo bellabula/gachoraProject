@@ -16,16 +16,16 @@ export default function Dashboard() {
     const tab_KEY = "activeTab"
     useEffect(() => {
         const savedTab = localStorage.getItem(tab_KEY);
-        console.log("savedTab" + savedTab)
+        // console.log("savedTab" + savedTab)
         if (savedTab) {
             setActiveTab(savedTab);
-        }else{
+        } else {
             setActiveTab("memberWall")
         }
     }, []);
 
     const handleTabClick = (tabId) => {
-        console.log("tabId : " + tabId)
+        // console.log("tabId : " + tabId)
         setActiveTab(tabId);
         localStorage.setItem(tab_KEY, tabId);
     };
@@ -99,12 +99,12 @@ export default function Dashboard() {
                     {/* <!-- Tabs --> */}
                     <div className="custom-section">
                         <ul className="nav nav-pills justify-content-center" role="tablist">
-                            <NavLink id={"memberWall-tab"} target={"#memberWall"} onClick={()=>{handleTabClick("memberWall")}} className={highlight === 'wallet' | highlight === 'profile' | activeTab != "memberWall" ? '' : 'active'}>戰利牆</NavLink>
-                            <NavLink id={"memberFavor-tab"} target={"#memberFavor"} onClick={()=>{handleTabClick("memberFavor")}} className={activeTab === "memberFavor" ? "active" : ""}>收藏清單</NavLink>
-                            <NavLink id={"memberStore-tab"} target={"#memberStore"} onClick={()=>{handleTabClick("memberStore")}} className={activeTab === "memberStore" ? "active" : ""}>戰利儲藏庫</NavLink>
-                            <NavLink id={"memberWallet-tab"} target={"#memberWallet"} onClick={()=>{handleTabClick("memberWallet")}} className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''}>我的錢包</NavLink>
-                            <NavLink id={"memberOrder-tab"} target={"#memberOrder"} onClick={()=>{handleTabClick("memberOrder")}} className={activeTab === "memberOrder" ? "active" : ""}>我的訂單</NavLink>
-                            <NavLink id={"memberProfile-tab"} target={"#memberProfile"} onClick={()=>{handleTabClick("memberProfile")}} className={highlight === 'profile' | activeTab === "memberProfile" ? 'active' : ''}>基本資料</NavLink>
+                            <NavLink id={"memberWall-tab"} target={"#memberWall"} onClick={() => { handleTabClick("memberWall") }} className={highlight === 'wallet' | highlight === 'profile' | activeTab != "memberWall" ? '' : 'active'}>戰利牆</NavLink>
+                            <NavLink id={"memberFavor-tab"} target={"#memberFavor"} onClick={() => { handleTabClick("memberFavor") }} className={activeTab === "memberFavor" ? "active" : ""}>收藏清單</NavLink>
+                            <NavLink id={"memberStore-tab"} target={"#memberStore"} onClick={() => { handleTabClick("memberStore") }} className={activeTab === "memberStore" ? "active" : ""}>戰利儲藏庫</NavLink>
+                            <NavLink id={"memberWallet-tab"} target={"#memberWallet"} onClick={() => { handleTabClick("memberWallet") }} className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''}>我的錢包</NavLink>
+                            <NavLink id={"memberOrder-tab"} target={"#memberOrder"} onClick={() => { handleTabClick("memberOrder") }} className={activeTab === "memberOrder" ? "active" : ""}>我的訂單</NavLink>
+                            <NavLink id={"memberProfile-tab"} target={"#memberProfile"} onClick={() => { handleTabClick("memberProfile") }} className={highlight === 'profile' | activeTab === "memberProfile" ? 'active' : ''}>基本資料</NavLink>
                         </ul>
                     </div>
                     <div className="tab-content pt-5">
@@ -113,11 +113,11 @@ export default function Dashboard() {
                         {/* <!-- 2. 收藏清單 --> */}
                         <MyFavor id="memberFavor" ariaLabel="memberFavor-tab" className={activeTab === "memberFavor" ? "active" : ""} />
                         {/* <!-- 3. 戰利儲藏庫 --> */}
-                        <MyStorage id="memberStore" ariaLabel="memberStore-tab" className={activeTab === "memberStore" ? "active" : ""}/>
+                        <MyStorage id="memberStore" ariaLabel="memberStore-tab" className={activeTab === "memberStore" ? "active" : ""} />
                         {/* <!-- 4. 我的錢包 --> */}
                         <MyWallet id="memberWallet" ariaLabel="memberWallet-tab" className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''} />
                         {/* <!-- 5. 我的訂單 --> */}
-                        <MyOrder id="memberOrder" ariaLabel="memberOrder-tab"  className={activeTab === "memberOrder" ? "active" : ""}/>
+                        <MyOrder id="memberOrder" ariaLabel="memberOrder-tab" className={activeTab === "memberOrder" ? "active" : ""} />
                         {/* <!-- 6. 基本資料 --> */}
                         <MyProfile id="memberProfile" ariaLabel="memberProfile-tab" className={highlight === 'profile' | activeTab === "memberProfile" ? 'active' : ''} />
                     </div>

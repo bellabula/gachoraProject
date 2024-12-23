@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MyFavorCard({ src = "", href = "" }) {
+function MyFavorCard({src = "", href = "" }) {
     return (
         <div className="col-12 col-sm-6 col-lg-3">
             <div className="position-relative w-100 h-100">
