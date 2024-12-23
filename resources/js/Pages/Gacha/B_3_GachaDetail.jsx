@@ -9,37 +9,56 @@ function B_3_GachaDetail() {
     const basePath = '../app/Models'
     const gachaId = usePage().props.seriesId;
     const user = usePage().props.auth.user;
-    // const user_id = user.id
+    let user_id = null;
     const [userFavor, setUerFavor] = useState([]);
-    // console.log(user)
-    // console.log(gachaId)
-
-    // //加入我的最愛事件
+    const [myGash, setmyGash] = useState(null)
+    // 加入我的最愛事件
     const [isFavorited, setIsFavorited] = useState(false);
-    function toggleFavorite() {
-        setIsFavorited(!isFavorited);
+    if (user) {
+        user_id = user.id
+
+
+        let collectEgg = [];
+        useEffect(() => {
+            $.post(basePath + '/Post/MainUser.php', {
+                user_id: user_id
+            }, (response) => {
+                // console.log(response)
+                setmyGash(response.gash)
+            })
+        }, [myGash])
+        useEffect(() => {
+            $.post(basePath + '/Post/UserCollectionEgg.php', {
+                user_id: user_id
+            }, (response) => {
+                if (typeof (response.has) != "undefined") {
+                    collectEgg = [...response.has]
+                }
+                if (typeof (response.no) != "undefined") {
+                    collectEgg = [...collectEgg, ...response.no]
+                }
+                setUerFavor(collectEgg.map(item => item.id))
+            })
+        }, [user_id])
     }
 
-    let collectEgg = [];
-    // useEffect(() => {
-    //     $.post(basePath + '/Post/UserCollectionEgg.php', {
-    //         user_id: user_id
-    //     }, (response) => {
-    //         if (typeof (response.has) != "undefined") {
-    //             collectEgg = [...response.has]
-    //         }
-    //         if (typeof (response.no) != "undefined") {
-    //             collectEgg = [...collectEgg, ...response.no]
-    //         }
-    //         setUerFavor(collectEgg.map(item => item.id))
-    //         if (userFavor.includes(gachaId)) {
-    //             setIsFavorited(true)
-    //         }
-    //     })
-    // }, [user_id])
+    useEffect(() => {
+        console.log("new : " + userFavor)
+        if (userFavor.includes(parseInt(gachaId))) {
+            setIsFavorited(true)
+            console.log("isfavorited after : " + isFavorited)
+        }
+    }, [userFavor])
+
+    const [heartImg, setHeartImg] = useState("")
+
+    useEffect(() => {
+        console.log("Hello : " + isFavorited)
+        setHeartImg(isFavorited ? 'http://localhost/gachoraProject/public/images/gachoHome/Vector (2).png' : 'http://localhost/gachoraProject/public/images/gachoHome/Vector.png')
+    }, [isFavorited])
 
     const [characters, setCharacters] = useState([])
-    const [series, setSeries] = useState()
+    const [series, setSeries] = useState([])
     const [seriesImg, setSeriesImg] = useState()
     const [recommend, setRecommend] = useState([])
 
@@ -52,13 +71,14 @@ function B_3_GachaDetail() {
             // console.log('扭蛋詳細頁', response);
             setCharacters(response.character)
             setSeries(response.series[0])
-            setSeriesImg(response.series[0].img)
+            setSeriesImg(response.series[0].img[0])
             // console.log(response.series[0].img)
             // console.log(response.series)
             // console.log(response.character)
             // console.log(series)
             setRecommend(response.recommend)
             // console.log(response.recommend)
+            setBigImageSrc(response.character[0].img)
         })
     }, [gachaId])
 
@@ -83,26 +103,13 @@ function B_3_GachaDetail() {
         setBigImageSrc(imageSrc);
     }
 
-    // 模擬從資料庫取得的產品資料
-    // const [allProducts] = useState([
-    //     { id: 1, name: "產品A", probability: "10%", img: "https://via.placeholder.com/150" },
-    //     { id: 2, name: "產品B", probability: "20%", img: "https://via.placeholder.com/250" },
-    //     { id: 3, name: "產品C", probability: "30%", img: "https://via.placeholder.com/350" },
-    //     { id: 4, name: "產品D", probability: "40%", img: "https://via.placeholder.com/450" },
-    //     { id: 5, name: "產品E", probability: "50%", img: "https://via.placeholder.com/550" },
-    //     { id: 6, name: "產品F", probability: "60%", img: "https://via.placeholder.com/650" },
-    //     { id: 7, name: "產品G", probability: "70%", img: "https://via.placeholder.com/750" },
-    //     { id: 8, name: "產品H", probability: "80%", img: "https://via.placeholder.com/850" },
-    //     { id: 9, name: "產品I", probability: "90%", img: "https://via.placeholder.com/950" }
-    // ]);
-
     // 加減數量
     const [quantity, setQuantity] = useState(1);
     const minusValue = () => {
         setQuantity(quantity - 1 > 0 ? quantity - 1 : 1);
     };
     const addValue = () => {
-        setQuantity(quantity + 1);
+        setQuantity(quantity + 1 <= series.remain ? quantity + 1 : quantity);
     };
 
     //推薦商品左右切換
@@ -119,6 +126,27 @@ function B_3_GachaDetail() {
         const maxPosition = -(itemWidth * (totalItems - visibleItems));
         setCurrentPosition((prevPosition) => Math.max(prevPosition - itemWidth, maxPosition));
     };
+
+    const isEnough = () => {
+        if (myGash < series.price * $("#quantityInput").val()) {
+            alert("你沒有足夠的G幣")
+        } else {
+            localStorage.setItem("quantity", $("#quantityInput").val())
+            window.location.replace("http://localhost/gachoraProject/public/gachamachine?seriesId=" + gachaId);
+        }
+    }
+
+    function toggleFavorite() {
+        if (user) {
+            setIsFavorited(!isFavorited);
+            $.post(basePath + "/Post/ToCollection.php", {
+                user_id: user_id,
+                series_id: gachaId
+            })
+        } else {
+            alert("請先登入")
+        }
+    }
 
     return (
         <>
@@ -140,20 +168,20 @@ function B_3_GachaDetail() {
                     </div>
                     <div className="col-xxl-4">
                         <div className="product-info">
-                            <h1>商品名稱</h1>
+                            <h1>{series.title} : {series.name}</h1>
                             <h5>產品介紹</h5>
                             <div className="pdinfocolor">
                                 <ul>
-                                    <h4>價格</h4>
-                                    <li>配送時間:</li>
-                                    <li>結束日期:</li>
-                                    <li>產品尺寸:</li>
-                                    <li>產品材質:</li>
-                                    <li>種類:共?種</li>
+                                    <h4>價格 : {series.price}</h4>
+                                    {/* <li>結束日期:</li> */}
+                                    {/* <li>產品尺寸:</li> */}
+                                    {/* <li>產品材質:</li> */}
+                                    <li>種類:共{characters.length}種</li>
+                                    <li>配送時間:下單後3~7天出貨</li>
                                 </ul>
                             </div>
-                            <p>機台剩餘數量：<span id="stockCount">10</span></p>
-                            <p>虛擬幣餘額：<span id="coinBalance">100</span></p>
+                            <p>機台剩餘數量：<span id="stockCount">{series.remain}</span></p>
+                            <p>您的G幣餘額：<span id="coinBalance">{myGash ? myGash : "請先登入"}</span></p>
                             <label htmlFor="quantity">抽取數量</label>
                             <div className="number-input"
                                 id="quantity">
@@ -162,22 +190,22 @@ function B_3_GachaDetail() {
                                     onClick={minusValue} />
                                 <input type="number"
                                     id="quantityInput"
-                                    defaultValue={quantity}
+                                    value={quantity}
                                     min="1"
-                                    max="100" />
+                                    max={series.remain} />
                                 <img src="http://localhost/gachoraProject/public/images/gachoHome/add-square.png"
                                     className="increment"
                                     onClick={addValue} />
-                                <Link href={route('gachamachine', { seriesId: gachaId })} style={{ textDecoration: "none", color: "var(--main-darkblue)" }}><button>GO</button></Link>
+                                {/* <Link href={route('gachamachine', { seriesId: gachaId })} style={{ textDecoration: "none", color: "var(--main-darkblue)" }}><button onClick={isEnough}>GO</button></Link> */}
+                                <button onClick={isEnough}>GO</button>
                             </div>
                             <button
                                 className={`Favorite_bt ${isFavorited ? 'active' : ''}`}
                                 onClick={toggleFavorite}>
-                                <img src={isFavorited ? 'http://localhost/gachoraProject/public/images/gachoHome/Vector (2).png' : 'http://localhost/gachoraProject/public/images/gachoHome/Vector.png'} alt="" />
+                                <img src={heartImg} alt="" />
                                 {isFavorited ? '已收藏' : '加入收藏'}
                             </button>
-                            <button className="
-					Restock-bt">補貨通知</button>
+                            {/* <button className="Restock-bt">補貨通知</button> */}
                         </div>
                     </div>
                 </div>

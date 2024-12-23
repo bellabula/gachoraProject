@@ -1,9 +1,9 @@
 import React from 'react'
 
-function NavLink({ href, children, className="" }) {
+function NavLink({id, target, children, onClick, className="" }) {
     return (
         <li className="nav-item">
-            <a className={"nav-link " + className} href={href} data-bs-toggle="pill">{children}</a>
+            <button id={id} onClick={onClick} className={"nav-link " + className} data-bs-target={target} data-bs-toggle="tab">{children}</button>
         </li>
     )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { usePage } from '@inertiajs/react';
 import MyStorageItem from './MyStorageItem';
 
-function MyStorage({ id }) {
+function MyStorage({ id, className="" }) {
 
     // function Storage({ stock }) {
     //     let [count, setNumb] = React.useState(0)
@@ -21,7 +21,7 @@ function MyStorage({ id }) {
         $.post(urlStorage, {
             user_id: user_id
         }, (response) => {
-            console.log("戰利儲藏庫 : " + response)
+            // console.log("戰利儲藏庫 : " + response)
             setStorageItem(response)
         })
     }, [rerender])
@@ -67,26 +67,26 @@ function MyStorage({ id }) {
         $.post(url, {
             record_id: recordId
         }, (response) => {
-            console.log('ToCart：', response)
+            // console.log('ToCart：', response)
         })
         setRerender((prev) => prev + 1)
-        console.log("ToCart:" + rerender)
+        // console.log("ToCart:" + rerender)
     }
     function handleToG(recordId) {
         const url = '../app/Models/Post/ChangeToG.php'
         $.post(url, {
             record_id: recordId
         }, (response) => {
-            console.log('ToG：', response)
+            // console.log('ToG：', response)
         })
         setRerender((prev) => prev + 1)
-        console.log("ToG:" + rerender)
+        // console.log("ToG:" + rerender)
     }
 
     return (
         <>
             {/* <!-- 3. 戰利儲藏庫 --> */}
-            <div id={id} className="tab-pane">
+            <div id={id} className={"tab-pane " + className}>
                 <h1>戰利儲藏庫</h1>
                 <div>
                     {/* {response.map((v, index) => {

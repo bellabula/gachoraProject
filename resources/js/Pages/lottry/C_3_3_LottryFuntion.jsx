@@ -91,9 +91,9 @@ const C_3_3_LottryFuntion = () => {
     };
 
     return (
-        <main id="lottryfunction">
+        <>
             {!showResultsOnly && (
-                <>
+                <main id="lottryfunction">
                     <span className="gacha-info">
                         <img src="http://localhost/gachoraProject/public/images/一番賞.svg" alt="gachaball" />
                         <h3>X {remainingDraws}</h3>
@@ -142,21 +142,25 @@ const C_3_3_LottryFuntion = () => {
                             </button>
                         </div>
                     )}
-                </>
+                </main>
             )}
 
             {showResultsOnly && drawResults.length > 0 && (
-                <div className="result-list">
-                    {drawResults.map((item) => (
-                        <div key={item.id} className="result-item">
-                            <h4>{item.prize}</h4>
-                            <img src={item.img} alt={item.name} />
-                            <h4>{item.name}</h4>
-                        </div>
-                    ))}
-                </div>
+                <>
+                    <div className="result-list text-center mt-5 pt-5">
+                        {drawResults.map((item, index) => (
+                            <div className="d-inline-block result-item ms-3 me-3" key={index}>
+                                <h4 className='text-center'>{item.prize}</h4>
+                                <img className='d-block m-auto' src={item.img} width="200px" alt={item.name} />
+                                <h4 className='text-center'>{item.name}</h4>
+                            </div>
+                        ))}
+                    </div>
+                    <button className='d-block m-auto btn-lg mt-5 custom-btn'>回商品頁面</button>
+                </>
             )}
-        </main>
+        </>
+
     );
 };
 

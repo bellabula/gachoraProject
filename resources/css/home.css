@@ -94,7 +94,90 @@
 #animation2 {
     width: 100%;
 }
+@media (max-width: 1054px){
+    #homepage .desc_form.show {
+        height: 90vh !important;
+        /* border: 5px solid red; */
+        /* 螢幕較小時調整為更小的高度 */
+    }
 
+
+    /* ab1 */
+    #homepage .ab1 {
+        position: relative;
+        z-index: 1;
+        width: 60vw;
+        align-items: center;
+        top: calc(100vw * 0.06);
+        max-width: 100%;
+    }
+
+    
+    
+    /* 覆盖文字样式 */
+    #homepage .text-overlay1 {
+        position: absolute;
+        z-index: 3;
+        width:320px;
+        top: 20%; /* 垂直居中 */
+        left: 50%; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        line-height: 32px !important;
+        border-radius: 5px;
+        font-size: 20px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+    #homepage .text-overlay2 {
+        position: absolute;
+        z-index: 3;
+        top: 50%; /* 垂直居中 */
+        left: 50%; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        padding: 10px 20px;
+        line-height: 32px !important;
+        border-radius: 5px;
+        font-size: 20px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+    #homepage .text-overlay3 {
+        position: absolute;
+        z-index: 3;
+        top: 80%; /* 垂直居中 */
+        left: 69% !important; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        border-radius: 5px;
+        width: 280px !important;
+        line-height: 32px !important;
+        font-size: 20px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+
+    #homepage .abimg {
+        position: absolute;
+        top: 120px !important;
+        left: 150px !important;
+        width: 25%;
+        z-index: 2; /* 使 abimg 在 ab1 上層 */
+        animation: slide-up-down 3s ease-in-out infinite; /* 動態效果 */
+    }
+    #homepage .abimg2 {
+        position: absolute;
+        top: 580px !important;
+        left: 100px !important;
+        width: 25%;
+        /* border: 5px solid red; */
+        z-index: 2; /* 使 abimg 在 ab1 上層 */
+        animation: slide-up-down 4s ease-in-out infinite !important; /* 動態效果 */
+    }
+    
+   
+}
 @media (max-width: 992px) {
     #home {
         height: 100vh;
@@ -111,6 +194,94 @@
 
     #homepage .wave-container h1 {
         font-size: 1.2rem;
+    }
+
+    #homepage .text-container {
+        position: relative;
+        /* 使用絕對定位 */
+        top: -50% !important;
+        width: 50%;
+        /* border: 5px solid rgb(102, 201, 107); */
+    }
+    #homepage .desc_form.show {
+        height: 100vh !important;
+        /* 螢幕較小時調整為更小的高度 */
+    }
+
+
+    /* ab1 */
+    #homepage .ab1 {
+        position: relative;
+        z-index: 1;
+        width: 60vw;
+        top: calc(100vw * 0.06);
+        max-width: 100%;
+    }
+
+    #homepage .ab1 img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    #homepage .abimg {
+        position: absolute;
+        top: 120px !important;
+        left: 120px !important;
+        width: 25%;
+        z-index: 2; /* 使 abimg 在 ab1 上層 */
+        animation: slide-up-down 3s ease-in-out infinite; /* 動態效果 */
+    }
+    #homepage .abimg2 {
+        position: absolute;
+        top: 520px !important;
+        left: 90px !important;
+        width: 25%;
+        /* border: 5px solid red; */
+        z-index: 2; /* 使 abimg 在 ab1 上層 */
+        animation: slide-up-down 4s ease-in-out infinite !important; /* 動態效果 */
+    }
+    /* 覆盖文字样式 */
+    #homepage .text-overlay1 {
+        position: absolute;
+        z-index: 3;
+        width:320px;
+        top: 20%; /* 垂直居中 */
+        left: 50%; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        line-height: 32px !important;
+        border-radius: 5px;
+        font-size: 20px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+    #homepage .text-overlay2 {
+        position: absolute;
+        z-index: 3;
+        top: 50%; /* 垂直居中 */
+        left: 50%; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        padding: 10px 20px;
+        line-height: 32px !important;
+        border-radius: 5px;
+        font-size: 20px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+    #homepage .text-overlay3 {
+        position: absolute;
+        z-index: 3;
+        top: 80%; /* 垂直居中 */
+        left: 69% !important; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        border-radius: 5px;
+        width: 280px !important;
+        line-height: 32px !important;
+        font-size: 20px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
     }
 
 }
@@ -134,6 +305,97 @@
         font-size: 1.1rem;
     }
 
+    #homepage .text-container {
+        position: relative;
+        /* 使用絕對定位 */
+        top: -40% !important;
+        width: 50%;
+        /* border: 5px solid rgb(102, 201, 201); */
+    }
+
+
+    #homepage .desc_form.show {
+        height: 80vh !important;
+        /* 螢幕較小時調整為更小的高度 */
+    }
+
+
+    /* ab1 */
+    #homepage .ab1 {
+        position: relative;
+        z-index: 1;
+        width: 60vw;
+        top: calc(100vw * 0.06);
+        max-width: 100%;
+    }
+
+    #homepage .ab1 img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    #homepage .abimg {
+        position: absolute;
+        top: 90px !important;
+        left: 90px !important;
+        /* border: 5px solid red; */
+        width: 25%;
+        z-index: 2; /* 使 abimg 在 ab1 上層 */
+        animation: slide-up-down 3s ease-in-out infinite; /* 動態效果 */
+    }
+    #homepage .abimg2 {
+        position: absolute;
+        top: 390px !important;
+        left: 80px !important;
+        width: 25%;
+        /* border: 5px solid red; */
+        z-index: 2; /* 使 abimg 在 ab1 上層 */
+        animation: slide-up-down 4s ease-in-out infinite !important; /* 動態效果 */
+    }
+    /* 覆盖文字样式 */
+    #homepage .text-overlay1 {
+        position: absolute;
+        z-index: 3;
+        width:250px;
+        top: 20%; /* 垂直居中 */
+        left: 50%; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        line-height: 22px !important;
+        border-radius: 5px;
+        font-size: 14px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+    #homepage .text-overlay2 {
+        position: absolute;
+        z-index: 3;
+        top: 50%; /* 垂直居中 */
+        left: 50%; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        padding: 10px 20px;
+        line-height: 22px !important;
+        border-radius: 5px;
+        font-size: 14px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+    #homepage .text-overlay3 {
+        position: absolute;
+        z-index: 3;
+        top: 80%; /* 垂直居中 */
+        left: 69% !important; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        border-radius: 5px;
+        width: 230px !important;
+        line-height: 22px !important;
+        font-size: 14px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+
 }
 
 @media (max-width: 576px) {
@@ -153,6 +415,100 @@
 
     #homepage .wave-container h1 {
         font-size: 0.5rem;
+    }
+
+    #homepage .text-container {
+        position: relative;
+        /* 使用絕對定位 */
+        top: -20% !important;
+        width: 50%;
+        /* border: 5px solid red; */
+    }
+
+    #button3 {
+        margin-top: 1rem;
+    }
+    #homepage .desc_form.show {
+        height: 60vh !important;
+        /* border: 5px solid red; */
+        /* 螢幕較小時調整為更小的高度 */
+    }
+
+
+    /* ab1 */
+    #homepage .ab1 {
+        position: relative;
+        z-index: 1;
+        width: 60vw;
+        top: calc(100vw * 0.06);
+        max-width: 100%;
+    }
+
+    #homepage .ab1 img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    #homepage .abimg {
+        position: absolute;
+        /* border: 5px solid red; */
+        top: 60px !important;
+        left: 80px !important;
+        width: 25%;
+        z-index: 2; /* 使 abimg 在 ab1 上層 */
+        animation: slide-up-down 5s ease-in-out infinite; /* 動態效果 */
+    }
+    #homepage .abimg2 {
+        position: absolute;
+        top: 290px !important;
+        left: 60px !important;
+        width: 25%;
+        z-index: 2; /* 使 abimg 在 ab1 上層 */
+        animation: slide-up-down 4s ease-in-out infinite !important; /* 動態效果 */
+    }
+    /* 覆盖文字样式 */
+    #homepage .text-overlay1 {
+        position: absolute;
+        z-index: 3;
+        width:180px;
+        top: 20%; /* 垂直居中 */
+        left: 50%; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        line-height: 15px !important;
+        border-radius: 5px;
+        font-size: 11px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+    #homepage .text-overlay2 {
+        position: absolute;
+        z-index: 3;
+        top: 50%; /* 垂直居中 */
+        left: 50%; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        padding: 10px 20px;
+        line-height: 15px !important;
+        border-radius: 5px;
+        font-size: 11px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
+    }
+    #homepage .text-overlay3 {
+        position: absolute;
+        z-index: 3;
+        top: 80%; /* 垂直居中 */
+        left: 69% !important; /* 水平居中 */
+        transform: translate(-50%, -50%); /* 将文字居中对齐 */
+        color: white; /* 文字颜色 */
+        border-radius: 5px;
+        width: 200px !important;
+        line-height: 15px !important;
+        font-size: 11px !important; /* 根据需要调整文字大小 */
+        text-align: center;
+        pointer-events: none; /* 避免文字阻止点击图片 */
     }
 
 }
@@ -261,7 +617,8 @@
 
 /* 選轉後的表格 */
 #homepage .desc_form {
-    position: absolute;
+    position: relative;
+    display: none;
     width: 80vw;
     height: 0;
     padding: 0;
@@ -276,10 +633,116 @@
     transition: height 0.3s ease;
     border-top: 5px dotted var(--main-darkblue);
 }
+/* 覆盖文字样式 */
+#homepage .text-overlay1 {
+    position: absolute;
+    z-index: 3;
+    top: 18%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 将文字居中对齐 */
+    color: white; /* 文字颜色 */
+    padding: 10px 20px;
+    line-height: 70px;
+    border-radius: 5px;
+    font-size: 30px; /* 根据需要调整文字大小 */
+    text-align: center;
+    pointer-events: none; /* 避免文字阻止点击图片 */
+}
+#homepage .text-overlay2 {
+    position: absolute;
+    z-index: 3;
+    top: 46%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 将文字居中对齐 */
+    color: white; /* 文字颜色 */
+    padding: 10px 20px;
+    border-radius: 5px;
+    line-height: 70px;
+    font-size: 30px; /* 根据需要调整文字大小 */
+    text-align: center;
+    pointer-events: none; /* 避免文字阻止点击图片 */
+}
+#homepage .text-overlay3 {
+    position: absolute;
+    z-index: 3;
+    top: 77%; /* 垂直居中 */
+    left: 66%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 将文字居中对齐 */
+    color: white; /* 文字颜色 */
+    /* padding: 0px 20px; */
+    line-height: 70px;
+    border-radius: 5px;
+    font-size: 30px;; /* 根据需要调整文字大小 */
+    text-align: center;
+    pointer-events: none; /* 避免文字阻止点击图片 */
+}
+
+/* abimg: 會覆蓋在 ab1 上層 */
+#homepage .abimg {
+    position: absolute;
+    top: 180px;
+    left: 250px;
+    width: 15%;
+    z-index: 2; /* 使 abimg 在 ab1 上層 */
+    animation: slide-up-down 3s ease-in-out infinite; /* 動態效果 */
+}
+@keyframes slide-up-down {
+    0%, 100% {
+        transform: translateY(0); /* 初始位置 */
+    }
+    50% {
+        transform: translateY(-20px); /* 向上移動 */
+    }
+}
+
+/* 确保兼容老浏览器 */
+@-webkit-keyframes slide-up-down {
+    0%, 100% {
+        transform: translateY(0); /* 初始位置 */
+    }
+    50% {
+        transform: translateY(-20px); /* 向上移動 */
+    }
+}
+
+.abimg {
+    -webkit-animation: slide-up-down 3s ease-in-out infinite;
+}
+
+/* abimg2: 會覆蓋在 ab3 上層 */
+#homepage .abimg2 {
+    position: absolute;
+    top: 1050px;
+    left: 220px;
+    width: 25%;
+    z-index: 2; /* 使 abimg 在 ab1 上層 */
+    animation: slide-up-down 3s ease-in-out infinite; /* 動態效果 */
+}
+
+.abimg2 {
+    -webkit-animation: slide-up-down 3s ease-in-out infinite;
+}
 
 #homepage .desc_form.show {
-    height: 1000px;
+    height: 200vh;
+    opacity: 1;
 }
+
+/* ab1 */
+#homepage .ab1 {
+    position: relative;
+    z-index: 1;
+    width: 60vw;
+    top: calc(100vw * 0.06);
+    max-width: 100%;
+}
+
+#homepage .ab1 img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 
 
 /* 一翻賞curve 背景/ 內容 */
@@ -295,7 +758,7 @@
 #homepage .lower-curve svg {
     /* border: 1px solid red; */
     background-color: var(--main-bg-gray);
-    margin-top: -2px;
+    /* margin-top: 20px; */
     display: block;
 }
 
@@ -307,8 +770,10 @@
 
 /* 一翻賞動畫 */
 #homepage .container1 {
-    margin-top: 0;
+    margin-top: 20px;
     position: relative;
+    transition: margin-top 0.3s ease;
+    /* border: 5px solid red; */
 }
 
 #homepage .sticky-top {
@@ -392,6 +857,56 @@
     opacity: 1;
 }
 
+/* section1 pdinfo */
+#homepage .pdinfo {
+    position: relative;
+    /* 這是父元素 */
+    display: flex;
+    width: 100%;
+    height: 500px;
+    justify-content: center;
+    margin-top: calc(100vw * -0.1);
+    margin-bottom: calc(100vw * 0.25);
+    padding: 0;
+}
+
+#homepage .pdinfo img {
+    width: 100%;
+    position: relative;
+    /* 背景圖保持相對定位 */
+}
+
+#homepage .pdinfo div {
+    position: relative;
+    /* 基本位置仍保持相對 */
+    text-align: center;
+    /* 讓文字居中 */
+}
+
+#homepage .text-container {
+    position: relative;
+    /* 使用絕對定位 */
+    top: -100%;
+    /* 根據父元素高度調整 */
+    left: 50%;
+    /* 根據父元素寬度調整 */
+    transform: translate(-50%, -50%);
+    /* 水平垂直居中 */
+    color: white;
+    /* 確保文字可見 */
+    margin: 0;
+    /* 避免不必要的間距 */
+    /* border: 5px solid red; */
+}
+
+#button3 {
+    position: absolute;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, 200%);
+    /* border: 5 solid red; */
+}
+
 /* 扭蛋頁面 */
 #homepage .wave-container2 {
     background-color: var(--main-yellow);
@@ -432,11 +947,7 @@
     display: block;
 }
 
-#homepage .btncontainer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
+
 
 #button4 {
 
@@ -448,14 +959,7 @@
     /* border: 5 solid red; */
 }
 
-#button3 {
-    position: absolute;
-    /* 使用絕對定位 */
-    top: 85%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* border: 5 solid red; */
-}
+
 
 #animation3,
 #animation4 {

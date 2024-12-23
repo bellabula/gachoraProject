@@ -12,6 +12,24 @@ import NavLink from './member/NavLink';
 import Deposit from './member/Deposit';
 
 export default function Dashboard() {
+    const [activeTab, setActiveTab] = useState("");
+    const tab_KEY = "activeTab"
+    useEffect(() => {
+        const savedTab = localStorage.getItem(tab_KEY);
+        // console.log("savedTab" + savedTab)
+        if (savedTab) {
+            setActiveTab(savedTab);
+        } else {
+            setActiveTab("memberWall")
+        }
+    }, []);
+
+    const handleTabClick = (tabId) => {
+        // console.log("tabId : " + tabId)
+        setActiveTab(tabId);
+        localStorage.setItem(tab_KEY, tabId);
+    };
+
 
     const highlight = usePage().props.highlight;
 
@@ -51,31 +69,6 @@ export default function Dashboard() {
     };
 
 
-    // // 初始化時恢復到當前的 Tab
-    // document.addEventListener("DOMContentLoaded", () => {
-    //     // 從 URL 中獲取錨點部分，例如 #profile
-    //     const hash = window.location.hash;
-    //     console.log(hash)
-    //     if (hash) {
-    //         // 找到對應的 Tab 並顯示
-    //         const tab = document.querySelector(`[href="${hash}"]`);
-    //         if (tab) {
-    //             const bootstrapTab = new bootstrap.Tab(tab);
-    //             bootstrapTab.show();
-    //         }
-    //     }
-
-    //     // 監聽 Tab 點擊事件，保存當前的 Tab
-    //     document.querySelectorAll('a[data-bs-toggle="pill"]').forEach((tab) => {
-    //         console.log(tab)
-    //         tab.addEventListener("shown.bs.tab", (event) => {
-    //             const hash = event.target.getAttribute("href");
-    //             history.replaceState(null, null, hash); // 更新網址但不重新加載頁面
-    //         });
-    //     });
-    // });
-
-
     return (
         <>
             {isCoinOpen && (
@@ -85,7 +78,7 @@ export default function Dashboard() {
 
                     {/* 中間的模態框 */}
                     <div className="modal">
-                        <Deposit gash={myGash}/>
+                        <Deposit gash={myGash} />
                         <button className='d-block m-auto' onClick={closeCoin}>取消</button>
                     </div>
                 </>
@@ -105,28 +98,28 @@ export default function Dashboard() {
                     </div>
                     {/* <!-- Tabs --> */}
                     <div className="custom-section">
-                        <ul className="nav nav-pills justify-content-center">
-                            <NavLink href="#memberWall" className={highlight === 'wallet' | highlight === 'profile' ? '' : 'active'}>戰利牆</NavLink>
-                            <NavLink href="#memberFavor">收藏清單</NavLink>
-                            <NavLink href="#memberStore">戰利儲藏庫</NavLink>
-                            <NavLink href="#memberWallet" className={highlight === 'wallet' ? 'active' : ''}>我的錢包</NavLink>
-                            <NavLink href="#memberOrder">我的訂單</NavLink>
-                            <NavLink href="#memberProfile" className={highlight === 'profile' ? 'active' : ''}>基本資料</NavLink>
+                        <ul className="nav nav-pills justify-content-center" role="tablist">
+                            <NavLink id={"memberWall-tab"} target={"#memberWall"} onClick={() => { handleTabClick("memberWall") }} className={highlight === 'wallet' | highlight === 'profile' | activeTab != "memberWall" ? '' : 'active'}>戰利牆</NavLink>
+                            <NavLink id={"memberFavor-tab"} target={"#memberFavor"} onClick={() => { handleTabClick("memberFavor") }} className={activeTab === "memberFavor" ? "active" : ""}>收藏清單</NavLink>
+                            <NavLink id={"memberStore-tab"} target={"#memberStore"} onClick={() => { handleTabClick("memberStore") }} className={activeTab === "memberStore" ? "active" : ""}>戰利儲藏庫</NavLink>
+                            <NavLink id={"memberWallet-tab"} target={"#memberWallet"} onClick={() => { handleTabClick("memberWallet") }} className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''}>我的錢包</NavLink>
+                            <NavLink id={"memberOrder-tab"} target={"#memberOrder"} onClick={() => { handleTabClick("memberOrder") }} className={activeTab === "memberOrder" ? "active" : ""}>我的訂單</NavLink>
+                            <NavLink id={"memberProfile-tab"} target={"#memberProfile"} onClick={() => { handleTabClick("memberProfile") }} className={highlight === 'profile' | activeTab === "memberProfile" ? 'active' : ''}>基本資料</NavLink>
                         </ul>
                     </div>
                     <div className="tab-content pt-5">
                         {/* <!-- 1. 戰利牆 --> */}
-                        <MyWall id="memberWall" className={highlight === 'wallet' | highlight === 'profile' ? '' : 'active'} />
+                        <MyWall id="memberWall" ariaLabel="memberWall-tab" className={highlight === 'wallet' | highlight === 'profile' | activeTab != "memberWall" ? '' : 'active'} />
                         {/* <!-- 2. 收藏清單 --> */}
-                        <MyFavor id="memberFavor" />
+                        <MyFavor id="memberFavor" ariaLabel="memberFavor-tab" className={activeTab === "memberFavor" ? "active" : ""} />
                         {/* <!-- 3. 戰利儲藏庫 --> */}
-                        <MyStorage id="memberStore" />
+                        <MyStorage id="memberStore" ariaLabel="memberStore-tab" className={activeTab === "memberStore" ? "active" : ""} />
                         {/* <!-- 4. 我的錢包 --> */}
-                        <MyWallet id="memberWallet" className={highlight === 'wallet' ? 'active' : ''} />
+                        <MyWallet id="memberWallet" ariaLabel="memberWallet-tab" className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''} />
                         {/* <!-- 5. 我的訂單 --> */}
-                        <MyOrder id="memberOrder" />
+                        <MyOrder id="memberOrder" ariaLabel="memberOrder-tab" className={activeTab === "memberOrder" ? "active" : ""} />
                         {/* <!-- 6. 基本資料 --> */}
-                        <MyProfile id="memberProfile" className={highlight === 'profile' ? 'active' : ''} />
+                        <MyProfile id="memberProfile" ariaLabel="memberProfile-tab" className={highlight === 'profile' | activeTab === "memberProfile" ? 'active' : ''} />
                     </div>
                 </main>
 

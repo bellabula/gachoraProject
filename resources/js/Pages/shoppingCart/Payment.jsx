@@ -32,20 +32,20 @@ function Checkout({ id, display = "block" }) {
 
     const [userInfo, setUserInfo] = useState({});
 
-    const user = usePage().props.auth.user;
-    let user_id = user.id
-    // let basePath = '../../../app/Models'
-    useEffect(() => {
-        const url = 'http://localhost/gachoraProject/app/Models/Post/Userinfo.php'
-        $.post(url, {
-            user_id
-        }, (response) => {
-            console.log('會員資料：', response)
-            setUserInfo(response)
-        })
-    }, [user_id]
-    )
-    console.log('userinfo:', (userInfo[0] != undefined) ? userInfo[0].name : userInfo.name)
+        const user = usePage().props.auth.user;
+        let user_id = user.id
+        // let basePath = '../../../app/Models'
+        useEffect(()=>{
+            const url = 'http://localhost/gachoraProject/app/Models/Post/Userinfo.php'
+            $.post(url, {
+                user_id
+            }, (response) => {
+                // console.log('會員資料：', response)
+                setUserInfo(response)
+            })
+        },[user_id]
+        )
+        // console.log('userinfo:',(userInfo[0] != undefined)? userInfo[0].name : userInfo.name)
     return (
         <>
             {/* <Head title="paymentInfo" /> */}
