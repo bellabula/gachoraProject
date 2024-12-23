@@ -12,7 +12,7 @@ function B_3_GachaDetail() {
     let user_id = null;
     const [userFavor, setUerFavor] = useState([]);
     const [myGash, setmyGash] = useState(null)
-    // //加入我的最愛事件
+    // 加入我的最愛事件
     const [isFavorited, setIsFavorited] = useState(false);
     if (user) {
         user_id = user.id
@@ -172,11 +172,11 @@ function B_3_GachaDetail() {
                             <div className="pdinfocolor">
                                 <ul>
                                     <h4>價格 : {series.price}</h4>
-                                    {/* <li>配送時間:</li> */}
                                     {/* <li>結束日期:</li> */}
                                     {/* <li>產品尺寸:</li> */}
                                     {/* <li>產品材質:</li> */}
                                     <li>種類:共{characters.length}種</li>
+                                    <li>配送時間:下單後3~7天出貨</li>
                                 </ul>
                             </div>
                             <p>機台剩餘數量：<span id="stockCount">{series.remain}</span></p>

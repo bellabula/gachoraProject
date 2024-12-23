@@ -11,11 +11,11 @@ function MyOrderLog({list_id, oId, oDate, oStatus, dPath }) {
 
         let basePath = '../app/Models'
         const url = basePath + '/Post/LogisticsDetail.php'
-        console.log(list_id)
+        // console.log(list_id)
         $.post(url, {
             list_id: list_id
         }, (response) => {
-            console.log(response)
+            // console.log(response)
             setDetails(response)
         })
         setShowModal(true); // 彈跳視窗
