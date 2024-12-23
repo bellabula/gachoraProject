@@ -124,7 +124,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             marginTopValue = '800px';
         } else {
             // 螢幕寬度大於或等於 1024px 時，設置較大的 marginTop
-            marginTopValue = '1800px';
+            marginTopValue = '1700px';
         }
 
         if (!isFormVisible) {
@@ -247,6 +247,74 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 </div>
 
                 <br />
+
+                {/* 扭蛋內容 */}
+                <section className="container1">
+                    <div className="upper-curve2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                            <path
+                                fill="#FEC265"
+                                fillOpacity="1"
+                                d="M0,64L40,58.7C80,53,160,43,240,37.3C320,32,400,32,480,69.3C560,107,640,181,720,186.7C800,192,880,128,960,122.7C1040,117,1120,171,1200,192C1280,213,1360,203,1400,197.3L1440,192L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
+                            />
+                        </svg>
+                    </div>
+                    <div className="wave-container2">
+                        <h1 className="title slide-in from-bottom">扭蛋</h1>
+                        <div className="row">
+                            <div className="col-md-7">
+                                <h3 className="ti-content slide-in from-left">互動式扭蛋體驗</h3>
+                                <p className="ti-content slide-in from-left">歡迎來到全新線上扭蛋機，為您打造充滿樂趣與驚喜的互動體驗！</p>
+                                <p className="ti-content slide-in from-left">透過精美的機台設計與獨特的操作模式，點擊機台即可感受扭蛋</p>
+                                <p className="ti-content slide-in from-left">機的晃動效果，彷彿置身實體扭蛋店般身歷其境。每個細節都經</p>
+                                <p className="ti-content slide-in from-left">過精心設計，讓您在家中也能感受到趣味十足的扭蛋體驗，增添</p>
+                                <p className="ti-content slide-in from-left">互動性與參與感。</p>
+                            </div>
+                            <div className="col-md-5">
+                                <div>
+                                    <div id="animation4" className="img-fluid col-md-5 slide-in from-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-5">
+                                <div>
+                                    <div id="animation3" className="img-fluid col-md-5 slide-in from-left"></div>
+                                </div>
+                            </div>
+                            <div className="col-md-7">
+                                <h3 className="ti-content slide-in from-right">點擊按鈕，開啟驚喜</h3>
+                                <p className="ti-content slide-in from-right">準備好迎接未知的驚喜了嗎？只需點擊扭蛋機的按鈕，機台便會</p>
+                                <p className="ti-content slide-in from-right">開始轉動，緊接著彈出隱藏的驚喜產品！每一次轉動都是一場期</p>
+                                <p className="ti-content slide-in from-right">待的冒險，無論是收藏好物還是限定商品，皆有機會成為您的收穫。</p>
+                                <p className="ti-content slide-in from-right">快來試試手氣，探索專屬於您的扭蛋驚喜，讓每一個瞬間都充滿</p>
+                                <p className="ti-content slide-in from-right">期待與歡樂！</p>
+                            </div>
+                        </div>
+                        {/* 商品promote 1 */}
+                        <div className='pdinfo'>
+                            <img src="http://localhost/gachoraProject/public/images/eggingo-01.png" alt="Background" />
+                            <div className="text-container">
+                                <h3 className="slide-in from-bottom">開啟太空探險</h3>
+                                <p className="slide-in from-bottom">每一顆都是獨特的太空冒險，搭配泡泡瑪特經典設計。快來轉動扭蛋，駕駛你的星際車輛！</p>
+                                <button type="button" className="btn custom-btn btn-lg" id="button3">
+                                    前往扭蛋頁面
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="lower-curve2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                            <path
+                                fill="#FEC265"
+                                fillOpacity="1"
+                                d="M0,224L34.3,234.7C68.6,245,137,267,206,266.7C274.3,267,343,245,411,213.3C480,181,549,139,617,128C685.7,117,754,139,823,133.3C891.4,128,960,96,1029,106.7C1097.1,117,1166,171,1234,181.3C1302.9,192,1371,160,1406,144L1440,128L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"
+                            />
+                        </svg>
+                    </div>
+                </section>
+
                 {/* 一番賞內容 */}
                 <section className="container1">
                     <div className="upper-curve">
@@ -262,35 +330,34 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         <h1 className="title slide-in from-bottom">一番賞</h1>
                         <div className="row">
                             <div className="col-md-7">
-                                <h3 className="ti-content slide-in from-left">一番賞內容1</h3>
-                                <p className="content slide-in from-left">Your information content goes here...</p>
-                                <br />
-                                <br />
-                                <br />
-                                <p className="content slide-in from-left">Your information content goes here...</p>
-                                <br />
-                                <br />
-                                <br />
-                                <p className="content slide-in from-left">Your information content goes here...</p>
-                                <br />
-                                <br />
-                                <br />
-                                <p className="content slide-in from-left">Your information content goes here...</p>
-                                <br />
-                                <br />
-                                <br />
-                                <p className="content slide-in from-left">Your information content goes here...</p>
-                                <br />
-                                <br />
-                                <br />
+                                <h3 className="ti-content slide-in from-left">撕開幸運的瞬間，揭曉您的專屬大獎</h3>
+                                <p className="ti-content content slide-in from-left">歡迎來到線上互動一番賞，結合精緻設計與真實感的全新玩法！</p>
+                                <p className="ti-content content slide-in from-left">透過模擬撕開紙張的互動效果，讓您一點一滴揭開獎項的神秘面紗。</p>
+                                <p className="ti-content content slide-in from-left">每一片紙張的剝落都帶著未知的期待，彷彿親手拆禮物般，</p>
+                                <p className="ti-content content slide-in from-left">讓抽選過程成為充滿儀式感的享受。從特別獎到經典商品，<br /></p>
+                                <p className="ti-content content slide-in from-left">每一個獎項都讓人驚喜不已！與其只看結果，為何不投入這充滿樂趣</p>
+                                <p className="ti-content content slide-in from-left">的互動體驗？現在就試試您的運氣，感受撕開紙張的細膩過程，</p>
+                                <p className="ti-content content slide-in from-left">讓每一次抽選都成為專屬於您的幸運旅程，體驗真正的心跳瞬間！</p>
+
                             </div>
+
                             <div className="col-md-5 slide-in from-right">
                                 <div className="sticky-top">
                                     <img src="http://localhost/gachoraProject/public/images/oneticket.gif" className="img-fluid" alt="一番賞" />
                                 </div>
                             </div>
                         </div>
-
+                        {/* 商品promote 2 */}
+                        <div className='pdinfo' style={{marginTop: "10%"}}>
+                            <img src="http://localhost/gachoraProject/public/images/lottryimg-01.png" alt="Background" />
+                            <div className="text-container">
+                                <h3 className="slide-in from-bottom">開啟太空探險</h3>
+                                <p className="slide-in from-bottom">每一顆都是獨特的太空冒險，搭配泡泡瑪特經典設計。快來轉動扭蛋，駕駛你的星際車輛！</p>
+                                <button type="button" className="btn custom-btn btn-lg" id="button3">
+                                    前往一番賞頁面
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div className="lower-curve">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -300,80 +367,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 d="M0,0L48,10.7C96,21,192,43,288,69.3C384,96,480,128,576,138.7C672,149,768,139,864,117.3C960,96,1056,64,1152,80C1248,96,1344,160,1392,192L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
                             />
                         </svg>
-                    </div>
-                </section>
-                {/* 商品promote 1 */}
-                <section className='pdinfo'>
-                    <div>
-                        <img src="http://localhost/gachoraProject/public/images/welimg6-01.png" alt="Background" />
-                        <div className="text-container">
-                            <h3 className="ti-content slide-in from-bottom">一翻賞內容</h3>
-                            <p className="ti-content slide-in from-bottom">Your information content goes here...</p>
-                            <button type="button" className="btn custom-btn btn-lg" id="button3">
-                                前往一翻賞頁面
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-
-                <section className="container1">
-                    <div className="upper-curve2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-                            <path
-                                fill="#FEC265"
-                                fillOpacity="1"
-                                d="M0,64L40,58.7C80,53,160,43,240,37.3C320,32,400,32,480,69.3C560,107,640,181,720,186.7C800,192,880,128,960,122.7C1040,117,1120,171,1200,192C1280,213,1360,203,1400,197.3L1440,192L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"
-                            />
-                        </svg>
-                    </div>
-                    <div className="wave-container2">
-                        <h1 className="title slide-in from-bottom">扭蛋</h1>
-                        <div className="row">
-                            <div className="col-md-7">
-                                <h3 className="ti-content slide-in from-left">扭蛋內容1</h3>
-                                <p className="ti-content slide-in from-left">Your information content goes here...</p>
-                            </div>
-                            <div className="col-md-5">
-                                <div>
-                                    <div id="animation4" className="img-fluid col-md-5 slide-in from-right"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-5">
-                                <div>
-                                    <div id="animation3" className="img-fluid col-md-5 slide-in from-left"></div>
-                                </div>
-                            </div>
-                            <div className="col-md-7">
-                                <h3 className="ti-content slide-in from-right">扭蛋內容2</h3>
-                                <p className="ti-content slide-in from-right">Your information content goes here...</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div className="lower-curve2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-                            <path
-                                fill="#FEC265"
-                                fillOpacity="1"
-                                d="M0,224L34.3,234.7C68.6,245,137,267,206,266.7C274.3,267,343,245,411,213.3C480,181,549,139,617,128C685.7,117,754,139,823,133.3C891.4,128,960,96,1029,106.7C1097.1,117,1166,171,1234,181.3C1302.9,192,1371,160,1406,144L1440,128L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"
-                            />
-                        </svg>
-                    </div>
-                </section>
-                {/* 商品promote 2*/}
-                <section className='pdinfo'>
-                    <div>
-                        <img src="http://localhost/gachoraProject/public/images/welimg6-01.png" alt="Background" />
-                        <div className="text-container">
-                            <h3 className="ti-content slide-in from-bottom">扭蛋內容</h3>
-                            <p className="ti-content slide-in from-bottom">Your information content goes here...</p>
-                            <button type="button" className="btn custom-btn btn-lg" id="button3">
-                                前往一扭蛋頁面
-                            </button>
-                        </div>
                     </div>
                 </section>
 
