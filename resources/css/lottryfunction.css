@@ -67,7 +67,7 @@
 
 
 /* 自定义按钮样式 */
-#lottryfunction .custom-btn {
+#lottryfunction .custom-btn, .custom-btn {
     display: block;
     margin: 0 auto;
     margin-top: 20px;

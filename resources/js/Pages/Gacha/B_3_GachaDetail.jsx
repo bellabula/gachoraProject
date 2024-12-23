@@ -109,7 +109,7 @@ function B_3_GachaDetail() {
         setQuantity(quantity - 1 > 0 ? quantity - 1 : 1);
     };
     const addValue = () => {
-        setQuantity(quantity + 1);
+        setQuantity(quantity + 1 <= series.remain ? quantity + 1 : quantity);
     };
 
     //推薦商品左右切換
@@ -131,6 +131,7 @@ function B_3_GachaDetail() {
         if (myGash < series.price * $("#quantityInput").val()) {
             alert("你沒有足夠的G幣")
         } else {
+            localStorage.setItem("quantity", $("#quantityInput").val())
             window.location.replace("http://localhost/gachoraProject/public/gachamachine?seriesId=" + gachaId);
         }
     }
@@ -189,9 +190,9 @@ function B_3_GachaDetail() {
                                     onClick={minusValue} />
                                 <input type="number"
                                     id="quantityInput"
-                                    defaultValue={quantity}
+                                    value={quantity}
                                     min="1"
-                                    max="100" />
+                                    max={series.remain} />
                                 <img src="http://localhost/gachoraProject/public/images/gachoHome/add-square.png"
                                     className="increment"
                                     onClick={addValue} />
