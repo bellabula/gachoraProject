@@ -295,9 +295,11 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             <div className="text-container">
                                 <h3 className="slide-in from-bottom">開啟太空探險</h3>
                                 <p className="slide-in from-bottom">每一顆都是獨特的太空冒險，搭配泡泡瑪特經典設計。快來轉動扭蛋，駕駛你的星際車輛！</p>
-                                <button type="button" className="btn custom-btn btn-lg" id="button3">
-                                    前往扭蛋頁面
-                                </button>
+                                <a href={route('gachaHome')} style={{ textDecoration: 'none' }}>
+                                    <button type="button" className="btn custom-btn btn-lg" id="button3">
+                                        前往扭蛋頁面
+                                    </button>
+                                </a>
                             </div>
                         </div>
 
@@ -346,14 +348,14 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             </div>
                         </div>
                         {/* 商品promote 2 */}
-                        <div className='pdinfo' style={{marginTop: "10%"}}>
+                        <div className='pdinfo' style={{ marginTop: "10%" }}>
                             <img src="http://localhost/gachoraProject/public/images/lottryimg-01.png" alt="Background" />
                             <div className="text-container">
                                 <h3 className="slide-in from-bottom">開啟太空探險</h3>
                                 <p className="slide-in from-bottom">每一顆都是獨特的太空冒險，搭配泡泡瑪特經典設計。快來轉動扭蛋，駕駛你的星際車輛！</p>
-                                <button type="button" className="btn custom-btn btn-lg" id="button3">
+                                <a href={route('lottryHome')} style={{ textDecoration: 'none' }}><button type="button" className="btn custom-btn btn-lg" id="button3">
                                     前往一番賞頁面
-                                </button>
+                                </button></a>
                             </div>
                         </div>
                     </div>
