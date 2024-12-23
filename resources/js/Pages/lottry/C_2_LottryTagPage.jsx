@@ -1,11 +1,37 @@
 import React from 'react'
 import Navbar from '@/Components/Navbar';
 import PdCard from '@/Components/PdCard';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 
 function C_2_LottryTagPage() {
+    const user = usePage().props.auth.user;
+
+    const basePath = '../app/Models'
+    const [userFavor, setUerFavor] = useState([]);
+    if (user) {
+        const user_id = user.id
+        let collectIchiban = [];
+        useEffect(() => {
+            $.post(basePath + '/Post/UserCollectionIchiban.php', {
+                user_id: user_id
+            }, (response) => {
+                if (typeof (response.has) != "undefined") {
+                    collectIchiban = [...response.has]
+                }
+                if (typeof (response.no) != "undefined") {
+                    collectIchiban = [...collectIchiban, ...response.no]
+                }
+                setUerFavor(collectIchiban.map(item => item.id))
+                // console.log(userFavor)
+                // console.log('蛋收藏：', [...response.has, ...response.no])
+            })
+        }, [user_id])
+    }
+
+
+
     const [allProducts, setAllProducts] = useState([]);
     const [error, setError] = useState(null);
 
@@ -133,20 +159,9 @@ function C_2_LottryTagPage() {
                                             <PdCard
                                                 key={index}
                                                 seriesId={product.series_id}
-                                                pdName={product.name}
-                                                pdTitle={product.title}
-                                                pdPrice={product.price}
-                                                pdQuantity={product.remain}
-                                                pdTotal={product.total}
-                                                aPrizeName={product.character[0].name}
-                                                aRemain={product.character[0].remain}
-                                                aTotal={product.character[0].total}
-                                                bPrizeName={product.character[1].name}
-                                                bRemain={product.character[1].remain}
-                                                bTotal={product.character[1].total}
-                                                cPrizeName={product.character[2].name}
-                                                cRemain={product.character[2].remain}
-                                                cTotal={product.character[2].total}
+                                                series={product}
+                                                prize={product.character}
+                                                userFavor={userFavor}
                                                 img={product.img[0]}
                                             />
                                         ))

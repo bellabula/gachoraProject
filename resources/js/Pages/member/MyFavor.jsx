@@ -1,4 +1,5 @@
 import MyFavorCard from './MyFavorCard'
+import MyIchibanFavorCard from './MyIchibanFavorCard'
 import React, { useEffect, useState } from 'react'
 import { usePage } from '@inertiajs/react';
 
@@ -67,7 +68,7 @@ function MyFavor({ id, className="" }) {
                         {typeof (ichibanFavor) != "undefined" ?
                             <div className="row  row-gap-2">
                                 {ichibanFavor.map((v, index) => (
-                                    <MyFavorCard key={index} src={v.img} href='' />
+                                    <MyIchibanFavorCard key={index} src={v.img[0]} href={'lottrydetail?seriesId=' + v.id} />
                                 ))}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何一番賞收藏... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往一番賞</button></h4>}
                     </div>

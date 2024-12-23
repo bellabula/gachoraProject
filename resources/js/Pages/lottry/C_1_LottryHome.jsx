@@ -36,19 +36,18 @@ function C_1_LottryHome() {
     const [userFavor, setUerFavor] = useState([]);
     if (user) {
         const user_id = user.id
-        let collectEgg = [];
+        let collectIchiban = [];
         useEffect(() => {
-            $.post(basePath + '/Post/UserCollectionEgg.php', {
+            $.post(basePath + '/Post/UserCollectionIchiban.php', {
                 user_id: user_id
             }, (response) => {
                 if (typeof (response.has) != "undefined") {
-                    collectEgg = [...response.has]
+                    collectIchiban = [...response.has]
                 }
                 if (typeof (response.no) != "undefined") {
-                    collectEgg = [...collectEgg, ...response.no]
+                    collectIchiban = [...collectIchiban, ...response.no]
                 }
-                setUerFavor(collectEgg.map(item => item.id))
-                // console.log(userFavor)
+                setUerFavor(collectIchiban.map(item => item.id))
                 // console.log('蛋收藏：', [...response.has, ...response.no])
             })
         }, [user_id])
@@ -277,21 +276,9 @@ function C_1_LottryHome() {
                                 <Carousel.Item key={index}>
                                     <div className='item'>
                                         <PdCard
-                                            pdName={product.name}
-                                            pdQuantity={product.remain}
-                                            pdTitle={product.title}
-                                            pdTotal={product.total}
-                                            pdPrice={product.price}
-                                            pdAvailable={product.remain >= 0 ? "尚有大賞" : "大賞已釋出"}
-                                            aPrizeName={product.character?.[0]?.name || ""}
-                                            aRemain={product.character?.[0]?.remain || 0}
-                                            aTotal={product.character?.[0]?.total || 0}
-                                            bPrizeName={product.character?.[1]?.name || ""}
-                                            bRemain={product.character?.[1]?.remain || 0}
-                                            bTotal={product.character?.[1]?.total || 0}
-                                            cPrizeName={product.character?.[2]?.name || 0}
-                                            cRemain={product.character?.[2]?.remain || 0}
-                                            cTotal={product.character?.[2]?.total || 0}
+                                            seriesId={product.series_id}
+                                            series={product}
+                                            prize={product.character}
                                             userFavor={userFavor}
                                             img={product.img[0]}>
                                         </PdCard>
