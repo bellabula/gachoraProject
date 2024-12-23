@@ -111,18 +111,35 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         const formContent = document.querySelector('.desc');
         const ichibanSection = document.querySelector('.container1');
 
+        // 計算根據螢幕寬度動態設置的 marginTop
+        let marginTopValue;
+        if (window.innerWidth < 576) {
+            // 螢幕寬度小於 576px 時，設置較小的 marginTop
+            marginTopValue = '400px';
+        } else if (window.innerWidth < 768) {
+            // 螢幕寬度小於 768px 時，設置中等的 marginTop
+            marginTopValue = '600px';
+        } else if (window.innerWidth < 1024) {
+            // 螢幕寬度小於 1024px 時，設置中等的 marginTop
+            marginTopValue = '800px';
+        } else {
+            // 螢幕寬度大於或等於 1024px 時，設置較大的 marginTop
+            marginTopValue = '1800px';
+        }
+
         if (!isFormVisible) {
             icon.classList.add('rotate');
             formContainer.classList.add('show');
             formContent.classList.add('show');
             icon.classList.remove('reverse-rotate');
-            ichibanSection.style.marginTop = '1000px';
+            ichibanSection.style.marginTop = marginTopValue;
         } else {
             icon.classList.add('reverse-rotate');
             formContainer.classList.remove('show');
             formContent.classList.remove('show');
             ichibanSection.style.marginTop = '0';
         }
+
         isFormVisible = !isFormVisible;
     }
 
@@ -163,7 +180,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
 
 
-            <main id="homepage" style={{ backgroundColor: "var(--main-darkblue)", margin: "0px" }}>
+            <main id="homepage" style={{ backgroundColor: "var(--main-darkblue)", margin: "0px", height: "auto" }}>
                 <Navbar svgColor="none" textColor="white" homepage="true" />
                 {/* 首頁開始/動畫/按鈕 */}
 
@@ -200,10 +217,30 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         onClick={() => toggleRotation()} // Define `toggleRotation` function if used
                         style={{ cursor: 'pointer' }}
                     />
+                    {/* 點開按鈕後內容 */}
                     <div className="desc_form">
                         <div className="desc">
                             <form>
-                                {/* 關於我們內容 */}
+                                <div className='abimg'>
+                                    <img src="http://localhost/gachoraProject/public/images/abimg-01.svg" alt="about us img1" />
+                                </div>
+                                <div className='abimg2'>
+                                    <img src="http://localhost/gachoraProject/public/images/abimg2-01.svg" alt="about us img2" />
+                                </div>
+                                <div className='ab1'>
+                                    <div className='image-container'>
+                                        <img src="http://localhost/gachoraProject/public/images/aboutus1.svg" alt="about us 1" />
+                                        <div className='text-overlay1'>歡迎來到 Gachora，一個結合扭蛋樂趣與一番賞驚喜的獨特星球！在這裡，每一次點擊都是一場與未知的邂逅，彷彿穿越浩瀚宇宙，探索無數閃耀的星球與無窮的驚喜。</div>
+                                    </div>
+                                    <div className='image-container'>
+                                        <img src="http://localhost/gachoraProject/public/images/aboutus2.svg" alt="about us 2" />
+                                        <div className='text-overlay2'>讓 Gachora 帶你來體驗一場無與倫比的探索之旅。</div>
+                                    </div>
+                                    <div className='image-container'>
+                                        <img src="http://localhost/gachoraProject/public/images/aboutus3-1.svg" alt="about us 3" />
+                                        <div className='text-overlay3'>每一個抽選都是一段未知的探索，每一次驚喜都是來自星球深處的禮物。讓我們一起踏上這場充滿樂趣與期待的旅程，探索無盡的可能性，創造屬於你的快樂時刻！</div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -253,11 +290,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 </div>
                             </div>
                         </div>
-                        <div className='btncontainer'>
-                            <button type="button" className="btn custom-btn btn-lg" id="button3">
-                                前往一翻賞頁面
-                            </button>
-                        </div>
 
                     </div>
                     <div className="lower-curve">
@@ -270,6 +302,20 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </svg>
                     </div>
                 </section>
+                {/* 商品promote 1 */}
+                <section className='pdinfo'>
+                    <div>
+                        <img src="http://localhost/gachoraProject/public/images/welimg6-01.png" alt="Background" />
+                        <div className="text-container">
+                            <h3 className="ti-content slide-in from-bottom">一翻賞內容</h3>
+                            <p className="ti-content slide-in from-bottom">Your information content goes here...</p>
+                            <button type="button" className="btn custom-btn btn-lg" id="button3">
+                                前往一翻賞頁面
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
 
                 <section className="container1">
                     <div className="upper-curve2">
@@ -305,11 +351,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 <p className="ti-content slide-in from-right">Your information content goes here...</p>
                             </div>
                         </div>
-                        <div className='btncontainer'>
-                            <button type="button" className="btn custom-btn btn-lg" id="button4">
-                                前往扭蛋頁面
-                            </button>
-                        </div>
+
                     </div>
                     <div className="lower-curve2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -319,6 +361,19 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 d="M0,224L34.3,234.7C68.6,245,137,267,206,266.7C274.3,267,343,245,411,213.3C480,181,549,139,617,128C685.7,117,754,139,823,133.3C891.4,128,960,96,1029,106.7C1097.1,117,1166,171,1234,181.3C1302.9,192,1371,160,1406,144L1440,128L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"
                             />
                         </svg>
+                    </div>
+                </section>
+                {/* 商品promote 2*/}
+                <section className='pdinfo'>
+                    <div>
+                        <img src="http://localhost/gachoraProject/public/images/welimg6-01.png" alt="Background" />
+                        <div className="text-container">
+                            <h3 className="ti-content slide-in from-bottom">扭蛋內容</h3>
+                            <p className="ti-content slide-in from-bottom">Your information content goes here...</p>
+                            <button type="button" className="btn custom-btn btn-lg" id="button3">
+                                前往一扭蛋頁面
+                            </button>
+                        </div>
                     </div>
                 </section>
 
