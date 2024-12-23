@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import DepositOption from './DepositOption';
 import { usePage } from '@inertiajs/react';
-
+let togreen1 = ''
+let togreen2 = ''
 function Deposit({ gash }) {
 
     const user = usePage().props.auth.user;
     const user_id = user.id;
+    togreen1 = user_id
     let gash_id = null;
 
     // 設定選擇的狀態，初始值為 null，表示沒有選擇
@@ -17,32 +19,32 @@ function Deposit({ gash }) {
     };
     const handleSubmit = () => {
         if (selectedOption !== null) {
-            switch(selectedOption) {
-                case 300: 
+            switch (selectedOption) {
+                case 300:
                     gash_id = 1;
                     break;
-                case 500: 
+                case 500:
                     gash_id = 2;
                     break;
-                case 1000: 
+                case 1000:
                     gash_id = 3;
                     break;
-                case 3000: 
+                case 3000:
                     gash_id = 4;
                     break;
-                case 5000: 
+                case 5000:
                     gash_id = 5;
                     break;
-                case 10000: 
+                case 10000:
                     gash_id = 6;
                     break;
-                case 20000: 
+                case 20000:
                     gash_id = 7;
                     break;
-                case 30000: 
+                case 30000:
                     gash_id = 8;
                     break;
-                case 50000: 
+                case 50000:
                     gash_id = 9;
                     break;
             }
@@ -51,11 +53,55 @@ function Deposit({ gash }) {
             $.post(url, {
                 user_id: user_id,
                 gash_id: gash_id
-            }, function(response) {
+            }, function (response) {
                 console.log(response)
+                togreen2 = selectedOption
+                if (response[0].error == 'done') {
+                    localStorage.setItem("tmpurl",  window.location.href)
+                    toGreen(togreen1, togreen2)
+                }
             })
         }
     };
+
+    // 提交綠界表單
+    // 4311-9522-2222-2222
+    function toGreen(green1, green2) {
+        let form = document.createElement('form')
+        form.action = 'http://localhost/gachoraProject/app/Models/Ecpay/ecpay-payment.php'
+        form.method = 'POST'
+
+        let gashInput = document.createElement('input')
+        gashInput.type = 'number'
+        gashInput.value = green2
+        gashInput.name = 'money'
+        gashInput.required = true
+
+        let uidInput = document.createElement('input')
+        uidInput.type = 'number'
+        uidInput.value = green1
+        uidInput.name = 'user_id'
+        uidInput.required = true
+
+        // let urlInput = document.createElement('input')
+        // urlInput.type = 'text'
+        // urlInput.value = 'http://localhost/gachoraProject/public/gachadetail?seriesId=1'
+        // urlInput.name = 'backToURL'
+        // urlInput.required = true
+
+        let submitButton = document.createElement('button')
+        submitButton.type = 'submit'
+
+        form.appendChild(gashInput)
+        form.appendChild(uidInput)
+        // form.appendChild(urlInput)
+        form.appendChild(submitButton)
+
+        document.body.appendChild(form)
+
+        form.submit()
+
+    }
     return (
         <form action="">
             <div id="e5">

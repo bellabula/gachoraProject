@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
 import MyOrderLog from './MyOrderLog';
 
-function MyOrder({ id }) {
+function MyOrder({ id, className="" }) {
 
     useEffect(() => {
         // 取得今天的日期，並格式化為 YYYY-MM-DD
@@ -56,7 +56,7 @@ function MyOrder({ id }) {
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            // console.log('訂單：', response)
+            console.log('訂單：', response)
             setOrderLog(response)
         })
     }, [user_id])
@@ -64,7 +64,7 @@ function MyOrder({ id }) {
     return (
         <>
             {/* <!-- 5. 我的訂單 --> */}
-            <div id={id} className="tab-pane">
+            <div id={id} className={"tab-pane " + className}>
                 <p className="h1 d-inline-block me-3">我的訂單</p>
                 <form className="d-inline-block">
                     <input className="date-input orderStartText" type="text" placeholder="起始日" readOnly />
@@ -100,7 +100,7 @@ function MyOrder({ id }) {
                         <tbody>
                             {/* <MyOrderLog oId="GC16977356881" oDate="2024/11/22" oStatus="待出貨" dPath="宅配" /> */}
                             {orderLog.reverse().map((v, index)=>(
-                                <MyOrderLog oId={v.no} oDate={v.time} oStatus={v.status} dPath={v.method} key={index}/>
+                                <MyOrderLog list_id={v.id} oId={v.no} oDate={v.time} oStatus={v.status} dPath={v.method} key={index}/>
                             ))}
                         </tbody>
                     </table>
