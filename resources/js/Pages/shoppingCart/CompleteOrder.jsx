@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link } from '@inertiajs/react';
+import { Link} from '@inertiajs/react';
 
 function CompleteOrder({ id, display = "block" }) {
+
     return (
         <>
             <div id={id} style={{ display: display }}>
@@ -23,13 +24,22 @@ function CompleteOrder({ id, display = "block" }) {
                     {/* <!-- 選擇匡 --> */}
                     <div className="e2_center">
                         <div className="e2_group">
-                            <div className="detail" style={{textAlign: "center", fontSize: "3vw", border: "0", margin: "10vw"}}>訂單已提交</div>
-                            <div className="go" style={{justifyContent: "center"}}>
-                                <button className="bgmain" style={{margin: "2vw"}}>查看訂單</button>
-                                <button className="bgmain" style={{margin: "2vw"}}>
-                                    <Link href={route("home")} style={{textDecoration:"none", color:"white"}}>
+                            <div className="detail" style={{ textAlign: "center", fontSize: "3vw", border: "0", margin: "10vw" }}>訂單已提交</div>
+                            <div className="go" style={{ justifyContent: "center" }}>
+                                <button className="bgmain" style={{ margin: "2vw" }}>
+                                    <Link href={route("dashboard", { highlight: "myOrder" })} style={{ textDecoration: "none", color: "white" }}>
+                                    查看訂單
+                                    </Link>
+                                </button>
+                                <button className="bgmain" style={{ margin: "2vw" }}>
+                                    <Link href={route("dashboard")} style={{ textDecoration: "none", color: "white" }}>
+                                        回會員專區
+                                    </Link>
+                                </button>
+                                <button className="bgmain" style={{ margin: "2vw" }}>
+                                    <Link href={route("home")} style={{ textDecoration: "none", color: "white" }}>
                                         回首頁
-                                    </Link>    
+                                    </Link>
                                 </button>
                             </div>
                         </div>
