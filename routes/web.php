@@ -80,10 +80,8 @@ Route::get('/gachamachine', function (Request $request) {
     ]);
 })->name('gachamachine');
 
-Route::get('/lottryfunction', function (Request $request) {
-    return Inertia::render('lottry/C_3_3_LottryFuntion', [
-        'seriesId' => $request->query('seriesId'), // 將 seriesId 傳遞到前端
-    ]);
+Route::get('/lottryfunction', function () {
+    return Inertia::render('lottry/C_3_3_LottryFuntion');
 })->name('lottryfunction');
 
 

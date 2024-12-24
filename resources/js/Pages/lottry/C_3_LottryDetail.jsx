@@ -45,16 +45,17 @@ function C_3_LottryDetail() {
     }
 
     useEffect(() => {
-        // console.log("new : " + userFavor)
+        console.log("new : " + userFavor)
         if (userFavor.includes(parseInt(seriesId))) {
             setIsFavorited(true)
-            // console.log("isfavorited after : " + isFavorited)
+            console.log("isfavorited after : " + isFavorited)
         }
     }, [userFavor])
 
     const [heartImg, setHeartImg] = useState("")
 
     useEffect(() => {
+        console.log("Hello : " + isFavorited)
         setHeartImg(isFavorited ? 'http://localhost/gachoraProject/public/images/gachoHome/Vector (2).png' : 'http://localhost/gachoraProject/public/images/gachoHome/Vector.png')
     }, [isFavorited])
 
@@ -96,16 +97,14 @@ function C_3_LottryDetail() {
             setRecommend(response.recommend)
             setBigImageSrc(response.series.character[0].img)
             setSeatNumbers(Array.from({ length: response.series.total }, (_, i) => i + 1))
-            console.log("label")
-            console.log(response.label)
-            setBookedSeats(response.label ? response.label : [])
+            setBookedSeats(response.series.label ? response.series.label : [])
         })
     }, [seriesId]);
 
 
-    // useEffect(() => {
-    //     console.log("seriesData 已更新:", seriesData);
-    // }, [seriesData]);
+    useEffect(() => {
+        console.log("seriesData 已更新:", seriesData);
+    }, [seriesData]);
 
     // 當 seriesData 還沒有加載完成時，顯示 loading 或其他提示
     // if (!seriesData) {
@@ -142,120 +141,20 @@ function C_3_LottryDetail() {
     };
 
     // 切換摺疊區域的展開/收起
-    const [yourNumber, setYourNumber] = useState(null)
-    const [timer, setTimer] = useState(0)
-    const [yourTimer, setYourTimer] = useState(0)
     const toggleCollapse = () => {
-        // if (!isOpen) {
-        //     const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'
-        //     $.post(url, {
-        //         user_id: user_id,
-        //         series_id: seriesId
-        //     }, (response) => {
-        //         console.log(user_id)
-        //         console.log(seriesId)
-        //         console.log(response)
-        //         frontTime(seriesId, response[0].yournumber, response[0].waiting)
-        //         setYourNumber(response[0].yournumber)
-        //     })
-        // } else {
-        //     deleteWait(seriesId, yourNumber)
-        //     // clearTimeout(timerId)
-        //     // console.log('2', timerId)
-        //     // $('.timer').text('bye')
-        // }
         setIsOpen(!isOpen);
+        // const user_id = $(this).prev().val()
+        // const series_id = $(this).val()
+        // const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'
+        // $.post(url, {
+        //     user_id: user_id,
+        //     series_id: series_id
+        // }, (response) => {
+        //     FrontTime(series_id, response[0].yournumber, response[0].waiting)
+        //     $('.yournumber').text(response[0].yournumber)
+        // })
     };
 
-    // 前端timer
-    // let executed = false
-    // let timerId
-    // function frontTime(series_id, yournumber, wait) {
-    //     if (wait > 0) {
-    //         if (!executed) {
-    //             // $('[id^="label"]').addClass('disabled')
-    //             setIsOpen(false)
-    //             executed = true
-    //         }
-    //         if (wait % 10 > 0) {
-    //             setTimer(wait)
-    //             // $('.timer').text(`最晚等${Math.floor(wait / 60)}分${(wait % 60)}秒`)
-    //             wait -= 1
-    //             setTimeout(() => {
-    //                 frontTime(seriesId, yournumber, wait)
-    //             }, 1000)
-    //         } else {
-    //             seeWaitTime(series_id, yournumber)
-    //             executed = false
-    //         }
-    //     } else if (wait > -180) {
-    //         // 重新抓剩的
-    //         if (!executed) {
-    //             $.post('http://localhost/gachoraProject/app/Models/Post/IchibanDetail.php', {
-    //                 series_id: seriesId
-    //             }, (response) => {
-    //                 console.log('賞詳細頁', response);
-    //                 // $('.labels').text('')
-    //                 // 出籤response.series.total是總共籤數
-    //                 // for (let i = 1; i <= response.series.total; i++) {
-    //                 //     $('.labels').append(`<button id="label${i}">${i}</button>`)
-    //                 // }
-    //                 // 被抽的號碼碼掉response.label是已經被抽的
-    //                 // if (response.label) {
-    //                 //     response.label.map((v) => {
-    //                 //         $(`#label${v}`).prop('disabled', true)
-    //                 //     })
-    //                 //     // $('[id^="label"]').addClass('disabled')
-    //                 // }
-    //                 // $('[id^="label"]').removeClass('disabled')
-    //             })
-    //             executed = true
-    //         }
-
-    //         if ((wait * -1) % 10 > 1) {
-    //             setYourTimer(wait)
-    //             // $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
-    //             wait -= 1
-    //             timerId = setTimeout(() => {
-    //                 frontTime(seriesId, yournumber, wait)
-    //                 console.log('1', timerId)
-    //             }, 1000)
-    //         } else {
-    //             setYourTimer(wait)
-    //             // $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
-    //             seeWaitTime(seriesId, yournumber)
-    //         }
-    //     } else {
-    //         $('[id^="label"]').addClass('disabled')
-    //         deleteWait(seriesId, yournumber)
-    //         $('.timer').text('已結束...')
-    //     }
-    // }
-
-    // post series_id, 號碼牌，到後端確認時間
-    // function seeWaitTime(p_series_id, p_yournumber) {
-    //     const url = 'http://localhost/gachoraProject/app/Models/Post/SeeWaitTime.php'
-    //     $.post(url, {
-    //         series_id: p_series_id,
-    //         number: p_yournumber
-    //     }, ({
-    //         series_id,
-    //         waiting,
-    //         yournumber
-    //     }) => {
-    //         setTimeout(() => {
-    //             frontTime(series_id, yournumber, waiting);
-    //         }, 0);
-    //     })
-    // }
-
-    // post series_id, 號碼牌，告訴後端中離與要離開
-    // function deleteWait(series_id, yournumber) {
-    //     $.post('http://localhost/gachoraProject/app/Models/Post/DeleteWait.php', {
-    //         series_id: series_id,
-    //         number: yournumber,
-    //     }, (response) => { })
-    // }
 
     // 處理座位選中/取消的函數
     const toggleSeatSelection = (number) => {
@@ -266,60 +165,7 @@ function C_3_LottryDetail() {
             setSelectedNumbers([...selectedNumbers, number]); // 新增選中
         }
     }
-    // useEffect(()=>{
-    //     $.post(basePath + '/Post/PlayIchiban.php', {
-    //         series_id: seriesId,
-    //         user_id: user_id,
-    //         label: '5,3'
-    //     }, (response) => {
-    //         console.log("Hi")
-    //         console.log(response)
-    //         $.post(basePath + '/Post/IchibanDetail.php', {
-    //             series_id: seriesId
-    //         }, (response) => {
-    //             console.log(response)
-    //         })
-    //     })
-    // },[seriesId])
-    const playIchiban = function () {
-        console.log(`${selectedNumbers.sort((a, b) => a - b).join(",")}`)
-        console.log(selectedNumbers.length)
-        if (user) {
-            if (myGash < seriesData.price * selectedNumbers.length) {
-                alert("你沒有足夠的G幣")
-            } else {
-                localStorage.setItem("ichibanLabel", selectedNumbers.sort((a, b) => a - b).join(","))
-                localStorage.setItem("ichibanQuantity", selectedNumbers.length)
-                window.location.replace("http://localhost/gachoraProject/public/lottryfunction?seriesId=" + seriesId);
-                // $.post(basePath + '/Post/PlayIchiban.php', {
-                //     series_id: seriesId,
-                //     user_id: user_id,
-                //     label: selectedNumbers.sort((a, b) => a - b).join(",")
-                // }, (response) => {
-                //     console.log("Hi")
-                //     console.log(response)
-                //     $.post(basePath + '/Post/IchibanDetail.php', {
-                //         series_id: seriesId
-                //     }, (response) => {
-                //         console.log(response)
-                //         setBookedSeats(response.label ? response.label : [])
-                //     })
-                // })
-            }
-        } else {
-            alert('請先登入')
-        }
-    }
 
-    useEffect(() => {
-        $.post(basePath + '/Post/IchibanDetail.php', {
-            series_id: seriesId
-        }, (response) => {
-            console.log(response)
-            // setUnavalibleLabel(response.label)
-            // console.log(unavalibleLabel)
-        })
-    }, [])
 
     // 多張seriesImg => {mainImages[currentImageIndex]}
     return (
@@ -398,10 +244,9 @@ function C_3_LottryDetail() {
                         >
                             {isOpen ? '取消抽選' : '點選排隊/抽獎'}
                         </button>
-                        {/* <span className='subtitles'>你的號碼牌 : {yourNumber} </span> */}
-                        {/* <span className='subtitles'>預估等待時間 : {Math.floor(timer / 60)}分{(timer % 60)}秒</span> */}
-                        <span className='subtitles'>價格:NT {seriesData.price} /抽</span>
-                        <span className='subtitles'>剩餘G幣:{myGash}</span>
+                        <span className='subtitles'>排隊人數:?人</span>
+                        <span className='subtitles'>預估等待時間:?分</span>
+                        <span className='subtitles'>剩餘G幣:???</span>
 
                         {/* 摺疊區域 */}
                         <div
@@ -410,7 +255,7 @@ function C_3_LottryDetail() {
                         >
                             <div className="card card-body mt-3">
                                 <h4>請於此處開始選號—</h4>
-                                {/* <h5>剩餘時間 : {Math.floor((180 + yourTimer) / 60)}分{((180 + yourTimer) % 60)}秒</h5> */}
+                                <h5>剩餘時間:???</h5>
                                 <p>選取號碼後送出即可開始抽選,若要取消抽選可點選左上方取消抽選按鈕。
                                 </p>
                                 <div className="seat-container">
@@ -429,15 +274,15 @@ function C_3_LottryDetail() {
                                     ))}
                                     <div className="displayNumber">
                                         <h5>已選擇號碼：{selectedNumbers.length > 0 ? selectedNumbers.sort((a, b) => a - b).join(", ") : "無"}</h5>
-                                        {/* <label style={{ display: 'flex', cursor: 'pointer', gap: '8px' }}>
+                                        <label style={{ display: 'flex', cursor: 'pointer', gap: '8px' }}>
                                             <input type="checkbox" style={{ width: '20px' }} />
                                             <span>是否要跳過抽獎動畫?</span>
-                                        </label> */}
+                                        </label>
 
 
                                     </div>
                                 </div>
-                                <button className='Favorite_bt' onClick={playIchiban}>確認送出(測試)</button>
+                                <button className='Favorite_bt'>確認送出</button>
                             </div>
                         </div>
 

@@ -285,9 +285,6 @@
         })
         $('button[id^=label].selected').removeClass('selected')
         result = result.slice(0, -1)
-        console.log("result")
-        console.log(result)
-        console.log("result")
 
         let series_id = $(this).attr('series_id')
         let yournumber = $(this).prev().prev().text()
