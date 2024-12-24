@@ -392,39 +392,55 @@ class API
   // 扭蛋詳細post
   function EggDetail($series_id)
   {
-    $series_id = $_POST['series_id'];
-    $this->db = new Connect;
+    // $series_id = $_POST['series_id'];
+    // $this->db = new Connect;
     $jsonOutput = [];
+    // $sql = "select * from vw_detail where series_id = :series_id";
+    // $stmt = $this->db->prepare($sql);
+    // $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    // $stmt->execute();
+    $sql = "select * from vw_allEgg where series_id = :series_id";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $series_id = $output['series_id'];
+      $theme = $output['theme'];
+      // $sql2 = "select * from vw_series_img where series_id = :series_id";
+      // $stmt2 = $this->db->prepare($sql2);
+      // $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+      // $stmt2->execute();
+      // $img = [];
+      // while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+      //   $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
+      // }
+      $jsonOutput[$output['series_id']] = [
+        'series_id' => $output['series_id'],
+        'theme' => $output['theme'],
+        'title' => $output['series_title'],
+        'name' => $output['name'],
+        'price' => $output['price'],
+        'amount' => $output['amount'],
+        'img' => [],
+      ];
+      $this->fetchSeriesImages($this->db, $jsonOutput);
+    }
+    $stmt->closeCursor();
+    $sql = "call GetAmountById(:series_id)";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput[$series_id] += [
+        'remain' => $output['remain'],
+        'total' => $output['total']
+      ];
+    }
+    $stmt->closeCursor();
     $sql = "select * from vw_detail where series_id = :series_id";
     $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
-    $sql1 = "select * from vw_allEgg where series_id = :series_id";
-    $stmt1 = $this->db->prepare($sql1);
-    $stmt1->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-    $stmt1->execute();
-    while ($output1 = $stmt1->fetch(PDO::FETCH_ASSOC)) {
-      $series_id = $output1['series_id'];
-      $theme = $output1['theme'];
-      $sql2 = "select * from vw_series_img where series_id = :series_id";
-      $stmt2 = $this->db->prepare($sql2);
-      $stmt2->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-      $stmt2->execute();
-      $img = [];
-      while ($output2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-        $img[] = 'http://localhost/gachoraProject/public/images' . $output2['series_img'];
-      }
-      $jsonOutput['series'][] = [
-        'series_id' => $output1['series_id'],
-        'theme' => $output1['theme'],
-        'title' => $output1['series_title'],
-        'name' => $output1['name'],
-        'price' => $output1['price'],
-        'amount' => $output1['amount'],
-        'img' => $img
-      ];
-    }
-    $this->fetchSeriesImages($this->db, $jsonOutput);
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $jsonOutput['character'][] = [
         'prize' => $output['prize'],
@@ -434,6 +450,7 @@ class API
         'material' => $output['material'],
       ];
     }
+    $stmt->closeCursor();
     // 扭蛋詳細推薦
     $sql1 = "select * from vw_eggcard where theme = :theme limit 10";
     $sql2 = "select count(*) from vw_eggcard";
@@ -465,16 +482,16 @@ class API
       ];
     }
     // 扭蛋剩餘
-    $sql4 = "call GetAmountById(:series_id)";
-    $stmt4 = $this->db->prepare($sql4);
-    $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-    $stmt4->execute();
-    while ($output4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['series'][0] += [
-        'remain' => $output4['remain'],
-        'total' => $output4['total']
-      ];
-    }
+    // $sql4 = "call GetAmountById(:series_id)";
+    // $stmt4 = $this->db->prepare($sql4);
+    // $stmt4->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    // $stmt4->execute();
+    // while ($output4 = $stmt4->fetch(PDO::FETCH_ASSOC)) {
+    //   $jsonOutput['series'][0] += [
+    //     'remain' => $output4['remain'],
+    //     'total' => $output4['total']
+    //   ];
+    // }
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     return json_encode($jsonOutput);
