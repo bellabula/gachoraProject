@@ -437,6 +437,9 @@ class API
       ];
     }
     $stmt->closeCursor();
+    if (!empty($jsonOutput)) {
+      $jsonOutput = ['series' => reset($jsonOutput)];
+    }
     $sql = "select * from vw_detail where series_id = :series_id";
     $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
