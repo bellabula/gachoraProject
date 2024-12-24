@@ -232,6 +232,7 @@
             $('[id^="label"]').addClass('disabled')
             DeleteWait(series_id, yournumber)
             $('.timer').text('已結束...雙擊排隊以重新排隊')
+            console.log(wait)
         }
     }
     // 中離

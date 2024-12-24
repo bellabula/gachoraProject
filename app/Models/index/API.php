@@ -1437,6 +1437,7 @@ class API
   {
     $series_id = $_POST['series_id'];
     $number = $_POST['number'];
+    // $user_id = $_POST['user_id'];
     $this->db = new Connect;
     $jsonOutput = [];
     $sql = "call SeeWaitTime(:series_id, :number);";
