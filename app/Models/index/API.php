@@ -1436,7 +1436,7 @@ class API
     if ($jsonOutput == []) $jsonOutput = ['' => ''];
     return json_encode($jsonOutput);
   }
-  function PlayIchiban($series_id, $number, $amounts, $label, $time)
+  function PlayIchiban($series_id, $user_id, $amounts, $label, $time)
   {
     // $series_id = $_POST['series_id'];
     // $number = $_POST['number'];
@@ -1445,10 +1445,10 @@ class API
     // $time = isset($_POST['time']) ? $_POST['time'] : time();
     $this->db = new Connect;
     $jsonOutput = [];
-    $sql = "call PlayIchiban(:series_id, :number, :amounts, :label, :time)";
+    $sql = "call PlayIchiban(:series_id, :user_id, :amounts, :label, :time)";
     $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
-    $stmt->bindValue(':number', $number, PDO::PARAM_INT);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->bindValue(':amounts', $amounts, PDO::PARAM_INT);
     $stmt->bindValue(':label', $label, PDO::PARAM_STR);
     $stmt->bindValue(':time', $time, PDO::PARAM_INT);

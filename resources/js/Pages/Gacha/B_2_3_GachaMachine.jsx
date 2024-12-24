@@ -103,7 +103,7 @@ function B_2_3GachaMachine() {
         console.log("remain:" + remainingDraws)
         console.log("isAnimationPlaying:" + isAnimationPlaying)
         if (remainingDraws > 0 && !isAnimationPlaying) {
-            setCurrentEgg(response[response.length-remainingDraws])
+            setCurrentEgg(response[response.length - remainingDraws])
             console.log("Do")
             setShowNextDrawButton(false); // 隱藏"下一抽"按鈕
             loadAndPlayAnimation5(); // 重新加載並播放 animation5

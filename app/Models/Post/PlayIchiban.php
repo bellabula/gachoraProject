@@ -5,8 +5,8 @@ use function GuzzleHttp\json_decode;
 require_once __DIR__ . '/../index/API.php';
 try {
 
-  if (isset($_POST['number']) && isset($_POST['series_id']) && isset($_POST['label'])) {
-    $number = $_POST['number'];
+  if (isset($_POST['user_id']) && isset($_POST['series_id']) && isset($_POST['label'])) {
+    $user_id = $_POST['user_id'];
     $series_id = $_POST['series_id'];
     $label = $_POST['label'];
     $time = isset($_POST['time']) ? $_POST['time'] : time();
@@ -24,14 +24,14 @@ try {
     // echo json_encode($label);
     // 有剩餘購買
     if ($amounts > 0) {
-      $result = $API->PlayIchiban($series_id, $number, $amounts, $label, $time);
+      $result = $API->PlayIchiban($series_id, $user_id, $amounts, $label, $time);
       echo $result;
     } else {
       // 沒剩餘回傳不能抽的
       echo json_encode(['error' => 'Labels already taken. Please try again.', 'label' => $tmp]);
     }
   } else {
-    throw new Exception("give me series_id, number, label (label form: '1,3,45,57,123' without space)");
+    throw new Exception("give me series_id, user_id, label (label form: '1,3,45,57,123' without space)");
   }
 } catch (Exception $e) {
   if ($e->getCode() == 23000) {
