@@ -244,14 +244,14 @@ function B_1_GachaHome() {
                         style={{ position: 'absolute', top: "10%", left: "60%", height: "40vh", animation: 'float 8s ease-in-out infinite' }} />
                     <h2 style={{ position: 'absolute', top: "15%", left: "15%", }}>與泡泡瑪特MOLLY</h2>
                     <h1 style={{ position: 'absolute', top: "20%", left: "15%", fontSize: "72px" }}>一起在太空漫遊!</h1>
-                    <p style={{ position: 'absolute', top: "30%", left: "15%", margin: "10px" }}>
+                    <p style={{ position: 'absolute', top: "33%", left: "15%", margin: "10px" }}>
                         探索獨特的太空系列，精彩獎品等你來抽！快來挑戰，開啟屬於你的宇宙探險！</p>
                     <h5 style={{
                         position: 'absolute', top: "70%", left: "20%", margin: "10px", color: "var(--main-darkblue)",
                         backgroundColor: "var(--main-yellow )", padding: "10px", borderRadius: "20px"
                     }}>點擊Molly啟程!</h5>
                     <Link
-                        className='itemtag no-link-style mollyClick' style={{ position: 'absolute', top: "32%", left: "30%", border: "none" }}
+                        className='itemtag no-link-style mollyClick' style={{ position: 'absolute', top: "35%", left: "30%", border: "none" }}
                         href={route('gachadetail', { seriesId: 4 })}>
                         點我開抽!
                     </Link>
