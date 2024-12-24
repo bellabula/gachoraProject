@@ -99,23 +99,23 @@
         //     })
     })
     // 分類頁主題選擇
-    // $(document).on('click', '.theme', function() {
-    //     $('#type').text($(this).val())
-    //     const url = basePath + '/Post/IchibanThemeType.php'
-    //     tmpurl = url
-    //     page = $('#page').text()
-    //     theme = $(this).val()
-    //     $.post(url, {
-    //         theme: theme,
-    //         page: page
-    //     }, (response) => {
-    //         $('.card').text('')
-    //         response.series.map((v) => {
-    //             $('.card').append(`<button class="ichibanid">賞id${v.series_id}</button>`)
-    //         })
-    //         console.log('主題分類', response)
-    //     })
-    // })
+    $(document).on('click', '.theme', function() {
+        $('#type').text($(this).val())
+        const url = basePath + '/Post/IchibanThemeType.php'
+        tmpurl = url
+        page = $('#page').text()
+        theme = $(this).val()
+        $.post(url, {
+            theme: theme,
+            page: page
+        }, (response) => {
+            $('.card').text('')
+            response.series.map((v) => {
+                $('.card').append(`<button class="ichibanid">賞id${v.series_id}</button>`)
+            })
+            console.log('主題分類', response)
+        })
+    })
     // 分類頁選擇頁數
     // $(document).on('click', '.page', function() {
     //     const url = tmpurl
