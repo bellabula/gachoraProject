@@ -831,7 +831,7 @@ class API
     $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['label'][] = $output['label'];
+      $jsonOutput['label'][] = $output['label'] ?? [];
     }
     $stmt->closeCursor();
     // 賞主題推薦
@@ -890,7 +890,7 @@ class API
     $jsonOutput['recommend'] = array_values($jsonOutput['recommend']);
     $this->db = null;
     // if ($jsonOutput == []) $jsonOutput = [];
-    return json_encode(array_filter($jsonOutput));
+    return json_encode($jsonOutput);
   }
   function User($user_id)
   {
@@ -1504,7 +1504,7 @@ class API
         'error' => $output['error'] ?? '',
         'name' => $output['name'] ?? '',
         'img' => !empty($output['img']) ? 'http://localhost/gachoraProject/public/images/' . $output['img'] : '',
-        'amount' => $output['amount'] ?? ''
+        'prize' => $output['prize'] ?? ''
       ];
     }
     $stmt->closeCursor();
