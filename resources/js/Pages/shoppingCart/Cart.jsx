@@ -144,7 +144,7 @@ function Cart() {
                 </div>
                 <div id='e2'>
                     <Payment id="e21" display="none" />
-                    <ConfirmOrder id="e3" display="none" />
+                    <ConfirmOrder id="e3" display="none" items={cartItems} />
                     <CompleteOrder id="e4" display="none" />
                 </div>
             </main>

@@ -2,12 +2,16 @@ import { Head, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
 function B_2_3GachaMachine() {
+    const amount = localStorage.getItem("quantity")
     const [animation3Completed, setAnimation3Completed] = useState(false);
-    const [remainingDraws, setRemainingDraws] = useState(1); // 剩餘抽數
+    const [remainingDraws, setRemainingDraws] = useState(amount); // 剩餘抽數
     const [currentDraw, setCurrentDraw] = useState(0); // 當前抽數
     const [isAnimationPlaying, setIsAnimationPlaying] = useState(false); // 控制動畫播放
     const [showNextDrawButton, setShowNextDrawButton] = useState(false); // 控制"下一抽"按鈕顯示
     const animation5InstanceRef = useRef(null);
+    const [drawResults, setDrawResults] = useState([]);
+    const [showResultsOnly, setShowResultsOnly] = useState(false);
+    const [currentEgg, setCurrentEgg] = useState(null)
 
     useEffect(() => {
         // 初始化 animation3
@@ -96,9 +100,10 @@ function B_2_3GachaMachine() {
 
     const startNextDraw = () => {
         console.log("按下按鈕")
-        console.log("remain:"+remainingDraws)
-        console.log("isAnimationPlaying:"+isAnimationPlaying)
+        console.log("remain:" + remainingDraws)
+        console.log("isAnimationPlaying:" + isAnimationPlaying)
         if (remainingDraws > 0 && !isAnimationPlaying) {
+            setCurrentEgg(response[response.length-remainingDraws])
             console.log("Do")
             setShowNextDrawButton(false); // 隱藏"下一抽"按鈕
             loadAndPlayAnimation5(); // 重新加載並播放 animation5
@@ -121,64 +126,93 @@ function B_2_3GachaMachine() {
         $.post(basePath + '/Post/PlayEgg.php', {
             user_id: user_id,
             series_id: gachaId,
-            amounts: 1
+            amounts: amount
         }, (response) => {
             setResponse(response)
             console.log(response)
+            setCurrentEgg(response[0])
         })
+        localStorage.setItem("quantity", 0)
     }, [])
+
+    const showResults = () => {
+        const mockResults = response;
+        setDrawResults(mockResults);
+        setShowResultsOnly(true);
+    };
     return (
-        <>
+        <div style={{ backgroundColor: "var(--main-darkblue)", height: "100vh" }}>
             <Head title="GachaMachine" />
-            <main id="gachaMachine">
-                {/* 剩餘抽數顯示 */}
-                <span className="gacha-info">
-                    <img src="http://localhost/gachoraProject/public/images/gachaball-01.svg" alt="gachaball" />
-                    <h3>X {remainingDraws}</h3>
-                </span>
 
-                {/* 扭蛋動畫 */}
-                <div className={`animation-container ${animation3Completed ? "hidden" : ""}`}>
-                    <div id="animation3" className="animationgif"></div>
-                    <img src="http://localhost/gachoraProject/public/images/arrow.gif" className="click_arrow" />
-                    <p className="click-prompt">請點擊</p>
-                </div>
+            {!showResultsOnly && (
+                <main id="gachaMachine">
+                    {/* 剩餘抽數顯示 */}
+                    <span className="gacha-info">
+                        <img src="http://localhost/gachoraProject/public/images/gachaball-01.svg" alt="gachaball" />
+                        <h3>X {remainingDraws}</h3>
+                    </span>
 
-                {/* 扭蛋結果顯示 */}
-                {animation3Completed && remainingDraws >= 0 && (
-                    <div className="gacha-result active">
-                        <div className="gacha-egg" onClick={playAnimation5}>
-                            <div id="animation5"></div>
-                        </div>
-                        <div className="content">
-                            {response.map((ele, index) => (
-                                <div key={index}>
-                                    <img src={ele.img} alt="扭蛋" />
-                                    <h3>{ele.name}</h3>
-                                </div>
-                            ))}
-                        </div>
-                        {showNextDrawButton && remainingDraws > 0 && (
-                            <button
-                                className="next-draw-button custom-btn btn-lg"
-                                onClick={startNextDraw}
-                            >
-                                下一抽
-                            </button>
-                        )}
-                        {showNextDrawButton && remainingDraws == 0 && (
-                            <button
-                                className="next-draw-button custom-btn btn-lg"
-                                // onClick={startNextDraw}
-                            >
-                                查看獎品
-                            </button>
-                        )}
-
+                    {/* 扭蛋動畫 */}
+                    <div className={`animation-container ${animation3Completed ? "hidden" : ""}`}>
+                        <div id="animation3" className="animationgif"></div>
+                        <img src="http://localhost/gachoraProject/public/images/arrow.gif" className="click_arrow" />
+                        <p className="click-prompt">請點擊</p>
                     </div>
-                )}
-            </main>
-        </>
+
+                    {/* 扭蛋結果顯示 */}
+                    {animation3Completed && remainingDraws >= 0 && (
+                        <div className="gacha-result active">
+                            <div className="gacha-egg" onClick={playAnimation5}>
+                                <div id="animation5"></div>
+                            </div>
+                            <div className="content">
+                                {/* {response.map((ele, index) => (
+                                    <div key={index}>
+                                        <img src={ele.img} alt="扭蛋" />
+                                        <h3>{ele.name}</h3>
+                                    </div>
+                                ))} */}
+                                <div>
+                                    <img src={currentEgg.img} alt="扭蛋" />
+                                    <h3>{currentEgg.name}</h3>
+                                </div>
+                            </div>
+                            {showNextDrawButton && remainingDraws > 0 && (
+                                <button
+                                    className="next-draw-button custom-btn btn-lg"
+                                    onClick={startNextDraw}
+                                >
+                                    下一抽
+                                </button>
+                            )}
+                            {showNextDrawButton && remainingDraws == 0 && (
+                                <button
+                                    className="next-draw-button custom-btn btn-lg"
+                                    onClick={showResults}
+                                >
+                                    查看獎品
+                                </button>
+                            )}
+
+                        </div>
+                    )}
+                </main >
+            )}
+            {showResultsOnly && drawResults.length > 0 && (
+                <>
+                    <div className="result-list text-center" style={{ paddingTop: "250px" }}>
+                        {drawResults.map((item, index) => (
+                            <div key={index} className="d-inline-block result-item ms-3 me-3">
+                                <img className='d-block m-auto' width="150px" src={item.img} alt={item.name} />
+                                <h4 className='text-center' style={{ color: "white" }}>{item.name}x{item.amount}</h4>
+                            </div>
+                        ))}
+                    </div>
+                    <a href={route('gachadetail', { seriesId: gachaId })} className='no-link-style'><button className='d-block m-auto btn-lg mt-5 custom-btn'>回商品頁面</button></a>
+                </>
+            )}
+
+        </div>
     );
 }
 
