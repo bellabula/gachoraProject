@@ -1,21 +1,26 @@
+import { Head, usePage } from '@inertiajs/react';
 import React, { useEffect, useRef, useState } from 'react';
 import $ from 'jquery';
 import 'turn.js';
 
 const C_3_3_LottryFuntion = () => {
+    const amount = localStorage.getItem("ichibanQuantity");
+    const selectedNumbers = localStorage.getItem("ichibanLabel");
     const bookRef = useRef(null);
-    const [remainingDraws, setRemainingDraws] = useState(3);
+    const [remainingDraws, setRemainingDraws] = useState(amount);
     const [currentDraw, setCurrentDraw] = useState(0);
     const [showNextDrawButton, setShowNextDrawButton] = useState(false);
     const [showResultButton, setShowResultButton] = useState(false);
     const [drawResults, setDrawResults] = useState([]);
     const [showResultsOnly, setShowResultsOnly] = useState(false);
+    const [currentName, setCurrentName] = useState(null)
+    const [prizePage, setPrizePage] = useState("")
 
     const pages = [
         'http://localhost/gachoraProject/public/images/一番賞FT.svg',
         'http://localhost/gachoraProject/public/images/一番賞A.svg',
     ];
-
+    // 'http://localhost/gachoraProject/public/images/一番賞A.svg'
     const calculateBookSize = () => {
         const containerWidth = window.innerWidth * 0.5; // Set book width to 50% of window width
         const containerHeight = containerWidth * 0.29; // Set book height proportionally
@@ -71,6 +76,10 @@ const C_3_3_LottryFuntion = () => {
 
     const startNextDraw = () => {
         if (remainingDraws > 0) {
+            console.log(remainingDraws)
+            console.log(response.length - remainingDraws)
+            console.log(response[response.length - remainingDraws])
+            setCurrentName(response[response.length - remainingDraws].name)
             setShowNextDrawButton(false);
             setCurrentDraw((prev) => prev + 1);
             $(bookRef.current).turn('page', 1); // Reset to the first page after the draw
@@ -82,16 +91,49 @@ const C_3_3_LottryFuntion = () => {
     };
 
     const showResults = () => {
-        const mockResults = [
-            { id: 1, prize: 'A賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-1.png', name: '商品名稱' },
-            { id: 2, prize: 'C賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-3.png', name: '商品名稱' },
-        ];
+        const mockResults = response
+
+        // const mockResults = [
+        //     { id: 1, prize: 'A賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-1.png', name: '商品名稱' },
+        //     { id: 2, prize: 'C賞', img: 'http://localhost/gachoraProject/public/images/ichibanitem/a1-3.png', name: '商品名稱' },
+        // ];
         setDrawResults(mockResults);
         setShowResultsOnly(true);
     };
 
+    // 接資料庫
+    const user = usePage().props.auth.user;
+    const user_id = user.id
+    const seriesId = usePage().props.seriesId;
+    const yourNumber = localStorage.getItem(`yourichiban${seriesId}`)
+    const basePath = '../app/Models'
+    const [response, setResponse] = useState([])
+    useEffect(() => {
+        $.post(basePath + '/Post/PlayIchiban.php', {
+            series_id: seriesId,
+            number: yourNumber,
+            label: selectedNumbers
+        }, (response) => {
+            console.log(response)
+            setResponse(response)
+            // console.log("current")
+            // console.log(response[0].name)
+            setCurrentName(response[0].name)
+            // setPrizePage()
+            // $.post(basePath + '/Post/IchibanDetail.php', {
+            //     series_id: seriesId
+            // }, (response) => {
+            //     console.log(response)
+            //     setBookedSeats(response.label ? response.label : [])
+            // })
+        })
+        localStorage.setItem("ichibanLabel", "")
+        localStorage.setItem("ichibanQuantity", 0)
+    }, [])
+
     return (
         <>
+            <Head title="IchibanPlaying" />
             {!showResultsOnly && (
                 <main id="lottryfunction">
                     <span className="gacha-info">
@@ -107,7 +149,7 @@ const C_3_3_LottryFuntion = () => {
                         />
                     </div>
 
-                    <h3 className="product-name">商品名稱</h3>
+                    <h3 className="product-name">{currentName}</h3>
 
                     <div
                         ref={bookRef}
@@ -156,7 +198,7 @@ const C_3_3_LottryFuntion = () => {
                             </div>
                         ))}
                     </div>
-                    <button className='d-block m-auto btn-lg mt-5 custom-btn'>回商品頁面</button>
+                    <a href={route('lottrydetail', { seriesId: seriesId })} className='no-link-style'><button className='d-block m-auto btn-lg mt-5 custom-btn'>回商品頁面</button></a>
                 </>
             )}
         </>
