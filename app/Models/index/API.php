@@ -1270,4 +1270,18 @@ class API
     $this->db = null;
     return json_encode(['error' => 'done']);
   }
+  function MaybeTime($series_id){
+    $sql = 'select ifnull(sum(wait) + 190 * count(series_id) - unix_timestamp(now()), 0) wait
+    from Waitinglist 
+    where series_id = :series_id
+    order by wait desc';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput !== [] ? $jsonOutput: $jsonOutput = [ 'wait'=> 0];
+    return json_encode($jsonOutput);
+  }
 }
