@@ -568,7 +568,7 @@ class API
     $stmt->closeCursor();
     return $recordImgs;
   }
-  function CollectionEgg($user_id)
+   function CollectionEgg($user_id)
   {
     $user_id = $_POST['user_id'];
     $sql = "call GetCollectionHasByIdAndCategory(:user_id, 1);";
@@ -1246,6 +1246,25 @@ class API
     $stmt->bindValue(':time', $time, PDO::PARAM_INT);
     $stmt->bindValue(':name', $name, PDO::PARAM_STR);
     $stmt->bindValue(':amounts', $amounts, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt->closeCursor();
+    $this->db = null;
+    return json_encode(['error' => 'done']);
+  }
+  function GiveBirthGift($user_id){
+    $sql = 'call GiveBirthGift(:user_id)';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt->closeCursor();
+    $this->db = null;
+    return json_encode(['error' => 'done']);
+  }
+  function GiveRecommendGift($user_id, $code){
+    $sql = 'call GiveRecommendGift(:code, :user_id)';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':code', $code, PDO::PARAM_STR);
     $stmt->execute();
     $stmt->closeCursor();
     $this->db = null;
