@@ -1,7 +1,3 @@
-body #lottrybody {
-    background-color: #365B60;
-}
-
 /* 商品圖片區塊 */
 #lottryDetail .product-image {
     background-color: #365B60;
@@ -180,7 +176,7 @@ body #lottrybody {
 
 /* 導覽按鈕樣式 */
 #lottryDetail .nav-tabs {
-    border-bottom: 2px solid #365B60;
+    border-bottom: 2px solid var(--main-darkblue);
 }
 
 #lottryDetail .nav-tabs .nav-link {
