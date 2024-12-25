@@ -207,7 +207,7 @@ function C_3_LottryDetail() {
                     series_id: series_id
                 }, (response) => {
                     console.log('賞詳細頁', response);
-                    setBookedSeats(response.label)
+                    setBookedSeats(response.label ? response.label : [])
                     // $('.labels').text('')
                     // 出籤response.series.total是總共籤數
                     // for (let i = 1; i <= response.series.total; i++) {
