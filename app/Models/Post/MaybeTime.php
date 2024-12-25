@@ -2,14 +2,14 @@
 require_once __DIR__ . '/../index/API.php';
 try {
 
-  if (isset($_POST['user_id'])) {
-    $user_id = $_POST['user_id'];
+  if (isset($_POST['series_id'])) {
+    $series_id = $_POST['series_id'];
     $API = new API;
     header('Content-Type: application/json');
-    $result = $API->GiveBirthGift($user_id);
+    $result = $API->MaybeTime($series_id);
     echo $result;
   } else {
-    throw new Exception("give me user_id");
+    throw new Exception("give me series_id");
   }
 } catch (Exception $e) {
   echo json_encode(["error" => "Connection_fail: " . $e->getMessage()]);
