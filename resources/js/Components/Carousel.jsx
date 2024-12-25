@@ -33,7 +33,7 @@ const Carousel = ({ cols = 1, gap = 0, children }) => {
         <div className="Carousel" id='CarouselCss'>
             <div className="Carousel__railWrapper">
                 <button
-                    className="Carousel__btn--prev"
+                    className="Carousel__btn--prev btn"
                     hidden={currentPage <= 0}
                     onClick={handlePrev}>
                     <img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" alt="" />
@@ -63,7 +63,7 @@ const Carousel = ({ cols = 1, gap = 0, children }) => {
                     ))}
                 </div>
                 <button
-                    className="Carousel__btn--next"
+                    className="Carousel__btn--next btn"
                     hidden={currentPage === page - 1}
                     onClick={handleNext}>
                     <img src="http://localhost/gachoraProject/public/images/arrowRight.svg" alt="" />
