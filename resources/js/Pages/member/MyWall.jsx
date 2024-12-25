@@ -23,6 +23,12 @@ function MyWall({ id, className = "" }) {
             setgachaItem(egg)
             setichibanItem(ichiban)
         })
+        $.post( '../app/Models/Post/MainUser.php', {
+            user_id: user_id
+        }, (response) => {
+            // console.log(response);
+
+        })
     }, [user_id])
     return (
         <>

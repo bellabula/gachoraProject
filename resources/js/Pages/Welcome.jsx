@@ -227,15 +227,15 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 </div>
                                 <div className='ab1'>
                                     <div className='image-container'>
-                                        <img src="http://localhost/gachoraProject/public/images/aboutus1.svg" alt="about us 1" />
+                                        <img src="http://localhost/gachoraProject/public/images/aboutus1-1.svg" alt="about us 1" />
                                         <div className='text-overlay1'>歡迎來到 Gachora，一個結合扭蛋樂趣與一番賞驚喜的獨特星球！在這裡，每一次點擊都是一場與未知的邂逅，彷彿穿越浩瀚宇宙，探索無數閃耀的星球與無窮的驚喜。</div>
                                     </div>
                                     <div className='image-container'>
-                                        <img src="http://localhost/gachoraProject/public/images/aboutus2.svg" alt="about us 2" />
+                                        <img src="http://localhost/gachoraProject/public/images/aboutus2-1.svg" alt="about us 2" />
                                         <div className='text-overlay2'>讓 Gachora 帶你來體驗一場無與倫比的探索之旅。</div>
                                     </div>
                                     <div className='image-container'>
-                                        <img src="http://localhost/gachoraProject/public/images/aboutus3-1.svg" alt="about us 3" />
+                                        <img src="http://localhost/gachoraProject/public/images/aboutus3.svg" alt="about us 3" />
                                         <div className='text-overlay3'>每一個抽選都是一段未知的探索，每一次驚喜都是來自星球深處的禮物。讓我們一起踏上這場充滿樂趣與期待的旅程，探索無盡的可能性，創造屬於你的快樂時刻！</div>
                                     </div>
                                 </div>

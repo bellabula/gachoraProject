@@ -19,7 +19,7 @@ function MyFavor({ id, className="" }) {
         $.post(gachaUrl, {
             user_id: user_id
         }, (response) => {
-            console.log('Egg')
+            // console.log('Egg')
             if (typeof (response.has) != "undefined") {
                 collectEgg = [...response.has]
             }
@@ -34,8 +34,8 @@ function MyFavor({ id, className="" }) {
         $.post(ichibanUrl, {
             user_id: user_id
         }, ({ has }) => {
-            console.log('Ichiban')
-            console.log('一番賞收藏：', has)
+            // console.log('Ichiban')
+            // console.log('一番賞收藏：', has)
             setIchibanFavor(has)
         })
     }, [])
