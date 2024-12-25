@@ -11,14 +11,14 @@ try {
   if (
     isset($_POST['logistics_people_id']) && 
     isset($_POST['address_id']) &&
-    isset($_POST['user_id']) && 
-    isset($_POST['method_id'])
+    // isset($_POST['method_id']) &&
+    isset($_POST['user_id'])
     ) 
     {
     $user_id = $_POST['user_id'];
     $logistics_people_id = $_POST['logistics_people_id'];
     $address_id = $_POST['address_id'];
-    $method_id = $_POST['method_id'];
+    $method_id = $_POST['method_id'] ?? 1;
     $record_ids = $_POST['record_ids'];
     $time = isset($_POST['time']) ? $_POST['time'] : time();
     $API = new API;
@@ -43,22 +43,21 @@ try {
       isset($_POST['user_id']) && 
       isset($_POST['county_id']) && 
       isset($_POST['road']) && 
-      isset($_POST['status_id']) && 
-      isset($_POST['phone']) && 
+      // isset($_POST['status_id']) && 
+      // isset($_POST['phone']) && 
       isset($_POST['email']) && 
-      isset($_POST['method_id']) && 
+      // isset($_POST['method_id']) &&  
       isset($_POST['name'])
     ){
       $user_id = $_POST['user_id'];
       $county_id = $_POST['county_id'];
       $road = $_POST['road'];
       $title = $_POST['title'];
-      $method_id = $_POST['method_id'];
+      $method_id = $_POST['method_id'] ?? 1;
       $record_ids = $_POST['record_ids'];
-      $status_id = $_POST['status_id'];
-      $phone = $_POST['phone'];
+      $status_id = $_POST['status_id'] ?? 12;
+      $phone = $_POST['phone'] ?? '';
       $email = $_POST['email'];
-      $method_id = $_POST['method_id'];
       $name = $_POST['name'];
       $time = isset($_POST['time']) ? $_POST['time'] : time();
       $API = new API;
@@ -84,7 +83,7 @@ try {
         $amounts);
         echo $result;
   } else {
-    throw new Exception("wrong post data format. label (record_ids form: '1,3,45,57,123' without space)");
+    throw new Exception("參數不完全或錯誤label格式(record_ids form: '1,3,45,57,123' without space)");
   }
 } catch (Exception $e) {
   if ($e->getCode() == 23000) {
