@@ -188,7 +188,7 @@ function C_3_LottryDetail() {
                 executed = true
             }
             if (wait % 10 > 0) {
-                setTimer(wait)
+                setTimer(wait) //aa這個要在wait -= 1後？
                 // $('.timer').text(`最晚等${Math.floor(wait / 60)}分${(wait % 60)}秒`)
                 wait -= 1
                 setTimeout(() => {
@@ -227,7 +227,7 @@ function C_3_LottryDetail() {
 
             if ((wait * -1) % 10 > 1) {
                 // $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
-                setYourTimer(wait)
+                setYourTimer(wait)//aa同上
                 wait -= 1
                 timerId = setTimeout(() => {
                     frontTime(series_id, yournumber, wait)
@@ -261,7 +261,7 @@ function C_3_LottryDetail() {
         }) => {
             setTimeout(() => {
                 frontTime(series_id, yournumber, waiting);
-            }, 0);
+            }, 1000); //aa我改1000
         })
     }
 
