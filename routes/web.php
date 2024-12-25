@@ -85,6 +85,7 @@ Route::get('/lottryfunction', function () {
 })->name('lottryfunction');
 
 
+
 // 首頁: Gachora, 扭蛋, 一番賞, 會員
 Route::view('/api', 'apihome');
 Route::view('/api/egg', 'apiEgg');
