@@ -13,13 +13,13 @@ function MyFavor({ id, className="" }) {
 
     const [gachoFavor, setgachoFavor] = useState([]);
     const [ichibanFavor, setIchibanFavor] = useState([]);
-
     let collectEgg = []
     useEffect(() => {
         const gachaUrl = basePath + '/Post/UserCollectionEgg.php'
         $.post(gachaUrl, {
             user_id: user_id
         }, (response) => {
+            console.log('Egg')
             if (typeof (response.has) != "undefined") {
                 collectEgg = [...response.has]
             }
@@ -34,7 +34,8 @@ function MyFavor({ id, className="" }) {
         $.post(ichibanUrl, {
             user_id: user_id
         }, ({ has }) => {
-            // console.log('一番賞收藏：', has)
+            console.log('Ichiban')
+            console.log('一番賞收藏：', has)
             setIchibanFavor(has)
         })
     }, [])
@@ -56,21 +57,21 @@ function MyFavor({ id, className="" }) {
                 <div className="tab-content pt-5">
                     {/* 扭蛋收藏 */}
                     <div id="gachofavor" className="tab-pane active">
-                        {typeof (gachoFavor) != "undefined" ?
+                        {gachoFavor.length != 0 ?
                             <div className="row  row-gap-2">
                                 {gachoFavor.map((v, index) => (
                                     <MyFavorCard key={index} src={v.img[0]} href={'gachadetail?seriesId=' + v.id} />
                                 ))}
-                            </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋收藏... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></h4>}
+                            </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋收藏... <a href={route('gachaHome')} className='no-link-style'><button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></a></h4>}
                     </div>
                     {/* 一番賞收藏 */}
                     <div id="ichibanfavor" className="tab-pane">
-                        {typeof (ichibanFavor) != "undefined" ?
+                        {ichibanFavor.length != 0 ?
                             <div className="row  row-gap-2">
                                 {ichibanFavor.map((v, index) => (
                                     <MyIchibanFavorCard key={index} src={v.img[0]} href={'lottrydetail?seriesId=' + v.id} />
                                 ))}
-                            </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何一番賞收藏... <button style={{ borderRadius: "10px" }}>&gt;&gt; 前往一番賞</button></h4>}
+                            </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何一番賞收藏... <a href={route('lottryHome')} className='no-link-style'><button style={{ borderRadius: "10px" }}>&gt;&gt; 前往一番賞</button></a></h4>}
                     </div>
                 </div>
             </div>
