@@ -523,8 +523,21 @@ class API
       }
       $stmt->closeCursor();
     }
+    $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/snake.png';
+      if (isset($jsonOutput['gash_level'])) {
+        $achieveNumber = floor($jsonOutput['gash_level'] / 1000);
+      }else{
+        $achieveNumber = 0;
+      };
+      if ($achieveNumber > 0){
+        for($i = 1; $i <= $achieveNumber && $i < 5; $i++){
+          $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/dim' . $i . '.png';
+        }
+      }
+
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
+    // return json_encode($jsonOutput);
     return json_encode($jsonOutput);
   }
   
