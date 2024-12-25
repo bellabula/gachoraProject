@@ -99,23 +99,23 @@
         //     })
     })
     // 分類頁主題選擇
-    // $(document).on('click', '.theme', function() {
-    //     $('#type').text($(this).val())
-    //     const url = basePath + '/Post/IchibanThemeType.php'
-    //     tmpurl = url
-    //     page = $('#page').text()
-    //     theme = $(this).val()
-    //     $.post(url, {
-    //         theme: theme,
-    //         page: page
-    //     }, (response) => {
-    //         $('.card').text('')
-    //         response.series.map((v) => {
-    //             $('.card').append(`<button class="ichibanid">賞id${v.series_id}</button>`)
-    //         })
-    //         console.log('主題分類', response)
-    //     })
-    // })
+    $(document).on('click', '.theme', function() {
+        $('#type').text($(this).val())
+        const url = basePath + '/Post/IchibanThemeType.php'
+        tmpurl = url
+        page = $('#page').text()
+        theme = $(this).val()
+        $.post(url, {
+            theme: theme,
+            page: page
+        }, (response) => {
+            $('.card').text('')
+            response.series.map((v) => {
+                $('.card').append(`<button class="ichibanid">賞id${v.series_id}</button>`)
+            })
+            console.log('主題分類', response)
+        })
+    })
     // 分類頁選擇頁數
     // $(document).on('click', '.page', function() {
     //     const url = tmpurl
@@ -245,8 +245,10 @@
         DeleteWait(series_id, yournumber)
         clearTimeout(timerId)
         console.log('2', timerId)
-        $('.timer').text('bye')
         $('[id^="label"]').prop('disabled', true)
+        setTimeout(() => {
+            $('.timer').text('bye')
+        }, 1000)
     })
 
     // post series_id, 號碼牌，到後端確認時間
