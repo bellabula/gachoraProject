@@ -1,5 +1,5 @@
 body #lottrybody {
-	background-color: #365B60;
+	background-color: var(--main-darkblue);
 }
 
 /*上方banner區域*/
