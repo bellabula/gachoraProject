@@ -97,7 +97,7 @@ function C_3_LottryDetail() {
             setRecommend(response.recommend)
             setBigImageSrc(response.series.character[0].img)
             setSeatNumbers(Array.from({ length: response.series.total }, (_, i) => i + 1))
-            setBookedSeats(response.series.label ? response.series.label : [])
+            setBookedSeats(response.label ? response.label : [])
         })
     }, [seriesId]);
 
