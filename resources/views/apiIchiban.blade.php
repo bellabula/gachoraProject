@@ -245,8 +245,10 @@
         DeleteWait(series_id, yournumber)
         clearTimeout(timerId)
         console.log('2', timerId)
-        $('.timer').text('bye')
         $('[id^="label"]').prop('disabled', true)
+        setTimeout(() => {
+            $('.timer').text('bye')
+        }, 1000)
     })
 
     // post series_id, 號碼牌，到後端確認時間
