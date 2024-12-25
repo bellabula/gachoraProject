@@ -13,5 +13,9 @@ try {
     throw new Exception("give me user_id, series_id");
   }
 } catch (Exception $e) {
-  echo json_encode(["error" => "Connection_fail: " . $e->getMessage()]);
+  if ($e->getCode() == 23000) {
+    echo json_encode(["error" => "請註冊帳號並排隊"]);
+  }else{
+    echo json_encode(["error" => "Connection_fail: " . $e->getMessage()]);
+  }
 }
