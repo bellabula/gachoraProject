@@ -764,6 +764,7 @@ class API
     $stmt->closeCursor();
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
+    // if (!isset($jsonOutput) || $jsonOutput === null) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Cart($user_id)
@@ -785,6 +786,7 @@ class API
     $stmt->closeCursor();
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
+    // if (!isset($jsonOutput) || $jsonOutput === null) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Logistics($user_id)
