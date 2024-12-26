@@ -240,6 +240,7 @@
       grid-area: listtitle;
       color: white;
       margin-top: 30px;
+      margin-left: 1vw;
       height: 3vw;
     }
 
@@ -255,16 +256,23 @@
 
       & .itemContainer {
         flex: 0;
-
+/* 
         & span+span {
-          margin-left: 15vw;
+          margin-left: 5vw;
+        } */
+        & .character{
+          margin-left: 1.8vw;
+        }left
+        & .amount{
+          margin-right: 0vw;
         }
 
         & .cut {
           background-color: white;
           height: 0.25vw;
+          width: 21vw;
           border-radius: 1px;
-          margin-left: 2.3vw;
+          margin-left: 2.2vw;
           margin-top: 1vw;
           margin-bottom: 1vw;
 
@@ -275,21 +283,27 @@
     & .totalLine {
       grid-area: listTotalLine;
       background-color: var(--main-yellow);
-      width: 20vw;
+      width: 22vw;
       height: 0.6vw;
       border-radius: 1px;
       margin-left: 2vw;
+      margin-bottom: -1.2vw;
     }
 
     & .total {
       grid-area: listTotal;
       color: white;
       font-size: 1.5vw;
-      margin-top: 1vw;
+
+      text-align: center;
 
       & span+span {
         margin-left: 13vw;
       }
+    }
+    & .btt {
+      text-align: center;
+      margin-bottom: -1.2vw;
     }
   }
 }

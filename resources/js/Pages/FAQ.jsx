@@ -59,12 +59,19 @@ export default function FAQ() {
       );
   };
 
-  $(document).ready(function () {
-    $('.button2').on('click', function () {
-      alert('郵件已寄出!'); // 顯示訊息
+  // $(document).ready(function () {
+    // $('.button2').on('click', function () {
+      // alert('郵件已寄出!'); // 顯示訊息
       // $('.formDetail').val(''); // 清空輸入框內容
-    });
-  });
+      // window.location.replace("http://localhost/gachoraProject/public/faq?goto=contact")
+    // });
+  // }
+// );
+  function handleSubmit(){
+    alert('郵件已寄出')
+    window.location.replace("http://localhost/gachoraProject/public/faq?goto=contact")
+  }
+
 
   return (
     <>
@@ -270,7 +277,7 @@ export default function FAQ() {
                   </label>
                   <div className="buttonCheck">
                     <button className="button1" type="reset" >重新填寫</button>
-                    <button className="button2" type="submit" value="Send">完成送出</button>
+                    <button className="button2" type="submit" value="Send" onClick={handleSubmit}>完成送出</button>
 
                   </div>
                 </form>

@@ -52,6 +52,7 @@ function ConfirmOrder({ id, display = "block", items }) {
         const phone = localStorage.getItem("phone");
         const email = localStorage.getItem("email");
         const name = localStorage.getItem("name");
+        const ppp = localStorage.getItem("ppp");
     
         console.log("County ID:", county_id);
         console.log("User ID:", user_id);
@@ -59,6 +60,7 @@ function ConfirmOrder({ id, display = "block", items }) {
         console.log("Phone:", phone);
         console.log("Email:", email);
         console.log("Name:", name);
+        console.log("Ppp:", ppp);
     
         // 發送 POST 請求到 API
         const url = 'http://localhost/gachoraProject/app/Models/Post/Checkout.php';
@@ -67,8 +69,8 @@ function ConfirmOrder({ id, display = "block", items }) {
           {
             user_id: user_id,
             county_id: county_id,
-            road: road,
-            title: " ", // 不一定要寫
+            road: road + ppp,
+            title: '273813,昌進門市',
             status_id: 12, // 常用的代碼
             phone: phone,
             email: email,
