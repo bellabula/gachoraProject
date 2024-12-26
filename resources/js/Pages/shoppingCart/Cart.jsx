@@ -1,6 +1,6 @@
 import Navbar from '@/Components/Navbar'
 import React, { useEffect, useState } from 'react'
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, Link } from '@inertiajs/react';
 import Payment from './Payment';
 import ConfirmOrder from './ConfirmOrder';
 import CompleteOrder from './CompleteOrder';
@@ -13,8 +13,10 @@ function Cart() {
     const user = usePage().props.auth.user;
     let user_id = user.id;
 
+    const [cartNumber, setCartNumber] = useState(0)
     const [cartItems, setCartItems] = useState([])
     const [storageItem, setStorageItem] = useState([])
+    const [dCount, setDCount] = useState("none")
     const url = '../app/Models/Post/UserCart.php'
     const storageUrl = '../app/Models/Post/UserBag.php'
     let [rerender, setRerender] = useState(0)
@@ -25,6 +27,7 @@ function Cart() {
             // console.log('購物車：', response)
             
             setCartItems(response)
+            setCartNumber(response.length)
         })
         
         $.post(storageUrl, {
@@ -52,6 +55,7 @@ function Cart() {
         setRerender((prev) => prev + 1)
         console.log('tocart後', rerender);
         // console.log('tocart done', rerender);
+        setDCount("flex")
         // console.log("ToCart+1:"+rerender)
     }
 
@@ -73,10 +77,9 @@ function Cart() {
         $("#e1").css("display", "none")
         $("#e21").css("display", "block")
     }
-
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' cartNumber={cartNumber} dCount={dCount} />
             <Head title="Shopping Cart" />
             <main id='cart'>
                 <div id="e1">
@@ -98,7 +101,7 @@ function Cart() {
                     {/* <!-- 戰利品儲存庫 --> */}
                     <div className="left2">
                         <div className="title">戰利品儲藏庫</div>
-                        <div className="cardsContainer">
+                        <div className="cardsContainer" style={{overflowY: "hidden", paddingBottom: "210px"}}>
                             {typeof (storageItem) != "undefined" ?
                                 storageItem.map((v, index) => (
                                     <CartStorage itemId={v.id} imgsrc={v.img} clickToCart={handleToCart} key={index} />
@@ -145,7 +148,11 @@ function Cart() {
                                 <span>{cartItems.length}項</span>
                             </div>
                             <div>
-                                <button className="btn-icon d-inline-block">繼續扭蛋/抽賞</button>
+                                <button className="btn-icon d-inline-block">
+                                <Link href={route('gachaHome')} style={{ textDecoration: "none", color: "#365B60" }}>
+                                    繼續扭蛋/抽賞
+                                </Link>
+                                </button>
                                 <button className="btn-icon d-inline-block" onClick={checkout}>前往結帳</button>
                             </div>
                             <div>

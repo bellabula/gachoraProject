@@ -53,10 +53,8 @@ export default function DeleteUserForm({ className = '' }) {
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Once your account is deleted, all of its resources and data
-                    will be permanently deleted. Before deleting your account,
-                    please download any data or information that you wish to
-                    retain.
+                    一旦您的帳戶被刪除，其所有資源和資料將永久刪除，包含未使用的G幣以及儲藏庫內容。
+                    在刪除您的帳戶之前，請先確認您的G幣餘額以及儲藏庫內容。
                 </p>
             </header>
 
@@ -71,10 +69,8 @@ export default function DeleteUserForm({ className = '' }) {
                     </h2>
 
                     <p className="mt-1 text-sm text-gray-600">
-                        Once your account is deleted, all of its resources and
-                        data will be permanently deleted. Please enter your
-                        password to confirm you would like to permanently delete
-                        your account.
+                        一旦您的帳戶被刪除，帳戶所有資源和數據將永久刪除。
+                        請輸入您的密碼，確認您想要永久刪除你的帳戶。
                     </p>
 
                     <div className="form-floating mb-3 mt-3">

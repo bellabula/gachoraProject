@@ -1,8 +1,21 @@
 import { Link, usePage } from '@inertiajs/react';
-import { useEffect } from 'react';
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, logout = "none", homepage = false, dCount="none", cartCount=0 }) {
-    if (usePage().props.auth.user){
+import { useEffect, useState } from 'react';
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, cartNumber = 0, logout = "none", homepage = false, dCount = "none"}) {
+    const [cartCount, setCartCount] = useState(0)
+    if (usePage().props.auth.user) {
         logout = "item-list"
+        const user_id = usePage().props.auth.user.id
+        useEffect(() => {
+            $.post('../app/Models/Post/UserCart.php', {
+                user_id: user_id
+            }, (response) => {
+                // console.log('購物車：', response.length)
+                setCartCount(response.length)
+            })
+        }, [user_id])
+        if (cartCount > 0) {
+            dCount = "flex"
+        }
     }
     useEffect(() => {
         if (homepage) {
@@ -78,7 +91,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                         <li className="nav-item">
                             <Link href={route('shoppingCart')} className="dropdown-item position-relative">
                                 <img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} />
-                                <span className='cartCount' style={{display:`${dCount}`}}>{cartCount}</span>
+                                <div className='cartCount' style={{ display: `${dCount}` }}>{cartNumber==0?cartCount:cartNumber}</div>
+                                {/* <span className='cartCount' style={{ display: `${dCount}` }}>{cartCount}</span> */}
                             </Link>
                         </li>
                         {/* 語言切換 */}

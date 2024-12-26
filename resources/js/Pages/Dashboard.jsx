@@ -14,6 +14,7 @@ import Deposit from './member/Deposit';
 export default function Dashboard() {
     const [activeTab, setActiveTab] = useState("");
     const tab_KEY = "activeTab"
+
     useEffect(() => {
         const savedTab = localStorage.getItem(tab_KEY);
         // console.log("savedTab" + savedTab)
@@ -35,6 +36,16 @@ export default function Dashboard() {
 
     const user = usePage().props.auth.user;
     let user_id = user.id
+
+    const [cartNumber, setCartNumber] = useState()
+    const [dCount, setDCount] = useState("none")
+    useEffect(() => {
+        $.post('../app/Models/Post/UserCart.php', {
+            user_id: user_id
+        }, (response) => {
+            setCartNumber(response.length)
+        })
+    },[])
 
     const [myGash, setmyGash] = useState(0)
     const [expireGash, setexpireGash] = useState(0)
@@ -83,7 +94,7 @@ export default function Dashboard() {
                     </div>
                 </>
             )}
-            <AuthenticatedLayout>
+            <AuthenticatedLayout cartNumber={cartNumber} dCount={dCount}>
                 <Head title="Member" />
                 <main className="container container-xxl" id='member'>
                     <div className="row pt-5 pb-5 align-items-center">
@@ -103,7 +114,7 @@ export default function Dashboard() {
                             <NavLink id={"memberFavor-tab"} target={"#memberFavor"} onClick={() => { handleTabClick("memberFavor") }} className={activeTab === "memberFavor" ? "active" : ""}>收藏清單</NavLink>
                             <NavLink id={"memberStore-tab"} target={"#memberStore"} onClick={() => { handleTabClick("memberStore") }} className={activeTab === "memberStore" ? "active" : ""}>戰利儲藏庫</NavLink>
                             <NavLink id={"memberWallet-tab"} target={"#memberWallet"} onClick={() => { handleTabClick("memberWallet") }} className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''}>我的錢包</NavLink>
-                            <NavLink id={"memberOrder-tab"} target={"#memberOrder"} onClick={() => { handleTabClick("memberOrder") }} className={activeTab === "memberOrder" ? "active" : ""}>我的訂單</NavLink>
+                            <NavLink id={"memberOrder-tab"} target={"#memberOrder"} onClick={() => { handleTabClick("memberOrder") }} className={highlight === 'myorder' | activeTab === "memberOrder" ? "active" : ""}>我的訂單</NavLink>
                             <NavLink id={"memberProfile-tab"} target={"#memberProfile"} onClick={() => { handleTabClick("memberProfile") }} className={highlight === 'profile' | activeTab === "memberProfile" ? 'active' : ''}>基本資料</NavLink>
                         </ul>
                     </div>
@@ -113,11 +124,11 @@ export default function Dashboard() {
                         {/* <!-- 2. 收藏清單 --> */}
                         <MyFavor id="memberFavor" ariaLabel="memberFavor-tab" className={activeTab === "memberFavor" ? "active" : ""} />
                         {/* <!-- 3. 戰利儲藏庫 --> */}
-                        <MyStorage id="memberStore" ariaLabel="memberStore-tab" className={activeTab === "memberStore" ? "active" : ""} />
+                        <MyStorage id="memberStore" ariaLabel="memberStore-tab" className={activeTab === "memberStore" ? "active" : ""} setCartNumber={setCartNumber} setmyGash={setmyGash} setDCount={setDCount}/>
                         {/* <!-- 4. 我的錢包 --> */}
                         <MyWallet id="memberWallet" ariaLabel="memberWallet-tab" className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''} />
                         {/* <!-- 5. 我的訂單 --> */}
-                        <MyOrder id="memberOrder" ariaLabel="memberOrder-tab" className={activeTab === "memberOrder" ? "active" : ""} />
+                        <MyOrder id="memberOrder" ariaLabel="memberOrder-tab" className={highlight === 'myorder' | activeTab === "memberOrder" ? "active" : ""} />
                         {/* <!-- 6. 基本資料 --> */}
                         <MyProfile id="memberProfile" ariaLabel="memberProfile-tab" className={highlight === 'profile' | activeTab === "memberProfile" ? 'active' : ''} />
                     </div>

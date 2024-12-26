@@ -204,7 +204,7 @@ function B_2_3GachaMachine() {
                         {drawResults.map((item, index) => (
                             <div key={index} className="d-inline-block result-item ms-3 me-3">
                                 <img className='d-block m-auto' width="150px" src={item.img} alt={item.name} />
-                                <h4 className='text-center' style={{ color: "white" }}>{item.name}x{item.amount}</h4>
+                                <h4 className='text-center' style={{ color: "white" }}>{item.name}</h4>
                             </div>
                         ))}
                     </div>
