@@ -1,13 +1,6 @@
 <style>
-    #timeBox {
-        display: block;
-        /* 初始隐藏 */
-        position: absolute;
-        left: 280px;
-        border: 1px solid #ccc;
-        background-color: #f9f9f9;
-        padding: 10px;
-        z-index: 1000;
+    .coming{
+        background-color: red;
     }
 </style>
 <div>
@@ -86,7 +79,8 @@
                 $('#remainingTime').text('')
                 response.filter((v) => {
                     console.log(v)
-                    v.waiting > 0 && $('#remainingTime').append(`<span>最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}</span><br>`)
+                    v.waiting > 0 && $('#remainingTime').append(`<span id=${v.series_id}>最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}</span><br>`)
+                    if(v.waiting > 0 && v.waiting < 120){$(`#${v.series_id}`).addClass('coming')}
                 })
                 setTimeout(() => {
                     MyTimer(user_id)

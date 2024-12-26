@@ -228,7 +228,7 @@
       "listDetail"
       "listTotalLine"
       "listTotal";
-    grid-template-rows: 10vw 28vw 1vw 5vw;
+    grid-template-rows: 15vh 40vh 2vh 8vh;
     justify-content: center;
     font-size: 2.5vw;
     margin-top: 2vw;
