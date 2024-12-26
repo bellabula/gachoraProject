@@ -7,7 +7,7 @@ import Footer from '@/Components/Footer';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function AuthenticatedLayout({ header, children, cartNumber, dCount }) {
+export default function AuthenticatedLayout({ header, children, cartNumber, bagNumber, dCount, dBagCount }) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -15,7 +15,7 @@ export default function AuthenticatedLayout({ header, children, cartNumber, dCou
 
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' cartNumber={cartNumber} dCount={dCount} />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' cartNumber={cartNumber} bagNumber={bagNumber}  dCount={dCount} dBagCount={dBagCount} />
             {/* <div className="min-h-screen bg-gray-100">
                     <nav className="border-b border-gray-100 bg-white">
                         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
