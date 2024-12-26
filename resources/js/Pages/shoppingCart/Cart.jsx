@@ -25,26 +25,36 @@ function Cart() {
             user_id: user_id
         }, (response) => {
             // console.log('購物車：', response)
+            
             setCartItems(response)
             setCartNumber(response.length)
         })
-
+        
         $.post(storageUrl, {
             user_id: user_id
         }, (response) => {
             // console.log("戰利儲藏庫 : " + response)
             setStorageItem(response)
+            console.log(setStorageItem)
         })
+        // console.log('render done', rerender);
+        
     }, [rerender])
 
     function handleToCart(itemId) {
+        console.log('tocart');
+        
         const url = '../app/Models/Post/ChangeToCart.php'
         $.post(url, {
             record_id: itemId
         }, (response) => {
             // console.log('ToCart：', response)
         })
+        console.log('tocart原', rerender);
+        
         setRerender((prev) => prev + 1)
+        console.log('tocart後', rerender);
+        // console.log('tocart done', rerender);
         setDCount("flex")
         // console.log("ToCart+1:"+rerender)
     }
@@ -54,9 +64,12 @@ function Cart() {
         $.post(url, {
             record_id: itemId
         }, (response) => {
-            // console.log('ToBag：', response)
-        })
-        setRerender((prev) => prev + 1)
+            })
+            // console.log('tobag done', rerender);
+            console.log('tobag原', rerender);
+            setRerender((prev) => prev + 1)
+            console.log('tobag後', rerender);
+
         // console.log("BackStorage+1:"+rerender)
     }
 
