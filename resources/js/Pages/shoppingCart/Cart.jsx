@@ -135,7 +135,7 @@ function Cart() {
                                 <span>商品總數</span>
                                 <span>{cartItems.length}項</span>
                             </div>
-                            <div>
+                            <div className="btt">
                                 <button className="btn-icon d-inline-block">繼續扭蛋/抽賞</button>
                                 <button className="btn-icon d-inline-block" onClick={checkout}>前往結帳</button>
                             </div>
