@@ -39,11 +39,18 @@ export default function Dashboard() {
 
     const [cartNumber, setCartNumber] = useState()
     const [dCount, setDCount] = useState("none")
+    const [bagNumber, setBagNumber] = useState()
+    const [dBagCount, setDBagCount] = useState("none")
     useEffect(() => {
         $.post('../app/Models/Post/UserCart.php', {
             user_id: user_id
         }, (response) => {
             setCartNumber(response.length)
+        })
+        $.post('../app/Models/Post/UserBag.php', {
+            user_id: user_id
+        }, (response) => {
+            setBagNumber(response.length)
         })
     },[])
 
@@ -94,7 +101,7 @@ export default function Dashboard() {
                     </div>
                 </>
             )}
-            <AuthenticatedLayout cartNumber={cartNumber} dCount={dCount}>
+            <AuthenticatedLayout cartNumber={cartNumber} dCount={dCount} bagNumber={bagNumber} dBagCount={dBagCount}>
                 <Head title="Member" />
                 <main className="container container-xxl" id='member'>
                     <div className="row pt-5 pb-5 align-items-center">
@@ -124,7 +131,7 @@ export default function Dashboard() {
                         {/* <!-- 2. 收藏清單 --> */}
                         <MyFavor id="memberFavor" ariaLabel="memberFavor-tab" className={activeTab === "memberFavor" ? "active" : ""} />
                         {/* <!-- 3. 戰利儲藏庫 --> */}
-                        <MyStorage id="memberStore" ariaLabel="memberStore-tab" className={activeTab === "memberStore" ? "active" : ""} setCartNumber={setCartNumber} setmyGash={setmyGash} setDCount={setDCount}/>
+                        <MyStorage id="memberStore" ariaLabel="memberStore-tab" className={activeTab === "memberStore" ? "active" : ""} setCartNumber={setCartNumber} setBagNumber={setBagNumber} setmyGash={setmyGash} setDCount={setDCount} setDBagCount={setDBagCount}/>
                         {/* <!-- 4. 我的錢包 --> */}
                         <MyWallet id="memberWallet" ariaLabel="memberWallet-tab" className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''} />
                         {/* <!-- 5. 我的訂單 --> */}

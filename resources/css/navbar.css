@@ -31,6 +31,8 @@
 
 #navbarMember {
     position: absolute;
+    background-color: var(--main-yellow);
+    border: 2px solid var(--main-darkblue);
     border-radius: 20px;
     width: 260px;
     /* height: 250px; */
@@ -46,8 +48,8 @@
 #navbarMember button.rounded-5 {
     width: 90px;
     height: 35px;
-    color: var(--main-darkblue);
-    background-color: var(--main-yellow);
+    color: var(--main-yellow);
+    background-color: var(--main-darkblue);
     border: none;
     line-height: 35px;
     opacity: 0.9;

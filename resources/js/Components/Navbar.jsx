@@ -2,8 +2,9 @@ import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 import Deposit from '../Pages/member/Deposit';
 
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, cartNumber = 0, logout = "none", homepage = false, dCount = "none" }) {
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0 , logout = "none", homepage = false}) {
     const [cartCount, setCartCount] = useState(0)
+    const [bagCount, setBagCount] = useState(0)
     const [userName, setUserName] = useState("")
     const [myGash, setMyGash] = useState("")
     const [myIcon, setMyIcon] = useState("")
@@ -29,16 +30,29 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 // console.log('購物車：', response.length)
                 setCartCount(response.length)
             })
+            $.post('../app/Models/Post/UserBag.php', {
+                user_id: user_id
+            }, (response) => {
+                // console.log('儲藏庫：', response.length)
+                setBagCount(response.length)
+            })
+            if (cartCount > 0) {
+                dCount = "flex"
+            }else{
+                // dCount = "none"
+            }
+            if (bagCount > 0){
+                dBagCount = "flex"
+            }else{
+                // dBagCount = "none"
+            }
         }, [user_id])
-        if (cartCount > 0) {
-            dCount = "flex"
-        }
         useEffect(()=>{
             $("#memberClick").click(openMember)
         },[])
     } else {
         useEffect(()=>{
-            $("#memberClick").click(()=>{location.replace(route('dashboard'))})
+            $("#memberClick").click(()=>{location.replace(route('login'))})
         },[])
     }
     useEffect(() => {
@@ -156,7 +170,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             style={{ bsScrollHeight: "80px" }}>
                             <li className="nav-item position-relative">
                                 <img id='memberClick' ref={triggerRef} src="http://localhost/gachoraProject/public/images/member.svg" style={{ filter: svgColor, cursor: "pointer" }} title='會員' />
-                                <div ref={memberRef} id='navbarMember' style={{ backgroundColor: navbgcolor, color: textColor, display: dMember }}>
+                                <div ref={memberRef} id='navbarMember' style={{display: dMember }}> {/*  backgroundColor: navbgcolor, color: textColor,  */}
                                     <Link href={route('login')}>
                                         <img style={{ marginBottom: "10px" }} className='memberImg' src={myIcon} />
                                     </Link>
@@ -168,14 +182,10 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                 </div>
                             </li>
                             <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' /></a></li>
-                            {/* <li className="nav-item">
-                                <Link href={route('dashboard', { highlight: 'wallet' })}>
-                                    <img src="http://localhost/gachoraProject/public/images/wallet.svg" style={{ filter: svgColor }} title='錢包' />
-                                </Link>
-                            </li> */}
                             <li className="nav-item">
-                                <Link href={route('dashboard', { highlight: 'storage' })}>
+                                <Link href={route('dashboard', { highlight: 'storage' })} className="dropdown-item position-relative">
                                     <img src="http://localhost/gachoraProject/public/images/storage.svg" style={{ filter: svgColor }} title='儲藏庫' />
+                                    <div className='cartCount' style={{ display: `${dBagCount}` }}>{bagNumber == 0 ? bagCount : bagNumber}</div>
                                 </Link>
                             </li>
                             <li className="nav-item">

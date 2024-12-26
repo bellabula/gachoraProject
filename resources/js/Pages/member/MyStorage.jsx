@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { usePage } from '@inertiajs/react';
 import MyStorageItem from './MyStorageItem';
 
-function MyStorage({ id, setCartNumber, setmyGash, setDCount, className = "" }) {
+function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setDBagCount, className = "" }) {
 
     // function Storage({ stock }) {
     //     let [count, setNumb] = React.useState(0)
@@ -19,18 +19,22 @@ function MyStorage({ id, setCartNumber, setmyGash, setDCount, className = "" }) 
     useEffect(() => {
         const urlStorage = '../app/Models/Post/UserBag.php'
         setStorageItem([])
+        setDBagCount("none")
         $.post(urlStorage, {
             user_id: user_id
         }, (response) => {
             // console.log("戰利儲藏庫 : ")
             // console.log(response)
             setStorageItem(response)
+            setBagNumber(response.length)
+            setDBagCount("flex")
         })
         $.post('../app/Models/Post/UserCart.php', {
             user_id: user_id
         }, (response) => {
-            console.log("uerCart")
+            // console.log("userCart")
             setCartNumber(response.length)
+            setDCount("flex")
         })
         $.post('../app/Models/Post/MainUser.php', {
             user_id: user_id
