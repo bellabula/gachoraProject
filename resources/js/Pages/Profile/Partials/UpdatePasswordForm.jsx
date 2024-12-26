@@ -69,8 +69,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 </h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Ensure your account is using a long, random password to stay
-                    secure.
+                    為確保您的帳戶安全，請使用較長且隨機的密碼。
                 </p>
             </header>
             <div className="edit-button text-end mt-4">

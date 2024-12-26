@@ -98,10 +98,10 @@ export default function UpdateProfileInformation({
                     修改基本資料
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
+                <p className="mt-1 mb-1 text-sm text-gray-600">
+                    更新您帳戶的個人資料及地址
                 </p>
-                <div className="edit-button text-end mt-4">
+                <div className="edit-button text-end">
                     <button type='button' className="btn rounded-pill">
                         <Link href={route('dashboard', { highlight: 'profile' })} className="dropdown-item">
                             回到我的基本資料
@@ -110,7 +110,7 @@ export default function UpdateProfileInformation({
                 </div>
             </header>
 
-            <form onSubmit={submit} className="mt-5">
+            <form onSubmit={submit} className="mt-3">
                 {/* 1. 姓名 */}
                 <div className="mb-3">
                     <InputLabel htmlFor="name" value="姓名*" className='form-label' />

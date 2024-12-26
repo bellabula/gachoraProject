@@ -60,7 +60,7 @@ function MyFavor({ id, className="" }) {
                         {gachoFavor.length != 0 ?
                             <div className="row  row-gap-2">
                                 {gachoFavor.map((v, index) => (
-                                    <MyFavorCard key={index} src={v.img[0]} href={'gachadetail?seriesId=' + v.id} />
+                                    <MyFavorCard key={index} name={v.name} src={v.img[0]} href={'gachadetail?seriesId=' + v.id} />
                                 ))}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋收藏... <a href={route('gachaHome')} className='no-link-style'><button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></a></h4>}
                     </div>
@@ -69,7 +69,7 @@ function MyFavor({ id, className="" }) {
                         {ichibanFavor.length != 0 ?
                             <div className="row  row-gap-2">
                                 {ichibanFavor.map((v, index) => (
-                                    <MyIchibanFavorCard key={index} src={v.img[0]} href={'lottrydetail?seriesId=' + v.id} />
+                                    <MyIchibanFavorCard key={index} name={v.name} src={v.img[0]} href={'lottrydetail?seriesId=' + v.id} />
                                 ))}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何一番賞收藏... <a href={route('lottryHome')} className='no-link-style'><button style={{ borderRadius: "10px" }}>&gt;&gt; 前往一番賞</button></a></h4>}
                     </div>
