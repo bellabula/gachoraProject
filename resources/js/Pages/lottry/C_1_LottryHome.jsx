@@ -259,10 +259,10 @@ function C_1_LottryHome() {
                             style={{ position: 'absolute', top: "40%", left: "50%", height: "20vh", animation: 'float 8s ease-in-out infinite' }} />
                         <h2 style={{ position: 'absolute', top: "25%", left: "15%", }}>與泡泡瑪特MOLLY</h2>
                         <h1 style={{ position: 'absolute', top: "30%", left: "15%", fontSize: "72px" }}>一同勇闖太空!</h1>
-                        <p style={{ position: 'absolute', top: "40%", left: "15%", margin: "10px" }}>
+                        <p style={{ position: 'absolute', top: "45%", left: "15%", margin: "10px 0 10px 0" }}>
                             探索獨特的太空系列，精彩獎品等你來抽！快來挑戰，開啟屬於你的宇宙探險！</p>
                         <Link
-                            className='itemtag no-link-style' style={{ position: 'absolute', top: "42%", left: "30%", border: "none" }}
+                            className='itemtag no-link-style' style={{ position: 'absolute', top: "47%", left: "30%", border: "none" }}
                             href={route('lottrydetail', { seriesId: 29 })}>
                             點我開抽!
                         </Link>

@@ -70,8 +70,8 @@ function B_3_GachaDetail() {
             console.log(response)
             // console.log('扭蛋詳細頁', response);
             setCharacters(response.character)
-            setSeries(response.series[0])
-            setSeriesImg(response.series[0].img[0])
+            setSeries(response.series)
+            setSeriesImg(response.series.img[0])
             // console.log(response.series[0].img)
             // console.log(response.series)
             // console.log(response.character)

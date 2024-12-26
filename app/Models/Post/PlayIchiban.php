@@ -18,6 +18,7 @@ try {
     // 重複取消
     $tmp = $API->GetLabels($series_id);
     if ($tmp === null) $tmp = []; 
+    $tmp = array_column($tmp, 'label');
     $label = array_diff(array_values($labelarray), array_values($tmp));
     $amounts = count($label);
     $label = $string = json_encode(array_map('strval', $label));
@@ -35,7 +36,9 @@ try {
   }
 } catch (Exception $e) {
   if ($e->getCode() == 23000) {
-    echo json_encode(["error" => "資料不一致"]);
+    echo json_encode(["error" => "請排隊"]);
+  } else if($e->getCode() == 22007){
+    echo json_encode(["error" => "請重選號碼", 'label' => $tmp]);
   } else {
     echo json_encode(["error" => "Connection_fail: " . $e->getMessage()]);
   }

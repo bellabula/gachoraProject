@@ -1,13 +1,6 @@
 <style>
-    #timeBox {
-        display: block;
-        /* 初始隐藏 */
-        position: absolute;
-        left: 280px;
-        border: 1px solid #ccc;
-        background-color: #f9f9f9;
-        padding: 10px;
-        z-index: 1000;
+    .coming{
+        background-color: red;
     }
 </style>
 <div>
@@ -66,7 +59,7 @@
         })
         // 計時器
         $(document).on('click', '#wait', function() {
-            MyTimer(3)
+            MyTimer(2)
         })
         // 查看時間
         function MyTimer(user_id) {
@@ -74,21 +67,24 @@
             $.post(url, {
                 user_id: user_id
             }, function(response) {
-                // console.log(response)
-                if (response.map) {
-                    AutoTime(response)
+                console.log(response.length)
+                if (Array.isArray(response) && response.length > 0) {
+                    AutoTime(user_id, response)
                 }
             })
         }
         // 每秒刷新
-        function AutoTime(response) {
-            if (response[response.length - 1].waiting > 0) {
+        function AutoTime(user_id, response) {
+            if (response.length > 0) {
+                $('#remainingTime').text('')
+                response.filter((v) => {
+                    console.log(v)
+                    v.waiting > 0 && $('#remainingTime').append(`<span id=${v.series_id}>最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}</span><br>`)
+                    if(v.waiting > 0 && v.waiting < 120){$(`#${v.series_id}`).addClass('coming')}
+                })
                 setTimeout(() => {
-                    $('#remainingTime').text('')
-                    response.map((v) => {
-                        v.waiting > 0 && $('#remainingTime').append(`<span>${v.name}你${v.number}號最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你</span><br>`)
-                    })
-                    MyTimer(3)
+                    MyTimer(user_id)
+                    console.log('done')
                 }, 1000)
             } else {
                 $('#remainingTime').text('')

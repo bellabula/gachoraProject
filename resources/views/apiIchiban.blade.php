@@ -99,23 +99,23 @@
         //     })
     })
     // 分類頁主題選擇
-    // $(document).on('click', '.theme', function() {
-    //     $('#type').text($(this).val())
-    //     const url = basePath + '/Post/IchibanThemeType.php'
-    //     tmpurl = url
-    //     page = $('#page').text()
-    //     theme = $(this).val()
-    //     $.post(url, {
-    //         theme: theme,
-    //         page: page
-    //     }, (response) => {
-    //         $('.card').text('')
-    //         response.series.map((v) => {
-    //             $('.card').append(`<button class="ichibanid">賞id${v.series_id}</button>`)
-    //         })
-    //         console.log('主題分類', response)
-    //     })
-    // })
+    $(document).on('click', '.theme', function() {
+        $('#type').text($(this).val())
+        const url = basePath + '/Post/IchibanThemeType.php'
+        tmpurl = url
+        page = $('#page').text()
+        theme = $(this).val()
+        $.post(url, {
+            theme: theme,
+            page: page
+        }, (response) => {
+            $('.card').text('')
+            response.series.map((v) => {
+                $('.card').append(`<button class="ichibanid">賞id${v.series_id}</button>`)
+            })
+            console.log('主題分類', response)
+        })
+    })
     // 分類頁選擇頁數
     // $(document).on('click', '.page', function() {
     //     const url = tmpurl
@@ -169,6 +169,7 @@
             user_id: user_id,
             series_id: series_id
         }, (response) => {
+            console.log('暗排隊', response)
             FrontTime(series_id, response[0].yournumber, response[0].waiting)
             $('.yournumber').text(response[0].yournumber)
         })
@@ -187,10 +188,12 @@
                 wait -= 1
                 setTimeout(() => {
                     FrontTime(series_id, yournumber, wait)
+                    console.log('等fronttime', series_id, yournumber, wait)
                 }, 1000)
             } else {
                 SeeWaitTime(series_id, yournumber)
                 executed = false
+                console.log('等seewaittime', series_id, yournumber, wait)
             }
         } else if (wait > -180) {
             // 重新抓剩的
@@ -221,16 +224,18 @@
                 wait -= 1
                 timerId = setTimeout(() => {
                     FrontTime(series_id, yournumber, wait)
-                    console.log('1', timerId)
+                    console.log('玩fronttime', timerId, series_id, yournumber, wait)
                 }, 1000)
             } else {
                 $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
                 SeeWaitTime(series_id, yournumber)
+                console.log('玩seewaittime', timerId, series_id, yournumber, wait)
             }
         } else {
             $('[id^="label"]').addClass('disabled')
-            DeleteWait(series_id, yournumber)
-            $('.timer').text('已結束...')
+            // DeleteWait(series_id, yournumber)
+            $('.timer').text('已結束...雙擊排隊以重新排隊')
+            console.log('結束', wait)
         }
     }
     // 中離
@@ -240,7 +245,10 @@
         DeleteWait(series_id, yournumber)
         clearTimeout(timerId)
         console.log('2', timerId)
-        $('.timer').text('bye')
+        $('[id^="label"]').prop('disabled', true)
+        setTimeout(() => {
+            $('.timer').text('bye')
+        }, 1000)
     })
 
     // post series_id, 號碼牌，到後端確認時間
@@ -255,8 +263,10 @@
             yournumber
         }) => {
             setTimeout(() => {
-                FrontTime(series_id, yournumber, waiting);
-            }, 0);
+                console.log('seewaittimefunction', series_id, yournumber, waiting)
+                FrontTime(series_id, yournumber, waiting)
+                // console.log('3', waiting)
+            }, 1000);
         })
     }
     // post series_id, 號碼牌，告訴後端中離與要離開
