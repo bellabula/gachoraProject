@@ -64,9 +64,9 @@ function MyOrderLog({ list_id, oId, oDate, oStatus, dPath }) {
                             <p><strong>送貨方式(付款方式):</strong>{details.method}</p>
 
                             <p><strong>收件門市代號:</strong>273813</p>
-                            <p><strong>收件門市名稱:</strong>昌進門市</p>
+                            {/* <p><strong>收件門市名稱:</strong>昌進門市</p> */}
 
-                            {details.address && (<p><strong>收件地址:</strong>{details.address}</p>)}
+                            {details.address && (<p><strong>收件地址:</strong>{details.address + '(昌進門市)'}</p>)}
                             {/* {details.deliver_time && (<p><strong>配送時間:</strong>{details.deliver_time}</p>)} */}
 
                         </div>
