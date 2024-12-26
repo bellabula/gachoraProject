@@ -27,6 +27,8 @@ function MyStorage({ id, setCartNumber, setmyGash, setDCount, className = "" }) 
         $.post('../app/Models/Post/UserCart.php', {
             user_id: user_id
         }, (response) => {
+            // console.log("cart : " + response)
+
             setCartNumber(response.length)
         })
         $.post('../app/Models/Post/MainUser.php', {

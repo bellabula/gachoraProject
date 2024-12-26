@@ -64,6 +64,7 @@ function Cart() {
         $.post(url, {
             record_id: itemId
         }, (response) => {
+            // console.log('ToBag：', response)
             })
             // console.log('tobag done', rerender);
             console.log('tobag原', rerender);
