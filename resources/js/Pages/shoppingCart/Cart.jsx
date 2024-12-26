@@ -14,9 +14,11 @@ function Cart() {
     let user_id = user.id;
 
     const [cartNumber, setCartNumber] = useState(0)
+    const [bagNumber, setBagNumber] = useState(0)
     const [cartItems, setCartItems] = useState([])
     const [storageItem, setStorageItem] = useState([])
     const [dCount, setDCount] = useState("none")
+    const [dBagCount, setDBagCount] = useState("none")
     const url = '../app/Models/Post/UserCart.php'
     const storageUrl = '../app/Models/Post/UserBag.php'
     let [rerender, setRerender] = useState(0)
@@ -33,11 +35,17 @@ function Cart() {
             setDCount("flex")
         })
         setStorageItem([])
+        setBagNumber(0)
+        setDBagCount("none")
         $.post(storageUrl, {
             user_id: user_id
         }, (response) => {
-            // console.log("戰利儲藏庫 : " + response)
+            // console.log("戰利儲藏庫")
+            // console.log(response)
+
             setStorageItem(response)
+            setBagNumber(response.length)
+            setDBagCount("flex")
         })
     }, [rerender])
 
@@ -73,7 +81,7 @@ function Cart() {
 
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' cartNumber={cartNumber} dCount={dCount} />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' cartNumber={cartNumber} dCount={dCount} bagNumber={bagNumber} dBagCount={dBagCount} />
             <Head title="Shopping Cart" />
             <main id='cart'>
                 <div id="e1">
