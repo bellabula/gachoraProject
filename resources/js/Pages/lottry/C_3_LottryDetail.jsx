@@ -160,6 +160,7 @@ function C_3_LottryDetail() {
                     setYourNumber(response[0].yournumber)
                     localStorage.setItem(`yourichiban${seriesId}`, response[0].yournumber)
                     setYourTimer(response[0].waiting)
+                    console.log('requalr', typeof yourTimer);
                 })
             } else {
                 deleteWait(seriesId, yourNumber)
@@ -392,7 +393,7 @@ function C_3_LottryDetail() {
                         >
                             {isOpen ? '取消/結束抽選' : '點選排隊/抽獎'}
                         </button>
-                        <span className='subtitles'>剩餘時間:{Math.floor((180 + yourTimer) / 60)}分{((180 + yourTimer) % 60)}秒</span>
+                        {/* <span className='subtitles'>剩餘時間:{Math.floor((180 + yourTimer) / 60)}分{((180 + yourTimer) % 60)}秒</span> */}
                         <span className='subtitles'>你的號碼牌 : {yourNumber}</span>
                         <span className='subtitles'>預估等待時間 : 最晚等 {Math.floor(timer / 60)} 分 {(timer % 60)}秒</span>
                         <span className='subtitles'>剩餘G幣:{myGash}</span>
