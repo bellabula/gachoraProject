@@ -1027,7 +1027,7 @@ class API
     }
     $stmt->closeCursor();
     $this->db = null;
-    if ($jsonOutput == []) $jsonOutput = ['' => ''];
+    if (!isset($jsonOutput) || $jsonOutput === null) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function PlayIchiban($series_id, $number, $amounts, $label, $time)

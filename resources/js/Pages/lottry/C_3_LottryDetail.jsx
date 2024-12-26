@@ -81,6 +81,7 @@ function C_3_LottryDetail() {
     const [selectedNumbers, setSelectedNumbers] = useState([]);  //已經選中的號碼
     const [seatNumbers, setSeatNumbers] = useState([])
     const [bookedSeats, setBookedSeats] = useState([])
+    const [wait2, setWait2] = useState(0)
 
 
     const [seriesImg, setSeriesImg] = useState("")
@@ -99,7 +100,54 @@ function C_3_LottryDetail() {
             setSeatNumbers(Array.from({ length: response.series.total }, (_, i) => i + 1))
             setBookedSeats(response.label ? response.label : [])
         })
+        // 查等待時間在0~-180就
+        newTimers(user_id)
+        maybeTime(seriesId)
     }, [seriesId]);
+    // 新seewaittime
+    function newTimers(user_id){
+        $.post('http://localhost/gachoraProject/app/Models/Post/MyTimer.php',{
+            user_id: user_id
+        },function(response){
+            let wait = ''
+            console.log(response)
+
+            Array.isArray(response) && response.forEach(item => {
+                if (item.series_id == seriesId) {
+                    wait = item.waiting
+                    if(wait > -190 && wait <=0){
+                        frontTime(seriesId, item.number, item.waiting)
+                        setIsOpen(true)
+                    }
+                }
+            })
+        })
+    }
+
+    function maybeTime(series_id){
+        $.post('http://localhost/gachoraProject/app/Models/Post/MaybeTime.php',{
+            series_id: series_id
+        },function(response){
+            console.log('maybe', response[0].wait)
+            setWait2(response[0].wait)
+        })
+        while(wait2 > 0){
+            const interval = setInterval(() => {
+                if (wait2 > 0) {
+                    if (wait2 % 10 > 0) {
+                        console.log(`Waiting... Remaining time: ${wait2} seconds`)
+                        setWait2(wait2--)
+                    } else {
+                        clearInterval(interval);
+                        maybeTime(series_id);
+                    }
+                } else {
+                    clearInterval(interval); // 停止計時器
+                    console.log("Wait time is over.");
+                }
+            }, 1000);
+        }
+    }
 
 
     useEffect(() => {
@@ -156,11 +204,11 @@ function C_3_LottryDetail() {
                     // console.log(seriesId)
                     console.log("排隊 : ")
                     console.log(response)
+                    deleteWait(seriesId, yourNumber)
                     frontTime(seriesId, response[0].yournumber, response[0].waiting)
                     setYourNumber(response[0].yournumber)
                     localStorage.setItem(`yourichiban${seriesId}`, response[0].yournumber)
                     setYourTimer(response[0].waiting)
-                    console.log('requalr', typeof yourTimer);
                 })
             } else {
                 deleteWait(seriesId, yourNumber)
@@ -197,13 +245,15 @@ function C_3_LottryDetail() {
                     console.log('等fronttime', series_id, yournumber, wait)
                 }, 1000)
             } else {
-                seeWaitTime(series_id, yournumber)
+                // seeWaitTime(series_id, yournumber)
+                newTimers(user_id)
                 executed = false
                 console.log('等seewaittime', series_id, yournumber, wait)
             }
         } else if (wait > -180) {
             // 重新抓剩的
             if (!executed) {
+                setIsOpen(true);
                 $.post('http://localhost/gachoraProject/app/Models/Post/IchibanDetail.php', {
                     series_id: series_id
                 }, (response) => {
@@ -237,14 +287,16 @@ function C_3_LottryDetail() {
             } else {
                 // $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
                 setYourTimer(wait)
-                seeWaitTime(series_id, yournumber)
+                newTimers(user_id)
                 console.log('玩seewaittime', timerId, series_id, yournumber, wait)
             }
         } else {
             // $('[id^="label"]').addClass('disabled')
-            // DeleteWait(series_id, yournumber)
             // $('.timer').text('已結束...雙擊排隊以重新排隊')
             console.log('結束', wait)
+            deleteWait(series_id, yournumber)
+            setIsOpen(false);
+            location.reload();
             // setYourTimer('已結束...雙擊排隊以重新排隊')
         }
     }
@@ -349,7 +401,7 @@ function C_3_LottryDetail() {
                                 <h3 className='subtitles'>價格:NT {seriesData.price} /抽</h3> {/* {seriesData.price} */}
                                 <span className='lottrynumber'>剩餘G幣:{myGash ? myGash : "請先登入"}</span>
                                 <span className='lottrynumber' >已抽數/總數:{seriesData.remain}/{seriesData.total}</span> {/* {seriesData.remain}/{seriesData.total} */}
-                                <p className='lottrynumber' >預估等待時間 : 最晚等 {Math.floor(timer / 60)} 分 {(timer % 60)}秒</p>
+                                <p className='lottrynumber' >預估等待時間 : 最晚等 {Math.floor(wait2 / 60)} 分 {(wait2 % 60)}秒</p>
                                 {/* <button className='Favorite_bt' >點擊往下排隊/抽選</button> */}
                                 <button
                                     className={`Favorite_bt ${isFavorited ? 'active' : ''}`}
