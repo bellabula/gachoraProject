@@ -110,10 +110,10 @@ export default function Dashboard() {
                     {/* <!-- Tabs --> */}
                     <div className="custom-section">
                         <ul className="nav nav-pills justify-content-center" role="tablist">
-                            <NavLink id={"memberWall-tab"} target={"#memberWall"} onClick={() => { handleTabClick("memberWall") }} className={highlight === 'wallet' | highlight === 'profile' | activeTab != "memberWall" ? '' : 'active'}>戰利牆</NavLink>
+                            <NavLink id={"memberWall-tab"} target={"#memberWall"} onClick={() => { handleTabClick("memberWall") }} className={highlight === 'storage' | highlight === 'profile' | activeTab != "memberWall" ? '' : 'active'}>戰利牆</NavLink>
                             <NavLink id={"memberFavor-tab"} target={"#memberFavor"} onClick={() => { handleTabClick("memberFavor") }} className={activeTab === "memberFavor" ? "active" : ""}>收藏清單</NavLink>
-                            <NavLink id={"memberStore-tab"} target={"#memberStore"} onClick={() => { handleTabClick("memberStore") }} className={activeTab === "memberStore" ? "active" : ""}>戰利儲藏庫</NavLink>
-                            <NavLink id={"memberWallet-tab"} target={"#memberWallet"} onClick={() => { handleTabClick("memberWallet") }} className={highlight === 'wallet' | activeTab === "memberWallet" ? 'active' : ''}>我的錢包</NavLink>
+                            <NavLink id={"memberStore-tab"} target={"#memberStore"} onClick={() => { handleTabClick("memberStore") }} className={highlight === 'storage' | activeTab === "memberStore" ? "active" : ""}>戰利儲藏庫</NavLink>
+                            <NavLink id={"memberWallet-tab"} target={"#memberWallet"} onClick={() => { handleTabClick("memberWallet") }} className={activeTab === "memberWallet" ? 'active' : ''}>我的錢包</NavLink>
                             <NavLink id={"memberOrder-tab"} target={"#memberOrder"} onClick={() => { handleTabClick("memberOrder") }} className={highlight === 'myorder' | activeTab === "memberOrder" ? "active" : ""}>我的訂單</NavLink>
                             <NavLink id={"memberProfile-tab"} target={"#memberProfile"} onClick={() => { handleTabClick("memberProfile") }} className={highlight === 'profile' | activeTab === "memberProfile" ? 'active' : ''}>基本資料</NavLink>
                         </ul>
