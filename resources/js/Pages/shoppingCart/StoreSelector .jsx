@@ -15,7 +15,7 @@ function StoreSelector() {
         const selectedStreet = event.target.value;
         if (selectedStreet === '昌進門市') {
             setStoreInfo(
-                '昌進門市\n台中市南屯區大進街387號1樓\n大墩十二街151號1樓'
+                '昌進門市\n台中市南屯區大進街387號1樓'
             );
         } else {
             setStoreInfo('');
@@ -23,8 +23,8 @@ function StoreSelector() {
     };
     return (
         <>
-            <div style={{display: 'flex'}}>
-                <div style={{ flex: 1, textAlign: "left"}}>
+            <div >
+                {/* <div style={{ flex: 1, textAlign: "left"}}>
                     <p></p>
                     請選擇縣市 :
                     <br />
@@ -93,15 +93,13 @@ function StoreSelector() {
                         <option value="">請選擇</option>
                         <option value="">大進街</option>
                     </select>
-                    <br />
-                    請選擇門市:
-                    <br />
+                    </div> */}
+                    請選擇門市：
                     <select onChange={handleStreetChange} style={selectStyle}>
                         <option value="">請選擇</option>
                         <option value="昌進門市">昌進門市</option>
                     </select>
-                </div>
-                <div style={{ marginTop: '20px', whiteSpace: 'pre-line', flex: 1, textAlign: "left" }}>
+                <div style={{ marginTop: '20px', whiteSpace: 'pre-line', }}>
                     {storeInfo && (
                         <>
                             <strong>門市資訊：</strong>

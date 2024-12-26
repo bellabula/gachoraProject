@@ -1,7 +1,15 @@
 import React from 'react'
 import { Link} from '@inertiajs/react';
+// import CityProvider from "./CityContext";
 
 function CompleteOrder({ id, display = "block" }) {
+    // const updateDatabase  = () => {
+    //     if (aa){
+    //     fetch("http://localhost/gachoraProject/app/Models/Post/Checkout.php"),
+        
+    //     }
+    // }
+    // <CityProvider></CityProvider>
 
     return (
         <>
@@ -27,7 +35,7 @@ function CompleteOrder({ id, display = "block" }) {
                             <div className="detail" style={{ textAlign: "center", fontSize: "3vw", border: "0", margin: "10vw" }}>訂單已提交</div>
                             <div className="go" style={{ justifyContent: "center" }}>
                                 <button className="bgmain" style={{ margin: "2vw" }}>
-                                    <Link href={route("dashboard", { highlight: "myOrder" })} style={{ textDecoration: "none", color: "white" }}>
+                                    <Link href={route("dashboard", { highlight: "myorder" })} style={{ textDecoration: "none", color: "white" }}>
                                     查看訂單
                                     </Link>
                                 </button>

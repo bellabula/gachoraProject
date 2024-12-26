@@ -1,6 +1,6 @@
 import Navbar from '@/Components/Navbar'
 import React, { useEffect, useState } from 'react'
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, Link } from '@inertiajs/react';
 import Payment from './Payment';
 import ConfirmOrder from './ConfirmOrder';
 import CompleteOrder from './CompleteOrder';
@@ -64,7 +64,6 @@ function Cart() {
         $("#e1").css("display", "none")
         $("#e21").css("display", "block")
     }
-
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' cartNumber={cartNumber} dCount={dCount} />
@@ -136,7 +135,11 @@ function Cart() {
                                 <span>{cartItems.length}項</span>
                             </div>
                             <div>
-                                <button className="btn-icon d-inline-block">繼續扭蛋/抽賞</button>
+                                <button className="btn-icon d-inline-block">
+                                <Link href={route('gachaHome')} style={{ textDecoration: "none", color: "#365B60" }}>
+                                    繼續扭蛋/抽賞
+                                </Link>
+                                </button>
                                 <button className="btn-icon d-inline-block" onClick={checkout}>前往結帳</button>
                             </div>
                             <div>
