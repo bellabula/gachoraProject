@@ -1,6 +1,6 @@
 import Navbar from '@/Components/Navbar'
 import React, { useEffect, useState } from 'react'
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, Link } from '@inertiajs/react';
 import Payment from './Payment';
 import ConfirmOrder from './ConfirmOrder';
 import CompleteOrder from './CompleteOrder';
