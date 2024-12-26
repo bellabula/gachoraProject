@@ -39,6 +39,7 @@
             func()
         })
     }
+    // 玩家系列操作選擇
     function mapCard(series_id, user_id){
         $('.card').text('')
         $('.card').append(`
@@ -55,39 +56,32 @@
         // 重整籤
         if (labelOccupied) {labelOccupied.map(v => $(`#label${v}`).prop('disabled', true))}
     }
-    // 未輪到
+    // 未輪到籤消失
     function labelDisabled(){
         $('[id^="label"]').addClass('disabled')
     }
-    // 輪到
+    // 輪到籤出現
     function labelEnabled(){
         $('[id^="label"]').removeClass('disabled')
     }
-    // to詳細頁click
+    // to詳細頁
     $(document).on('click', '.ichibanid', function() {
         series_id = $(this).text().substr(6)
         user_id = $('#user_id').val()
         console.log('series_id:',series_id)
         console.log('user_id:',user_id)
         mapLabel(series_id, labelDisabled)
-        // 檢查是否有參加
+        // 檢查是否有參加------------------------------------
         inLineOrNot((isInLine) => {
             if(isInLine){
-                // 查看是否開抽
+                // 查是否輪到他
                 isMyTurnOrNot()
             }else{
-                // console.log('render沒排隊預估等候時間')
+                // console.log('沒排隊預估等候時間')
                 GeneralTimer()
             }
         })
     })
-    function MyTimer(callback){
-        $.post('http://localhost/gachoraProject/app/Models/Post/MyTimer.php',{
-            user_id: user_id
-        },(response)=>{
-            callback(response)
-        })
-    }
     // 判斷是否排隊
     function inLineOrNot(callback){
         MyTimer((response) => {
@@ -99,7 +93,15 @@
             }
         })
     }
-    // 輪到我了嗎
+    // 我的所有排隊
+    function MyTimer(callback){
+        $.post('http://localhost/gachoraProject/app/Models/Post/MyTimer.php',{
+            user_id: user_id
+        },(response)=>{
+            callback(response)
+        })
+    }
+    // 輪到他了嗎
     function isMyTurnOrNot(){
         MyTimer((response) => {
             const item = response.find(item => item.series_id == series_id)
@@ -108,9 +110,10 @@
                 user_number = item.number
                 console.log('user_number:', user_number)
                 if (wait <= 0) {
-                    // 輪到
-                    // console.log('看剩幾秒能抽')
+                    // 輪到了
+                    // console.log('剩幾秒能抽')
                     PingMyPlayTime()
+                    // 讓籤顯示
                     mapLabel(series_id, labelEnabled)
                 } else {
                     // 還沒輪到看要等多久
@@ -119,6 +122,7 @@
             }
         })
     }
+    // 還沒輪到看要等多久
     function PingMyWaitTime(wait){
         intervalMyWaitTime = setInterval(() => {
             wait--
@@ -141,6 +145,7 @@
             }
         }, 1000)
     }
+    // fetch我的輪剩餘時間
     function MyPlayTime(callback){
         $.post('http://localhost/gachoraProject/app/Models/Post/SeeWaitTime.php', {
             series_id: series_id,
@@ -149,7 +154,7 @@
             callback(response)
         })
     }
-    // 抽的時間
+    // 抽的剩餘時間
     function PingMyPlayTime(){
         let playTime
         MyPlayTime((response)=>{
@@ -163,7 +168,7 @@
                 // 刪除排隊
                 labelDisabled()
                 DeleteWait(series_id, user_number)
-                // 刷新
+                // 時間到結束抽取 + 刷新
                 console.log('結束抽取')
 
             } else if ((190 + playTime) % 10 == 0) {
@@ -174,6 +179,7 @@
             }
         }, 1000)
     }
+    // fetch沒有排隊的等待時間
     function FetchGeneralTime(callback){
         $.post('http://localhost/gachoraProject/app/Models/Post/MaybeTime.php', {
             series_id: series_id
@@ -181,7 +187,7 @@
             callback(response)
         })
     }
-    // 沒排隊時間maybetime(out時間)
+    // 沒排隊時間
     function GeneralTimer(){
         let generalTime
         FetchGeneralTime((response)=>{
@@ -201,7 +207,7 @@
             }
         }, 1000)
     }
-    // 排隊
+    // 排隊按鈕
     $(document).on('click', '.line', function() {
         clearInterval(intervalGeneralTime)
         const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'
@@ -217,7 +223,7 @@
             PingMyWaitTime(wait)
         })
     })
-    // 自主中離
+    // 自主中離按紐
     $(document).on('click', '.bye', function() {
         labelDisabled()
         DeleteWait(series_id, user_number)
