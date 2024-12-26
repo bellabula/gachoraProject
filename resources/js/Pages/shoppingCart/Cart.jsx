@@ -21,14 +21,18 @@ function Cart() {
     const storageUrl = '../app/Models/Post/UserBag.php'
     let [rerender, setRerender] = useState(0)
     useEffect(() => {
+        setCartItems([])
+        setCartNumber(0)
+        setDCount("none")
         $.post(url, {
             user_id: user_id
         }, (response) => {
             // console.log('購物車：', response)
             setCartItems(response)
             setCartNumber(response.length)
+            setDCount("flex")
         })
-
+        setStorageItem([])
         $.post(storageUrl, {
             user_id: user_id
         }, (response) => {
@@ -44,8 +48,10 @@ function Cart() {
         }, (response) => {
             // console.log('ToCart：', response)
         })
-        setRerender((prev) => prev + 1)
-        setDCount("flex")
+        setTimeout(() => {
+            setRerender((prev) => prev + 1)
+            setDCount("flex")
+        }, 100)
         // console.log("ToCart+1:"+rerender)
     }
 
@@ -56,7 +62,9 @@ function Cart() {
         }, (response) => {
             // console.log('ToBag：', response)
         })
-        setRerender((prev) => prev + 1)
+        setTimeout(() => {
+            setRerender((prev) => prev + 1)
+        }, 100)
         // console.log("BackStorage+1:"+rerender)
     }
 

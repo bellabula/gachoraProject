@@ -18,15 +18,18 @@ function MyStorage({ id, setCartNumber, setmyGash, setDCount, className = "" }) 
 
     useEffect(() => {
         const urlStorage = '../app/Models/Post/UserBag.php'
+        setStorageItem([])
         $.post(urlStorage, {
             user_id: user_id
         }, (response) => {
-            // console.log("戰利儲藏庫 : " + response)
+            // console.log("戰利儲藏庫 : ")
+            // console.log(response)
             setStorageItem(response)
         })
         $.post('../app/Models/Post/UserCart.php', {
             user_id: user_id
         }, (response) => {
+            console.log("uerCart")
             setCartNumber(response.length)
         })
         $.post('../app/Models/Post/MainUser.php', {
