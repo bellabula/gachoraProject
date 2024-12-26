@@ -52,7 +52,6 @@ function Cart() {
             setRerender((prev) => prev + 1)
             setDCount("flex")
         }, 100)
-        // console.log("ToCart+1:"+rerender)
     }
 
     function handleBackStorage(itemId) {
@@ -65,7 +64,6 @@ function Cart() {
         setTimeout(() => {
             setRerender((prev) => prev + 1)
         }, 100)
-        // console.log("BackStorage+1:"+rerender)
     }
 
     function checkout() {
@@ -97,7 +95,7 @@ function Cart() {
                     {/* <!-- 戰利品儲存庫 --> */}
                     <div className="left2">
                         <div className="title">戰利品儲藏庫</div>
-                        <div className="cardsContainer" style={{overflowY: "hidden", paddingBottom: "210px"}}>
+                        <div className="cardsContainer" style={{ overflowY: "hidden", paddingBottom: "210px" }}>
                             {typeof (storageItem) != "undefined" ?
                                 storageItem.map((v, index) => (
                                     <CartStorage itemId={v.id} imgsrc={v.img} clickToCart={handleToCart} key={index} />
@@ -143,8 +141,12 @@ function Cart() {
                                 <span>商品總數</span>
                                 <span>{cartItems.length}項</span>
                             </div>
-                            <div className="btt">
-                                <button className="btn-icon d-inline-block">繼續扭蛋/抽賞</button>
+                            <div>
+                                <button className="btn-icon d-inline-block">
+                                    <Link href={route('gachaHome')} style={{ textDecoration: "none", color: "#365B60" }}>
+                                        繼續扭蛋/抽賞
+                                    </Link>
+                                </button>
                                 <button className="btn-icon d-inline-block" onClick={checkout}>前往結帳</button>
                             </div>
                             <div>

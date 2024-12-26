@@ -499,7 +499,6 @@ class API
       "call GetGashNowById(:user_id);" => 'gash',
       "call GetGiftExpireDateById(:user_id);" => 'gift'
     ];
-
     foreach($sqls as $sql => $jsonOutputKey){
       $stmt = $this->db->prepare($sql);
       $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -524,21 +523,29 @@ class API
       $stmt->closeCursor();
     }
     $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/snake.png';
-      if (isset($jsonOutput['gash_level'])) {
-        $achieveNumber = floor($jsonOutput['gash_level'] / 1000);
-      }else{
-        $achieveNumber = 0;
-      };
-      if ($achieveNumber > 0){
-        for($i = 1; $i <= $achieveNumber && $i < 5; $i++){
-          $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/dim' . $i . '.png';
-        }
+    if (isset($jsonOutput['gash_level'])) {
+      if ($jsonOutput['gash_level'] > 100000) {
+        $jsonOutput = $this->PrintAchievement(5, $jsonOutput);
+      } elseif ($jsonOutput['gash_level'] > 50000) {
+        $jsonOutput = $this->PrintAchievement(4, $jsonOutput);
+      } elseif ($jsonOutput['gash_level'] > 10000) {
+        $jsonOutput = $this->PrintAchievement(3, $jsonOutput);
+      } elseif ($jsonOutput['gash_level'] > 3000) {
+        $jsonOutput = $this->PrintAchievement(2, $jsonOutput);
+      } elseif ($jsonOutput['gash_level'] > 500)  {
+        $jsonOutput = $this->PrintAchievement(1, $jsonOutput);
       }
-
+    }
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     // return json_encode($jsonOutput);
     return json_encode($jsonOutput);
+  }
+  private function PrintAchievement($number, $jsonOutput){
+    for ($i = 1 ; $i <= $number; $i++){
+      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/dim' . $i . '.png';
+    }
+    return $jsonOutput;
   }
   
   function Wall($user_id)
