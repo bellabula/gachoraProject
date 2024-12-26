@@ -5,8 +5,15 @@ import Carousel from '@/Components/Carousel'
 
 
 function MyWall({ id, className = "" }) {
+    const [carouselItem, setCarouseItem] = useState([]);
     const user = usePage().props.auth.user;
     let user_id = user.id;
+    const memberItem = [
+        "http://localhost/gachoraProject/public/images/memberItem/snake.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim1.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim2.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim3.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim4.png"]
 
     const [gachaItem, setgachaItem] = useState([]);
     const [ichibanItem, setichibanItem] = useState([]);
@@ -23,13 +30,28 @@ function MyWall({ id, className = "" }) {
             setgachaItem(egg)
             setichibanItem(ichiban)
         })
-        $.post( '../app/Models/Post/MainUser.php', {
+        $.post('../app/Models/Post/MainUser.php', {
             user_id: user_id
         }, (response) => {
-            // console.log(response);
-
+            console.log(response);
+            console.log(response.achievement);
+            setCarouseItem(response.achievement);
+            if (response && typeof response === 'object') {
+                const items = response.achievement || [];
+                setCarouseItem(Array.isArray(items) ? items : []);
+            } else {
+                setCarouseItem([]);
+            }
         })
     }, [user_id])
+
+    const convertPathsToIndices = (paths) => {
+        return paths.map(path => memberItem.findIndex(item => item === path));
+    };
+
+    const achievementIndices = convertPathsToIndices(carouselItem);
+    console.log(achievementIndices);
+
     return (
         <>
             {/* <!-- 1. 戰利牆 --> */}
@@ -38,40 +60,45 @@ function MyWall({ id, className = "" }) {
                     {/* <!-- 成就 --> */}
                     <div>
                         <h2 className="text-center fw-bolder my-5">成就</h2>
-                        <Carousel cols={5} gap={0}>  
-                            <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/snake.png" className="circle-container" />
-                            </Carousel.Item>
-                            <Carousel.Item>           
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim1.png" className="circle-container" />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim2.png" className="circle-container" />
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim3.png" className="circle-container" />
+                        <Carousel cols={5} gap={0}>
+                            {memberItem.map((item, index) => (
+                                <Carousel.Item key={index}>
+                                    <img src={item} className={`circle-container ${achievementIndices.includes(index) ? 'active' : ''}`} alt={`商品-${index}`} />
+                                </Carousel.Item>
+                            ))}
+                            {/* <Carousel.Item>
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/snake.png" className="circle-container" />
                             </Carousel.Item>
                             <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim4.png" className="circle-container" />
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim1.png" className="circle-container" />
                             </Carousel.Item>
                             <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim1.png" className="circle-container" />
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim2.png" className="circle-container" />
                             </Carousel.Item>
                             <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim2.png" className="circle-container" />
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim3.png" className="circle-container" />
                             </Carousel.Item>
                             <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim3.png" className="circle-container" />
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim4.png" className="circle-container" />
                             </Carousel.Item>
                             <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim4.png" className="circle-container" />
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim1.png" className="circle-container" />
                             </Carousel.Item>
                             <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim1.png" className="circle-container" />
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim2.png" className="circle-container" />
                             </Carousel.Item>
                             <Carousel.Item>
-                                    <img src="http://localhost/gachoraProject/public/images/memberItem/dim2.png" className="circle-container" />
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim3.png" className="circle-container" />
                             </Carousel.Item>
+                            <Carousel.Item>
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim4.png" className="circle-container" />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim1.png" className="circle-container" />
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img src="http://localhost/gachoraProject/public/images/memberItem/dim2.png" className="circle-container" />
+                            </Carousel.Item> */}
                         </Carousel>
                         {/* <div className="d-flex justify-content-between">
                             <button className="btn"><img src="http://localhost/gachoraProject/public/images/arrowLeft.svg" /></button>
