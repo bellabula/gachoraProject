@@ -21,42 +21,37 @@ function Cart() {
     const storageUrl = '../app/Models/Post/UserBag.php'
     let [rerender, setRerender] = useState(0)
     useEffect(() => {
+        setCartItems([])
+        setCartNumber(0)
+        setDCount("none")
         $.post(url, {
             user_id: user_id
         }, (response) => {
             // console.log('購物車：', response)
-            
             setCartItems(response)
             setCartNumber(response.length)
+            setDCount("flex")
         })
-        
+        setStorageItem([])
         $.post(storageUrl, {
             user_id: user_id
         }, (response) => {
             // console.log("戰利儲藏庫 : " + response)
             setStorageItem(response)
-            console.log(setStorageItem)
         })
-        // console.log('render done', rerender);
-        
     }, [rerender])
 
     function handleToCart(itemId) {
-        console.log('tocart');
-        
         const url = '../app/Models/Post/ChangeToCart.php'
         $.post(url, {
             record_id: itemId
         }, (response) => {
             // console.log('ToCart：', response)
         })
-        console.log('tocart原', rerender);
-        
-        setRerender((prev) => prev + 1)
-        console.log('tocart後', rerender);
-        // console.log('tocart done', rerender);
-        setDCount("flex")
-        // console.log("ToCart+1:"+rerender)
+        setTimeout(() => {
+            setRerender((prev) => prev + 1)
+            setDCount("flex")
+        }, 100)
     }
 
     function handleBackStorage(itemId) {
@@ -65,19 +60,17 @@ function Cart() {
             record_id: itemId
         }, (response) => {
             // console.log('ToBag：', response)
-            })
-            // console.log('tobag done', rerender);
-            console.log('tobag原', rerender);
+        })
+        setTimeout(() => {
             setRerender((prev) => prev + 1)
-            console.log('tobag後', rerender);
-
-        // console.log("BackStorage+1:"+rerender)
+        }, 100)
     }
 
     function checkout() {
         $("#e1").css("display", "none")
         $("#e21").css("display", "block")
     }
+
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' cartNumber={cartNumber} dCount={dCount} />
@@ -102,7 +95,7 @@ function Cart() {
                     {/* <!-- 戰利品儲存庫 --> */}
                     <div className="left2">
                         <div className="title">戰利品儲藏庫</div>
-                        <div className="cardsContainer" style={{overflowY: "hidden", paddingBottom: "210px"}}>
+                        <div className="cardsContainer" style={{ overflowY: "hidden", paddingBottom: "210px" }}>
                             {typeof (storageItem) != "undefined" ?
                                 storageItem.map((v, index) => (
                                     <CartStorage itemId={v.id} imgsrc={v.img} clickToCart={handleToCart} key={index} />
@@ -150,9 +143,9 @@ function Cart() {
                             </div>
                             <div>
                                 <button className="btn-icon d-inline-block">
-                                <Link href={route('gachaHome')} style={{ textDecoration: "none", color: "#365B60" }}>
-                                    繼續扭蛋/抽賞
-                                </Link>
+                                    <Link href={route('gachaHome')} style={{ textDecoration: "none", color: "#365B60" }}>
+                                        繼續扭蛋/抽賞
+                                    </Link>
                                 </button>
                                 <button className="btn-icon d-inline-block" onClick={checkout}>前往結帳</button>
                             </div>
