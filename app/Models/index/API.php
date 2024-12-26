@@ -890,7 +890,7 @@ class API
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
     while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $jsonOutput['gash_level'] = $output['gash'];
+      $jsonOutput['gash_level'] = $output['gash_level'];
     }
     $stmt->closeCursor();
     $sql = "call GetGashNowById(:user_id);";
