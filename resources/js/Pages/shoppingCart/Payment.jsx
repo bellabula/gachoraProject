@@ -118,6 +118,7 @@ function Checkout({ id, display = "block" }) {
             setStoreInfo(
                 '昌進門市\n台中市南屯區大進街387號1樓'
             );
+            localStorage.setItem("ppp", '387號1樓')
         } else {
             setStoreInfo('');
         }
@@ -260,7 +261,47 @@ function Checkout({ id, display = "block" }) {
 
                                     <br />
                                     <span>請選擇街道：
-                                        <input type="text" style={inputStyle} placeholder="請填入" name="road" onChange={handleRoadChange} />
+                                        <select name="" id="" onClick={handleRoadChange} style={selectStyle}>
+                                            <option value="">請選擇</option>
+                                            <option value="大進街">大進街</option>
+                                            <option value="大業路">大業路</option>
+                                            <option value="大墩10街">大墩10街</option>
+                                            <option value="大墩6街">大墩6街</option>
+                                            <option value="大墩十一街">大墩十一街</option>
+                                            <option value="大墩十七街">大墩十七街</option>
+                                            <option value="大墩南路">大墩南路</option>
+                                            <option value="大墩路">大墩路</option>
+                                            <option value="工業區十八路">工業區十八路</option>
+                                            <option value="中台路">中台路</option>
+                                            <option value="五權西路二段">五權西路二段</option>
+                                            <option value="五權西路三段">五權西路三段</option>
+                                            <option value="公益路二段">公益路二段</option>
+                                            <option value="文山路">文山路</option>
+                                            <option value="文心南三路">文心南三路</option>
+                                            <option value="文心南路">文心南路</option>
+                                            <option value="永春北路">永春北路</option>
+                                            <option value="永春東七路">永春東七路</option>
+                                            <option value="永春東路">永春東路</option>
+                                            <option value="永春南路">永春南路</option>
+                                            <option value="向上南路一段">向上南路一段</option>
+                                            <option value="向上路二段">向上路二段</option>
+                                            <option value="向心南路">向心南路</option>
+                                            <option value="忠勇路">忠勇路</option>
+                                            <option value="東興路二段">東興路二段</option>
+                                            <option value="河南路四段">河南路四段</option>
+                                            <option value="保安十街">保安十街</option>
+                                            <option value="南屯路二段">南屯路二段</option>
+                                            <option value="楓和路">楓和路</option>
+                                            <option value="萬和路一段">萬和路一段</option>
+                                            <option value="精科路">精科路</option>
+                                            <option value="精誠路">精誠路</option>
+                                            <option value="黎明東街">黎明東街</option>
+                                            <option value="黎明路一段">黎明路一段</option>
+                                            <option value="黎明路二段">黎明路二段</option>
+                                            <option value="嶺東南路">嶺東南路</option>
+                                            <option value="嶺東路">嶺東路</option>
+                                            <option value="環中路四段">環中路四段</option>
+                                        </select>
                                     </span>
                                     {/* 錯誤訊息 */}
                                     {error && <p style={{ color: "red" }}>{error}</p>}
@@ -274,7 +315,7 @@ function Checkout({ id, display = "block" }) {
                                     請選擇門市：
                                     <select onChange={handleStreetChange} style={selectStyle}>
                                         <option value="">請選擇</option>
-                                        <option value="昌進門市">昌進門市</option>
+                                        <option sdf="387號1樓" value="昌進門市">昌進門市</option>
                                     </select>
                                     <div style={{ marginTop: '20px', whiteSpace: 'pre-line', }}>
                                         {storeInfo && (
