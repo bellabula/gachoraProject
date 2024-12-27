@@ -1,7 +1,7 @@
 import Navbar from '@/Components/Navbar';
 import { Head, Link } from '@inertiajs/react';
 import { useEffect } from 'react';
-import PdCard from '@/Components/PdCard';
+import ScrollToTop from '@/Components/ScrollTop';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
@@ -372,7 +372,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
 
 
-
+                <ScrollToTop />
             </main>
         </>
     );

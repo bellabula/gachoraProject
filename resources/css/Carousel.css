@@ -19,7 +19,7 @@
 .Carousel__btn--next {
   position: absolute;
   height: 50px;
-  z-index: 9999;
+  z-index: 2;
   cursor: pointer;
   transform: translateY(-50%);
   background-color: var(--main-bg-gray);

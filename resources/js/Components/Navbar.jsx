@@ -2,7 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 import Deposit from '../Pages/member/Deposit';
 
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0 , logout = "none", homepage = false}) {
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0, logout = "none", homepage = false }) {
     const [cartCount, setCartCount] = useState(0)
     const [bagCount, setBagCount] = useState(0)
     const [userName, setUserName] = useState("")
@@ -38,22 +38,22 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             })
             if (cartCount > 0) {
                 dCount = "flex"
-            }else{
+            } else {
                 // dCount = "none"
             }
-            if (bagCount > 0){
+            if (bagCount > 0) {
                 dBagCount = "flex"
-            }else{
+            } else {
                 // dBagCount = "none"
             }
         }, [user_id])
-        useEffect(()=>{
+        useEffect(() => {
             $("#memberClick").click(openMember)
-        },[])
+        }, [])
     } else {
-        useEffect(()=>{
-            $("#memberClick").click(()=>{location.replace(route('login'))})
-        },[])
+        useEffect(() => {
+            $("#memberClick").click(() => { location.replace(route('login')) })
+        }, [])
     }
     useEffect(() => {
         if (homepage) {
@@ -170,15 +170,23 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             style={{ bsScrollHeight: "80px" }}>
                             <li className="nav-item position-relative">
                                 <img id='memberClick' ref={triggerRef} src="http://localhost/gachoraProject/public/images/member.svg" style={{ filter: svgColor, cursor: "pointer" }} title='會員' />
-                                <div ref={memberRef} id='navbarMember' style={{display: dMember }}> {/*  backgroundColor: navbgcolor, color: textColor,  */}
-                                    <Link href={route('login')}>
-                                        <img style={{ marginBottom: "10px" }} className='memberImg' src={myIcon} />
-                                    </Link>
-                                    <div>
-                                        <h4 style={{ lineHeight: "10px", textAlign: "left", padding: "10px", display: "inline-block" }}>{userName} 您好 !</h4><a href={route('login')}><button className="rounded-5 mt-2">會員專區</button></a>
+                                <div ref={memberRef} id='navbarMember' style={{ display: dMember }}> {/*  backgroundColor: navbgcolor, color: textColor,  */}
+                                    {/* <img src="http://localhost/gachoraProject/public/images/memberClick5.svg" className='w-100 h-100' alt="" /> */}
+                                    <img src="http://localhost/gachoraProject/public/images/navbarClickBg.svg" className='w-100 h-100' alt="" />
+                                    <div className='memberTop w-100'>
+                                        <Link href={route('login')}>
+                                            <img style={{ marginBottom: "10px" }} className='memberImg' src={myIcon} />
+                                        </Link>
+                                        <h4>{userName} 您好 !</h4>
+                                        <div className='w-100' style={{ height: "35px" }}>
+                                            <a href={route('login')} style={{ height: "35px" }} className='d-inline-block'><button style={{ verticalAlign: "top" }} className="rounded-5 mx-2">會員專區</button></a>
+                                            <a href={route('dashboard', { highlight: 'favor' })} style={{ height: "35px" }} className='d-inline-block'><button className="rounded-5 mx-2" style={{ width: "100px", verticalAlign: "top" }}>❤ 收藏清單</button></a>
+                                        </div>
+                                        <div style={{ marginTop: "40px", height: "40px" }}>
+                                            <h5 style={{ color: "var(--main-bg-gray)", display: "inline-block", height: "40px", verticalAlign: "top" }}><img width="35px" src="http://localhost/gachoraProject/public/images/GPointIcon.svg" />&nbsp; $ {myGash}</h5>
+                                            <button className="rounded-5 float-end me-5 topUp" onClick={openCoin}>儲值G幣</button>
+                                        </div>
                                     </div>
-                                    <h5 style={{ lineHeight: "10px", textAlign: "left", padding: "10px", margin: "0" }}>您的G幣餘額 : $ {myGash}</h5>
-                                    <button className="rounded-5 float-end mt-2" onClick={openCoin}>儲值G幣</button>
                                 </div>
                             </li>
                             <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' /></a></li>

@@ -1,9 +1,10 @@
-export default function Footer() {
+export default function Footer({imgSrc="http://localhost/gachoraProject/public/images/Footer.svg"}) {
+    $(".footer").css(`background-image`,`url(${imgSrc})`)
   return (
     <footer className="footerBody">
         <div className="footer  text-center">
-
-            <div className="footerDetail">
+    {/* <img src="http://localhost/gachoraProject/public/images/Footer.svg" alt="" /> */}
+            {/* <div className="footerDetail">
                 <div className="footerGachora">
                     <img src="http://localhost/gachoraProject/public/images/logo.png" width="200px"/>
 
@@ -31,7 +32,7 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     </footer>
   )

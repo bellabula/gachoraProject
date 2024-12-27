@@ -4,6 +4,7 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import PdCard from '@/Components/PdCard';
 import Carousel from '@/Components/Carousel'
+import Footer from '@/Components/Footer';
 
 function C_1_LottryHome() {
 
@@ -162,19 +163,19 @@ function C_1_LottryHome() {
                                     alt="" /></button>
                             <ul className="items">
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 1" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/c5.jpg" alt="Image 1" />
                                 </li>
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 2" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/a8.jpg" alt="Image 2" />
                                 </li>
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 3" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/a2.jpg" alt="Image 3" />
                                 </li>
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 4" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/a3.png" alt="Image 4" />
                                 </li>
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 5" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/a4.jpg" alt="Image 5" />
                                 </li>
                             </ul>
                             <button className="carousel-btn right"
@@ -290,6 +291,7 @@ function C_1_LottryHome() {
 
 
                 </main>
+                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
             </body>
         </>
     )

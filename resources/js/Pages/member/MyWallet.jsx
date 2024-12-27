@@ -30,7 +30,8 @@ function MyWallet({ id, className = "" }) {
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            // console.log('交易紀錄：', response)
+            console.log('交易紀錄：')
+            console.log(response)
             response[0]["gashRemain"] = response[0].price * response[0].amount
             for (let i = 1; i<response.length; i++) {
                 response[i]["gashRemain"] = response[i-1].gashRemain + response[i].price * response[i].amount

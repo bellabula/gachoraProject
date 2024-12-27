@@ -6,6 +6,7 @@ import Navbar from '@/Components/Navbar';
 import Footer from '@/Components/Footer';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import ScrollToTop from '@/Components/ScrollTop';
 
 export default function AuthenticatedLayout({ header, children, cartNumber, bagNumber, dCount, dBagCount }) {
     const user = usePage().props.auth.user;
@@ -170,6 +171,7 @@ export default function AuthenticatedLayout({ header, children, cartNumber, bagN
 
                     </div> */}
             {children}
+            <ScrollToTop />
             <Footer />
         </>
     );
