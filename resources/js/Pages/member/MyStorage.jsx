@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { usePage } from '@inertiajs/react';
 import MyStorageItem from './MyStorageItem';
 
-function MyStorage({ id, className="" }) {
+function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setDBagCount, className = "" }) {
 
     // function Storage({ stock }) {
     //     let [count, setNumb] = React.useState(0)
@@ -18,11 +18,28 @@ function MyStorage({ id, className="" }) {
 
     useEffect(() => {
         const urlStorage = '../app/Models/Post/UserBag.php'
+        setStorageItem([])
+        setDBagCount("none")
         $.post(urlStorage, {
             user_id: user_id
         }, (response) => {
-            // console.log("戰利儲藏庫 : " + response)
+            // console.log("戰利儲藏庫 : ")
+            // console.log(response)
             setStorageItem(response)
+            setBagNumber(response.length)
+            setDBagCount("flex")
+        })
+        $.post('../app/Models/Post/UserCart.php', {
+            user_id: user_id
+        }, (response) => {
+            // console.log("userCart")
+            setCartNumber(response.length)
+            setDCount("flex")
+        })
+        $.post('../app/Models/Post/MainUser.php', {
+            user_id: user_id
+        }, (response) => {
+            setmyGash(response.gash)
         })
     }, [rerender])
 
@@ -69,8 +86,11 @@ function MyStorage({ id, className="" }) {
         }, (response) => {
             // console.log('ToCart：', response)
         })
-        setRerender((prev) => prev + 1)
+        setTimeout(() => {
+            setRerender((prev) => prev + 1)
+        }, 100)
         // console.log("ToCart:" + rerender)
+        setDCount("flex")
     }
     function handleToG(recordId) {
         const url = '../app/Models/Post/ChangeToG.php'
@@ -79,7 +99,9 @@ function MyStorage({ id, className="" }) {
         }, (response) => {
             // console.log('ToG：', response)
         })
-        setRerender((prev) => prev + 1)
+        setTimeout(() => {
+            setRerender((prev) => prev + 1)
+        }, 100)
         // console.log("ToG:" + rerender)
     }
 
@@ -109,7 +131,8 @@ function MyStorage({ id, className="" }) {
                                     <th className="position-relative">
                                         <div className="d-flex align-items-center justify-content-center">
                                             幫我出貨
-                                            <button className="position-absolute classFilterBtn"
+                                            {/* Filter */}
+                                            {/* <button className="position-absolute classFilterBtn"
                                                 style={{ borderRadius: "5px", right: "-15px" }}>+</button>
                                             <div className="position-absolute classFilter"
                                                 style={{ visibility: "hidden", padding: "5px", textAlign: "left", border: "1px solid var(--main-darkblue)", borderRadius: "5px", backgroundColor: "var(--main-bg-gray)", color: "black", right: "-130px", bottom: "-150px" }}>
@@ -121,7 +144,7 @@ function MyStorage({ id, className="" }) {
                                                     <input type="checkbox" defaultChecked /> 抽/扭日期 <br />
                                                     <input type="checkbox" defaultChecked /> 用有數量 <br />
                                                 </form>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </th>
                                 </tr>

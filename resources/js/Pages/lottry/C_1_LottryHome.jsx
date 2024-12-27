@@ -162,19 +162,19 @@ function C_1_LottryHome() {
                                     alt="" /></button>
                             <ul className="items">
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 1" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/c5.jpg" alt="Image 1" />
                                 </li>
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 2" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/a8.jpg" alt="Image 2" />
                                 </li>
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 3" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/a2.jpg" alt="Image 3" />
                                 </li>
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 4" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/a3.png" alt="Image 4" />
                                 </li>
                                 <li>
-                                    <img src="http://localhost/gachoraProject/public/images/gachoHome/IVAN(1).JPG" alt="Image 5" />
+                                    <img src="http://localhost/gachoraProject/public/images/ichibanItem/a4.jpg" alt="Image 5" />
                                 </li>
                             </ul>
                             <button className="carousel-btn right"

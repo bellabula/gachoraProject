@@ -499,7 +499,6 @@ class API
       "call GetGashNowById(:user_id);" => 'gash',
       "call GetGiftExpireDateById(:user_id);" => 'gift'
     ];
-
     foreach($sqls as $sql => $jsonOutputKey){
       $stmt = $this->db->prepare($sql);
       $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -524,21 +523,29 @@ class API
       $stmt->closeCursor();
     }
     $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/snake.png';
-      if (isset($jsonOutput['gash_level'])) {
-        $achieveNumber = floor($jsonOutput['gash_level'] / 1000);
-      }else{
-        $achieveNumber = 0;
-      };
-      if ($achieveNumber > 0){
-        for($i = 1; $i <= $achieveNumber && $i < 5; $i++){
-          $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/dim' . $i . '.png';
-        }
+    if (isset($jsonOutput['gash_level'])) {
+      if ($jsonOutput['gash_level'] > 100000) {
+        $jsonOutput = $this->PrintAchievement(5, $jsonOutput);
+      } elseif ($jsonOutput['gash_level'] > 50000) {
+        $jsonOutput = $this->PrintAchievement(4, $jsonOutput);
+      } elseif ($jsonOutput['gash_level'] > 10000) {
+        $jsonOutput = $this->PrintAchievement(3, $jsonOutput);
+      } elseif ($jsonOutput['gash_level'] > 3000) {
+        $jsonOutput = $this->PrintAchievement(2, $jsonOutput);
+      } elseif ($jsonOutput['gash_level'] > 500)  {
+        $jsonOutput = $this->PrintAchievement(1, $jsonOutput);
       }
-
+    }
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
     // return json_encode($jsonOutput);
     return json_encode($jsonOutput);
+  }
+  private function PrintAchievement($number, $jsonOutput){
+    for ($i = 1 ; $i <= $number; $i++){
+      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/dim' . $i . '.png';
+    }
+    return $jsonOutput;
   }
   
   function Wall($user_id)
@@ -568,7 +575,7 @@ class API
     $stmt->closeCursor();
     return $recordImgs;
   }
-  function CollectionEgg($user_id)
+   function CollectionEgg($user_id)
   {
     $user_id = $_POST['user_id'];
     $sql = "call GetCollectionHasByIdAndCategory(:user_id, 1);";
@@ -757,6 +764,7 @@ class API
     $stmt->closeCursor();
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
+    // if (!isset($jsonOutput) || $jsonOutput === null) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Cart($user_id)
@@ -778,6 +786,7 @@ class API
     $stmt->closeCursor();
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
+    // if (!isset($jsonOutput) || $jsonOutput === null) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function Logistics($user_id)
@@ -1250,5 +1259,38 @@ class API
     $stmt->closeCursor();
     $this->db = null;
     return json_encode(['error' => 'done']);
+  }
+  function GiveBirthGift($user_id){
+    $sql = 'call GiveBirthGift(:user_id)';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $stmt->closeCursor();
+    $this->db = null;
+    return json_encode(['error' => 'done']);
+  }
+  function GiveRecommendGift($user_id, $code){
+    $sql = 'call GiveRecommendGift(:code, :user_id)';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':code', $code, PDO::PARAM_STR);
+    $stmt->execute();
+    $stmt->closeCursor();
+    $this->db = null;
+    return json_encode(['error' => 'done']);
+  }
+  function MaybeTime($series_id){
+    $sql = 'select ifnull(sum(wait) + 190 * count(series_id) - unix_timestamp(now()), 0) wait
+    from Waitinglist 
+    where series_id = :series_id
+    order by wait desc';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput !== [] ? $jsonOutput: $jsonOutput = [ 'wait'=> 0];
+    return json_encode($jsonOutput);
   }
 }

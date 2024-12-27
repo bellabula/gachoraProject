@@ -1,6 +1,6 @@
 import Navbar from '@/Components/Navbar'
 import React, { useEffect, useState } from 'react'
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, Link } from '@inertiajs/react';
 import Payment from './Payment';
 import ConfirmOrder from './ConfirmOrder';
 import CompleteOrder from './CompleteOrder';
@@ -13,24 +13,39 @@ function Cart() {
     const user = usePage().props.auth.user;
     let user_id = user.id;
 
+    const [cartNumber, setCartNumber] = useState(0)
+    const [bagNumber, setBagNumber] = useState(0)
     const [cartItems, setCartItems] = useState([])
     const [storageItem, setStorageItem] = useState([])
+    const [dCount, setDCount] = useState("none")
+    const [dBagCount, setDBagCount] = useState("none")
     const url = '../app/Models/Post/UserCart.php'
     const storageUrl = '../app/Models/Post/UserBag.php'
     let [rerender, setRerender] = useState(0)
     useEffect(() => {
+        setCartItems([])
+        setCartNumber(0)
+        setDCount("none")
         $.post(url, {
             user_id: user_id
         }, (response) => {
             // console.log('購物車：', response)
             setCartItems(response)
+            setCartNumber(response.length)
+            setDCount("flex")
         })
-
+        setStorageItem([])
+        setBagNumber(0)
+        setDBagCount("none")
         $.post(storageUrl, {
             user_id: user_id
         }, (response) => {
-            // console.log("戰利儲藏庫 : " + response)
+            // console.log("戰利儲藏庫")
+            // console.log(response)
+
             setStorageItem(response)
+            setBagNumber(response.length)
+            setDBagCount("flex")
         })
     }, [rerender])
 
@@ -41,8 +56,10 @@ function Cart() {
         }, (response) => {
             // console.log('ToCart：', response)
         })
-        setRerender((prev) => prev + 1)
-        // console.log("ToCart+1:"+rerender)
+        setTimeout(() => {
+            setRerender((prev) => prev + 1)
+            setDCount("flex")
+        }, 100)
     }
 
     function handleBackStorage(itemId) {
@@ -52,8 +69,9 @@ function Cart() {
         }, (response) => {
             // console.log('ToBag：', response)
         })
-        setRerender((prev) => prev + 1)
-        // console.log("BackStorage+1:"+rerender)
+        setTimeout(() => {
+            setRerender((prev) => prev + 1)
+        }, 100)
     }
 
     function checkout() {
@@ -63,7 +81,7 @@ function Cart() {
 
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" logout='list-item' cartNumber={cartNumber} dCount={dCount} bagNumber={bagNumber} dBagCount={dBagCount} />
             <Head title="Shopping Cart" />
             <main id='cart'>
                 <div id="e1">
@@ -85,7 +103,7 @@ function Cart() {
                     {/* <!-- 戰利品儲存庫 --> */}
                     <div className="left2">
                         <div className="title">戰利品儲藏庫</div>
-                        <div className="cardsContainer">
+                        <div className="cardsContainer" style={{ overflowY: "hidden", paddingBottom: "210px" }}>
                             {typeof (storageItem) != "undefined" ?
                                 storageItem.map((v, index) => (
                                     <CartStorage itemId={v.id} imgsrc={v.img} clickToCart={handleToCart} key={index} />
@@ -132,7 +150,11 @@ function Cart() {
                                 <span>{cartItems.length}項</span>
                             </div>
                             <div>
-                                <button className="btn-icon d-inline-block">繼續扭蛋/抽賞</button>
+                                <button className="btn-icon d-inline-block">
+                                    <Link href={route('gachaHome')} style={{ textDecoration: "none", color: "#365B60" }}>
+                                        繼續扭蛋/抽賞
+                                    </Link>
+                                </button>
                                 <button className="btn-icon d-inline-block" onClick={checkout}>前往結帳</button>
                             </div>
                             <div>
