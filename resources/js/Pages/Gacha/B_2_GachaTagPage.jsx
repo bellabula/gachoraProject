@@ -3,6 +3,8 @@ import Navbar from '@/Components/Navbar';
 import GachaPdCard from '@/Components/GachaPdCard';
 import { Head, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
+import Footer from '@/Components/Footer';
+
 
 function B_2_GachaTagPage() {
 
@@ -208,8 +210,8 @@ function B_2_GachaTagPage() {
                         </div>
                     </div>
                 </div>
-
             </main>
+            <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer4.svg'></Footer>
         </>
     )
 }

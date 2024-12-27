@@ -4,7 +4,6 @@ import GachaDetailCard from '@/Pages/Gacha/GachaDetailCard';
 import PdCard from '@/Components/PdCard';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
-import Footer from '@/Components/Footer';
 
 function C_3_LottryDetail() {
     const basePath = '../app/Models'
@@ -16,175 +15,7 @@ function C_3_LottryDetail() {
     const [userFavor, setUerFavor] = useState([]);
     const [isFavorited, setIsFavorited] = useState(false);  //我的最愛切換
     const [myGash, setmyGash] = useState(null)
-    const [yourNumber, setYourNumber] = useState(0)
-    let intervalMyWaitTime = []
-    let intervalMyPlayTime = []
-    let intervalGeneralTime = []
-    let user_number
-    let series_id
 
-    useEffect(() => {
-        series_id = seriesId
-            inLineOrNot((isInLine) => {
-                if (isInLine) {
-                    // 查是否輪到他
-                    isMyTurnOrNot()
-                } else {
-                    // console.log('沒排隊預估等候時間')
-                    GeneralTimer()
-                }
-            })
-    }, []);
-    // 判斷是否排隊
-    function inLineOrNot(callback) {
-        MyTimer((response) => {
-            if (Array.isArray(response)) {
-                let isInLine = response.some(item => item.series_id == seriesId)
-                let item = response.find(item => item.series_id == seriesId)
-                // ok
-                setYourNumber(item.number)
-                // console.log('inLineOrNotyournumber',item.number)
-                callback(isInLine)
-            } else {
-                callback(false)
-            }
-        })
-    }
-    // 我的所有排隊
-    function MyTimer(callback) {
-        $.post('http://localhost/gachoraProject/app/Models/Post/MyTimer.php', {
-            user_id: user_id
-        }, (response) => {
-            callback(response)
-        })
-    }
-    // 輪到他了嗎
-    function isMyTurnOrNot() {
-        MyTimer((response) => {
-            const item = response.find(item => item.series_id == seriesId)
-            if (item) {
-                let wait
-                wait = item.waiting
-                user_number = item.number
-                setYourNumber(item.number)
-                // console.log('isMyTurnOrNotyournumber',item.number)
-                // error number
-                console.log('user_number:', yourNumber)
-                if (wait <= 0) {
-                    // 輪到了
-                    // console.log('剩幾秒能抽')
-                    PingMyPlayTime()
-                    // 讓籤顯示
-                    setIsOpen(true)
-                } else {
-                    // 還沒輪到看要等多久
-                    PingMyWaitTime(wait)
-                }
-            }
-        })
-    }
-    // 還沒輪到看要等多久
-    function PingMyWaitTime(wait) {
-        let intervalId = setInterval(() => {
-            intervalMyWaitTime.push(intervalId)
-            console.log('intervalMyWaitTime', intervalMyWaitTime)
-            wait--
-            console.log('render預估等待', wait, '秒')
-            setTimer(wait)
-
-            if (wait <= 0) {
-                clearAllIntervals(intervalMyWaitTime)
-                // console.log('看剩幾秒能抽')
-                PingMyPlayTime()
-                setIsOpen(true)
-
-            } else if (wait % 10 == 0) {
-                clearAllIntervals(intervalMyWaitTime)
-                MyTimer((response) => {
-                    const item = response.find(item => item.series_id == seriesId)
-                    wait = item.waiting
-                    console.log('render預估等待', wait, '秒')
-                    setTimer(wait)
-                    PingMyWaitTime(wait)
-                })
-            }
-        }, 1000)
-    }
-    // fetch我的輪剩餘時間
-    function MyPlayTime(callback) {
-        $.post('http://localhost/gachoraProject/app/Models/Post/SeeWaitTime.php', {
-            series_id: seriesId,
-            number: user_number || yourNumber
-        }, (response) => {
-            callback(response)
-        })
-    }
-    let user_number_PingMyPlayTime
-    // 抽的剩餘時間
-    function PingMyPlayTime() {
-        let playTime
-        // error yourNumber
-        MyPlayTime((response) => {
-            playTime = response.waiting
-        })
-        clearAllIntervals(intervalMyPlayTime)
-        let intervalId = setInterval(() => {
-            intervalMyPlayTime.push(intervalId)
-            playTime--
-            console.log('還有', 190 + playTime, '秒可以抽')
-            setYourTimer(190 + playTime)
-            if (190 + playTime <= 0) {
-                clearAllIntervals(intervalMyPlayTime)
-                // 刪除排隊
-                setIsOpen(false)
-                console.log('playtimenumber', yourNumber)
-                deleteWait(seriesId, yourNumber)
-                // 時間到結束抽取 + 刷新
-                console.log('結束抽取')
-                location.reload()
-            } else if ((190 + playTime) % 10 == 0) {
-                clearAllIntervals(intervalMyPlayTime)
-                PingMyPlayTime()
-            } else if (190 + playTime > 180) {
-
-            } else if (isNaN(playTime)){
-                location.reload()
-            }
-        }, 1000)
-    }
-    // fetch沒有排隊的等待時間
-    function FetchGeneralTime(callback) {
-        $.post('http://localhost/gachoraProject/app/Models/Post/MaybeTime.php', {
-            series_id: seriesId
-        }, (response) => {
-            callback(response)
-        })
-    }
-    // 沒排隊時間
-    function GeneralTimer() {
-        let generalTime
-        FetchGeneralTime((response) => {
-            generalTime = response[0].wait
-        })
-        let intervalId = setInterval(() => {
-            intervalGeneralTime.push(intervalId)
-            console.log('intervalGeneralTime', intervalGeneralTime)
-            generalTime--
-            console.log('現在排隊最久只需等', generalTime, '秒')
-            setGeneralTimer(generalTime)
-            if (generalTime <= 0) {
-                clearAllIntervals(intervalGeneralTime)
-                console.log('不用排隊馬上抽')
-                // error
-                setTimer(0)
-            } else if (generalTime % 10 == 0) {
-                clearAllIntervals(intervalGeneralTime)
-                GeneralTimer()
-            } else {
-
-            }
-        }, 1000)
-    }
     if (user) {
         user_id = user.id
 
@@ -310,66 +141,137 @@ function C_3_LottryDetail() {
     };
 
     // 切換摺疊區域的展開/收起
+    const [yourNumber, setYourNumber] = useState(null)
     const [timer, setTimer] = useState(0)
-    const [generalTimer, setGeneralTimer] = useState(0)
     const [yourTimer, setYourTimer] = useState(0)
-    function toggleCollapse () {
+    const toggleCollapse = () => {
         if (user) {
-            clearAllIntervals(intervalMyWaitTime)
-            clearAllIntervals(intervalMyPlayTime)
-            clearAllIntervals(intervalGeneralTime)
             if (!isOpen) {
-                // setIsOpen(true)
-                clearAllIntervals(intervalGeneralTime)
                 const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'
                 $.post(url, {
                     user_id: user_id,
                     series_id: seriesId
                 }, (response) => {
-                    let wait
+                    // console.log(user_id)
+                    // console.log(seriesId)
+                    console.log("排隊 : ")
+                    console.log(response)
+                    frontTime(seriesId, response[0].yournumber, response[0].waiting)
                     setYourNumber(response[0].yournumber)
                     localStorage.setItem(`yourichiban${seriesId}`, response[0].yournumber)
-                    wait = response[0].waiting
                     setYourTimer(response[0].waiting)
-                    // console.log('user_number:', yourNumber)
-                    PingMyWaitTime(wait)
+                    console.log('requalr', typeof yourTimer);
                 })
             } else {
-                clearAllIntervals(intervalMyPlayTime)
-                // 刪除排隊
-                setIsOpen(false)
-                // error
-                // console.log('yourNumberincollaplse', yourNumber)
                 deleteWait(seriesId, yourNumber)
+                clearTimeout(timerId)
+                console.log('leave : ', timerId)
+                setYourNumber("")
+                // $('[id^="label"]').prop('disabled', true)
                 setTimeout(() => {
                     setYourTimer('bye')
-                    console.log('自主中離')
-                    clearAllIntervals(intervalMyPlayTime)
-                    location.reload()
                 }, 1000)
             }
-            // setIsOpen(!isOpen);
+            setIsOpen(!isOpen);
         } else {
             alert("請先登入")
         }
     };
-    function clearAllIntervals(intervalname) {
-        console.log('clear')
-        intervalname.forEach(intervalId => clearInterval(intervalId)); // 清除所有定时器
-        intervalname = []; // 清空数组
+
+    // 前端timer
+    let executed = false
+    let timerId = null
+    function frontTime(series_id, yournumber, wait) {
+        if (wait > 0) {
+            if (!executed) {
+                // $('[id^="label"]').addClass('disabled')
+                setIsOpen(false)
+                executed = true
+            }
+            if (wait % 10 > 0) {
+                setTimer(wait) //aa這個要在wait -= 1後？
+                // $('.timer').text(`最晚等${Math.floor(wait / 60)}分${(wait % 60)}秒`)
+                wait -= 1
+                setTimeout(() => {
+                    frontTime(series_id, yournumber, wait)
+                    console.log('等fronttime', series_id, yournumber, wait)
+                }, 1000)
+            } else {
+                seeWaitTime(series_id, yournumber)
+                executed = false
+                console.log('等seewaittime', series_id, yournumber, wait)
+            }
+        } else if (wait > -180) {
+            // 重新抓剩的
+            if (!executed) {
+                $.post('http://localhost/gachoraProject/app/Models/Post/IchibanDetail.php', {
+                    series_id: series_id
+                }, (response) => {
+                    console.log('賞詳細頁', response);
+                    setBookedSeats(response.label ? response.label : [])
+                    // $('.labels').text('')
+                    // 出籤response.series.total是總共籤數
+                    // for (let i = 1; i <= response.series.total; i++) {
+                    //     $('.labels').append(`<button id="label${i}">${i}</button>`)
+                    // }
+                    // // 被抽的號碼碼掉response.label是已經被抽的
+                    // if (response.label) {
+                    //     response.label.map((v) => {
+                    //         $(`#label${v}`).prop('disabled', true)
+                    //     })
+                    //     // $('[id^="label"]').addClass('disabled')
+                    // }
+                    // $('[id^="label"]').removeClass('disabled')
+                })
+                executed = true
+            }
+
+            if ((wait * -1) % 10 > 1) {
+                // $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
+                setYourTimer(wait)//aa同上
+                wait -= 1
+                timerId = setTimeout(() => {
+                    frontTime(series_id, yournumber, wait)
+                    console.log('玩fronttime', timerId, series_id, yournumber, wait)
+                }, 1000)
+            } else {
+                // $('.timer').text(`剩${Math.floor((180 + wait) / 60)}分${((180 + wait) % 60)}秒可以抽`)
+                setYourTimer(wait)
+                seeWaitTime(series_id, yournumber)
+                console.log('玩seewaittime', timerId, series_id, yournumber, wait)
+            }
+        } else {
+            // $('[id^="label"]').addClass('disabled')
+            // DeleteWait(series_id, yournumber)
+            // $('.timer').text('已結束...雙擊排隊以重新排隊')
+            console.log('結束', wait)
+            // setYourTimer('已結束...雙擊排隊以重新排隊')
+        }
+    }
+
+    // post series_id, 號碼牌，到後端確認時間
+    function seeWaitTime(p_series_id, p_yournumber) {
+        const url = 'http://localhost/gachoraProject/app/Models/Post/SeeWaitTime.php'
+        $.post(url, {
+            series_id: p_series_id,
+            number: p_yournumber
+        }, ({
+            series_id,
+            waiting,
+            yournumber
+        }) => {
+            setTimeout(() => {
+                frontTime(series_id, yournumber, waiting);
+            }, 1000); //aa我改1000
+        })
     }
 
     // post series_id, 號碼牌，告訴後端中離與要離開
     function deleteWait(series_id, yournumber) {
-        clearAllIntervals(intervalMyPlayTime)
-        clearAllIntervals(intervalMyWaitTime)
-        setIsOpen(false)
-        
         $.post('http://localhost/gachoraProject/app/Models/Post/DeleteWait.php', {
             series_id: series_id,
             number: yournumber,
         }, (response) => { })
-        clearAllIntervals(intervalMyPlayTime)
     }
 
 
@@ -389,8 +291,6 @@ function C_3_LottryDetail() {
         if (user) {
             if (myGash < seriesData.price * selectedNumbers.length) {
                 alert("你沒有足夠的G幣")
-            } else if (selectedNumbers.sort((a, b) => a - b).join(",") == 0){
-                alert("你什麼都沒抽")
             } else {
                 localStorage.setItem("ichibanLabel", selectedNumbers.sort((a, b) => a - b).join(","))
                 localStorage.setItem("ichibanQuantity", selectedNumbers.length)
@@ -426,7 +326,7 @@ function C_3_LottryDetail() {
                     {/* <!-- 商品圖片區塊 --> */}
                     <div className="row mt-5">
                         <div className="col-xxl-8">
-                            <div className="product-image"> 
+                            <div className="product-image">
                                 <img src={seriesImg}
                                     alt="商品圖片"
                                     id="mainProductImage" />
@@ -449,7 +349,7 @@ function C_3_LottryDetail() {
                                 <h3 className='subtitles'>價格:NT {seriesData.price} /抽</h3> {/* {seriesData.price} */}
                                 <span className='lottrynumber'>剩餘G幣:{myGash ? myGash : "請先登入"}</span>
                                 <span className='lottrynumber' >已抽數/總數:{seriesData.remain}/{seriesData.total}</span> {/* {seriesData.remain}/{seriesData.total} */}
-                                <p className='lottrynumber' >預估等待時間 : 最晚等 {Math.floor(timer != 0 ? timer / 60 : generalTimer == -1 ? 0 : generalTimer / 60)} 分 {(timer != 0 ? timer % 60 : generalTimer == -1 ? 0 : generalTimer % 60)}秒</p>
+                                <p className='lottrynumber' >預估等待時間 : 最晚等 {Math.floor(timer / 60)} 分 {(timer % 60)}秒</p>
                                 {/* <button className='Favorite_bt' >點擊往下排隊/抽選</button> */}
                                 <button
                                     className={`Favorite_bt ${isFavorited ? 'active' : ''}`}
@@ -495,7 +395,7 @@ function C_3_LottryDetail() {
                         </button>
                         {/* <span className='subtitles'>剩餘時間:{Math.floor((180 + yourTimer) / 60)}分{((180 + yourTimer) % 60)}秒</span> */}
                         <span className='subtitles'>你的號碼牌 : {yourNumber}</span>
-                        <span className='subtitles'>預估等待時間 : 最晚等 {generalTimer == -1 ? 0 : Math.floor(timer != 0 ? timer / 60 : generalTimer == -1 ? 0 : generalTimer / 60)} 分 {(timer != 0 ? timer % 60 : generalTimer == -1 ? 0 : generalTimer % 60)}秒</span>
+                        <span className='subtitles'>預估等待時間 : 最晚等 {Math.floor(timer / 60)} 分 {(timer % 60)}秒</span>
                         <span className='subtitles'>剩餘G幣:{myGash}</span>
 
                         {/* 摺疊區域 */}
@@ -505,7 +405,7 @@ function C_3_LottryDetail() {
                         >
                             <div className="card card-body mt-3">
                                 <h4>請於此處開始選號</h4>
-                                <h5>剩餘時間:{isNaN(yourTimer) ? '' : Math.floor((yourTimer) / 60)}分{isNaN(yourTimer) ? '' : ((yourTimer) % 60)}秒</h5>
+                                <h5>剩餘時間:{Math.floor((180 + yourTimer) / 60)}分{((180 + yourTimer) % 60)}秒</h5>
                                 <p>選取號碼後送出即可開始抽選,若要取消抽選可點選左上方取消抽選按鈕。
                                 </p>
                                 <div className="seat-container">
@@ -640,9 +540,7 @@ function C_3_LottryDetail() {
                         </div>
                     </div>
                 </main >
-                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
             </body >
-           
         </>
     )
 }

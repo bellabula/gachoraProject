@@ -4,6 +4,8 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import Carousel from '@/Components/Carousel'
 import GachaPdCard from '@/Components/GachaPdCard';
+import Footer from '@/Components/Footer';
+
 
 
 
@@ -278,7 +280,7 @@ function B_1_GachaHome() {
                     </Carousel>
                 </div>
             </main>
-
+            <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer4.svg'></Footer>
         </>
     )
 }
