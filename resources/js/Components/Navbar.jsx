@@ -2,7 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 import Deposit from '../Pages/member/Deposit';
 
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0, logout = "none", homepage = false }) {
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0, logout = "none", dlogin = "item-list", homepage = false }) {
     const [cartCount, setCartCount] = useState(0)
     const [bagCount, setBagCount] = useState(0)
     const [userName, setUserName] = useState("")
@@ -10,6 +10,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
     const [myIcon, setMyIcon] = useState("")
 
     if (usePage().props.auth.user) {
+        dlogin = "none"
         logout = "item-list"
         const user_id = usePage().props.auth.user.id
         useEffect(() => {
@@ -266,13 +267,13 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                         聯絡我們
                                     </Link>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item" style={{ display: dlogin }}>
                                     <Link href={route('login')} className="nav-link">
                                         登入
                                     </Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link href={route('register')} method="post" as="button" className="nav-link">
+                                <li className="nav-item" style={{ display: dlogin }}>
+                                    <Link href={route('register')} className="nav-link">
                                         註冊
                                     </Link>
                                 </li>
