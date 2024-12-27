@@ -50,7 +50,7 @@ function MyWall({ id, className = "" }) {
     };
 
     const achievementIndices = convertPathsToIndices(carouselItem);
-    console.log(achievementIndices);
+    // console.log(achievementIndices);
 
     return (
         <>

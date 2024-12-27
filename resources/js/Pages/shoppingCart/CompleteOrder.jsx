@@ -35,7 +35,7 @@ function CompleteOrder({ id, display = "block" }) {
                             <div className="detail" style={{ textAlign: "center", fontSize: "3vw", border: "0", margin: "10vw" }}>訂單已提交</div>
                             <div className="go" style={{ justifyContent: "center" }}>
                                 <button className="bgmain" style={{ margin: "2vw" }}>
-                                    <Link href={route("dashboard", { highlight: "myorder" })} style={{ textDecoration: "none", color: "white" }}>
+                                    <Link href={route("dashboard")} onClick={()=>{localStorage.setItem("activeTab", "memberOrder")}} style={{ textDecoration: "none", color: "white" }}>
                                     查看訂單
                                     </Link>
                                 </button>

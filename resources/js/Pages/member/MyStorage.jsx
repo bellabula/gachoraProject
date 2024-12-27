@@ -130,7 +130,7 @@ function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setD
                                     <th>兌換G幣</th>
                                     <th className="position-relative">
                                         <div className="d-flex align-items-center justify-content-center">
-                                            幫我出貨
+                                            加入購物車
                                             {/* Filter */}
                                             {/* <button className="position-absolute classFilterBtn"
                                                 style={{ borderRadius: "5px", right: "-15px" }}>+</button>

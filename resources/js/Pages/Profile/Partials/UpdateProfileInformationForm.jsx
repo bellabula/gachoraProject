@@ -103,7 +103,7 @@ export default function UpdateProfileInformation({
                 </p>
                 <div className="edit-button text-end">
                     <button type='button' className="btn rounded-pill">
-                        <Link href={route('dashboard', { highlight: 'profile' })} className="dropdown-item">
+                        <Link href={route('dashboard')} onClick={()=>{localStorage.setItem("activeTab", "memberProfile")}} className="dropdown-item">
                             回到我的基本資料
                         </Link>
                     </button>
