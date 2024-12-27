@@ -31,18 +31,24 @@
 
 #navbarMember {
     position: absolute;
-    background-color: var(--main-yellow);
-    border: 2px solid var(--main-darkblue);
+    /* background-color: var(--main-yellow); */
+    /* border: 2px solid var(--main-darkblue); */
     border-radius: 20px;
-    width: 260px;
-    /* height: 250px; */
-    top: 90px;
-    left: -50px;
+    width: 350px;
+    top: 73px;
+    left: 10px;
     padding: 10px;
 }
 
 #navbarMember img.memberImg {
-    width: 75px;
+    width: 130px;
+}
+
+#navbarMember .memberTop {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    transform: translateX(-50%);
 }
 
 #navbarMember button.rounded-5 {
@@ -53,6 +59,11 @@
     border: none;
     line-height: 35px;
     opacity: 0.9;
+}
+
+#navbarMember button.topUp {
+    background-color: var(--main-yellow);
+    color: var(--main-darkblue)
 }
 
 #navbarMember button:hover {

@@ -61,6 +61,8 @@ function Deposit({ gash }) {
                     toGreen(togreen1, togreen2)
                 }
             })
+        }else{
+            alert('請選擇儲值金額')
         }
     };
 
@@ -137,7 +139,7 @@ function Deposit({ gash }) {
                     </div>
                     <div className="e5bottom">
                         <div>
-                            <span><input name="policy" type="checkbox" id="c1" /><label htmlFor="c1">&nbsp; 我已詳細閱讀並同意<span style={{ color: "rgba(var(--bs-link-color-rgb)", textDecoration: "underline", cursor: "pointer" }}>付款條款</span></label></span>
+                            <span><input name="policy" type="checkbox" id="c1" required/><label htmlFor="c1">&nbsp; 我已詳細閱讀並同意<span style={{ color: "rgba(var(--bs-link-color-rgb)", textDecoration: "underline", cursor: "pointer" }}>付款條款</span></label></span>
                             <span><input name="news" type="checkbox" id="c2" defaultChecked /><label htmlFor="c2">&nbsp; 訂閱Gachora收到最新資訊</label></span>
                         </div>
                         <br />
