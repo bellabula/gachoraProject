@@ -389,6 +389,8 @@ function C_3_LottryDetail() {
         if (user) {
             if (myGash < seriesData.price * selectedNumbers.length) {
                 alert("你沒有足夠的G幣")
+            } else if (selectedNumbers.sort((a, b) => a - b).join(",") == 0){
+                alert("你什麼都沒抽")
             } else {
                 localStorage.setItem("ichibanLabel", selectedNumbers.sort((a, b) => a - b).join(","))
                 localStorage.setItem("ichibanQuantity", selectedNumbers.length)
