@@ -48,7 +48,7 @@
     color: var(--main-yellow);
 }
 
-#memberWall .btn:active{
+#memberWall .btn:active {
     border-color: var(--main-darkblue);
 }
 
@@ -148,6 +148,12 @@
     border-radius: 50%;
     width: 200px;
     height: 200px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+#memberWall .circle-container.active {
+    filter: grayscale(0%);
 }
 
 #memberWall img {
@@ -236,9 +242,9 @@
     border-bottom: 1px solid var(--main-darkblue);
 }
 
-  
-  /* 遮罩層樣式 */
-  .overlay {
+
+/* 遮罩層樣式 */
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -246,10 +252,10 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 1100;
-  }
-  
-  /* 中間區塊樣式 */
-  .modal {
+}
+
+/* 中間區塊樣式 */
+.modal {
     display: block;
     position: fixed;
     top: 50%;
@@ -262,9 +268,9 @@
     border-radius: 10px;
     width: 60%;
     height: 80vh;
-  }
-  
-  .modal button {
+}
+
+.modal button {
     padding: 10px 20px;
     font-size: 14px;
     cursor: pointer;
@@ -272,12 +278,12 @@
     color: white;
     border: none;
     border-radius: 5px;
-  }
-  
-  .modal button:hover {
+}
+
+.modal button:hover {
     background-color: #e53935;
-  }
+}
 
 .modal::-webkit-scrollbar {
     display: none;
-}   
+}
