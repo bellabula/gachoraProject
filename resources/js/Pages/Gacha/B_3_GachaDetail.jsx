@@ -4,6 +4,8 @@ import GachaDetailCard from '@/Pages/Gacha/GachaDetailCard';
 import GachaPdCard from '@/Components/GachaPdCard';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import Footer from '@/Components/Footer';
+
 
 function B_3_GachaDetail() {
     const basePath = '../app/Models'
@@ -334,8 +336,8 @@ function B_3_GachaDetail() {
                             onClick={nextCarousel}><img src="http://localhost/gachoraProject/public/images/arrowRight.svg" alt="" /></button>
                     </div>
                 </div>
-
             </main>
+            <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer4.svg'></Footer>
         </>
     )
 }

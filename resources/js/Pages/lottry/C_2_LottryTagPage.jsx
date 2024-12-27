@@ -3,6 +3,7 @@ import Navbar from '@/Components/Navbar';
 import PdCard from '@/Components/PdCard';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
+import Footer from '@/Components/Footer';
 
 
 function C_2_LottryTagPage() {
@@ -188,6 +189,7 @@ function C_2_LottryTagPage() {
                     </div>
 
                 </main>
+                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
             </body>
 
         </>

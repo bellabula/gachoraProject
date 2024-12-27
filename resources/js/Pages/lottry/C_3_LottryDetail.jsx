@@ -4,6 +4,7 @@ import GachaDetailCard from '@/Pages/Gacha/GachaDetailCard';
 import PdCard from '@/Components/PdCard';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
+import Footer from '@/Components/Footer';
 
 function C_3_LottryDetail() {
     const basePath = '../app/Models'
@@ -326,7 +327,7 @@ function C_3_LottryDetail() {
                     {/* <!-- 商品圖片區塊 --> */}
                     <div className="row mt-5">
                         <div className="col-xxl-8">
-                            <div className="product-image">
+                            <div className="product-image"> 
                                 <img src={seriesImg}
                                     alt="商品圖片"
                                     id="mainProductImage" />
@@ -540,7 +541,9 @@ function C_3_LottryDetail() {
                         </div>
                     </div>
                 </main >
+                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
             </body >
+           
         </>
     )
 }
