@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import StoreSelector from './StoreSelector ';
+// import StoreSelector from './StoreSelector ';
 import { usePage } from '@inertiajs/react';
 // import CityDropdown from './CityDropdown ';
 // import CountryDropdown from './CountryDropdown';
@@ -214,7 +214,7 @@ function Checkout({ id, display = "block" }) {
                                 <hr />
                                 <input name="delivery" type="radio" value="2" id="d3" /><label htmlFor="d3">宅配取貨</label> */}
                             </div>
-                            <div className="detail">拆單資訊及運費</div>
+                            <div className="detail">取件時需配合門市相關規範，部分門市已陸續調整為「自助取件」，可重新依地圖選擇確認。</div>
                         </div>
                         <div className="e2_group">
                             <div className="title">選擇付款方式</div>
@@ -324,7 +324,7 @@ function Checkout({ id, display = "block" }) {
                                                 <p>{storeInfo}</p>
                                             </>
                                         )}
-                                        <p className="grey">取件時需配合門市相關規範，部分門市已陸續調整為「自助取件」，可重新依地圖選擇確認。</p>
+                                        {/* <p className="grey">取件時需配合門市相關規範，部分門市已陸續調整為「自助取件」，可重新依地圖選擇確認。</p> */}
                                     </div>
                                 </div>
                                 {/*結束 門市選擇 */}

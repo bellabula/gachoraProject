@@ -119,7 +119,7 @@ function ConfirmOrder({ id, display = "block", items }) {
                                         <li key={index} style={{ display: "flex", alignItems: "center" }}>
                                             <img src={item.img} style={{ width: "10vw" }}></img>&nbsp;&nbsp;
                                             <p>{item.series || ""}/{item.name || ""}</p>
-                                            <p>商品id{item.id}</p>
+                                            {/* <p>商品id{item.id}</p> */}
                                         </li>
                                         )
                                     )
