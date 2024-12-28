@@ -56,7 +56,7 @@ try {
       $method_id = $_POST['method_id'] ?? 1;
       $record_ids = $_POST['record_ids'];
       $status_id = $_POST['status_id'] ?? 12;
-      $phone = $_POST['phone'] ?? '';
+      $phone = $_POST['phone'] ?? null;
       $email = $_POST['email'];
       $name = $_POST['name'];
       $time = isset($_POST['time']) ? $_POST['time'] : time();

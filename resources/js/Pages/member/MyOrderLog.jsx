@@ -54,11 +54,20 @@ function MyOrderLog({ list_id, oId, oDate, oStatus, dPath }) {
                         backgroundColor: 'rgba(0, 0, 0, 0.7)',
                         color: 'white'
                     }}>
-                            <h3>交易明細</h3>
-                        <div style={{backgroundColor:'white', color:'black', padding:'2vw', borderRadius:'2vw', textAlign:'left'}}>
+                        <h3>交易明細</h3>
+                        <div style={{ backgroundColor: 'white', color: 'black', padding: '2vw', borderRadius: '2vw', textAlign: 'left' }}>
                             <p><strong>訂單編號:</strong> {details.no}</p>
                             <p><strong>訂單時間:</strong> {details.time}</p>
-                            <span><strong>商品內容:</strong></span><br />{details.products.map((ele) => (<span> {ele.name} x {ele.amount} </span>))}<br /><br />
+                            <span><strong>商品內容:</strong></span><br />
+                            {details.products.map((ele, index) => (
+                                // .map() 方法的返回值需要有一個單一的父節點，能夠包裹住所有的子內容。
+                                <React.Fragment key={index}>
+                                    <span>{ele.name} x {ele.amount}</span>
+                                    {(index + 1) % 3 === 0 && <br />} 
+                                    {/* 超過三個就換行 */}
+                                </React.Fragment>
+                            ))}
+                            <br /> <br />
                             <p><strong>處理狀態:</strong> {details.status}</p>
                             <p><strong>訂購人姓名:</strong>{details.name}</p>
                             <p><strong>送貨方式(付款方式):</strong>{details.method}</p>
@@ -70,7 +79,7 @@ function MyOrderLog({ list_id, oId, oDate, oStatus, dPath }) {
                             {/* {details.deliver_time && (<p><strong>配送時間:</strong>{details.deliver_time}</p>)} */}
 
                         </div>
-                            <button onClick={handleCloseModal} style={{ backgroundColor: '#365B60', color: 'white', borderRadius: '35px', width: '9vw', marginTop:'1vw'}}>關閉</button>
+                        <button onClick={handleCloseModal} style={{ backgroundColor: '#365B60', color: 'white', borderRadius: '35px', width: '9vw', marginTop: '1vw' }}>關閉</button>
                     </div>
                 </div>
             )}
