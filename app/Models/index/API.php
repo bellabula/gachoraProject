@@ -538,12 +538,17 @@ class API
     }
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
-    // return json_encode($jsonOutput);
     return json_encode($jsonOutput);
   }
   private function PrintAchievement($number, $jsonOutput){
     for ($i = 1 ; $i <= $number; $i++){
-      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/dim' . $i . '.png';
+      $sql = 'select headphoto from HeadPhoto where id = :id';
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindValue(':id', $number, PDO::PARAM_INT);
+      $stmt->execute();
+      $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images' . $output;
+      $stmt->closeCursor();
     }
     return $jsonOutput;
   }
@@ -826,6 +831,7 @@ class API
         'birth' => $output['birth'] === null ? '' : $output['birth'],
         'address' => $output['address'],
         'recommend' => $output['recommend'],
+        'headphoto' => $output['headphoto'] == null ? '' : 'http://localhost/gachoraProject/public/images' . $output['headphoto'],
       ];
     }
     $stmt->closeCursor();
