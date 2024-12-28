@@ -1090,7 +1090,7 @@ class API
     }, $results);
     $stmt->closeCursor();
     $this->db = null;
-    $jsonOutput == [] ? $jsonOutput = ['waiting' => ''] : $jsonOutput;
+    $jsonOutput == [] ? $jsonOutput = [] : $jsonOutput;
     return json_encode($jsonOutput);
   }
   private function changeStatus($record_id, $status)
