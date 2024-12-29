@@ -26,6 +26,7 @@ function B_2_3GachaMachine() {
         const handleClick = () => {
             console.log("start: 扭蛋機動畫")
             setRemainingDraws((prev) => prev - 1);
+            $("#gachaMachine .animationgif").css("pointer-events", "none")
             animationInstance3.play();
             animationInstance3.addEventListener("complete", () => {
                 setAnimation3Completed(true); // animation3 播放完成

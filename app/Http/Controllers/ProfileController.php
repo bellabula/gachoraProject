@@ -37,7 +37,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return redirect(route('dashboard', ['highlight' => 'profile']));
+        return redirect(route('dashboard')); /*['highlight' => 'profile']*/
     }
 
     /**

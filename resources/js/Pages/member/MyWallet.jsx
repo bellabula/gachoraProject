@@ -20,24 +20,36 @@ function MyWallet({ id, className = "" }) {
         })
     })
 
+    const gashLogSearch = () => {
+        const searchSdate = $("#memberWallet .orderStartText").val()
+        const searchEdate = $("#memberWallet .orderEndText").val()
+        const searchLog = walletLogRaw.filter((ele)=>{
+            return new Date(ele.date).getTime() > new Date(searchSdate).getTime() && new Date(ele.date).getTime()<new Date(searchEdate).getTime()
+        })
+        console.log(searchLog)
+        setWalletLog(searchLog)
+    }
     const user = usePage().props.auth.user;
     let user_id = user.id
 
     const [walletLog, setWalletLog] = useState([]);
+    const [walletLogRaw, setWalletLogRaw] = useState([]);
     useEffect(() => {
         let basePath = '../app/Models'
         const url = basePath + '/Post/UserWallet.php'
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            console.log('交易紀錄：')
-            console.log(response)
+            // console.log('交易紀錄：')
+            // console.log(response)
+            response = response.filter((ele)=>(new Date(ele.date).getTime()<today.getTime()))
+            // console.log(response)
             response[0]["gashRemain"] = response[0].price * response[0].amount
             for (let i = 1; i<response.length; i++) {
                 response[i]["gashRemain"] = response[i-1].gashRemain + response[i].price * response[i].amount
             }
-            setWalletLog(response.reverse())
-
+            setWalletLog(response)
+            setWalletLogRaw(response.reverse())
         })
     }, [user_id])
 
@@ -48,7 +60,7 @@ function MyWallet({ id, className = "" }) {
             {/* <!-- 4. 我的錢包 --> */}
             <div id={id} className={"tab-pane " + className}>
                 <p className="h1 d-inline-block me-3">G幣交易紀錄</p>
-                <form className="d-inline-block">
+                {/* <form className="d-inline-block"> */}
                     <input className="date-input orderStartText" type="text" placeholder="起始日" readOnly />
                     <span className="datepicker-toggle">
                         <span className="datepicker-toggle-button"></span>
@@ -60,8 +72,8 @@ function MyWallet({ id, className = "" }) {
                         <span className="datepicker-toggle-button"></span>
                         <input type="date" className="datepicker-input orderEndDate" />
                     </span>
-                    <button className="rounded-1">查詢</button>
-                </form>
+                    <button className="rounded-1" onClick={gashLogSearch}>查詢</button>
+                {/* </form> */}
                 <hr />
                 <div>
                     <table className="w-100 text-center">
@@ -72,9 +84,9 @@ function MyWallet({ id, className = "" }) {
                                 <th className="position-relative">
                                     <div className="d-flex align-items-center justify-content-center">
                                         類型 &ensp;
-                                        <button className="itemFilterBtn">⋯</button>
+                                        {/* <button className="itemFilterBtn">⋯</button> */}
                                     </div>
-                                    <div className="position-absolute itemFilter"
+                                    {/* <div className="position-absolute itemFilter"
                                         style={{ visibility: "hidden", padding: "5px", textAlign: "left", border: "1px solid var(--main-darkblue)", borderRadius: "5px", backgroundColor: "var(--main-darkblue)", color: "white", right: "-50px", bottom: "-110px" }}>
                                         <form action="">
                                             <input type="checkbox" defaultChecked /> 扭蛋 <br />
@@ -82,16 +94,16 @@ function MyWallet({ id, className = "" }) {
                                             <input type="checkbox" defaultChecked /> 訂單 <br />
                                             <input type="checkbox" defaultChecked /> 生日禮 <br />
                                         </form>
-                                    </div>
+                                    </div> */}
                                 </th>
                                 <th>數量</th>
                                 <th>總計</th>
                                 <th className="position-relative">
                                     <div className="d-flex align-items-center justify-content-center">
                                         付款方式 &ensp;
-                                        <button className="itemFilterBtn">⋯</button>
+                                        {/* <button className="itemFilterBtn">⋯</button> */}
                                     </div>
-                                    <div className="position-absolute itemFilter"
+                                    {/* <div className="position-absolute itemFilter"
                                         style={{ visibility: "hidden", padding: "5px", textAlign: "left", border: "1px solid var(--main-darkblue)", borderRadius: "5px", backgroundColor: "var(--main-darkblue)", color: "white", right: "-50px", bottom: "-110px" }}>
                                         <form action="">
                                             <input type="checkbox" defaultChecked /> G 幣 <br />
@@ -99,16 +111,16 @@ function MyWallet({ id, className = "" }) {
                                             <input type="checkbox" defaultChecked /> 轉帳 <br />
                                             <input type="checkbox" defaultChecked /> 超商付款 <br />
                                         </form>
-                                    </div>
+                                    </div> */}
                                 </th>
                                 <th>G 幣變更</th>
                                 <th className="position-relative">
                                     <div className="d-flex align-items-center justify-content-center">
                                         G 幣餘額
-                                        <button className="position-absolute classFilterBtn"
-                                            style={{ borderRadius: "5px", right: "-15px" }}>+</button>
+                                        {/* <button className="position-absolute classFilterBtn"
+                                            style={{ borderRadius: "5px", right: "-15px" }}>+</button> */}
                                     </div>
-                                    <div className="position-absolute classFilter"
+                                    {/* <div className="position-absolute classFilter"
                                         style={{ visibility: "hidden", padding: "5px", textAlign: "left", border: "1px solid var(--main-darkblue)", borderRadius: "5px", backgroundColor: "var(--main-darkblue)", color: "white", right: "-130px", bottom: "-190px" }}>
                                         <form action="">
                                             <input type="checkbox" defaultChecked /> 交易日期 <br />
@@ -120,7 +132,7 @@ function MyWallet({ id, className = "" }) {
                                             <input type="checkbox" defaultChecked /> G幣變更 <br />
                                             <input type="checkbox" defaultChecked /> G幣餘額 <br />
                                         </form>
-                                    </div>
+                                    </div> */}
                                 </th>
                             </tr>
                         </thead>
@@ -130,7 +142,7 @@ function MyWallet({ id, className = "" }) {
                             ))}
                         </tbody>
                     </table>
-                    {walletLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前沒有任何交易紀錄...</h4>:""}
+                    {walletLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>沒有任何交易紀錄...</h4>:""}
                 </div>
             </div>
         </>

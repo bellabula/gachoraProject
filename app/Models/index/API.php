@@ -1027,7 +1027,7 @@ class API
     }
     $stmt->closeCursor();
     $this->db = null;
-    if ($jsonOutput == []) $jsonOutput = ['' => ''];
+    if (!isset($jsonOutput) || $jsonOutput === null) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
   function PlayIchiban($series_id, $number, $amounts, $label, $time)
@@ -1291,6 +1291,18 @@ class API
     $stmt->closeCursor();
     $this->db = null;
     $jsonOutput !== [] ? $jsonOutput: $jsonOutput = [ 'wait'=> 0];
+    return json_encode($jsonOutput);
+  }
+  function ChangeHeadPhoto($headphoto_id, $user_id){
+    $sql = 'update Users set headphoto = :headphoto_id where id = :user_id';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':headphoto_id', $headphoto_id, PDO::PARAM_INT);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput !== [] ? $jsonOutput: $jsonOutput = [ 'error'=> 'done'];
     return json_encode($jsonOutput);
   }
 }

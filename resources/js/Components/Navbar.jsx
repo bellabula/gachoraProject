@@ -2,7 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 import Deposit from '../Pages/member/Deposit';
 
-export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0, logout = "none", homepage = false }) {
+export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0, logout = "none", dlogin = "item-list", homepage = false }) {
     const [cartCount, setCartCount] = useState(0)
     const [bagCount, setBagCount] = useState(0)
     const [userName, setUserName] = useState("")
@@ -10,6 +10,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
     const [myIcon, setMyIcon] = useState("")
 
     if (usePage().props.auth.user) {
+        dlogin = "none"
         logout = "item-list"
         const user_id = usePage().props.auth.user.id
         useEffect(() => {
@@ -179,8 +180,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                         </Link>
                                         <h4>{userName} 您好 !</h4>
                                         <div className='w-100' style={{ height: "35px" }}>
-                                            <a href={route('login')} style={{ height: "35px" }} className='d-inline-block'><button style={{ verticalAlign: "top" }} className="rounded-5 mx-2">會員專區</button></a>
-                                            <a href={route('dashboard', { highlight: 'favor' })} style={{ height: "35px" }} className='d-inline-block'><button className="rounded-5 mx-2" style={{ width: "100px", verticalAlign: "top" }}>❤ 收藏清單</button></a>
+                                            <a href={route('login')} style={{ height: "35px" }} className='d-inline-block' onClick={()=>{localStorage.setItem("activeTab", "memberWall")}}><button style={{ verticalAlign: "top" }} className="rounded-5 mx-2">會員專區</button></a>
+                                            <a href={route('dashboard')} style={{ height: "35px" }} className='d-inline-block' onClick={()=>{localStorage.setItem("activeTab", "memberFavor")}}><button className="rounded-5 mx-2" style={{ width: "100px", verticalAlign: "top" }}>❤ 收藏清單</button></a>
                                         </div>
                                         <div style={{ marginTop: "40px", height: "40px" }}>
                                             <h5 style={{ color: "var(--main-bg-gray)", display: "inline-block", height: "40px", verticalAlign: "top" }}><img width="35px" src="http://localhost/gachoraProject/public/images/GPointIcon.svg" />&nbsp; $ {myGash}</h5>
@@ -191,7 +192,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </li>
                             <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' /></a></li>
                             <li className="nav-item">
-                                <Link href={route('dashboard', { highlight: 'storage' })} className="dropdown-item position-relative">
+                                <Link href={route('dashboard')} className="dropdown-item position-relative" onClick={()=>{localStorage.setItem("activeTab", "memberStore")}}>
                                     <img src="http://localhost/gachoraProject/public/images/storage.svg" style={{ filter: svgColor }} title='儲藏庫' />
                                     <div className='cartCount' style={{ display: `${dBagCount}` }}>{bagNumber == 0 ? bagCount : bagNumber}</div>
                                 </Link>
@@ -266,8 +267,18 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                         聯絡我們
                                     </Link>
                                 </li>
+                                <li className="nav-item" style={{ display: dlogin }}>
+                                    <Link href={route('login')} className="nav-link">
+                                        登入
+                                    </Link>
+                                </li>
+                                <li className="nav-item" style={{ display: dlogin }}>
+                                    <Link href={route('register')} className="nav-link">
+                                        註冊
+                                    </Link>
+                                </li>
                                 <li className="nav-item" style={{ display: logout }}>
-                                    <Link href={route('logout')} method="post" as="button" className="dropdown-item">
+                                    <Link href={route('logout')} method="post" as="button" className="nav-link">
                                         登出
                                     </Link>
                                 </li>

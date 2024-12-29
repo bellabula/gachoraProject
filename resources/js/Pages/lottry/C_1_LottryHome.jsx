@@ -4,6 +4,7 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import PdCard from '@/Components/PdCard';
 import Carousel from '@/Components/Carousel'
+import Footer from '@/Components/Footer';
 
 function C_1_LottryHome() {
 
@@ -290,6 +291,7 @@ function C_1_LottryHome() {
 
 
                 </main>
+                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
             </body>
         </>
     )
