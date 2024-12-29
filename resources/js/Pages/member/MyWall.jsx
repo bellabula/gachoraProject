@@ -14,7 +14,9 @@ function MyWall({ id, className = "" }) {
         "http://localhost/gachoraProject/public/images/memberItem/dim2.png",
         "http://localhost/gachoraProject/public/images/memberItem/dim3.png",
         "http://localhost/gachoraProject/public/images/memberItem/dim4.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim5.png"]
+        "http://localhost/gachoraProject/public/images/memberItem/dim5.png"
+    ];
+
 
     const [gachaItem, setgachaItem] = useState([]);
     const [ichibanItem, setichibanItem] = useState([]);
