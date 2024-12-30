@@ -219,7 +219,7 @@ function B_3_GachaDetail() {
                             <GachaDetailCard
                                 productName={chara.name}
                                 switchBigImage={switchBigImage}
-                                probability="30%"
+                                probability={"隨機"} // (100/characters.length).toFixed(2) + "%"
                                 productImg={chara.img}
                                 key={index}>
                             </GachaDetailCard>

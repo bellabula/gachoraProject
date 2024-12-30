@@ -23,8 +23,8 @@ function MyStorageItem({recordId, itemName, amount, series, gift, getDate, index
             <td width="130px">
                 <button className="btn btn-exchange" onClick={()=>clickToG(recordId)}>兌換{gift}G幣</button>
             </td>
-            <td width="100px">
-                <button className="btn btn-deli" onClick={()=>clickToCart(recordId)}>幫我出貨</button>
+            <td width="110px">
+                <button className="btn btn-deli" onClick={()=>clickToCart(recordId)}>加入購物車</button>
             </td>
         </tr>
     )

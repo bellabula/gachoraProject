@@ -343,7 +343,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
                             <div className="col-md-5 slide-in from-right">
                                 <div className="sticky-top">
-                                    <img src="http://localhost/gachoraProject/public/images/oneticket.gif" className="img-fluid" alt="一番賞" />
+                                    <img src="http://localhost/gachoraProject/public/images/__2.gif" className="img-fluid" alt="一番賞" />
                                 </div>
                             </div>
                         </div>

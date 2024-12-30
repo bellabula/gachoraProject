@@ -6,6 +6,7 @@ import Navbar from "@/Components/Navbar";
 import React, { useEffect, useState, useRef } from "react";
 // import axios from 'axios';
 import emailjs from '@emailjs/browser';
+import ScrollToTop from "@/Components/ScrollTop";
 
 
 export default function FAQ() {
@@ -101,27 +102,27 @@ export default function FAQ() {
 
                   {/* <!-- 1-1 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question11">每次抽扭蛋的機率是否公平？11</FAQcomponent>
-                    <FAAcomponent targetId="question11" targetId2="accordion-category-1">是的，我們的扭蛋機率完全隨機，所有玩家的機會均等。</FAAcomponent>
+                    <FAQcomponent targetId="question11">Q:每次抽扭蛋的機率是否公平？</FAQcomponent>
+                    <FAAcomponent targetId="question11" targetId2="accordion-category-1">A:是的，我們的扭蛋機率完全隨機，所有玩家的機會均等。</FAAcomponent>
                   </div>
 
 
                   {/* <!-- 1-2 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question12">有沒有每日免費抽一次的活動？12</FAQcomponent>
-                    <FAAcomponent targetId="question12" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
+                    <FAQcomponent targetId="question12">Q:？</FAQcomponent>
+                    <FAAcomponent targetId="question12" targetId2="accordion-category-1">A:。</FAAcomponent>
                   </div>
 
                   {/* <!-- 1-3 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question13">有沒有每日免費抽一次的活動？13</FAQcomponent>
-                    <FAAcomponent targetId="question13" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
+                    <FAQcomponent targetId="question13">Q:？</FAQcomponent>
+                    <FAAcomponent targetId="question13" targetId2="accordion-category-1">A:</FAAcomponent>
                   </div>
 
                   {/* <!-- 1-4 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question14">有沒有每日免費抽一次的活動？14</FAQcomponent>
-                    <FAAcomponent targetId="question14" targetId2="accordion-category-1">是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
+                    <FAQcomponent targetId="question14">Q:？</FAQcomponent>
+                    <FAAcomponent targetId="question14" targetId2="accordion-category-1">A:是的，每日限時活動會提供免費抽一次的機會！</FAAcomponent>
                   </div>
 
                 </div>
@@ -132,28 +133,28 @@ export default function FAQ() {
 
                   {/* <!-- 2-1 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question21">會員如何升級等級？21</FAQcomponent>
-                    <FAAcomponent targetId="question21" targetId2="accordion-category-2">累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
+                    <FAQcomponent targetId="question21">Q:會員如何升級等級？21</FAQcomponent>
+                    <FAAcomponent targetId="question21" targetId2="accordion-category-2">A:累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
                   </div>
 
 
 
                   {/* <!-- 2-2 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question22">會員有哪些福利？22</FAQcomponent>
-                    <FAAcomponent targetId="question22" targetId2="accordion-category-2">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question22">Q:會員有哪些福利？22</FAQcomponent>
+                    <FAAcomponent targetId="question22" targetId2="accordion-category-2">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                   {/* <!-- 2-3 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question23">會員有哪些福利？23</FAQcomponent>
-                    <FAAcomponent targetId="question23" targetId2="accordion-category-2">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question23">Q:會員有哪些福利？23</FAQcomponent>
+                    <FAAcomponent targetId="question23" targetId2="accordion-category-2">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                   {/* <!-- 2-4 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question24">會員有哪些福利？24</FAQcomponent>
-                    <FAAcomponent targetId="question24" targetId2="accordion-category-2">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question24">Q:會員有哪些福利？24</FAQcomponent>
+                    <FAAcomponent targetId="question24" targetId2="accordion-category-2">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
 
@@ -165,28 +166,28 @@ export default function FAQ() {
 
                   {/* <!-- 3-1 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question31">會員如何升級等級？31</FAQcomponent>
-                    <FAAcomponent targetId="question31" targetId2="accordion-category-3">累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
+                    <FAQcomponent targetId="question31">Q:如何購買？</FAQcomponent>
+                    <FAAcomponent targetId="question31" targetId2="accordion-category-3">A:儲值G幣後，扭蛋、一番賞隨抽隨開獎。</FAAcomponent>
                   </div>
 
 
 
                   {/* <!-- 3-2 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question32">會員有哪些福利？32</FAQcomponent>
-                    <FAAcomponent targetId="question32" targetId2="accordion-category-3">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question32">Q;有哪些付款方式？</FAQcomponent>
+                    <FAAcomponent targetId="question32" targetId2="accordion-category-3">A:儲值G幣可以使用信用卡或ATM轉帳；運費目前有711貨到付款。</FAAcomponent>
                   </div>
 
                   {/* <!-- 3-3 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question33">會員有哪些福利？33</FAQcomponent>
-                    <FAAcomponent targetId="question33" targetId2="accordion-category-3">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question33">Q:會員有哪些福利？</FAQcomponent>
+                    <FAAcomponent targetId="question33" targetId2="accordion-category-3">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                   {/* <!-- 3-4 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question34">會員有哪些福利？34</FAQcomponent>
-                    <FAAcomponent targetId="question34" targetId2="accordion-category-3">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question34">Q:會員有哪些福利？</FAQcomponent>
+                    <FAAcomponent targetId="question34" targetId2="accordion-category-3">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                 </div>
@@ -197,26 +198,26 @@ export default function FAQ() {
 
                   {/* <!-- 4-1 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question41">會員如何升級等級？41</FAQcomponent>
-                    <FAAcomponent targetId="question41" targetId2="accordion-category-4">累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
+                    <FAQcomponent targetId="question41">Q:會員如何升級等級？</FAQcomponent>
+                    <FAAcomponent targetId="question41" targetId2="accordion-category-4">A:累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
                   </div>
 
                   {/* <!-- 4-2 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question42">會員有哪些福利？42</FAQcomponent>
-                    <FAAcomponent targetId="question42" targetId2="accordion-category-4">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question42">Q:會員有哪些福利？</FAQcomponent>
+                    <FAAcomponent targetId="question42" targetId2="accordion-category-4">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                   {/* <!-- 4-3 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question43">會員有哪些福利？43</FAQcomponent>
-                    <FAAcomponent targetId="question43" targetId2="accordion-category-4">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question43">Q:會員有哪些福利？</FAQcomponent>
+                    <FAAcomponent targetId="question43" targetId2="accordion-category-4">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                   {/* <!-- 4-4 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question44">會員有哪些福利？44</FAQcomponent>
-                    <FAAcomponent targetId="question44" targetId2="accordion-category-4">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question44">Q:會員有哪些福利？</FAQcomponent>
+                    <FAAcomponent targetId="question44" targetId2="accordion-category-4">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                 </div>
@@ -227,26 +228,26 @@ export default function FAQ() {
 
                   {/* <!-- 5-1 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question51">會員如何升級等級？51</FAQcomponent>
-                    <FAAcomponent targetId="question51" targetId2="accordion-category-5">累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
+                    <FAQcomponent targetId="question51">Q:會員如何升級等級？</FAQcomponent>
+                    <FAAcomponent targetId="question51" targetId2="accordion-category-5">A:累積消費金額即可升級會員等級，享受更多專屬福利。</FAAcomponent>
                   </div>
 
                   {/* <!-- 5-2 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question52">會員有哪些福利？52</FAQcomponent>
-                    <FAAcomponent targetId="question52" targetId2="accordion-category-5">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question52">Q:會員有哪些福利？</FAQcomponent>
+                    <FAAcomponent targetId="question52" targetId2="accordion-category-5">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                   {/* <!-- 5-3 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question53">會員有哪些福利？53</FAQcomponent>
-                    <FAAcomponent targetId="question53" targetId2="accordion-category-5">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question53">Q:會員有哪些福利？</FAQcomponent>
+                    <FAAcomponent targetId="question53" targetId2="accordion-category-5">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
 
                   {/* <!-- 5-4 QA --> */}
                   <div className="accordion-item">
-                    <FAQcomponent targetId="question54">會員有哪些福利？54</FAQcomponent>
-                    <FAAcomponent targetId="question54" targetId2="accordion-category-5">包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
+                    <FAQcomponent targetId="question54">Q:會員有哪些福利？</FAQcomponent>
+                    <FAAcomponent targetId="question54" targetId2="accordion-category-5">A:包括專屬優惠券、生日禮物和購物折扣等。</FAAcomponent>
                   </div>
                 </div>
               </div>
@@ -289,6 +290,7 @@ export default function FAQ() {
           </div>
         </div>
       </main>
+      <ScrollToTop/>
       <Footer />
     </>
   )
