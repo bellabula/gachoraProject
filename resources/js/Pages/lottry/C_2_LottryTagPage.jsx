@@ -114,7 +114,7 @@ function C_2_LottryTagPage() {
             <body id='lottrybody'>
                 <main id='lottryTagPage' className="container container-xxl">
                     <div className="detailbanner">
-                        <img src="http://localhost/gachoraProject/public/images/gachoHome/少主貓貓.JPG"
+                        <img src="http://localhost/gachoraProject/public/images/gachoHome/banner6.png"
                             alt="" />
                     </div>
                     <div className="container-fluid mt-4 flex-wrap centered-container">

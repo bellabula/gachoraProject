@@ -114,7 +114,7 @@ function Cart() {
                                 </div>
                             </div>
                             {/* <!-- 待出貨區 --> */}
-                            <div className="left3">
+                            <div className="left3" style={{ overflowY: "auto", overflowX: "hidden"}}>
                                 <div className="title">待出貨區</div>
                                 <div className="checkoutContainer">
                                     {typeof (cartItems) != "undefined" ?

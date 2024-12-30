@@ -111,7 +111,7 @@ function B_1_GachaHome() {
                         </div>
                         <div className="carousel-item">
                             <div className="carouselimgsize">
-                                <img src="http://localhost/gachoraProject/public/images/gachoHome/航海王遙遙收藏1.JPG"
+                                <img src="http://localhost/gachoraProject/public/images/gachoHome/banner5.png"
                                     alt="Image 2"
                                     className="d-block w-100" />
                             </div>
@@ -125,14 +125,14 @@ function B_1_GachaHome() {
                         </div>
                         <div className="carousel-item">
                             <div className="carouselimgsize">
-                                <img src="http://localhost/gachoraProject/public/images/gachoHome/少主.JPG"
+                                <img src="http://localhost/gachoraProject/public/images/gachoHome/NewYear.png"
                                     alt="Image 4"
                                     className="d-block w-100" />
                             </div>
                         </div>
                         <div className="carousel-item">
                             <div className="carouselimgsize">
-                                <img src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"
+                                <img src="http://localhost/gachoraProject/public/images/gachoHome/航海王遙遙收藏1.JPG"
                                     alt="Image 5"
                                     className="d-block w-100" />
                             </div>
@@ -149,7 +149,7 @@ function B_1_GachaHome() {
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
                             data-bs-slide-to="1"
-                            src="http://localhost/gachoraProject/public/images/gachoHome/航海王遙遙收藏1.JPG"
+                            src="http://localhost/gachoraProject/public/images/gachoHome/banner5.png"
                             style={{ cursor: "pointer" }} />
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
@@ -159,12 +159,12 @@ function B_1_GachaHome() {
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
                             data-bs-slide-to="3"
-                            src="http://localhost/gachoraProject/public/images/gachoHome/少主.JPG"
+                            src="http://localhost/gachoraProject/public/images/gachoHome/NewYear.png"
                             style={{ cursor: "pointer" }} />
                         <img className="ms-1 smallcarouselimg"
                             data-bs-target="#mainCarousel"
                             data-bs-slide-to="4"
-                            src="http://localhost/gachoraProject/public/images/gachoHome/210601-mha-4.jpg"
+                            src="http://localhost/gachoraProject/public/images/gachoHome/航海王遙遙收藏1.JPG"
                             style={{ cursor: "pointer" }} />
                     </div>
                 </div>
