@@ -54,7 +54,7 @@ try {
     $ecpay->Send['TotalAmount'] = $money; // 交易金額
     $ecpay->Send['TradeDesc'] = "儲值明細"; // 交易描述
     $ecpay->Send['ChoosePayment'] = ECPay_PaymentMethod::ALL; // 付款方式: 全部
-    $ecpay->Send['OrderResultURL'] = $backToURL;
+    // $ecpay->Send['OrderResultURL'] = $backToURL;
 
     // 商品資料
     array_push($ecpay->Send['Items'], [

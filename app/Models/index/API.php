@@ -538,12 +538,17 @@ class API
     }
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
-    // return json_encode($jsonOutput);
     return json_encode($jsonOutput);
   }
   private function PrintAchievement($number, $jsonOutput){
     for ($i = 1 ; $i <= $number; $i++){
-      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/dim' . $i . '.png';
+      $sql = 'select headphoto from HeadPhoto where id = :id';
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindValue(':id', $i, PDO::PARAM_INT);
+      $stmt->execute();
+      $output = $stmt->fetch(PDO::FETCH_ASSOC);
+      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images' . $output['headphoto'];
+      $stmt->closeCursor();
     }
     return $jsonOutput;
   }
@@ -826,6 +831,7 @@ class API
         'birth' => $output['birth'] === null ? '' : $output['birth'],
         'address' => $output['address'],
         'recommend' => $output['recommend'],
+        'headphoto' => $output['headphoto'] == null ? '' : 'http://localhost/gachoraProject/public/images' . $output['headphoto'],
       ];
     }
     $stmt->closeCursor();
@@ -1084,7 +1090,7 @@ class API
     }, $results);
     $stmt->closeCursor();
     $this->db = null;
-    $jsonOutput == [] ? $jsonOutput = ['waiting' => ''] : $jsonOutput;
+    $jsonOutput == [] ? $jsonOutput = [] : $jsonOutput;
     return json_encode($jsonOutput);
   }
   private function changeStatus($record_id, $status)
@@ -1305,4 +1311,16 @@ class API
     $jsonOutput !== [] ? $jsonOutput: $jsonOutput = [ 'error'=> 'done'];
     return json_encode($jsonOutput);
   }
+  function ToGReminder($user_id){
+    $sql = 'call ToGPointReminder(:user_id)';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput !== [] ? $jsonOutput: $jsonOutput = ['pasted' => 0, 'pasting' => 0];
+    return json_encode($jsonOutput);
+  }
+
 }
