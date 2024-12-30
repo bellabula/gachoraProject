@@ -544,10 +544,10 @@ class API
     for ($i = 1 ; $i <= $number; $i++){
       $sql = 'select headphoto from HeadPhoto where id = :id';
       $stmt = $this->db->prepare($sql);
-      $stmt->bindValue(':id', $number, PDO::PARAM_INT);
+      $stmt->bindValue(':id', $i, PDO::PARAM_INT);
       $stmt->execute();
-      $output = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images' . $output;
+      $output = $stmt->fetch(PDO::FETCH_ASSOC);
+      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images' . $output['headphoto'];
       $stmt->closeCursor();
     }
     return $jsonOutput;
