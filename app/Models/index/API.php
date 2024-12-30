@@ -1311,4 +1311,16 @@ class API
     $jsonOutput !== [] ? $jsonOutput: $jsonOutput = [ 'error'=> 'done'];
     return json_encode($jsonOutput);
   }
+  function ToGReminder($user_id){
+    $sql = 'call ToGPointReminder(:user_id)';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput !== [] ? $jsonOutput: $jsonOutput = ['pasted' => 0, 'pasting' => 0];
+    return json_encode($jsonOutput);
+  }
+
 }
