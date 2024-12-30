@@ -50,6 +50,20 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 // dBagCount = "none"
             }
         }, [user_id])
+        ///
+        useEffect(() => {
+            $.post('../app/Models/Post/ToGReminder.php', {
+                user_id: user_id
+            }, (response) => {
+                // console.log('30天快過期：', response.past)
+                if(response[0].pasted != 0 && response[0].pasting != 0){
+                    alert(`您有<br>
+                        ${response.pasted}項戰利品已被兌換為G幣。<br>
+                        ${response.pasting}項即將被兌換為G幣，快打包回家。`)
+                }
+            })
+            
+        }, [user_id])
         useEffect(() => {
             $("#memberClick").click(openMember)
         }, [])
@@ -81,7 +95,6 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 .css({
                     backgroundImage: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")',
                 });
-
         }
     })
     // 一番賞快到提醒
