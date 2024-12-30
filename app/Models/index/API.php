@@ -1275,10 +1275,10 @@ class API
     $this->db = null;
     return json_encode(['error' => 'done']);
   }
-  function GiveRecommendGift($user_id, $code){
-    $sql = 'call GiveRecommendGift(:code, :user_id)';
+  function GiveRecommendGift($email, $code){
+    $sql = 'call GiveRecommendGift(:code, :email)';
     $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
     $stmt->bindValue(':code', $code, PDO::PARAM_STR);
     $stmt->execute();
     $stmt->closeCursor();
