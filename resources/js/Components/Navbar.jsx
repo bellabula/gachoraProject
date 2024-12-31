@@ -143,7 +143,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             // console.log(response)
             if(response.length > 0){
                 response.filter((v) => {
-                        alert(`最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
+                    v.waiting > 0 && alert(`最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
                 })
             } else {
                 alert('快去一番賞排隊抽')
@@ -215,7 +215,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                     <div id="bigNavbar-l" className="position-absolute" style={{ marginLeft: "300px", color: textColor }}>
                         <ul className="navbar-nav me-auto my-lg-0 navbar-nav-scroll ms-4"
                             style={{ bsScrollHeight: "80px" }}>
-                            <li className="nav-item fs-4 me-3"><a className="dropdown-item" href="#">品牌故事</a></li>
+                            <li className="nav-item fs-4 me-3"><a className="dropdown-item" href={route('aboutus')}>品牌故事</a></li>
                             <li className="nav-item fs-4 me-3">
                                 <Link href={route('gachaHome')} className="dropdown-item">
                                     扭蛋

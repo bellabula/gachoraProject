@@ -71,6 +71,7 @@ function MyOrderLog({ list_id, oId, oDate, oStatus, dPath }) {
                             <p><strong>處理狀態:</strong> {details.status}</p>
                             <p><strong>訂購人姓名:</strong>{details.name}</p>
                             <p><strong>送貨方式(付款方式):</strong>{details.method}</p>
+                            <p><strong>運費:</strong>$39</p>
 
                             <p><strong>收件門市代號:</strong>273813</p>
                             {/* <p><strong>收件門市名稱:</strong>昌進門市</p> */}

@@ -1,0 +1,162 @@
+#aboutus .desc_form {
+    position: relative;
+    display: flex;
+    margin-top: 80px;
+    height: 200vh; /* 高度改为窗口高度 */
+    padding: 0;
+    justify-content: center;
+    /* border: 5px solid red; */
+    transition: height 0.3s ease;
+}
+
+#aboutus h1 {
+    position: absolute;
+    top: 50px; /* 调整到顶部 */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    z-index: 4; /* 确保在最上层 */
+    margin: 0;
+}
+
+#aboutus .abimg {
+    position: absolute;
+    top: 200px !important;
+    left: 480px !important;
+    width: 13%;
+    z-index: 2;
+    /* 使 abimg 在 ab1 上層 */
+    animation: slide-up-down 3s ease-in-out infinite;
+    /* 動態效果 */
+}
+
+#aboutus .abimg2 {
+    position: absolute;
+    top: 1020px !important;
+    left: 350px !important;
+    width: 25%;
+    /* border: 5px solid red; */
+    z-index: 2;
+    /* 使 abimg 在 ab1 上層 */
+    animation: slide-up-down 4s ease-in-out infinite !important;
+    /* 動態效果 */
+}
+
+#aboutus .ab1 {
+    position: relative;
+    z-index: 1;
+    width: 60vw;
+    align-items: center;
+    top: calc(100vw * 0.06);
+    max-width: 100%;
+}
+
+
+
+/* 覆盖文字样式 */
+#aboutus .text-overlay1 {
+    position: absolute;
+    z-index: 3;
+    width: 500px;
+    top: 18%;
+    /* 垂直居中 */
+    left: 51%;
+    /* 水平居中 */
+    transform: translate(-50%, -50%);
+    /* 将文字居中对齐 */
+    color: white;
+    /* 文字颜色 */
+    line-height: 2 !important;
+    border-radius: 5px;
+    font-size: 1.8rem !important;
+    /* 根据需要调整文字大小 */
+    text-align: center;
+    pointer-events: none;
+    /* 避免文字阻止点击图片 */
+}
+
+#aboutus .text-overlay2 {
+    position: absolute;
+    z-index: 3;
+    width: 800px;
+    top: 45%;
+    /* 垂直居中 */
+    left: 51%;
+    /* 水平居中 */
+    transform: translate(-50%, -50%);
+    /* 将文字居中对齐 */
+    color: white;
+    /* 文字颜色 */
+    padding: 10px 20px;
+    line-height: 2 !important;
+    border-radius: 5px;
+    font-size: 1.8rem !important;
+    /* 根据需要调整文字大小 */
+    text-align: center;
+    pointer-events: none;
+    /* 避免文字阻止点击图片 */
+}
+
+#aboutus .text-overlay3 {
+    position: absolute;
+    z-index: 3;
+    top: 77%;
+    /* 垂直居中 */
+    left: 69% !important;
+    /* 水平居中 */
+    transform: translate(-50%, -50%);
+    /* 将文字居中对齐 */
+    color: white;
+    /* 文字颜色 */
+    border-radius: 5px;
+    width: 480px !important;
+    line-height: 2 !important;
+    font-size: 1.8rem !important;
+    /* 根据需要调整文字大小 */
+    text-align: center;
+    pointer-events: none;
+    /* 避免文字阻止点击图片 */
+}
+@media (max-width: 1054px) {
+    #aboutus .desc_form {
+        height: auto; /* 小屏幕时根据内容高度调整 */
+        margin-top: 50px; /* 调整顶部间距 */
+    }
+    #aboutus h1 {
+        top: 20px; /* 调整到顶部 */
+        left: 50%; /* 水平居中 */
+    }
+}
+@media screen and (max-width: 992px) {
+    #aboutus .desc_form {
+        height: auto; /* 小屏幕时根据内容高度调整 */
+        margin-top: 50px; /* 调整顶部间距 */
+    }
+    #aboutus h1 {
+        top: 20px; /* 调整到顶部 */
+        left: 50%; /* 水平居中 */
+    }
+}
+@media screen and (max-width: 768px){
+    #aboutus .desc_form {
+        height: auto; /* 小屏幕时根据内容高度调整 */
+        margin-top: 50px; /* 调整顶部间距 */
+    }
+    #aboutus h1 {
+        top: 20px; /* 调整到顶部 */
+        left: 50%; /* 水平居中 */
+    }
+}
+
+@media screen and (max-width:576px) {
+    #aboutus .desc_form {
+        height: auto; /* 小屏幕时根据内容高度调整 */
+        margin-top: 50px; /* 调整顶部间距 */
+    }
+    #aboutus h1 {
+        top: 20px; /* 调整到顶部 */
+        left: 50%; /* 水平居中 */
+    }
+}
