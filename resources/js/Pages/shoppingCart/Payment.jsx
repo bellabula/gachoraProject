@@ -208,7 +208,7 @@ function Checkout({ id, display = "block" }) {
                             <div className="title">選擇配送方式</div>
                             <div className="text">
                                 <input name="delivery" type="radio" value="0" id="d1" checked={true}
-                                    readOnly /><label htmlFor="d1" >7-11取貨</label>
+                                    readOnly style={{ verticalAlign: "middle" }}/><label htmlFor="d1" >7-11取貨</label>
                                 <hr />
                                 {/* <input name="delivery" type="radio" value="1" id="d2" /><label htmlFor="d2" >全家取貨</label>
                                 <hr />
@@ -220,7 +220,8 @@ function Checkout({ id, display = "block" }) {
                             <div className="title">選擇付款方式</div>
                             <div className="text">
                                 <input name="pay" type="radio" value="0" id="p1" checked={true}
-                                    readOnly /><label htmlFor="p1">貨到付款</label>
+                                    readOnly style={{ verticalAlign: "middle" }}/>
+                                    <label htmlFor="p1">貨到付款&nbsp;&nbsp;(運費$39)</label>
                                 <hr />
                                 {/* <input name="pay" type="radio" value="1" id="p2" /><label htmlFor="p2">信用卡</label>
                                 <hr />
