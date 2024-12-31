@@ -8,12 +8,14 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
     const [userName, setUserName] = useState("")
     const [myGash, setMyGash] = useState("")
     const [myIcon, setMyIcon] = useState("")
+    const [user_id, setUser_id] = useState(0)
 
     if (usePage().props.auth.user) {
         dlogin = "none"
         logout = "item-list"
         const user_id = usePage().props.auth.user.id
         useEffect(() => {
+            setUser_id(user_id)
             $.post('../app/Models/Post/MainUser.php', {
                 user_id: user_id
             }, (response) => {
@@ -48,9 +50,27 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 // dBagCount = "none"
             }
         }, [user_id])
+        ///
+        useEffect(() => {
+            $.post('../app/Models/Post/ToGReminder.php', {
+                user_id: user_id
+            }, (response) => {
+                // console.log('30天快過期：', response.past)
+                if(response[0].pasted != 0 && response[0].pasting != 0){
+                    alert(`您有<br>
+                        ${response.pasted}項戰利品已被兌換為G幣。<br>
+                        ${response.pasting}項即將被兌換為G幣，快打包回家。`)
+                }
+            })
+            
+        }, [user_id])
         useEffect(() => {
             $("#memberClick").click(openMember)
         }, [])
+        useEffect(() => {
+            MyTimer(user_id)
+        }, [user_id])
+
     } else {
         useEffect(() => {
             $("#memberClick").click(() => { location.replace(route('login')) })
@@ -75,9 +95,61 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 .css({
                     backgroundImage: 'url("http://localhost/gachoraProject/public/images/homemenu.svg")',
                 });
-
         }
     })
+    // 一番賞快到提醒
+    function MyTimer(user_id) {
+        console.log('Mytimer');
+        const url = 'http://localhost/gachoraProject/app/Models/Post/MyTimer.php'
+        $.post(url, {
+            user_id: user_id
+        }, function(response) {
+            // console.log(response.length)
+            if (Array.isArray(response) && response.length > 0) {
+                AutoTime(user_id, response)
+            }
+        })
+    }
+    function confirmAndRedirect(series_id, text) {
+        // 显示确认框
+        const userConfirmed = confirm(text);
+        
+        // 如果用户点击“确定”，则跳转到指定的链接
+        if (userConfirmed) {
+            window.location.href = 'http://localhost/gachoraProject/public/lottrydetail?seriesId=' + series_id; // 跳转到链接
+        }
+    }
+    // 每秒刷新
+    function AutoTime(user_id, response) {
+        if (response.length > 0) {
+            response.filter((v) => {
+                v.waiting > 0 && console.log(`${v.series_id}最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
+                if(v.waiting == 179){confirmAndRedirect(`${v.series_id}`, '下個輪到你，前往頁面等著抽？')}
+                if(v.waiting == 120){confirmAndRedirect(`${v.series_id}`, '最快2分輪到你，前往頁面等著抽？')}
+                if(v.waiting == 61){confirmAndRedirect(`${v.series_id}`, '最快1分輪到你，前往頁面等著抽？')}
+                if(v.waiting == 20){confirmAndRedirect(`${v.series_id}`, '最快20秒輪到你，前往頁面等著抽？')}
+            })
+            setTimeout(() => {
+                MyTimer(user_id)
+            }, 1000)
+        } else {
+            $('#remainingTime').text('')
+        }
+    }
+    const handleClickGReminder = () => {
+        $.post('http://localhost/gachoraProject/app/Models/Post/MyTimer.php', {
+            user_id: user_id
+        }, function(response) {
+            // console.log(response)
+            if(response.length > 0){
+                response.filter((v) => {
+                    v.waiting > 0 && alert(`最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
+                })
+            } else {
+                alert('快去一番賞排隊抽')
+            }
+        })
+    }
 
     // 控制顯示模態框的狀態
     const [isCoinOpen, setIsCoinOpen] = useState(false);
@@ -190,7 +262,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     </div>
                                 </div>
                             </li>
-                            <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' /></a></li>
+                            <li className="nav-item"><a className="dropdown-item" onClick={handleClickGReminder} href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' /></a></li>
                             <li className="nav-item">
                                 <Link href={route('dashboard')} className="dropdown-item position-relative" onClick={()=>{localStorage.setItem("activeTab", "memberStore")}}>
                                     <img src="http://localhost/gachoraProject/public/images/storage.svg" style={{ filter: svgColor }} title='儲藏庫' />

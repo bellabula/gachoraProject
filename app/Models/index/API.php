@@ -522,7 +522,14 @@ class API
       }
       $stmt->closeCursor();
     }
-    $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/snake.png';
+    $jsonOutput['achievement'][] = [
+      'id' => 6,
+      'img' => 'http://localhost/gachoraProject/public/images/memberItem/snake.png',
+    ];
+    $jsonOutput['achievement'][] = [
+      'id' => 7,
+      'img' => 'http://localhost/gachoraProject/public/images/gachoButton.png',
+    ];
     if (isset($jsonOutput['gash_level'])) {
       if ($jsonOutput['gash_level'] > 100000) {
         $jsonOutput = $this->PrintAchievement(5, $jsonOutput);
@@ -538,12 +545,20 @@ class API
     }
     $this->db = null;
     if ($jsonOutput == []) $jsonOutput = [];
-    // return json_encode($jsonOutput);
     return json_encode($jsonOutput);
   }
   private function PrintAchievement($number, $jsonOutput){
     for ($i = 1 ; $i <= $number; $i++){
-      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/dim' . $i . '.png';
+      $sql = 'select headphoto from HeadPhoto where id = :id';
+      $stmt = $this->db->prepare($sql);
+      $stmt->bindValue(':id', $i, PDO::PARAM_INT);
+      $stmt->execute();
+      $output = $stmt->fetch(PDO::FETCH_ASSOC);
+      $jsonOutput['achievement'][] = [
+        'id' => $i,
+        'img' => 'http://localhost/gachoraProject/public/images' . $output['headphoto'],
+      ];
+      $stmt->closeCursor();
     }
     return $jsonOutput;
   }
@@ -826,6 +841,7 @@ class API
         'birth' => $output['birth'] === null ? '' : $output['birth'],
         'address' => $output['address'],
         'recommend' => $output['recommend'],
+        'headphoto' => $output['headphoto'] == null ? '' : 'http://localhost/gachoraProject/public/images' . $output['headphoto'],
       ];
     }
     $stmt->closeCursor();
@@ -1084,7 +1100,7 @@ class API
     }, $results);
     $stmt->closeCursor();
     $this->db = null;
-    $jsonOutput == [] ? $jsonOutput = ['waiting' => ''] : $jsonOutput;
+    $jsonOutput == [] ? $jsonOutput = [] : $jsonOutput;
     return json_encode($jsonOutput);
   }
   private function changeStatus($record_id, $status)
@@ -1269,10 +1285,10 @@ class API
     $this->db = null;
     return json_encode(['error' => 'done']);
   }
-  function GiveRecommendGift($user_id, $code){
-    $sql = 'call GiveRecommendGift(:code, :user_id)';
+  function GiveRecommendGift($email, $code){
+    $sql = 'call GiveRecommendGift(:code, :email)';
     $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
     $stmt->bindValue(':code', $code, PDO::PARAM_STR);
     $stmt->execute();
     $stmt->closeCursor();
@@ -1305,4 +1321,16 @@ class API
     $jsonOutput !== [] ? $jsonOutput: $jsonOutput = [ 'error'=> 'done'];
     return json_encode($jsonOutput);
   }
+  function ToGReminder($user_id){
+    $sql = 'call ToGPointReminder(:user_id)';
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $jsonOutput = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+    $this->db = null;
+    $jsonOutput !== [] ? $jsonOutput: $jsonOutput = ['pasted' => 0, 'pasting' => 0];
+    return json_encode($jsonOutput);
+  }
+
 }
