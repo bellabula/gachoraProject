@@ -26,7 +26,7 @@ function MyWallet({ id, className = "" }) {
         const searchLog = walletLogRaw.filter((ele)=>{
             return new Date(ele.date).getTime() > new Date(searchSdate).getTime() && new Date(ele.date).getTime()<new Date(searchEdate).getTime()
         })
-        console.log(searchLog)
+        // console.log(searchLog)
         setWalletLog(searchLog)
     }
     const user = usePage().props.auth.user;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
 import MyOrderLog from './MyOrderLog';
 
-function MyOrder({ id, className="" }) {
+function MyOrder({ id, className = "" }) {
 
     useEffect(() => {
         // 取得今天的日期，並格式化為 YYYY-MM-DD
@@ -45,10 +45,25 @@ function MyOrder({ id, className="" }) {
         });
     })
 
+    const orderLogSearch = () => {
+        const searchSdate = $("#memberOrder .orderStartText").val()
+        const searchEdate = $("#memberOrder .orderEndText").val()
+        const searchLog = orderLogRaw.filter((ele) => {
+            return new Date(ele.time).getTime() > new Date(searchSdate).getTime() && new Date(ele.time).getTime() < new Date(searchEdate).getTime()
+        })
+        console.log(searchLog)
+        setSearchQuery("")
+        setOrderDateLog(searchLog)
+        setOrderLog(searchLog)
+    }
+
     const user = usePage().props.auth.user;
     let user_id = user.id
 
+    const [orderDateLog, setOrderDateLog] = useState([]);
+    const [orderLogRaw, setOrderLogRaw] = useState([]);
     const [orderLog, setOrderLog] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         let basePath = '../app/Models'
@@ -56,36 +71,42 @@ function MyOrder({ id, className="" }) {
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            // console.log('訂單：', response)
-            setOrderLog(response.reverse())
+            console.log('訂單：', response)
+            setOrderDateLog(response)
+            setOrderLogRaw(response.reverse())
+            setOrderLog(response)
         })
     }, [user_id])
+
+    const handleOnChange = (e) => {
+        setSearchQuery(e.target.value);
+        setOrderLog(orderDateLog.filter((v) => v.no.includes(e.target.value)))
+    }
 
     return (
         <>
             {/* <!-- 5. 我的訂單 --> */}
             <div id={id} className={"tab-pane " + className}>
                 <p className="h1 d-inline-block me-3">我的訂單</p>
-                <form className="d-inline-block">
-                    <input className="date-input orderStartText" type="text" placeholder="起始日" readOnly />
-                    <span className="datepicker-toggle">
-                        <span className="datepicker-toggle-button"></span>
-                        <input type="date" className="datepicker-input orderStartDate" />
-                    </span>
-                    <span> ~ </span>
-                    <input className="date-input orderEndText" type="text" placeholder="結束日" readOnly />
-                    <span className="datepicker-toggle">
-                        <span className="datepicker-toggle-button"></span>
-                        <input type="date" className="datepicker-input orderEndDate" />
-                    </span>
-                    <button className="rounded-1">查詢</button>
-                </form>
+                {/* <form className="d-inline-block"> */}
+                <input className="date-input orderStartText" type="text" placeholder="起始日" readOnly />
+                <span className="datepicker-toggle">
+                    <span className="datepicker-toggle-button"></span>
+                    <input type="date" className="datepicker-input orderStartDate" />
+                </span>
+                <span> ~ </span>
+                <input className="date-input orderEndText" type="text" placeholder="結束日" readOnly />
+                <span className="datepicker-toggle">
+                    <span className="datepicker-toggle-button"></span>
+                    <input type="date" className="datepicker-input orderEndDate" />
+                </span>
+                <button className="rounded-1" onClick={orderLogSearch}>查詢</button>
+                {/* </form> */}
                 <hr />
                 <div>
                     <form className="mb-3">
                         <label htmlFor="orderNumber">訂單查詢</label> &nbsp;
-                        <input id="orderNumber" type="text" className="rounded-1" placeholder="請輸入訂單編號" />&ensp;<input
-                            type="submit" className="rounded-1" />
+                        <input id="orderNumber" type="text" className="rounded-1" placeholder="請輸入訂單編號" value={searchQuery} onChange={handleOnChange} />
                     </form>
                     <table className="w-100 text-center">
                         <thead>
@@ -99,12 +120,12 @@ function MyOrder({ id, className="" }) {
                         </thead>
                         <tbody>
                             {/* <MyOrderLog oId="GC16977356881" oDate="2024/11/22" oStatus="待出貨" dPath="宅配" /> */}
-                            {orderLog.map((v, index)=>(
-                                <MyOrderLog list_id={v.id} oId={v.no} oDate={v.time} oStatus={v.status} dPath={v.method} key={index}/>
+                            {orderLog.map((v, index) => (
+                                <MyOrderLog list_id={v.id} oId={v.no} oDate={v.time} oStatus={v.status} dPath={v.method} key={index} />
                             ))}
                         </tbody>
                     </table>
-                    {orderLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前沒有任何訂單紀錄...</h4>:""}
+                    {orderLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前沒有任何訂單紀錄...</h4> : ""}
                 </div>
             </div>
         </>
