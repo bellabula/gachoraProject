@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, usePage } from '@inertiajs/react';
 function MyProfile({ id, className="" }) {
     const user = usePage().props.auth.user;
@@ -33,6 +33,31 @@ function MyProfile({ id, className="" }) {
         })
     })
 
+    let user_id = user.id;
+
+    const memberItem = [
+        "http://localhost/gachoraProject/public/images/memberItem/snake.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim1.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim2.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim3.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim4.png",
+        "http://localhost/gachoraProject/public/images/memberItem/dim5.png"]
+
+    const [carouselItem, setCarouseItem] = useState([]);
+
+    function handleClickPicture(){
+        $.post('../app/Models/Post/MainUser.php', { user_id }, (response) => {
+            
+            let items = [];
+            if (response && typeof response === 'object') {
+                items = Array.isArray(response.achievement) ? response.achievement : [];
+            }
+            setCarouseItem(items);
+            console.log("照片:"+ JSON.stringify(response.achievement));
+        })
+    }
+
+
     return (
         <>
             {/* <!-- 6. 基本資料 --> */}
@@ -42,7 +67,7 @@ function MyProfile({ id, className="" }) {
                     <div className="text-center">
                         <img src="http://localhost/gachoraProject/public/images/gachoButton.png" alt="頭像"
                             className="rounded-circle d-inline-block object-fit-contain" width="200px" height="200px" />
-                        <button className="btn-icon m-auto d-block">更換頭像</button>
+                        <button className="btn-icon m-auto d-block" onClick={handleClickPicture}>更換頭像</button>
                     </div>
                 </div>
                 {/* <!-- 表單資料 --> */}
