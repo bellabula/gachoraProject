@@ -112,7 +112,8 @@
 }
 
 #gachaDetail .Favorite_bt:hover {
-    border: #365B60 solid 2px;
+    transform: scale(1.05);
+    /* border: #365B60 solid 2px; */
 }
 
 #gachaDetail .Restock-bt:hover {

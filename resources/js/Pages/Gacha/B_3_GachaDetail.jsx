@@ -130,7 +130,9 @@ function B_3_GachaDetail() {
     };
 
     const isEnough = () => {
-        if (myGash < series.price * $("#quantityInput").val()) {
+        if ($("#quantityInput").val() == 0) {
+            alert("商品已售完")
+        } else if (myGash < series.price * $("#quantityInput").val()) {
             alert("你沒有足夠的G幣")
         } else {
             localStorage.setItem("quantity", $("#quantityInput").val())
@@ -145,6 +147,12 @@ function B_3_GachaDetail() {
                 user_id: user_id,
                 series_id: gachaId
             })
+            if ($("#gachaDetail .Favorite_bt").text() == "加入收藏"){
+                $("#gachaDetail .Favorite_bt").css("transform","scale(1.2)")
+                setTimeout(() => {
+                    $("#gachaDetail .Favorite_bt").css("transform","scale(1.05)");
+                }, 300)
+            }
         } else {
             alert("請先登入")
         }
@@ -192,8 +200,8 @@ function B_3_GachaDetail() {
                                     onClick={minusValue} />
                                 <input type="number"
                                     id="quantityInput"
-                                    value={quantity}
-                                    min="1"
+                                    value={series.remain == 0 ? 0 : quantity}
+                                    min={series.remain == 0 ? 0 : 1}
                                     max={series.remain} />
                                 <img src="http://localhost/gachoraProject/public/images/gachoHome/add-square.png"
                                     className="increment"
