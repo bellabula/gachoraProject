@@ -60,7 +60,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
             // Apply easing to create a delay and smooth movement
             let translateY = Math.min(value / 5, 800); // Move down slower
-            let opacity = Math.max(1 - value / 1000, 0); // Fade out more smoothly
+            let opacity = Math.max(1 - value / 800, 0); // Fade out more smoothly
 
             clouds.style.transform = `translateY(${translateY}px)`;
             clouds.style.opacity = opacity;

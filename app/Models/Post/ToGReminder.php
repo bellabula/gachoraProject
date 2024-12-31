@@ -2,15 +2,14 @@
 require_once __DIR__ . '/../index/API.php';
 try {
 
-  if (isset($_POST['email']) && isset($_POST['code'])) {
-    $email = $_POST['email'];
-    $code = $_POST['code'];
+  if (isset($_POST['user_id'])) {
+    $user_id = $_POST['user_id'];
     $API = new API;
     header('Content-Type: application/json');
-    $result = $API->GiveRecommendGift($email, $code);
+    $result = $API->ToGReminder($user_id);
     echo $result;
   } else {
-    throw new Exception("give me email, code");
+    throw new Exception("give me user_id");
   }
 } catch (Exception $e) {
   echo json_encode(["error" => "Connection_fail: " . $e->getMessage()]);

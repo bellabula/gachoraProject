@@ -46,6 +46,20 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        $url = 'http://localhost/gachoraProject/app/Models/Post/GiveRecommendGift.php';
+        $data = [
+            'email' => $request->email,
+            'code' => $request->invitationCode
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
         return redirect(route('dashboard', absolute: false));
     }
 }

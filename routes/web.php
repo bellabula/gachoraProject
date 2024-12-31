@@ -86,6 +86,12 @@ Route::get('/lottryfunction', function (Request $request) {
     ]);
 })->name('lottryfunction');
 
+Route::get('/aboutus', function (Request $request) {
+    return Inertia::render('Profile/AboutUs', [
+        'seriesId' => $request->query('seriesId'), // 將 seriesId 傳遞到前端
+    ]);
+})->name('aboutus');
+
 
 
 // 首頁: Gachora, 扭蛋, 一番賞, 會員

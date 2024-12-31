@@ -24,6 +24,7 @@ import '../css/shoppingCart.css';
 import '../css/gachaDetail.css';
 import '../css/lottryDetail.css';
 import '../css/Carousel.css';
+import '../css/aboutus.css';
 
 
 import { createInertiaApp } from '@inertiajs/react';

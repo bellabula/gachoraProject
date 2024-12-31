@@ -133,7 +133,7 @@ function ConfirmOrder({ id, display = "block", items }) {
                             <div className="text">
                             </div>
                             <div className="detail">
-                                <p>付款方式：貨到付款</p>
+                                <p>付款方式：貨到付款&nbsp;(運費$39)</p>
                                 <p>收件門市代號：273813</p>
                                 <p>收件門市：昌進門市</p>
                                 <p>收件地址：台中市南屯區大進街387號1樓</p>
