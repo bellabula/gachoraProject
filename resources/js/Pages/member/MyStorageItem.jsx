@@ -1,6 +1,8 @@
 import React from 'react'
 
 function MyStorageItem({recordId, itemName, amount, series, gift, getDate, index, clickToCart, clickToG, prize = "", src = "" }) {
+    let uniDate = new Date(getDate).getTime()
+    const expireDate = new Date(uniDate+2678400000).toISOString().split('T')[0] // .toISOString().slice(0, 10)
     return (
         <tr>
             <td className="text-start">
@@ -12,6 +14,7 @@ function MyStorageItem({recordId, itemName, amount, series, gift, getDate, index
             <td>{series}</td>
             <td>{amount}</td>
             <td>{getDate}</td>
+            <td>{expireDate.replaceAll("-", "/")}</td>
             {/* <td>
                 <div className="d-flex align-items-center justify-content-center">
                     <button className="btn btn-secondary btn-circle btn-decrease">-</button>
