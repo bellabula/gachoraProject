@@ -1,8 +1,6 @@
 import React from 'react'
 
-function GachaDetailCard({character, switchBigImage, probability }) {
-    console.log("角色資料")
-    console.log(character)
+function GachaDetailCard({character, switchBigImage }) {
     return (
         <>
             <div className="col-xl-4 col-lg-4 col-md-6 mb-4">
