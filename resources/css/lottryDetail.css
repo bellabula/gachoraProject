@@ -121,8 +121,8 @@
     margin: 0 10px 0 0;
 }
 
-#lottryDetail .Favorite_bt:hover {
-    border: #365B60 solid 2px;
+#lottryDetail .scale_bn:hover {
+    transform: scale(1.05);
 }
 
 #lottryDetail .Restock-bt:hover {
@@ -139,6 +139,9 @@
     border-radius: 10px;
 }
 
+#sm-pd-grid p {
+    margin-bottom: 0;
+}
 
 /*滑動條樣式*/
 #lottryDetail #sm-pd-grid::-webkit-scrollbar {
@@ -228,7 +231,7 @@
 
 .subtitles {
     border: none;
-    background-color: #FEC265;
+    background-color: var(--main-bg-gray);
     margin: 20px;
     padding: 10px 20px 10px 20px;
     color: #365B60;

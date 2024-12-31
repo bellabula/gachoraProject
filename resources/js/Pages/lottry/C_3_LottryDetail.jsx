@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '@/Components/Navbar';
-import GachaDetailCard from '@/Pages/Gacha/GachaDetailCard';
+import LottryDetailCard from '@/Pages/lottry/LottryDetailCard';
 import PdCard from '@/Components/PdCard';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
@@ -355,8 +355,8 @@ function C_3_LottryDetail() {
     };
     function clearAllIntervals(intervalname) {
         console.log('clear')
-        intervalname.forEach(intervalId => clearInterval(intervalId)); // 清除所有定时器
-        intervalname = []; // 清空数组
+        intervalname.forEach(intervalId => clearInterval(intervalId)); // 清除所有定時器
+        intervalname = []; // 清空數組
     }
 
     // post series_id, 號碼牌，告訴後端中離與要離開
@@ -447,12 +447,12 @@ function C_3_LottryDetail() {
                                     </ul>
                                 </div>
                                 <h3 className='subtitles'>價格:NT {seriesData.price} /抽</h3> {/* {seriesData.price} */}
-                                <span className='lottrynumber'>剩餘G幣:{myGash ? myGash : "請先登入"}</span>
+                                <span className='lottrynumber'>剩餘G幣 : $ {myGash ? myGash : "請先登入"}</span>
                                 <span className='lottrynumber' >已抽數/總數:{seriesData.remain}/{seriesData.total}</span> {/* {seriesData.remain}/{seriesData.total} */}
                                 <p className='lottrynumber' >預估等待時間 : 最晚等 {Math.floor(timer != 0 ? timer / 60 : generalTimer == -1 ? 0 : generalTimer / 60)} 分 {(timer != 0 ? timer % 60 : generalTimer == -1 ? 0 : generalTimer % 60)}秒</p>
                                 {/* <button className='Favorite_bt' >點擊往下排隊/抽選</button> */}
                                 <button
-                                    className={`Favorite_bt ${isFavorited ? 'active' : ''}`}
+                                    className={`Favorite_bt ${isFavorited ? 'active' : ''} scale_bn`}
                                     onClick={toggleFavorite}>
                                     <img src={heartImg} alt="" />
                                     {isFavorited ? '已收藏' : '加入收藏'}
@@ -465,13 +465,12 @@ function C_3_LottryDetail() {
                     <div className="row mt-1 d-flex">
                         <div className="col-xxl-7 row" id='sm-pd-grid'>
                             {characters.map((chara, index) => (
-                                <GachaDetailCard
-                                    productName={chara.name}
+                                <LottryDetailCard
+                                    character={chara}
                                     switchBigImage={switchBigImage}
                                     probability={((chara.remain / seriesData.remain) * 100).toFixed(2) + "%"}
-                                    productImg={chara.img}
                                     key={index}>
-                                </GachaDetailCard>
+                                </LottryDetailCard>
                             ))}
                         </div>
                         <div className="col-xxl-5">
@@ -486,7 +485,7 @@ function C_3_LottryDetail() {
                     <div className="container mt-4">
                         {/* 展開/收起的按鈕 */}
                         <button
-                            className="Favorite_bt"
+                            className="Favorite_bt scale_bn"
                             onClick={toggleCollapse}
                             aria-expanded={isOpen}
                             aria-controls="collapsibleSection"
@@ -494,9 +493,9 @@ function C_3_LottryDetail() {
                             {isOpen ? '取消/結束抽選' : '點選排隊/抽獎'}
                         </button>
                         {/* <span className='subtitles'>剩餘時間:{Math.floor((180 + yourTimer) / 60)}分{((180 + yourTimer) % 60)}秒</span> */}
-                        <span className='subtitles'>你的號碼牌 : {yourNumber}</span>
-                        <span className='subtitles'>預估等待時間 : 最晚等 {generalTimer == -1 ? 0 : Math.floor(timer != 0 ? timer / 60 : generalTimer == -1 ? 0 : generalTimer / 60)} 分 {(timer != 0 ? timer % 60 : generalTimer == -1 ? 0 : generalTimer % 60)}秒</span>
-                        <span className='subtitles'>剩餘G幣:{myGash}</span>
+                        <span className='subtitles'>你的號碼牌 : {yourNumber} &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 預估等待時間 : 最晚等 {generalTimer == -1 ? 0 : Math.floor(timer != 0 ? timer / 60 : generalTimer == -1 ? 0 : generalTimer / 60)} 分 {(timer != 0 ? timer % 60 : generalTimer == -1 ? 0 : generalTimer % 60)}秒</span>
+                        {/* <span className='subtitles'>預估等待時間 : 最晚等 {generalTimer == -1 ? 0 : Math.floor(timer != 0 ? timer / 60 : generalTimer == -1 ? 0 : generalTimer / 60)} 分 {(timer != 0 ? timer % 60 : generalTimer == -1 ? 0 : generalTimer % 60)}秒</span> */}
+                        <span className='subtitles'>剩餘G幣 : $ {myGash}</span>
 
                         {/* 摺疊區域 */}
                         <div
