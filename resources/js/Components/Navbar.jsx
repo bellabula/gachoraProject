@@ -143,7 +143,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             // console.log(response)
             if(response.length > 0){
                 response.filter((v) => {
-                        alert(`最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
+                    v.waiting > 0 && alert(`最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
                 })
             } else {
                 alert('快去一番賞排隊抽')
