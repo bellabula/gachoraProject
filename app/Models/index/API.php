@@ -522,7 +522,14 @@ class API
       }
       $stmt->closeCursor();
     }
-    $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images/memberItem/snake.png';
+    $jsonOutput['achievement'][] = [
+      'id' => 6,
+      'img' => 'http://localhost/gachoraProject/public/images/memberItem/snake.png',
+    ];
+    $jsonOutput['achievement'][] = [
+      'id' => 7,
+      'img' => 'http://localhost/gachoraProject/public/images/gachoButton.png',
+    ];
     if (isset($jsonOutput['gash_level'])) {
       if ($jsonOutput['gash_level'] > 100000) {
         $jsonOutput = $this->PrintAchievement(5, $jsonOutput);
@@ -547,7 +554,10 @@ class API
       $stmt->bindValue(':id', $i, PDO::PARAM_INT);
       $stmt->execute();
       $output = $stmt->fetch(PDO::FETCH_ASSOC);
-      $jsonOutput['achievement'][] = 'http://localhost/gachoraProject/public/images' . $output['headphoto'];
+      $jsonOutput['achievement'][] = [
+        'id' => $i,
+        'img' => 'http://localhost/gachoraProject/public/images' . $output['headphoto'],
+      ];
       $stmt->closeCursor();
     }
     return $jsonOutput;
