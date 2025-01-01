@@ -212,11 +212,11 @@
 
 /* 靜態圖片區塊 */
 #lottryDetail .static-image {
-    background-color: #f8f9fa;
-    border: 1px dashed #ddd;
-    padding: 20px;
-    margin: 20px;
+    padding: 0 20px 20px 20px;
+    margin: auto;
     text-align: center;
+    display: "block";
+    width: 90%;
 }
 
 #lottryDetail .static-image img {

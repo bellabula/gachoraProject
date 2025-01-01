@@ -25,15 +25,15 @@ function C_3_LottryDetail() {
 
     useEffect(() => {
         series_id = seriesId
-            inLineOrNot((isInLine) => {
-                if (isInLine) {
-                    // 查是否輪到他
-                    isMyTurnOrNot()
-                } else {
-                    // console.log('沒排隊預估等候時間')
-                    GeneralTimer()
-                }
-            })
+        inLineOrNot((isInLine) => {
+            if (isInLine) {
+                // 查是否輪到他
+                isMyTurnOrNot()
+            } else {
+                // console.log('沒排隊預估等候時間')
+                GeneralTimer()
+            }
+        })
     }, []);
     // 判斷是否排隊
     function inLineOrNot(callback) {
@@ -147,7 +147,7 @@ function C_3_LottryDetail() {
                 PingMyPlayTime()
             } else if (190 + playTime > 180) {
 
-            } else if (isNaN(playTime)){
+            } else if (isNaN(playTime)) {
                 location.reload()
             }
         }, 1000)
@@ -313,7 +313,7 @@ function C_3_LottryDetail() {
     const [timer, setTimer] = useState(0)
     const [generalTimer, setGeneralTimer] = useState(0)
     const [yourTimer, setYourTimer] = useState(0)
-    function toggleCollapse () {
+    function toggleCollapse() {
         if (user) {
             clearAllIntervals(intervalMyWaitTime)
             clearAllIntervals(intervalMyPlayTime)
@@ -364,7 +364,7 @@ function C_3_LottryDetail() {
         clearAllIntervals(intervalMyPlayTime)
         clearAllIntervals(intervalMyWaitTime)
         setIsOpen(false)
-        
+
         $.post('http://localhost/gachoraProject/app/Models/Post/DeleteWait.php', {
             series_id: series_id,
             number: yournumber,
@@ -389,7 +389,7 @@ function C_3_LottryDetail() {
         if (user) {
             if (myGash < seriesData.price * selectedNumbers.length) {
                 alert("你沒有足夠的G幣")
-            } else if (selectedNumbers.sort((a, b) => a - b).join(",") == 0){
+            } else if (selectedNumbers.sort((a, b) => a - b).join(",") == 0) {
                 alert("你什麼都沒抽")
             } else {
                 localStorage.setItem("ichibanLabel", selectedNumbers.sort((a, b) => a - b).join(","))
@@ -426,7 +426,7 @@ function C_3_LottryDetail() {
                     {/* <!-- 商品圖片區塊 --> */}
                     <div className="row mt-5">
                         <div className="col-xxl-8">
-                            <div className="product-image"> 
+                            <div className="product-image">
                                 <img src={seriesImg}
                                     alt="商品圖片"
                                     id="mainProductImage" />
@@ -604,12 +604,15 @@ function C_3_LottryDetail() {
                     </div>
 
                     {/* <!-- 靜態圖片區塊 --> */}
-                    <div className="row mt-4">
-                        <div className="col-12 static-image">
-                            <img src="static.jpg"
-                                alt="靜態教學圖"
-                                className="img-fluid" />
-                        </div>
+                    <h1 className="text-center"
+                        style={{
+                            color: "var(--main-bg-gray)", display: "block", margin: "30px,0,0,15px",
+                            textDecoration: "underline", textDecorationColor: "var(--main-yellow)", textUnderlineOffset: "5pt"
+                        }}>線上一番賞新手教學</h1>
+                    <div className="static-image">
+                        <img src="http://localhost/gachoraProject/public/images/gachoHome/lottryStep7.svg"
+                            alt="靜態教學圖"
+                            className="img-fluid" />
                     </div>
 
                     {/* <!-- 底部商品切換 --> */}
@@ -641,7 +644,7 @@ function C_3_LottryDetail() {
                 </main >
                 <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
             </body >
-           
+
         </>
     )
 }
