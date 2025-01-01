@@ -157,7 +157,7 @@ function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setD
                                 ))}
                             </tbody>
                         </table>
-                        {storageItem.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前儲藏庫沒有商品...</h4> : ""}
+                        {storageItem.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>儲藏庫沒有商品...</h4> : ""}
                     </div>
                     <p className="note mt-4">商品取貨規則：</p>
                     <ul>
