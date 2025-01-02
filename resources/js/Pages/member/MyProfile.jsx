@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, usePage } from '@inertiajs/react';
-function MyProfile({ id, className="" }) {
+function MyProfile({ id, className = "" }) {
     const user = usePage().props.auth.user;
 
     const hasFetched = useRef(false)
@@ -17,9 +17,9 @@ function MyProfile({ id, className="" }) {
 
     useEffect(() => {
 
-        getCounty().then(()=>{
-            if(user.road){
-                document.querySelector("#profile > form > div:nth-child(5) > input").value = (user.county_id ? cityNumb[user.county_id]+user.road : user.road)
+        getCounty().then(() => {
+            if (user.road) {
+                document.querySelector("#profile > form > div:nth-child(5) > input").value = (user.county_id ? cityNumb[user.county_id] + user.road : user.road)
             }
         })
 
@@ -35,27 +35,55 @@ function MyProfile({ id, className="" }) {
 
     let user_id = user.id;
 
-    const memberItem = [
-        "http://localhost/gachoraProject/public/images/memberItem/snake.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim1.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim2.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim3.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim4.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim5.png"]
+    const [headPhotos, setHeadPhotos] = useState([]); // 儲存頭像數據
+    const [selectedPhoto, setSelectedPhoto] = useState(null); // 儲存選中的頭像
+    const [isModalOpen, setIsModalOpen] = useState(false); // 控制模態框顯示
 
-    const [carouselItem, setCarouseItem] = useState([]);
-
-    function handleClickPicture(){
+    const handleClickPicture = () => {
         $.post('../app/Models/Post/MainUser.php', { user_id }, (response) => {
-            
-            let items = [];
+            let items = []; 
             if (response && typeof response === 'object') {
                 items = Array.isArray(response.achievement) ? response.achievement : [];
-            }
-            setCarouseItem(items);
-            console.log("照片:"+ JSON.stringify(response.achievement));
-        })
-    }
+            } // 如果 response.achievement 是陣列，將它賦值給 items；否則設為空陣列
+
+            setHeadPhotos(items); // 儲存頭像數據
+            setIsModalOpen(true); // 打開更改頭貼介面
+            console.log("照片:", JSON.stringify(response.achievement));
+        });
+    };
+
+    // photo 會是這種型態 { id: 1, img: "http://localhost/image1.png" }
+    // photo 是在下面抓的
+    const handleSelectPhoto = (photo) => {
+        setSelectedPhoto(photo.img); // 設置選中的頭像
+        setIsModalOpen(false); // 關閉模態框
+        console.log("選中的頭像:", photo); // 您可以在這裡調用接口保存選擇結果
+
+        if (photo) {
+            fetch('http://localhost/gachoraProject/app/Models/Post/ChangeHeadPhoto.php', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    user_id: user_id, // 傳送的參數
+                    headphoto_id: photo.id
+                })
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json(); // 將回應轉為 JSON 格式
+            })
+            .then((data) => {
+                console.log("成功回應：", data);
+            })
+            .catch((error) => {
+                console.error("Fetch 發生錯誤：", error);
+            })
+        }
+    };
 
 
     return (
@@ -64,12 +92,32 @@ function MyProfile({ id, className="" }) {
             <div id={id} className={"tab-pane profile-container " + className}>
                 {/* <!-- 頭像 --> */}
                 <div>
-                    <div className="text-center">
-                        <img src="http://localhost/gachoraProject/public/images/gachoButton.png" alt="頭像"
-                            className="rounded-circle d-inline-block object-fit-contain" width="200px" height="200px" />
-                        <button className="btn-icon m-auto d-block" onClick={handleClickPicture}>更換頭像</button>
+                    <div className="d-flex flex-column align-items-center">
+                        <img src={selectedPhoto || "http://localhost/gachoraProject/public/images/gachoButton.png"} alt="頭像"
+                            className="rounded-circle d-inline-block object-fit-contain" width="150px" height="150px" style={{marginBottom:'1vw'}}/>
+                        <button className="btn-icon m-auto d-block" onClick={handleClickPicture} style={{marginTop:'1vw'}}>更換頭像</button>
                     </div>
                 </div>
+
+                {isModalOpen && (
+                    <div className="modal-overlay">
+                        <div className="modal">
+                            <h2 style={{marginBottom:'2vw'}}>選擇頭像</h2>
+                            <div className="photo-grid">
+                                {headPhotos.map((photo) => (
+                                    <img
+                                        key={photo.id}
+                                        src={photo.img}
+                                        alt={`頭像 ${photo.id}`}
+                                        className="head-photo"
+                                        onClick={() => handleSelectPhoto(photo)}
+                                    />
+                                ))}
+                            </div>
+                            <button onClick={() => setIsModalOpen(false)} className="photo-button">關閉</button>
+                        </div>
+                    </div>
+                )}
                 {/* <!-- 表單資料 --> */}
                 <div className="mt-5" id="profile">
                     <form>

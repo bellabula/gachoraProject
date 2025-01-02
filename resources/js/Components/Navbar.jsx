@@ -23,7 +23,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 // console.log(response)
                 setUserName(response.name)
                 setMyGash(response.gash)
-                setMyIcon(response.achievement.slice(-1)[0])
+                setMyIcon(response.achievement.slice(-1)[0].img)
             })
         }, [user_id])
         useEffect(() => {
@@ -111,10 +111,10 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
         })
     }
     function confirmAndRedirect(series_id, text) {
-        // 显示确认框
+        // 顯示確認框
         const userConfirmed = confirm(text);
         
-        // 如果用户点击“确定”，则跳转到指定的链接
+        // 如果用戶點擊"確定"，則跳轉到指定連結
         if (userConfirmed) {
             window.location.href = 'http://localhost/gachoraProject/public/lottrydetail?seriesId=' + series_id; // 跳转到链接
         }

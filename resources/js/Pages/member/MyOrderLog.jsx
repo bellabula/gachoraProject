@@ -62,12 +62,12 @@ function MyOrderLog({ list_id, oId, oDate, oStatus, dPath }) {
                             {details.products.map((ele, index) => (
                                 // .map() 方法的返回值需要有一個單一的父節點，能夠包裹住所有的子內容。
                                 <React.Fragment key={index}>
-                                    <span>{ele.name} x {ele.amount}</span>
+                                    <span>{ele.name} x {ele.amount} &nbsp;</span>
                                     {(index + 1) % 3 === 0 && <br />} 
                                     {/* 超過三個就換行 */}
                                 </React.Fragment>
                             ))}
-                            <br /> <br />
+                            <br />
                             <p><strong>處理狀態:</strong> {details.status}</p>
                             <p><strong>訂購人姓名:</strong>{details.name}</p>
                             <p><strong>送貨方式(付款方式):</strong>{details.method}</p>
@@ -80,7 +80,7 @@ function MyOrderLog({ list_id, oId, oDate, oStatus, dPath }) {
                             {/* {details.deliver_time && (<p><strong>配送時間:</strong>{details.deliver_time}</p>)} */}
 
                         </div>
-                        <button onClick={handleCloseModal} style={{ backgroundColor: '#365B60', color: 'white', borderRadius: '35px', width: '9vw', marginTop: '1vw' }}>關閉</button>
+                        <button onClick={handleCloseModal} style={{ backgroundColor: "var(--main-yellow)", color: "black", borderRadius: '35px', width: '9vw', marginTop: '1vw' }}>關閉</button>
                     </div>
                 </div>
             )}

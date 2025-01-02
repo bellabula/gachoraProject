@@ -14,12 +14,11 @@ const C_3_3_LottryFuntion = () => {
     const [drawResults, setDrawResults] = useState([]);
     const [showResultsOnly, setShowResultsOnly] = useState(false);
     const [currentName, setCurrentName] = useState(null)
-    const [prizePage, setPrizePage] = useState("")
-
-    const pages = [
+    const [pages, setPrizePage] = useState([
         'http://localhost/gachoraProject/public/images/一番賞FT.svg',
         'http://localhost/gachoraProject/public/images/一番賞A.svg',
-    ];
+    ])
+
     // 'http://localhost/gachoraProject/public/images/一番賞A.svg'
     const calculateBookSize = () => {
         const containerWidth = window.innerWidth * 0.5; // Set book width to 50% of window width
@@ -79,7 +78,15 @@ const C_3_3_LottryFuntion = () => {
             console.log(remainingDraws)
             console.log(response.length - remainingDraws)
             console.log(response[response.length - remainingDraws])
-            setCurrentName(response[response.length - remainingDraws].name)
+            let prizePath = 'http://localhost/gachoraProject/public/images/一番賞' + response[response.length - remainingDraws].prize + '.svg'
+            console.log(response[response.length - remainingDraws].prize)
+            setTimeout(() => {
+                setCurrentName(response[response.length - remainingDraws].name)
+                setPrizePage([
+                    'http://localhost/gachoraProject/public/images/一番賞FT.svg',
+                    prizePath
+                ])
+            }, 1000)
             setShowNextDrawButton(false);
             setCurrentDraw((prev) => prev + 1);
             $(bookRef.current).turn('page', 1); // Reset to the first page after the draw
@@ -115,17 +122,18 @@ const C_3_3_LottryFuntion = () => {
             label: selectedNumbers
         }, (response) => {
             console.log(response)
+            for (let i = response.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [response[i], response[j]] = [response[j], response[i]];
+            }
             setResponse(response)
             // console.log("current")
             // console.log(response[0].name)
             setCurrentName(response[0].name)
-            // setPrizePage()
-            // $.post(basePath + '/Post/IchibanDetail.php', {
-            //     series_id: seriesId
-            // }, (response) => {
-            //     console.log(response)
-            //     setBookedSeats(response.label ? response.label : [])
-            // })
+            setPrizePage([
+                'http://localhost/gachoraProject/public/images/一番賞FT.svg',
+                'http://localhost/gachoraProject/public/images/一番賞' + response[0].prize + '.svg'
+            ])
         })
         localStorage.setItem("ichibanLabel", "")
         localStorage.setItem("ichibanQuantity", 0)

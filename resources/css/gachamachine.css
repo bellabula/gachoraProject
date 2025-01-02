@@ -154,18 +154,17 @@
     text-align: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     background-color: var(--main-bg-gray);
-    color: var(--main-yellow);
+    color: var(--main-darkblue);
     width: 150px;
     font-size: 1.4rem;
     padding: 0.4rem 1rem;
     transition: background-color 0.5s ease, color 0.5s ease;
     cursor: pointer;
 }
-#gachaMachine .custom-btn:hover {
-    color: var(--main-bg-gray);
+#gachaMachine .custom-btn:hover, .custom-btn:hover {
+    color: var(--main-darkblue);
     background-color: var(--main-yellow);
-
-
+    transform: scale(1.05);
 }
 
 
