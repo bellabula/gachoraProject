@@ -25,7 +25,9 @@ function C_3_LottryDetail() {
 
     useEffect(() => {
         series_id = seriesId
+        console.log('進入inLineOrNot');
         inLineOrNot((isInLine) => {
+            
             if (isInLine) {
                 // 查是否輪到他
                 isMyTurnOrNot()
@@ -34,16 +36,17 @@ function C_3_LottryDetail() {
                 GeneralTimer()
             }
         })
-    }, []);
+    }, [seriesId]);
     // 判斷是否排隊
     function inLineOrNot(callback) {
         MyTimer((response) => {
-            if (Array.isArray(response)) {
+            console.log('unnLineOrNNot',response);
+            
+            if (Array.isArray(response) && response.length > 0) {
                 let isInLine = response.some(item => item.series_id == seriesId)
                 let item = response.find(item => item.series_id == seriesId)
                 // ok
                 setYourNumber(item.number)
-                // console.log('inLineOrNotyournumber',item.number)
                 callback(isInLine)
             } else {
                 callback(false)
@@ -154,6 +157,7 @@ function C_3_LottryDetail() {
     }
     // fetch沒有排隊的等待時間
     function FetchGeneralTime(callback) {
+        console.log('general', seriesId)
         $.post('http://localhost/gachoraProject/app/Models/Post/MaybeTime.php', {
             series_id: seriesId
         }, (response) => {
@@ -318,7 +322,7 @@ function C_3_LottryDetail() {
             clearAllIntervals(intervalMyWaitTime)
             clearAllIntervals(intervalMyPlayTime)
             clearAllIntervals(intervalGeneralTime)
-            if (!isOpen) {
+            if (yourNumber == 0) {
                 // setIsOpen(true)
                 clearAllIntervals(intervalGeneralTime)
                 const url = 'http://localhost/gachoraProject/app/Models/Post/LineIn.php'
@@ -337,10 +341,14 @@ function C_3_LottryDetail() {
             } else {
                 clearAllIntervals(intervalMyPlayTime)
                 // 刪除排隊
+                if(isOpen){
+                    deleteWait(seriesId, yourNumber)
+                } else {
+                    deleteSelfWait(seriesId, yourNumber)
+                }
                 setIsOpen(false)
                 // error
                 // console.log('yourNumberincollaplse', yourNumber)
-                deleteWait(seriesId, yourNumber)
                 setTimeout(() => {
                     setYourTimer('bye')
                     console.log('自主中離')
@@ -366,6 +374,18 @@ function C_3_LottryDetail() {
         setIsOpen(false)
 
         $.post('http://localhost/gachoraProject/app/Models/Post/DeleteWait.php', {
+            series_id: series_id,
+            number: yournumber,
+        }, (response) => { })
+        clearAllIntervals(intervalMyPlayTime)
+    }
+    // post series_id, 號碼牌，告訴後端中離與要離開
+    function deleteSelfWait(series_id, yournumber) {
+        clearAllIntervals(intervalMyPlayTime)
+        clearAllIntervals(intervalMyWaitTime)
+        setIsOpen(false)
+
+        $.post('http://localhost/gachoraProject/app/Models/Post/DeleteSelfWait.php', {
             series_id: series_id,
             number: yournumber,
         }, (response) => { })
