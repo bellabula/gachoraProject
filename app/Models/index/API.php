@@ -1046,6 +1046,28 @@ class API
     if (!isset($jsonOutput) || $jsonOutput === null) $jsonOutput = [];
     return json_encode($jsonOutput);
   }
+  function DeleteSelfWait($series_id, $number)
+  {
+    $series_id = $_POST['series_id'];
+    $number = $_POST['number'];
+    $sql = "delete from Waitinglist where series_id = :series_id and number = :number;";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindValue(':series_id', $series_id, PDO::PARAM_INT);
+    $stmt->bindValue(':number', $number, PDO::PARAM_INT);
+    $stmt->execute();
+    while ($output = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $jsonOutput = [
+        'error' => 'done',
+        'yournumber' => $number,
+        'waiting' => $output['waiting'] ?? '',
+        'series_id' => $series_id
+      ];
+    }
+    $stmt->closeCursor();
+    $this->db = null;
+    if (!isset($jsonOutput) || $jsonOutput === null) $jsonOutput = [];
+    return json_encode($jsonOutput);
+  }
   function PlayIchiban($series_id, $number, $amounts, $label, $time)
   {
     $sql = "call PlayIchiban(:series_id, :number, :amounts, :label, :time)";
