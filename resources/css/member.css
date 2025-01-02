@@ -140,6 +140,30 @@
     border: 2px solid var(--main-darkblue);
 }
 
+#memberFavor .eggImg {
+    z-index: -1;
+    border-radius: 20px;
+    height: 100%;
+    object-fit: cover;
+}
+
+#memberFavor .eggFCName {
+    position: absolute;
+    width: 100%;
+    left: 30px;
+    top: 63%;
+    font-size: 1.3rem;
+    color: white;
+}
+
+#memberFavor .ichibanImg {
+    z-index: -1;
+    right: 0px;
+    object-fit: cover;
+    object-position: 0% 20%;
+    border-radius: 20px;
+}
+
 #member .favor-section {
     background-color: gainsboro;
     border-radius: 5px;
