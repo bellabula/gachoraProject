@@ -112,7 +112,8 @@
 }
 
 #gachaDetail .Favorite_bt:hover {
-    border: #365B60 solid 2px;
+    transform: scale(1.05);
+    /* border: #365B60 solid 2px; */
 }
 
 #gachaDetail .Restock-bt:hover {
@@ -211,11 +212,11 @@
 
 /* 靜態圖片區塊 */
 #gachaDetail .static-image {
-    background-color: #f8f9fa;
-    border: 1px dashed #ddd;
-    padding: 20px;
-    margin: 20px;
+    padding: 0 20px 20px 20px;
+    margin: auto;
     text-align: center;
+    width: 90%;
+    display: "block";
 }
 
 #gachaDetail .static-image img {

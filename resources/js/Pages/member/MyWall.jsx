@@ -37,10 +37,11 @@ function MyWall({ id, className = "" }) {
             user_id: user_id
         }, (response) => {
             console.log(response);
-            console.log(response.achievement);
-            setCarouseItem(response.achievement);
+            const achieveImg = response.achievement.map((ele)=>(ele.img));
+            console.log(achieveImg);
+            setCarouseItem(achieveImg);
             if (response && typeof response === 'object') {
-                const items = response.achievement || [];
+                const items = achieveImg || [];
                 setCarouseItem(Array.isArray(items) ? items : []);
             } else {
                 setCarouseItem([]);

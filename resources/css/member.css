@@ -1,7 +1,7 @@
 #member button.rounded-5 {
     width: 100px;
     height: 35px;
-    color: white;
+    color: var(--main-darkblue);
     background-color: var(--main-yellow);
     border: none;
 }

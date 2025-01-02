@@ -66,7 +66,7 @@
 }
 
 
-/* 自定义按钮样式 */
+/* 自定義按紐樣式 */
 #lottryfunction .custom-btn, .custom-btn {
     display: block;
     margin: 0 auto;
@@ -77,7 +77,7 @@
     text-align: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     background-color: var(--main-bg-gray);
-    color: var(--main-yellow);
+    color: var(--main-darkblue);
     width: 150px;
     font-size: 1.4rem;
     padding: 0.4rem 1rem;
@@ -86,7 +86,6 @@
 }
 
 #lottryfunction .custom-btn:hover {
-    color: var(--main-bg-gray);
     background-color: var(--main-yellow);
 }
 

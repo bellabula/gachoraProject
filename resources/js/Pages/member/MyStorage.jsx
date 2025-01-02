@@ -126,6 +126,7 @@ function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setD
                                     <th>系列</th>
                                     <th>擁有數量</th>
                                     <th>抽扭日期</th>
+                                    <th>自動兌換日期</th>
                                     {/* <th>選取數量</th> */}
                                     <th>兌換G幣</th>
                                     <th className="position-relative">
