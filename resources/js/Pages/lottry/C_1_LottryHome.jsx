@@ -13,6 +13,7 @@ function C_1_LottryHome() {
     const [error, setError] = useState();
     const [user_id, setUserId] = useState();
     const [images, setImages] = useState([]);
+    const [rerenderCount, setRerenderCount] = useState(0);
     let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
     React.useEffect(function () {
         const callAPI = async function () {
@@ -53,7 +54,7 @@ function C_1_LottryHome() {
                 // console.log('蛋收藏：', [...response.has, ...response.no])
             })
         }
-    }, [user_id])
+    }, [rerenderCount, user_id])
 
     //top10
     const top10Products = allProducts

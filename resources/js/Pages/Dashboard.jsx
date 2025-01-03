@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import MyWall from './member/MyWall';
@@ -101,8 +101,7 @@ export default function Dashboard() {
                     </div>
                 </>
             )}
-            <AuthenticatedLayout cartNumber={cartNumber} dCount={dCount} bagNumber={bagNumber} dBagCount={dBagCount}>
-                <Head title="Member" />
+            <AuthenticatedLayout header="Member" cartNumber={cartNumber} dCount={dCount} bagNumber={bagNumber} dBagCount={dBagCount}>
                 <main className="container container-xxl" id='member'>
                     <div className="row pt-5 pb-5 align-items-center">
                         <div className="col-8"><img src="http://localhost/gachoraProject/public/images/diamond.svg" alt="" width="50px" className="me-4" />
