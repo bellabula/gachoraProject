@@ -147,10 +147,10 @@ function B_3_GachaDetail() {
                 user_id: user_id,
                 series_id: gachaId
             })
-            if ($("#gachaDetail .Favorite_bt").text() == "加入收藏"){
-                $("#gachaDetail .Favorite_bt").css("transform","scale(1.2)")
+            if ($("#gachaDetail .Favorite_bt").text() == "加入收藏") {
+                $("#gachaDetail .Favorite_bt").css("transform", "scale(1.2)")
                 setTimeout(() => {
-                    $("#gachaDetail .Favorite_bt").css("transform","scale(1.05)");
+                    $("#gachaDetail .Favorite_bt").css("transform", "scale(1.05)");
                 }, 300)
             }
         } else {
@@ -288,7 +288,7 @@ function B_3_GachaDetail() {
                         role="tabpanel"
                         aria-labelledby="details-tab">
                         <h3>商品詳情</h3>
-                        <p>商品詳情內容。</p>
+                        <p>暫無其他詳情</p>
                     </div>
                     <div className="tab-pane fade"
                         id="shipping"
@@ -307,13 +307,17 @@ function B_3_GachaDetail() {
                 </div>
 
                 {/* <!-- 靜態圖片區塊 --> */}
-                <div className="row mt-4">
-                    <div className="col-12 static-image">
-                        <img src=""
-                            alt="靜態教學圖"
-                            className="img-fluid" />
-                    </div>
+                <h1 className="text-center"
+                    style={{
+                        color: "var(--main-darkblue)", display: "block", margin: "30px,0,0,15px",
+                        textDecoration: "underline", textDecorationColor: "var(--main-yellow)", textUnderlineOffset: "5pt"
+                    }}>線上扭蛋新手教學</h1>
+                <div className="static-image">
+                    <img src="http://localhost/gachoraProject/public/images/gachoHome/gachaStep6.svg"
+                        alt="靜態教學圖"
+                        className="img-fluid" />
                 </div>
+
 
                 {/* <!-- 底部商品切換 --> */}
                 <h4 className="text-center">推薦商品</h4>
