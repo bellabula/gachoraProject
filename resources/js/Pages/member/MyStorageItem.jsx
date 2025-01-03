@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 
 function MyStorageItem({ recordId, itemName, amount, series, gift, getDate, index, clickToCart, clickToG, prize = "", src = "" }) {
@@ -85,7 +85,7 @@ function MyStorageItem({recordId, itemName, amount, series, gift, getDate, index
                     bottom: 0,
                     backgroundColor: 'rgba(0, 0, 0, 0.7)',
                 }}>
-                    <img src={src} className="big-img" style={{ width: '50%', height: '50%' }} />
+                    <img src={src} className="big-img" style={{ width: '30vw', height: '30vw' }} />
                 </div>
             )
             }
