@@ -41,7 +41,7 @@ function MyProfile({ id, className = "" }) {
 
     const handleClickPicture = () => {
         $.post('../app/Models/Post/MainUser.php', { user_id }, (response) => {
-            let items = []; 
+            let items = [];
             if (response && typeof response === 'object') {
                 items = Array.isArray(response.achievement) ? response.achievement : [];
             } // 如果 response.achievement 是陣列，將它賦值給 items；否則設為空陣列
@@ -56,6 +56,7 @@ function MyProfile({ id, className = "" }) {
     // photo 是在下面抓的
     const handleSelectPhoto = (photo) => {
         setSelectedPhoto(photo.img); // 設置選中的頭像
+        localStorage.setItem('selectedPhoto', photo.img);
         setIsModalOpen(false); // 關閉模態框
         console.log("選中的頭像:", photo); // 您可以在這裡調用接口保存選擇結果
 
@@ -70,21 +71,28 @@ function MyProfile({ id, className = "" }) {
                     headphoto_id: photo.id
                 })
             })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json(); // 將回應轉為 JSON 格式
-            })
-            .then((data) => {
-                console.log("成功回應：", data);
-            })
-            .catch((error) => {
-                console.error("Fetch 發生錯誤：", error);
-            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json(); // 將回應轉為 JSON 格式
+                })
+                .then((data) => {
+                    console.log("成功回應：", data);
+                })
+                .catch((error) => {
+                    console.error("Fetch 發生錯誤：", error);
+                })
         }
     };
 
+    useEffect(() => {
+        const savedPhoto = localStorage.getItem('selectedPhoto');
+        if (savedPhoto) {
+            setSelectedPhoto(savedPhoto);
+        }
+        // 如果 localStorage 有存有存到 selectedPhoto 
+    }, []);  
 
     return (
         <>
@@ -94,15 +102,15 @@ function MyProfile({ id, className = "" }) {
                 <div>
                     <div className="d-flex flex-column align-items-center">
                         <img src={selectedPhoto || "http://localhost/gachoraProject/public/images/gachoButton.png"} alt="頭像"
-                            className="rounded-circle d-inline-block object-fit-contain" width="150px" height="150px" style={{marginBottom:'1vw'}}/>
-                        <button className="btn-icon m-auto d-block" onClick={handleClickPicture} style={{marginTop:'1vw'}}>更換頭像</button>
+                            className="rounded-circle d-inline-block object-fit-contain" width="150px" height="150px" style={{ marginBottom: '1vw' }} />
+                        <button className="btn-icon m-auto d-block" onClick={handleClickPicture} style={{ marginTop: '1vw' }}>更換頭像</button>
                     </div>
                 </div>
 
                 {isModalOpen && (
                     <div className="modal-overlay">
                         <div className="modal">
-                            <h2 style={{marginBottom:'2vw'}}>選擇頭像</h2>
+                            <h2 style={{ marginBottom: '2vw' }}>選擇頭像</h2>
                             <div className="photo-grid">
                                 {headPhotos.map((photo) => (
                                     <img

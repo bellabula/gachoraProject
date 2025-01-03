@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 function MyStorageItem({ recordId, itemName, amount, series, gift, getDate, index, clickToCart, clickToG, prize = "", src = "" }) {
     let uniDate = new Date(getDate).getTime()
@@ -65,7 +65,9 @@ function MyStorageItem({ recordId, itemName, amount, series, gift, getDate, inde
                     bottom: 0,
                     backgroundColor: 'rgba(0, 0, 0, 0.7)',
                 }}>
-                    <img src={src} className="big-img" style={{width:"30vw", height:"30vw"}} />
+
+                    <img src={src} className="big-img" style={{ width: '30vw', height: '30vw' }} />
+
                 </div>
             )
             }
