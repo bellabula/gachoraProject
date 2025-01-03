@@ -125,7 +125,7 @@ function MyOrder({ id, className = "" }) {
                             ))}
                         </tbody>
                     </table>
-                    {orderLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前沒有任何訂單紀錄...</h4> : ""}
+                    {orderLog.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>沒有任何訂單紀錄...</h4> : ""}
                 </div>
             </div>
         </>

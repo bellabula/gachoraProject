@@ -210,6 +210,25 @@
     filter: grayscale(0%);
 }
 
+#gachaHome .top30 .heart-icon {
+    width: 50px;
+    position: absolute;
+    margin-top: 3%;
+    margin-left: 3%;
+    cursor: pointer;
+    z-index: 100;
+}
+  
+#gachaHome .top30 .heart {
+    filter: grayscale(100%);
+    transition: color 0.3s ease;
+    width: 80%;
+}
+
+#gachaHome .top30 .heart.active {
+    filter: var(--red-filter);
+}
+
 /* 無縫滾動動畫 */
 @keyframes scroll-horizontal {
     0% {
