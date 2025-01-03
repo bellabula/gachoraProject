@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import MyWalletRecord from './MyWalletRecord';
 import { usePage } from '@inertiajs/react';
 
-function MyWallet({ id, className = "" }) {
+function MyWallet({ id, myGash, className = "" }) {
     // 取得今天的日期，並格式化為 YYYY-MM-DD
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
@@ -51,7 +51,7 @@ function MyWallet({ id, className = "" }) {
             setWalletLog(response)
             setWalletLogRaw(response.reverse())
         })
-    }, [user_id])
+    }, [myGash])
 
 
 

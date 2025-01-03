@@ -13,9 +13,11 @@ function B_1_GachaHome() {
     //叫資料
     const [allProducts, setallProducts] = useState([]);
     const [error, setError] = useState();
+    const [user_id, setUserId] = useState();
+    const [rerenderCount, setRerenderCount] = useState(0);
     // const [images, setImages] = useState([]);
-    let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
-    React.useEffect(function () {
+    useEffect(function () {
+        let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
         const callAPI = async function () {
             try {
                 const response = await fetch(url);
@@ -38,11 +40,12 @@ function B_1_GachaHome() {
     //導入會員資料
     const user = usePage().props.auth.user;
     const basePath = '../app/Models'
-    const [userFavor, setUerFavor] = useState([]);
-    if (user) {
-        const user_id = user.id
-        let collectEgg = [];
-        useEffect(() => {
+    const [userFavor, setUserFavor] = useState([]);
+    useEffect(() => {
+        if (user) {
+            setUserId(user.id)
+            let collectEgg = [];
+
             $.post(basePath + '/Post/UserCollectionEgg.php', {
                 user_id: user_id
             }, (response) => {
@@ -52,12 +55,12 @@ function B_1_GachaHome() {
                 if (typeof (response.no) != "undefined") {
                     collectEgg = [...collectEgg, ...response.no]
                 }
-                setUerFavor(collectEgg.map(item => item.id))
-                // console.log(userFavor)
+                setUserFavor(collectEgg.map(item => item.id))
+                console.log(userFavor)
                 // console.log('蛋收藏：', [...response.has, ...response.no])
             })
-        }, [user_id])
-    }
+        }
+    }, [rerenderCount, user_id])
     //top10
     const top10Products = allProducts
         .sort((a, b) => b.rank - a.rank)
@@ -91,6 +94,24 @@ function B_1_GachaHome() {
         setIsActive((prev) => !prev); // 切換狀態
     };
 
+    function toggleHeart(event, seriesId) {
+        if (user_id) {
+            $.post('../app/Models/Post/ToCollection.php', {
+                user_id: user_id,
+                series_id: seriesId
+            })
+            if (event.target.classList.contains("active")) {
+                $(event.target).removeClass('active')
+            } else {
+                $(event.target).addClass('active')
+            }
+            setTimeout(() => {
+                setRerenderCount((prev) => prev + 1)
+            }, 100)
+        } else {
+            alert("請先登入")
+        }
+    }
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
@@ -193,6 +214,9 @@ function B_1_GachaHome() {
                         <Carousel cols={3} gap={0}>
                             {top10Products.map((product, index) => (
                                 <Carousel.Item key={index}>
+                                    <div className="heart-icon">
+                                        <img className={"heart " + (userFavor.includes(product.series_id) ? "active" : "")} onClick={() => toggleHeart(event, product.series_id)} src='http://localhost/gachoraProject/public/images/heart.svg'></img>
+                                    </div>
                                     <Link className="top10item no-link-style" key={index} href={route('gachadetail', { seriesId: product.series_id })}>
                                         <div className="top30ProductImg">
                                             <img src={product.img[0]} alt={`商品圖片 ${index + 1}`} />
@@ -202,7 +226,8 @@ function B_1_GachaHome() {
                                         </div>
                                     </Link>
                                 </Carousel.Item>
-                            ))}
+                            )
+                            )}
                         </Carousel>
                     </div>
                 </div>

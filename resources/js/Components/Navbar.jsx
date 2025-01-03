@@ -190,6 +190,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
         };
     }, []);
 
+    var savedPhoto = localStorage.getItem("selectedPhoto");
+
     return (
         <>
             {isCoinOpen && (
@@ -248,7 +250,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     <img src="http://localhost/gachoraProject/public/images/navbarClickBg.svg" className='w-100 h-100' alt="" />
                                     <div className='memberTop w-100'>
                                         <Link href={route('login')}>
-                                            <img style={{ marginBottom: "10px" }} className='memberImg' src={myIcon} />
+                                            <img style={{ marginBottom: "10px" }} className='memberImg' src={savedPhoto} />
                                         </Link>
                                         <h4>{userName} 您好 !</h4>
                                         <div className='w-100' style={{ height: "35px" }}>
