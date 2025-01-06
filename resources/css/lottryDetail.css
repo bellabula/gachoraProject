@@ -216,13 +216,16 @@
     margin: auto;
     text-align: center;
     display: "block";
-    width: 90%;
+    width: 100%;
 }
 
 #lottryDetail .static-image img {
     max-width: 100%;
     height: auto;
 }
+/* #lottryDetail .text-center{
+    color: var(--main-bg-gray);
+} */
 
 /*選號區域*/
 .card-body {

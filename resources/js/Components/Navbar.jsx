@@ -56,13 +56,13 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 user_id: user_id
             }, (response) => {
                 // console.log('30天快過期：', response.past)
-                if(response[0].pasted != 0 && response[0].pasting != 0){
+                if (response[0].pasted != 0 && response[0].pasting != 0) {
                     alert(`您有<br>
                         ${response.pasted}項戰利品已被兌換為G幣。<br>
                         ${response.pasting}項即將被兌換為G幣，快打包回家。`)
                 }
             })
-            
+
         }, [user_id])
         useEffect(() => {
             $("#memberClick").click(openMember)
@@ -103,7 +103,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
         const url = 'http://localhost/gachoraProject/app/Models/Post/MyTimer.php'
         $.post(url, {
             user_id: user_id
-        }, function(response) {
+        }, function (response) {
             // console.log(response.length)
             if (Array.isArray(response) && response.length > 0) {
                 AutoTime(user_id, response)
@@ -113,7 +113,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
     function confirmAndRedirect(series_id, text) {
         // 顯示確認框
         const userConfirmed = confirm(text);
-        
+
         // 如果用戶點擊"確定"，則跳轉到指定連結
         if (userConfirmed) {
             window.location.href = 'http://localhost/gachoraProject/public/lottrydetail?seriesId=' + series_id; // 跳转到链接
@@ -124,10 +124,10 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
         if (response.length > 0) {
             response.filter((v) => {
                 v.waiting > 0 && console.log(`${v.series_id}最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
-                if(v.waiting == 179){confirmAndRedirect(`${v.series_id}`, '下個輪到你，前往頁面等著抽？')}
-                if(v.waiting == 120){confirmAndRedirect(`${v.series_id}`, '最快2分輪到你，前往頁面等著抽？')}
-                if(v.waiting == 61){confirmAndRedirect(`${v.series_id}`, '最快1分輪到你，前往頁面等著抽？')}
-                if(v.waiting == 20){confirmAndRedirect(`${v.series_id}`, '最快20秒輪到你，前往頁面等著抽？')}
+                if (v.waiting == 179) { confirmAndRedirect(`${v.series_id}`, '下個輪到你，前往頁面等著抽？') }
+                if (v.waiting == 120) { confirmAndRedirect(`${v.series_id}`, '最快2分輪到你，前往頁面等著抽？') }
+                if (v.waiting == 61) { confirmAndRedirect(`${v.series_id}`, '最快1分輪到你，前往頁面等著抽？') }
+                if (v.waiting == 20) { confirmAndRedirect(`${v.series_id}`, '最快20秒輪到你，前往頁面等著抽？') }
             })
             setTimeout(() => {
                 MyTimer(user_id)
@@ -139,9 +139,9 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
     const handleClickGReminder = () => {
         $.post('http://localhost/gachoraProject/app/Models/Post/MyTimer.php', {
             user_id: user_id
-        }, function(response) {
+        }, function (response) {
             // console.log(response)
-            if(response.length > 0){
+            if (response.length > 0) {
                 response.filter((v) => {
                     v.waiting > 0 && alert(`最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
                 })
@@ -190,8 +190,56 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
         };
     }, []);
 
-    var savedPhoto = localStorage.getItem("selectedPhoto");
+    // var savedPhoto = localStorage.getItem("selectedPhoto");
 
+    // const [savedPhoto, setSavedPhoto] = useState('');
+    // console.log("會員Id"+user_id)
+
+    // useEffect(() => {
+
+    //     axios.get(`http://localhost/gachoraProject/app/Models/Post/UserInfo.php?id=${user_id}`)
+    //         .then((response) => {
+    //             console.log("API 返回的數據:", response.data);
+
+    //             if (response.data && Array.isArray(response.data)) {
+    //                 const user = response.data.find(u => u.id === user_id);
+    //                 if (user) {
+    //                     setSavedPhoto(user.headphoto); // 設置頭像
+    //                 } else {
+    //                     console.warn('找不到符合條件的用戶');
+    //                 }
+    //             } else {
+    //                 console.error('API 返回的數據格式錯誤:', response.data);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error('API 請求錯誤:', error);
+    //         });
+    // }, []);
+
+    const [originalPhoto, setOriginalPhoto] = useState([]); // 從資料庫抓的頭貼
+
+    useEffect(() => {
+            fetch('http://localhost/gachoraProject/app/Models/Post/UserInfo.php', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    user_id: user_id, // 傳送的參數
+                })
+            })
+                .then((response) => {
+                    return response.json(); // 將回應轉為 JSON 格式
+                })
+                .then((data) => {
+                    console.log("資料庫頭貼：", data[0].headphoto);
+                    setOriginalPhoto(data[0].headphoto);
+                })
+                .catch((error) => {
+                    console.error("資料庫頭貼發生錯誤：", error);
+                })
+        })
     return (
         <>
             {isCoinOpen && (
@@ -250,12 +298,12 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     <img src="http://localhost/gachoraProject/public/images/navbarClickBg.svg" className='w-100 h-100' alt="" />
                                     <div className='memberTop w-100'>
                                         <Link href={route('login')}>
-                                            <img style={{ marginBottom: "10px" }} className='memberImg' src={savedPhoto} />
+                                            <img style={{ marginBottom: "10px" }} className='memberImg' src={originalPhoto} />
                                         </Link>
                                         <h4>{userName} 您好 !</h4>
                                         <div className='w-100' style={{ height: "35px" }}>
-                                            <a href={route('login')} style={{ height: "35px" }} className='d-inline-block' onClick={()=>{localStorage.setItem("activeTab", "memberWall")}}><button style={{ verticalAlign: "top" }} className="rounded-5 mx-2">會員專區</button></a>
-                                            <a href={route('dashboard')} style={{ height: "35px" }} className='d-inline-block' onClick={()=>{localStorage.setItem("activeTab", "memberFavor")}}><button className="rounded-5 mx-2" style={{ width: "100px", verticalAlign: "top" }}>❤ 收藏清單</button></a>
+                                            <a href={route('login')} style={{ height: "35px" }} className='d-inline-block' onClick={() => { localStorage.setItem("activeTab", "memberWall") }}><button style={{ verticalAlign: "top" }} className="rounded-5 mx-2">會員專區</button></a>
+                                            <a href={route('dashboard')} style={{ height: "35px" }} className='d-inline-block' onClick={() => { localStorage.setItem("activeTab", "memberFavor") }}><button className="rounded-5 mx-2" style={{ width: "100px", verticalAlign: "top" }}>❤ 收藏清單</button></a>
                                         </div>
                                         <div style={{ marginTop: "40px", height: "40px" }}>
                                             <h5 style={{ color: "var(--main-bg-gray)", display: "inline-block", height: "40px", verticalAlign: "top" }}><img width="35px" src="http://localhost/gachoraProject/public/images/GPointIcon.svg" />&nbsp; $ {myGash}</h5>
@@ -266,7 +314,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </li>
                             <li className="nav-item"><a className="dropdown-item" onClick={handleClickGReminder} href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' /></a></li>
                             <li className="nav-item">
-                                <Link href={route('dashboard')} className="dropdown-item position-relative" onClick={()=>{localStorage.setItem("activeTab", "memberStore")}}>
+                                <Link href={route('dashboard')} className="dropdown-item position-relative" onClick={() => { localStorage.setItem("activeTab", "memberStore") }}>
                                     <img src="http://localhost/gachoraProject/public/images/storage.svg" style={{ filter: svgColor }} title='儲藏庫' />
                                     <div className='cartCount' style={{ display: `${dBagCount}` }}>{bagNumber == 0 ? bagCount : bagNumber}</div>
                                 </Link>
