@@ -35,9 +35,33 @@ function MyProfile({ id, className = "" }) {
 
     let user_id = user.id;
 
+    const [originalPhoto, setOriginalPhoto] = useState([]); // 從資料庫抓的頭貼
     const [headPhotos, setHeadPhotos] = useState([]); // 儲存頭像數據
     const [selectedPhoto, setSelectedPhoto] = useState(null); // 儲存選中的頭像
     const [isModalOpen, setIsModalOpen] = useState(false); // 控制模態框顯示
+
+    // 從資料庫抓出頭像
+    useEffect(() => {
+        fetch('http://localhost/gachoraProject/app/Models/Post/UserInfo.php', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                user_id: user_id, // 傳送的參數
+            })
+        })
+            .then((response) => {
+                return response.json(); // 將回應轉為 JSON 格式
+            })
+            .then((data) => {
+                console.log("資料庫頭貼：", data[0].headphoto);
+                setOriginalPhoto(data[0].headphoto);
+            })
+            .catch((error) => {
+                console.error("資料庫頭貼發生錯誤：", error);
+            })
+    }, [user_id])
 
     const handleClickPicture = () => {
         $.post('../app/Models/Post/MainUser.php', { user_id }, (response) => {
@@ -56,7 +80,6 @@ function MyProfile({ id, className = "" }) {
     // photo 是在下面抓的
     const handleSelectPhoto = (photo) => {
         setSelectedPhoto(photo.img); // 設置選中的頭像
-        localStorage.setItem('selectedPhoto', photo.img);
         setIsModalOpen(false); // 關閉模態框
         console.log("選中的頭像:", photo); // 您可以在這裡調用接口保存選擇結果
 
@@ -86,14 +109,6 @@ function MyProfile({ id, className = "" }) {
         }
     };
 
-    useEffect(() => {
-        const savedPhoto = localStorage.getItem('selectedPhoto');
-        if (savedPhoto) {
-            setSelectedPhoto(savedPhoto);
-        }
-        // 如果 localStorage 有存有存到 selectedPhoto 
-    }, []);  
-
     return (
         <>
             {/* <!-- 6. 基本資料 --> */}
@@ -101,7 +116,7 @@ function MyProfile({ id, className = "" }) {
                 {/* <!-- 頭像 --> */}
                 <div>
                     <div className="d-flex flex-column align-items-center">
-                        <img src={selectedPhoto || "http://localhost/gachoraProject/public/images/gachoButton.png"} alt="頭像"
+                        <img src={ selectedPhoto || originalPhoto} alt="頭像"
                             className="rounded-circle d-inline-block object-fit-contain" width="150px" height="150px" style={{ marginBottom: '1vw' }} />
                         <button className="btn-icon m-auto d-block" onClick={handleClickPicture} style={{ marginTop: '1vw' }}>更換頭像</button>
                     </div>

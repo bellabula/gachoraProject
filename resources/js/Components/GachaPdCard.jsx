@@ -21,7 +21,7 @@ function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavo
                 setIsActive(true)
                 setNewclass("active")
             }
-        }, [user_id])
+        }, [userFavor, user_id])
     }
     function toogleHeart() {
         if(user_id){

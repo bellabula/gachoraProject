@@ -164,6 +164,32 @@
     border-radius: 20px;
 }
 
+#gachofavor .heart-icon,
+#ichibanfavor .heart-icon {
+    width: 50px;
+    position: absolute;
+    margin-top: 12%;
+    margin-left: 9%;
+    cursor: pointer;
+    z-index: 100;
+}
+
+#ichibanfavor .heart-icon {
+    margin-left: 10%;
+}
+
+#gachofavor .heart,
+#ichibanfavor .heart {
+    filter: grayscale(100%);
+    transition: color 0.3s ease;
+    width: 80%;
+}
+
+#gachofavor .heart.active,
+#ichibanfavor .heart.active {
+    filter: var(--red-filter);
+}
+
 #member .favor-section {
     background-color: gainsboro;
     border-radius: 5px;
