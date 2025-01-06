@@ -190,33 +190,6 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
         };
     }, []);
 
-    // var savedPhoto = localStorage.getItem("selectedPhoto");
-
-    // const [savedPhoto, setSavedPhoto] = useState('');
-    // console.log("會員Id"+user_id)
-
-    // useEffect(() => {
-
-    //     axios.get(`http://localhost/gachoraProject/app/Models/Post/UserInfo.php?id=${user_id}`)
-    //         .then((response) => {
-    //             console.log("API 返回的數據:", response.data);
-
-    //             if (response.data && Array.isArray(response.data)) {
-    //                 const user = response.data.find(u => u.id === user_id);
-    //                 if (user) {
-    //                     setSavedPhoto(user.headphoto); // 設置頭像
-    //                 } else {
-    //                     console.warn('找不到符合條件的用戶');
-    //                 }
-    //             } else {
-    //                 console.error('API 返回的數據格式錯誤:', response.data);
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error('API 請求錯誤:', error);
-    //         });
-    // }, []);
-
     const [originalPhoto, setOriginalPhoto] = useState([]); // 從資料庫抓的頭貼
 
     useEffect(() => {
