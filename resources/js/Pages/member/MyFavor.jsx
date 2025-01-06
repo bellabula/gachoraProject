@@ -9,13 +9,16 @@ function MyFavor({ id, className="" }) {
     const user = usePage().props.auth.user;
     let user_id = user.id
 
-    let basePath = '../app/Models'
+    const basePath = '../app/Models'
 
     const [gachoFavor, setgachoFavor] = useState([]);
     const [ichibanFavor, setIchibanFavor] = useState([]);
+    const gachaUrl = basePath + '/Post/UserCollectionEgg.php';
+    const ichibanUrl = basePath + '/Post/UserCollectionIchiban.php';
+    const collectionUrl = basePath + '/Post/ToCollection.php';
+    const [rerender, setRerender] = useState(0);
     let collectEgg = []
     useEffect(() => {
-        const gachaUrl = basePath + '/Post/UserCollectionEgg.php'
         $.post(gachaUrl, {
             user_id: user_id
         }, (response) => {
@@ -30,7 +33,6 @@ function MyFavor({ id, className="" }) {
             // console.log('蛋收藏：', has)
             setgachoFavor(collectEgg)
         })
-        const ichibanUrl = basePath + '/Post/UserCollectionIchiban.php'
         $.post(ichibanUrl, {
             user_id: user_id
         }, ({ has }) => {
@@ -38,7 +40,16 @@ function MyFavor({ id, className="" }) {
             // console.log('一番賞收藏：', has)
             setIchibanFavor(has)
         })
-    }, [])
+    }, [rerender])
+    function removeFavor(user_id, seriesId) {
+        $.post(collectionUrl, {
+            user_id: user_id,
+            series_id: seriesId
+        })
+        setTimeout(() => {
+            setRerender((prev) => prev + 1)
+        }, 100)
+    }
 
     return (
         <>
@@ -60,7 +71,7 @@ function MyFavor({ id, className="" }) {
                         {gachoFavor.length != 0 ?
                             <div className="row  row-gap-2">
                                 {gachoFavor.map((v, index) => (
-                                    <MyFavorCard key={index} name={v.name} src={v.img[0]} href={'gachadetail?seriesId=' + v.id} />
+                                    <MyFavorCard key={index} seriesId={v.id} name={v.name} src={v.img[0]} href={'gachadetail?seriesId=' + v.id} removeFavor={removeFavor} user_id={user_id}/>
                                 ))}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何扭蛋收藏... <a href={route('gachaHome')} className='no-link-style'><button style={{ borderRadius: "10px" }}>&gt;&gt; 前往扭蛋</button></a></h4>}
                     </div>
@@ -69,7 +80,7 @@ function MyFavor({ id, className="" }) {
                         {ichibanFavor.length != 0 ?
                             <div className="row  row-gap-2">
                                 {ichibanFavor.map((v, index) => (
-                                    <MyIchibanFavorCard key={index} name={v.name} src={v.img[0]} href={'lottrydetail?seriesId=' + v.id} />
+                                    <MyIchibanFavorCard key={index} seriesId={v.id} name={v.name} src={v.img[0]} href={'lottrydetail?seriesId=' + v.id} removeFavor={removeFavor} user_id={user_id} />
                                 ))}
                             </div> : <h4 className='text-center mt-5' style={{ color: "var(--main-darkblue)" }}>目前沒有任何一番賞收藏... <a href={route('lottryHome')} className='no-link-style'><button style={{ borderRadius: "10px" }}>&gt;&gt; 前往一番賞</button></a></h4>}
                     </div>

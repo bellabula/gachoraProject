@@ -45,24 +45,6 @@ function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setD
 
 
     useEffect(() => {
-        // 增加按鈕點擊事件
-        // $('#member .btn-increase').on('click', function () {
-        //     let input = $(this).siblings('input');
-        //     let currentValue = parseInt(input.val());
-        //     if (currentValue < $(this).parent().parent().parent().children().eq(4).text()) {
-        //         input.val(currentValue + 1);
-        //     }
-        // });
-
-        // 減少按鈕點擊事件
-        // $('#member .btn-decrease').on('click', function () {
-        //     let input = $(this).siblings('input');
-        //     let currentValue = parseInt(input.val());
-        //     if (currentValue > 0) {
-        //         input.val(currentValue - 1);
-        //     }
-        // });
-
         // 篩選器
         // 點擊篩選按鈕後出現篩選區塊
         $("#memberStore .classFilterBtn").click(() => {

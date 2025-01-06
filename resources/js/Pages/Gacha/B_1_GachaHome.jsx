@@ -14,7 +14,6 @@ function B_1_GachaHome() {
     const [allProducts, setallProducts] = useState([]);
     const [error, setError] = useState();
     const [user_id, setUserId] = useState();
-    const [rerenderCount, setRerenderCount] = useState(0);
     // const [images, setImages] = useState([]);
     useEffect(function () {
         let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
@@ -56,11 +55,11 @@ function B_1_GachaHome() {
                     collectEgg = [...collectEgg, ...response.no]
                 }
                 setUserFavor(collectEgg.map(item => item.id))
-                console.log(userFavor)
+                // console.log(userFavor)
                 // console.log('蛋收藏：', [...response.has, ...response.no])
             })
         }
-    }, [rerenderCount, user_id])
+    }, [user_id]) //rerenderCount
     //top10
     const top10Products = allProducts
         .sort((a, b) => b.rank - a.rank)
@@ -95,19 +94,21 @@ function B_1_GachaHome() {
     };
 
     function toggleHeart(event, seriesId) {
+        let updatedFavor = []
         if (user_id) {
             $.post('../app/Models/Post/ToCollection.php', {
                 user_id: user_id,
                 series_id: seriesId
             })
             if (event.target.classList.contains("active")) {
-                $(event.target).removeClass('active')
+                // $(event.target).removeClass('active')
+                updatedFavor = userFavor.filter(item => item !== seriesId)
             } else {
-                $(event.target).addClass('active')
+                // $(event.target).addClass('active')
+                updatedFavor = [...userFavor, seriesId]
             }
-            setTimeout(() => {
-                setRerenderCount((prev) => prev + 1)
-            }, 100)
+            setUserFavor(updatedFavor);
+            console.log(updatedFavor)
         } else {
             alert("請先登入")
         }
@@ -215,7 +216,7 @@ function B_1_GachaHome() {
                             {top10Products.map((product, index) => (
                                 <Carousel.Item key={index}>
                                     <div className="heart-icon">
-                                        <img className={"heart " + (userFavor.includes(product.series_id) ? "active" : "")} onClick={() => toggleHeart(event, product.series_id)} src='http://localhost/gachoraProject/public/images/heart.svg'></img>
+                                        <img className={"heart " + (userFavor.includes(product.series_id) ? "active" : "")} onClick={() => toggleHeart(event, product.series_id)} src='http://localhost/gachoraProject/public/images/heart.svg' />
                                     </div>
                                     <Link className="top10item no-link-style" key={index} href={route('gachadetail', { seriesId: product.series_id })}>
                                         <div className="top30ProductImg">

@@ -36,9 +36,9 @@ function MyWall({ id, className = "" }) {
         $.post('../app/Models/Post/MainUser.php', {
             user_id: user_id
         }, (response) => {
-            console.log(response);
+            // console.log(response);
             const achieveImg = response.achievement.map((ele)=>(ele.img));
-            console.log(achieveImg);
+            // console.log(achieveImg);
             setCarouseItem(achieveImg);
             if (response && typeof response === 'object') {
                 const items = achieveImg || [];
