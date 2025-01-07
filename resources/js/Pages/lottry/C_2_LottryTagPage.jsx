@@ -56,9 +56,16 @@ function C_2_LottryTagPage() {
     if (error) return <div>Error: {error}</div>;
 
     const [currentPage, setcurrentPage] = useState(1);
-    const [category, setcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const itemsPerPage = 6; // 每頁商品數量
+    const { homeurl } = usePage();  // 使用 usePage 獲取 URL 資訊
+    const queryParams = new URLSearchParams( homeurl.split('?')[1]); // 從 URL 中解析查詢參數
+    const categoryFromQuery = queryParams.get('category') || 'all';  // 默認為 'all'
+    const [category, setCategory] = useState(categoryFromQuery);
+
+    useEffect(() => {
+        setCategory(categoryFromQuery);  // 更新 category 為從 URL 查詢參數獲得的值
+    }, [location]);
 
 
     // 篩選和排序
@@ -67,7 +74,7 @@ function C_2_LottryTagPage() {
         const matchesCategory = category === "all" ||
             (category === "最新商品" && product.release_time) ||
             (category === "熱門商品" && product.rank) ||
-            (category === "限量商品" && product.rare)||
+            (category === "限量商品" && product.rare) ||
             (category === "大人氣聯名IP區" && product.series_label === "大人氣聯名IP區") ||
             (category === "動漫遊戲區" && product.series_label === "動漫遊戲區") ||
             (category === "鋼彈/擬真模型收藏區" && product.series_label === "鋼彈/擬真模型收藏區") ||
@@ -142,7 +149,7 @@ function C_2_LottryTagPage() {
                             {/* <!-- 左側分類區 --> */}
                             <div className="col-md-2 d-flex flex-column left-pd">
                                 <ul className="category-list list-unstyled">
-                                    {["all", "熱門商品", "最新商品", "限量商品","大人氣聯名IP區","動漫遊戲區","鋼彈/擬真模型收藏區","科技娛樂區","其他類型區"].map(cat => (
+                                    {["all", "熱門商品", "最新商品", "限量商品", "大人氣聯名IP區", "動漫遊戲區", "鋼彈/擬真模型收藏區", "科技娛樂區", "其他類型區"].map(cat => (
                                         <li key={cat} onClick={() => handleCategoryClick(cat)}>
                                             {cat === "all" ? "所有商品" : cat}
                                         </li>
