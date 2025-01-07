@@ -193,6 +193,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
     const [originalPhoto, setOriginalPhoto] = useState([]); // 從資料庫抓的頭貼
 
     useEffect(() => {
+        if (user_id > 0) {
             fetch('http://localhost/gachoraProject/app/Models/Post/UserInfo.php', {
                 method: "POST",
                 headers: {
@@ -212,7 +213,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 .catch((error) => {
                     console.error("資料庫頭貼發生錯誤：", error);
                 })
-        })
+        }
+    })
     return (
         <>
             {isCoinOpen && (

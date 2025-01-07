@@ -5,6 +5,7 @@ import GachaPdCard from '@/Components/GachaPdCard';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import Footer from '@/Components/Footer';
+import AlertLogin from '@/Components/AlertLogin';
 
 
 function B_3_GachaDetail() {
@@ -129,11 +130,17 @@ function B_3_GachaDetail() {
         setCurrentPosition((prevPosition) => Math.max(prevPosition - itemWidth, maxPosition));
     };
 
+    const [isItemEnough, setIsItemEnough] = useState(true)
+    const [isGEnough, setIsGEnough] = useState(true)
     const isEnough = () => {
-        if ($("#quantityInput").val() == 0) {
-            alert("商品已售完")
+        if (!user_id) {
+            setIsLoginAlertOpen(true)
+        } else if ($("#quantityInput").val() == 0) {
+            setIsItemEnough(false)
+            // alert("商品已售完")
         } else if (myGash < series.price * $("#quantityInput").val()) {
-            alert("你沒有足夠的G幣")
+            setIsGEnough(false)
+            // alert("你沒有足夠的G幣")
         } else {
             localStorage.setItem("quantity", $("#quantityInput").val())
             window.location.replace("http://localhost/gachoraProject/public/gachamachine?seriesId=" + gachaId);
@@ -154,14 +161,49 @@ function B_3_GachaDetail() {
                 }, 300)
             }
         } else {
-            alert("請先登入")
+            setIsLoginAlertOpen(true)
         }
+    }
+
+    const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
+    function handleRedirect() {
+        window.location.href = "http://localhost/gachoraProject/public/login"
     }
 
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
             <Head title="gachaDetail" />
+            {/* loginAlert */}
+            {isLoginAlertOpen && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>請先登入</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        登入後才可進行<br />
+                        收藏、抽賞、抽扭蛋等活動哦!<br />
+                        過年期間加入即贈2025年節小蛇頭像。
+                    </h5>
+                    <button onClick={handleRedirect} style={{ width: "100px", height: "35px", margin: "20px 10px", borderRadius: "50px", backgroundColor: "var(--main-yellow)", color: "var(--main-darkblue)", border: "none", opacity: "1" }}>前往登入</button>
+                </AlertLogin>
+            )}
+            {!isItemEnough && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen} setIsItemEnough={setIsItemEnough}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>商品已售完</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        商品目前已售完<br />
+                        請選購其他商品!<br />
+                    </h5>
+                </AlertLogin>
+            )}
+            {!isGEnough && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen} setIsGEnough={setIsGEnough}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>餘額不足!</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        餘額不足，請減少數量，或前往儲值!<br />
+                        點選上方頭像標誌<img src='http://localhost/gachoraProject/public/images/member.svg' style={{filter:"var(--main-darkblue-filter)"}} />，將出現會員小視窗可進行儲值<br />
+                    </h5>
+                </AlertLogin>
+            )}
             <main id='gachaDetail' className="container container-xxl">
                 {/* <!-- 商品圖片區塊 --> */}
                 <div className="row mt-5">
@@ -229,6 +271,7 @@ function B_3_GachaDetail() {
                                 switchBigImage={switchBigImage}
                                 probability={"隨機"} // (100/characters.length).toFixed(2) + "%"
                                 productImg={chara.img}
+
                                 key={index}>
                             </GachaDetailCard>
                         ))}
@@ -340,6 +383,7 @@ function B_3_GachaDetail() {
                                             productPrice={ele.price}
                                             img={ele.img[0]}
                                             userFavor={userFavor}
+                                            setIsLoginAlertOpen={setIsLoginAlertOpen}
                                             key={index}>
                                         </GachaPdCard>
                                     </div>

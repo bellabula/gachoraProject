@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import PdCard from '@/Components/PdCard';
 import Carousel from '@/Components/Carousel'
 import Footer from '@/Components/Footer';
+import AlertLogin from '@/Components/AlertLogin';
 
 function C_1_LottryHome() {
 
@@ -166,14 +167,33 @@ function C_1_LottryHome() {
                 setRerenderCount((prev) => prev + 1)
             }, 100)
         } else {
-            alert("請先登入")
+            setIsLoginAlertOpen(true)
+            // alert("請先登入")
         }
+    }
+
+    // 控制控制 loginAlert 是否出現
+    const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
+    function handleRedirect() {
+        window.location.href = "http://localhost/gachoraProject/public/login"
     }
 
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue) logout='list-item' " />
             <Head title="LottryHome" />
+            {/* loginAlert */}
+            {isLoginAlertOpen && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>請先登入</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        登入後才可進行<br />
+                        收藏、抽賞、抽扭蛋等活動哦!<br />
+                        過年期間加入即贈2025年節小蛇頭像。
+                    </h5>
+                    <button onClick={handleRedirect} style={{ width: "100px", height: "35px", margin: "20px 10px", borderRadius: "50px", backgroundColor: "var(--main-yellow)", color: "var(--main-darkblue)", border: "none", opacity: "1" }}>前往登入</button>
+                </AlertLogin>
+            )}
             <body id='lottrybody'>
                 <main id='lottryHome'>
                     {/* <!--輪播圖區--> */}
@@ -305,6 +325,7 @@ function C_1_LottryHome() {
                                             series={product}
                                             prize={product.character}
                                             userFavor={userFavor}
+                                            setIsLoginAlertOpen={setIsLoginAlertOpen}
                                             img={product.img[0]}>
                                         </PdCard>
                                     </div>
