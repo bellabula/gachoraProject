@@ -206,10 +206,10 @@ function C_1_LottryHome() {
                     </div>
                     {/* <!--標籤連結--> */}
                     <div className="labelitem d-flex justify-content-end">
-                        <div className="ms-1 itemtag"><a href={route('lottrytagpage')}>全部商品</a></div>
-                        <div className="ms-1 itemtag"><a href="#">熱門商品</a></div>
-                        <div className="ms-1 itemtag"><a href="#">最新商品</a></div>
-                        <div className="ms-1 itemtag"><a href="#">限時商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('gachatagpage') + '?category=all'}>全部商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('gachatagpage') + '?category=熱門商品'}>熱門商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('gachatagpage') + '?category=最新商品'}>最新商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('gachatagpage') + '?category=限量商品'}>限量商品</a></div>
                     </div>
                     <h1 className='lottryTitle'>人氣TOP10</h1>
                     {/* <!--TOP30區--> */}

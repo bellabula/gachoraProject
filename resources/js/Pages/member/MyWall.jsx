@@ -9,12 +9,12 @@ function MyWall({ id, className = "" }) {
     const user = usePage().props.auth.user;
     let user_id = user.id;
     const memberItem = [
-        "http://localhost/gachoraProject/public/images/memberItem/snake.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim1.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim2.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim3.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim4.png",
-        "http://localhost/gachoraProject/public/images/memberItem/dim5.png"
+        { img: "http://localhost/gachoraProject/public/images/memberItem/snake.png", title: "2025/3/30號前註冊即送年節小蛇成就頭像",name: "2025年節小蛇" },
+        { img: "http://localhost/gachoraProject/public/images/memberItem/dim1.png", title: "儲值滿額500元即贈地球男爵成就頭像" ,name: "地球男爵"},
+        { img: "http://localhost/gachoraProject/public/images/memberItem/dim2.png", title: "儲值滿額3000元即贈月球伯爵成就頭像" ,name: "月球伯爵"},
+        { img: "http://localhost/gachoraProject/public/images/memberItem/dim3.png", title: "儲值滿額10000元即贈太陽侯爵成就頭像" ,name: "太陽侯爵"},
+        { img: "http://localhost/gachoraProject/public/images/memberItem/dim4.png", title: "儲值滿額50000元即贈土星公爵成就頭像" ,name: "土星公爵"},
+        { img: "http://localhost/gachoraProject/public/images/memberItem/dim5.png", title: "儲值滿額100000元即贈宇宙霸主成就頭像" ,name: "宇宙霸主"}
     ];
 
 
@@ -50,11 +50,11 @@ function MyWall({ id, className = "" }) {
     }, [user_id])
 
     const convertPathsToIndices = (paths) => {
-        return paths.map(path => memberItem.findIndex(item => item === path));
+        return paths.map(path => memberItem.findIndex(item => item.img === path));
     };
 
     const achievementIndices = convertPathsToIndices(carouselItem);
-    // console.log(achievementIndices);
+    console.log(achievementIndices);
 
     return (
         <>
@@ -67,7 +67,11 @@ function MyWall({ id, className = "" }) {
                         <Carousel cols={5} gap={0}>
                             {memberItem.map((item, index) => (
                                 <Carousel.Item key={index}>
-                                    <img src={item} className={`circle-container ${achievementIndices.includes(index) ? 'active' : ''}`} alt={`商品-${index}`} />
+                                    <img src={item.img} 
+                                    className={`circle-container ${achievementIndices.includes(index) ? 'active' : ''}`} 
+                                    alt={`商品-${index}`} 
+                                    title={item.title}/>
+                                    <p style={{ textAlign: "center",width:"200px",padding:"10px",fontSize:"18px"}}> {item.name}</p>
                                 </Carousel.Item>
                             ))}
 

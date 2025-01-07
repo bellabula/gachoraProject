@@ -61,9 +61,16 @@ function B_2_GachaTagPage() {
     }, [])
 
     const [currentPage, setcurrentPage] = useState(1);
-    const [category, setcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const itemsPerPage = 24; // 每頁商品數量
+    const { url } = usePage();  // 使用 usePage 獲取 URL 資訊
+    const queryParams = new URLSearchParams(url.split('?')[1]); // 從 URL 中解析查詢參數
+    const categoryFromQuery = queryParams.get('category') || 'all';  // 默認為 'all'
+    const [category, setCategory] = useState(categoryFromQuery);
+
+    useEffect(() => {
+        setCategory(categoryFromQuery);  // 更新 category 為從 URL 查詢參數獲得的值
+    }, [location]);
 
     // !!!!!! 待確認 !!!!!!
     // 篩選和排序
@@ -122,9 +129,10 @@ function B_2_GachaTagPage() {
 
     // // 分類切換
     const handleCategoryClick = (newCategory) => {
-        setcategory(newCategory);
+        setCategory(newCategory);
         setSearchQuery(""); // 切換分類時清空搜尋
         setcurrentPage(1); // 每次分類重置到第一頁
+        window.history.pushState({}, "", `?category=${newCategory}`);
     };
 
     return (

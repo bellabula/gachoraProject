@@ -243,66 +243,68 @@ function B_3_GachaDetail() {
                     </div>
                 </div>
 
-                <ul className="nav nav-tabs d-flex justify-content-evenly"
-                    id="myTab"
-                    role="tablist">
-                    <li className="nav-item "
-                        role="presentation">
-                        <button className="nav-link active"
-                            id="details-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#details"
-                            type="button"
-                            role="tab"
-                            aria-controls="details"
-                            aria-selected="true">商品詳情</button>
-                    </li>
-                    <li className="nav-item "
-                        role="presentation">
-                        <button className="nav-link"
-                            id="shipping-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#shipping"
-                            type="button"
-                            role="tab"
-                            aria-controls="shipping"
-                            aria-selected="false">送貨及付款方式</button>
-                    </li>
-                    <li className="nav-item "
-                        role="presentation">
-                        <button className="nav-link"
-                            id="reviews-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#reviews"
-                            type="button"
-                            role="tab"
-                            aria-controls="reviews"
-                            aria-selected="false">顧客評價</button>
-                    </li>
-                </ul>
+                <div className='container gachadt'>
+                    <ul className="nav nav-tabs d-flex justify-content-evenly"
+                        id="myTab"
+                        role="tablist">
+                        <li className="nav-item "
+                            role="presentation">
+                            <button className="nav-link active"
+                                id="details-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#details"
+                                type="button"
+                                role="tab"
+                                aria-controls="details"
+                                aria-selected="true">商品詳情</button>
+                        </li>
+                        <li className="nav-item "
+                            role="presentation">
+                            <button className="nav-link"
+                                id="shipping-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#shipping"
+                                type="button"
+                                role="tab"
+                                aria-controls="shipping"
+                                aria-selected="false">送貨及付款方式</button>
+                        </li>
+                        <li className="nav-item "
+                            role="presentation">
+                            <button className="nav-link"
+                                id="reviews-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#reviews"
+                                type="button"
+                                role="tab"
+                                aria-controls="reviews"
+                                aria-selected="false">顧客評價</button>
+                        </li>
+                    </ul>
 
-                {/* <!-- 內容區 --> */}
-                <div className="tab-content mt-4">
-                    <div className="tab-pane fade show active"
-                        id="details"
-                        role="tabpanel"
-                        aria-labelledby="details-tab">
-                        <h3>商品詳情</h3>
-                        <p>暫無其他詳情</p>
-                    </div>
-                    <div className="tab-pane fade"
-                        id="shipping"
-                        role="tabpanel"
-                        aria-labelledby="shipping-tab">
-                        <h3>送貨及付款方式</h3>
-                        <p>送貨及付款方式內容。</p>
-                    </div>
-                    <div className="tab-pane fade"
-                        id="reviews"
-                        role="tabpanel"
-                        aria-labelledby="reviews-tab">
-                        <h3>顧客評價</h3>
-                        <p>顧客評價內容。</p>
+                    {/* <!-- 內容區 --> */}
+                    <div className="tab-content mt-4 gachadt">
+                        <div className="tab-pane fade show active"
+                            id="details"
+                            role="tabpanel"
+                            aria-labelledby="details-tab">
+                            <h3>商品詳情</h3>
+                            <p>暫無其他詳情</p>
+                        </div>
+                        <div className="tab-pane fade"
+                            id="shipping"
+                            role="tabpanel"
+                            aria-labelledby="shipping-tab">
+                            <h3>送貨及付款方式</h3>
+                            <p>送貨及付款方式內容。</p>
+                        </div>
+                        <div className="tab-pane fade"
+                            id="reviews"
+                            role="tabpanel"
+                            aria-labelledby="reviews-tab">
+                            <h3>顧客評價</h3>
+                            <p>顧客評價內容。</p>
+                        </div>
                     </div>
                 </div>
 

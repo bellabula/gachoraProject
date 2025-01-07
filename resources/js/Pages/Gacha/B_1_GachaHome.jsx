@@ -192,10 +192,10 @@ function B_1_GachaHome() {
                 </div>
                 {/* <!--標籤連結--> */}
                 <div className="labelitem d-flex justify-content-end">
-                    <a className="ms-1 itemtag" href={route('gachatagpage')}><div>全部商品</div></a>
-                    <a className="ms-1 itemtag" href="#"><div >熱門商品</div></a>
-                    <a className="ms-1 itemtag" href="#"><div >最新商品</div></a>
-                    <a className="ms-1 itemtag" href="#"><div >限時商品</div></a>
+                    <a className="ms-1 itemtag" href={route('gachatagpage') + '?category=all'}><div>全部商品</div></a>
+                    <a className="ms-1 itemtag" href={route('gachatagpage') + '?category=熱門商品'}><div >熱門商品</div></a>
+                    <a className="ms-1 itemtag" href={route('gachatagpage') + '?category=最新商品'}><div >最新商品</div></a>
+                    <a className="ms-1 itemtag" href={route('gachatagpage') + '?category=限量商品'}><div >限量商品</div></a>
                 </div>
                 <h1 className='gachaTitle'>人氣TOP10</h1>
                 {/* <!--TOP30區--> */}
