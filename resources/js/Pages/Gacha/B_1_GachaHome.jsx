@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Carousel from '@/Components/Carousel'
 import GachaPdCard from '@/Components/GachaPdCard';
 import Footer from '@/Components/Footer';
+import AlertLogin from '@/Components/AlertLogin';
 
 
 
@@ -110,13 +111,33 @@ function B_1_GachaHome() {
             setUserFavor(updatedFavor);
             console.log(updatedFavor)
         } else {
-            alert("請先登入")
+            setIsLoginAlertOpen(true);
+            // $("#loginAlert").css("display", "block")
         }
     }
+
+    // 控制控制 loginAlert 是否出現
+    const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
+    function handleRedirect() {
+        window.location.href = "http://localhost/gachoraProject/public/login"
+    }
+
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
             <Head title="GachaHome" />
+            {/* loginAlert */}
+            {isLoginAlertOpen && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>請先登入</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        登入後才可進行<br />
+                        收藏、抽賞、抽扭蛋等活動哦!<br />
+                        過年期間加入即贈2025年節小蛇頭像。
+                    </h5>
+                    <button onClick={handleRedirect} style={{ width: "100px", height: "35px", margin: "20px 10px", borderRadius: "50px", backgroundColor: "var(--main-yellow)", color: "var(--main-darkblue)", border: "none", opacity: "1" }}>前往登入</button>
+                </AlertLogin>
+            )}
             <main id='gachaHome'>
                 {/* <!--輪播圖區--> */}
                 <div id="mainCarousel"
@@ -298,6 +319,7 @@ function B_1_GachaHome() {
                                         productPrice={product.price}
                                         img={product.img[0]}
                                         userFavor={userFavor}
+                                        setIsLoginAlertOpen={setIsLoginAlertOpen}
                                         key={index}>
                                     </GachaPdCard>
                                 </div>

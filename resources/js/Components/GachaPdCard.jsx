@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { usePage, Link } from '@inertiajs/react';
 // import { useFloatingPanel } from '@headlessui/react/dist/internal/floating';
 
-function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavor, className = '', img = '' }) {
+function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavor, setIsLoginAlertOpen, className = '', img = '' }) {
 
     const user = usePage().props.auth.user;
 
@@ -36,7 +36,7 @@ function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavo
             }
             setIsActive(!isActive)
         }else{
-            alert("請先登入")
+            setIsLoginAlertOpen(true)
         }
     }
 

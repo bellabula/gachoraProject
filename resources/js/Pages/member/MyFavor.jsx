@@ -19,6 +19,7 @@ function MyFavor({ id, className="" }) {
     const [rerender, setRerender] = useState(0);
     let collectEgg = []
     useEffect(() => {
+        collectEgg = []
         $.post(gachaUrl, {
             user_id: user_id
         }, (response) => {
