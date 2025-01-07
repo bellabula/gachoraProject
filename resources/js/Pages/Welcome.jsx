@@ -369,7 +369,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             />
                         </svg>
                     </div> */}
-                    <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer4.svg'></Footer>
+                    <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer5.svg'></Footer>
 
                 </section>
 

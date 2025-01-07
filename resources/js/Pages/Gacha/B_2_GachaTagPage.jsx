@@ -53,6 +53,7 @@ function B_2_GachaTagPage() {
                 // console.log(data)
                 setAllProducts(data)
                 console.log(data)
+                console.log(data[13].series_label)
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -71,8 +72,13 @@ function B_2_GachaTagPage() {
         const matchesCategory = category === "all" ||
             (category === "最新商品" && product.release_time) ||
             (category === "熱門商品" && product.rank) ||
-            (category === "限量商品" && product.rare);
-
+            (category === "限量商品" && product.rare)||
+            (category === "大人氣聯名IP區" && product.series_label === "大人氣聯名IP區") ||
+            (category === "動物世界區" && product.series_label === "動物世界區") ||
+            (category === "美味食物區" && product.series_label === "美味食物區") ||
+            (category === "趣味惡搞區" && product.series_label === "趣味惡搞區") ||
+            (category === "動漫遊戲區" && product.series_label === "動漫遊戲區") ||
+            (category === "其他類型區" && product.series_label === "其他類型區");
         const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
     }).sort((a, b) => {
@@ -135,7 +141,7 @@ function B_2_GachaTagPage() {
                         {/* <!-- 左側分類區 --> */}
                         <div className="col-md-2 d-flex flex-column left-pd">
                             <ul className="category-list list-unstyled">
-                                {["all", "熱門商品", "最新商品", "限量商品", "玩具"].map(cat => (
+                                {["all", "熱門商品", "最新商品", "限量商品", "大人氣聯名IP區", "動物世界區", "美味食物區", "趣味惡搞區", "動漫遊戲區", "其他類型區"].map(cat => (
                                     <li
                                         key={cat}
                                         className={cat === category ? "active" : ""}

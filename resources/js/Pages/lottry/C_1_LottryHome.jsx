@@ -315,7 +315,7 @@ function C_1_LottryHome() {
 
 
                 </main>
-                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
+                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg' bgColor="var(--main-darkblue)"></Footer>
             </body>
         </>
     )
