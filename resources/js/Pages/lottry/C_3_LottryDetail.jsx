@@ -406,7 +406,7 @@ function C_3_LottryDetail() {
         }
     }
 
-    const [isSelectItem, setIsSelectItem] = useState(true)
+    const [isSelect, setIsSelect] = useState(true)
     const [isGEnough, setIsGEnough] = useState(true)
 
     const playIchiban = function () {
@@ -417,7 +417,7 @@ function C_3_LottryDetail() {
                 setIsGEnough(false)
                 // alert("你沒有足夠的G幣")
             } else if (selectedNumbers.sort((a, b) => a - b).join(",") == 0) {
-                setIsSelectItem(false)
+                setIsSelect(false)
                 // alert("你什麼都沒抽")
             } else {
                 localStorage.setItem("ichibanLabel", selectedNumbers.sort((a, b) => a - b).join(","))
@@ -467,8 +467,8 @@ function C_3_LottryDetail() {
                     <button onClick={handleRedirect} style={{ width: "100px", height: "35px", margin: "20px 10px", borderRadius: "50px", backgroundColor: "var(--main-yellow)", color: "var(--main-darkblue)", border: "none", opacity: "1" }}>前往登入</button>
                 </AlertLogin>
             )}
-            {!isSelectItem && (
-                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen} setIsItemEnough={setIsSelectItem}>
+            {!isSelect && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen} setIsSelect={setIsSelect}>
                     <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>未選擇號碼</h3>
                     <h5 style={{ color: "var(--main-darkblue)" }}>
                         請選擇欲抽取的號碼<br />

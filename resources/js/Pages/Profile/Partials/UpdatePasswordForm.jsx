@@ -64,7 +64,7 @@ export default function UpdatePasswordForm({ className = '' }) {
     return (
         <>
             {isPwdChange && (
-                <AlertLogin setIsPwdChange={setIsPwdChange}>
+                <AlertLogin setIsDone={setIsPwdChange}>
                     <h3 style={{ margin: "30px 0px", color: "var(--main-darkblue)" }}>密碼已修改</h3>
                 </AlertLogin>
             )}

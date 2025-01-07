@@ -1,6 +1,6 @@
 import React from 'react'
 
-function AlertLogin({setIsLoginAlertOpen=null, setIsItemEnough=null, setIsGEnough=null, setIsSelectItem=null, setIsPwdChange=null, children=""}) {
+function AlertLogin({setIsLoginAlertOpen=null, setIsItemEnough=null, setIsSelect=null, setIsGEnough=null, setIsSelectItem=null, setIsDone=null, redirectSrc=null, children=""}) {
   function closeAlert() {
     if(setIsLoginAlertOpen){
       setIsLoginAlertOpen(false);
@@ -8,14 +8,18 @@ function AlertLogin({setIsLoginAlertOpen=null, setIsItemEnough=null, setIsGEnoug
     if(setIsItemEnough){
       setIsItemEnough(true);
     }
-    if(setIsSelectItem){
-      setIsSelectItem(true);
+    if(setIsSelect){
+      setIsSelect(true);
     }
     if(setIsGEnough){
       setIsGEnough(true);
     }
-    if(setIsPwdChange){
-      setIsPwdChange(false);
+    if(setIsDone){
+      if(redirectSrc){
+        window.location.replace(redirectSrc)
+      }else{
+        setIsDone(false);
+      }
     }
   }
 

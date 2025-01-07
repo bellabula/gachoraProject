@@ -8,6 +8,7 @@ import React, { useEffect, useState, useRef } from "react";
 import emailjs from '@emailjs/browser';
 import ScrollToTop from "@/Components/ScrollTop";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import AlertLogin from '@/Components/AlertLogin';
 
 
 export default function FAQ() {
@@ -42,6 +43,7 @@ export default function FAQ() {
   }
 
   const form = useRef();
+  const [isEmailSend, setIsEmailSend] = useState(false)
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -59,6 +61,7 @@ export default function FAQ() {
           console.log('FAILED...', error.text);
         },
       );
+    setIsEmailSend(true)
   };
 
   // $(document).ready(function () {
@@ -69,17 +72,15 @@ export default function FAQ() {
   // });
   // }
   // );
-  function handleSubmit() {
-    alert('郵件已寄出')
-    window.location.replace("http://localhost/gachoraProject/public/faq?goto=contact")
-  }
-
 
   return (
     <>
-      <AuthenticatedLayout>
-        {/* <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" /> */}
-        {/* <Head title="FAQ" /> */}
+      <AuthenticatedLayout header={"FAQ"}>
+        {isEmailSend && (
+          <AlertLogin setIsDone={setIsEmailSend} redirectSrc="http://localhost/gachoraProject/public/faq?goto=contact">
+            <h3 style={{ margin: "30px 0px", color: "var(--main-darkblue)" }}>郵件已寄出</h3>
+          </AlertLogin>
+        )}
         <main id="faq">
           <div className="bluesquare">
             <div className="pp" style={{ display: "flex" }}>
@@ -285,12 +286,12 @@ export default function FAQ() {
                       />
                     </div>
                     <label className="check">
-                      <input type="checkbox" />
+                      <input type="checkbox" required />
                       <span>我已詳細閱讀並同意</span><a href="#">會員條款</a>
                     </label>
                     <div className="buttonCheck">
                       <button className="button1" type="reset" >重新填寫</button>
-                      <button className="button2" type="submit" value="Send" onClick={handleSubmit}>完成送出</button>
+                      <button className="button2" type="submit" value="Send">完成送出</button>
 
                     </div>
                   </form>
