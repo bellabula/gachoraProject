@@ -2,8 +2,9 @@ import Navbar from '@/Components/Navbar';
 import { Head, Link } from '@inertiajs/react';
 import { useEffect } from 'react';
 import ScrollToTop from '@/Components/ScrollTop';
+import Footer from '@/Components/Footer';
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function AboutUs() {
 
 
     return (
@@ -11,7 +12,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
             <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue) logout='list-item' " />
             <Head title="AboutUs" />
-
             <main id="aboutus" style={{ backgroundColor: "var(--main-darkblue)", margin: "0px", height: "auto" }}>
                 <div className="desc_form">
                     <h1>關於我們</h1>
@@ -40,9 +40,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </form>
                     </div>
                 </div>
-
-                <ScrollToTop />
             </main>
+            <ScrollToTop />
+            {/* <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer2.svg' bgColor="var(--main-darkblue)"/> */}
         </>
     );
 }
