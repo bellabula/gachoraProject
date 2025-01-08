@@ -14,7 +14,7 @@ class BirthdayController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendBirthdayGifts()
+    public function sendMonthlyBirthdayGifts()
     {
         // 查詢今天生日的會員且今年尚未收到禮金
 
