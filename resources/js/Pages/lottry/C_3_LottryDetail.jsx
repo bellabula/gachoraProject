@@ -137,6 +137,7 @@ function C_3_LottryDetail() {
             playTime--
             console.log('還有', 190 + playTime, '秒可以抽')
             setYourTimer(190 + playTime)
+            localStorage.setItem(`ichibanPlay${seriesId}User${user_id}`, (190 + playTime))
             if (190 + playTime <= 0) {
                 clearAllIntervals(intervalMyPlayTime)
                 // 刪除排隊
@@ -152,6 +153,7 @@ function C_3_LottryDetail() {
             } else if (190 + playTime > 180) {
 
             } else if (isNaN(playTime)) {
+                localStorage.removeItem(`ichibanPlay${seriesId}User${user_id}`)
                 location.reload()
             }
         }, 1000)
@@ -340,6 +342,7 @@ function C_3_LottryDetail() {
                     // console.log('user_number:', yourNumber)
                     PingMyWaitTime(wait)
                 })
+                location.reload()
             } else {
                 clearAllIntervals(intervalMyPlayTime)
                 // 刪除排隊
@@ -352,6 +355,7 @@ function C_3_LottryDetail() {
                 // error
                 // console.log('yourNumberincollaplse', yourNumber)
                 setTimeout(() => {
+                    localStorage.removeItem(`ichibanPlay${seriesId}User${user_id}`)
                     setYourTimer('bye')
                     console.log('自主中離')
                     clearAllIntervals(intervalMyPlayTime)
@@ -453,7 +457,7 @@ function C_3_LottryDetail() {
     // 多張seriesImg => {mainImages[currentImageIndex]}
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue) logout='list-item' " />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue)" logout='list-item' />
             <Head title="lottryDetail" />
             {/* loginAlert */}
             {isLoginAlertOpen && (
@@ -481,7 +485,7 @@ function C_3_LottryDetail() {
                     <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>餘額不足!</h3>
                     <h5 style={{ color: "var(--main-darkblue)" }}>
                         餘額不足，請減少數量，或前往儲值!<br />
-                        點選上方頭像標誌<img src='http://localhost/gachoraProject/public/images/member.svg' style={{filter:"var(--main-darkblue-filter)"}} />，將出現會員小視窗可進行儲值<br />
+                        點選上方頭像標誌<img src='http://localhost/gachoraProject/public/images/member.svg' style={{ filter: "var(--main-darkblue-filter)" }} />，將出現會員小視窗可進行儲值<br />
                     </h5>
                 </AlertLogin>
             )}
