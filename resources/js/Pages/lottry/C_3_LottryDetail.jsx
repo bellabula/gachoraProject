@@ -353,7 +353,6 @@ function C_3_LottryDetail() {
                 }
                 setIsOpen(false)
                 // error
-                // console.log('yourNumberincollaplse', yourNumber)
                 setTimeout(() => {
                     localStorage.removeItem(`ichibanPlay${seriesId}User${user_id}`)
                     setYourTimer('bye')
