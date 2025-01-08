@@ -67,7 +67,7 @@ function MyOrderLog({ list_id, oId, oDate, oStatus, dPath }) {
                                     {/* 超過三個就換行 */}
                                 </React.Fragment>
                             ))}
-                            <br />
+                            <br /><br />
                             <p><strong>處理狀態:</strong> {details.status}</p>
                             <p><strong>訂購人姓名:</strong>{details.name}</p>
                             <p><strong>送貨方式(付款方式):</strong>{details.method}</p>
