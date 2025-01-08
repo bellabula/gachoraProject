@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 import Deposit from '../Pages/member/Deposit';
+import AlertReminder from '@/Components/AlertReminder';
 
 export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0, logout = "none", dlogin = "item-list", homepage = false }) {
     const [cartCount, setCartCount] = useState(0)
@@ -52,15 +53,22 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
         }, [user_id])
         ///
         useEffect(() => {
-            $.post('../app/Models/Post/ToGReminder.php', {
+            // $.post('../app/Models/Post/ToGReminder.php', {
+            //     user_id: user_id
+            // }, (response) => {
+            //     // console.log('30天快過期：', response.past)
+            //     if (response[0].pasted != 0 && response[0].pasting != 0) {
+            //         // error 亮提醒
+            //         // alert(`您有<br>
+            //         //     ${response.pasted}項戰利品已被兌換為G幣。<br>
+            //         //     ${response.pasting}項即將被兌換為G幣，快打包回家。`)
+            //     }
+            // })
+            $.post('http://localhost/gachoraProject/app/Models/Post/GiveBirthGift.php', {
                 user_id: user_id
-            }, (response) => {
-                // console.log('30天快過期：', response.past)
-                if (response[0].pasted != 0 && response[0].pasting != 0) {
-                    alert(`您有<br>
-                        ${response.pasted}項戰利品已被兌換為G幣。<br>
-                        ${response.pasting}項即將被兌換為G幣，快打包回家。`)
-                }
+            }, function (response) {
+                console.log(response.error)
+                // response.error == 'birthday gift' && 亮提醒
             })
 
         }, [user_id])
@@ -136,19 +144,63 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             $('#remainingTime').text('')
         }
     }
+    const [alertText, setAlertText] = useState([]);
     const handleClickGReminder = () => {
+        let waitText = []
+        let birthText = []
+        let toGText = []
         $.post('http://localhost/gachoraProject/app/Models/Post/MyTimer.php', {
             user_id: user_id
         }, function (response) {
-            // console.log(response)
             if (response.length > 0) {
                 response.filter((v) => {
-                    v.waiting > 0 && alert(`最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
+                    if (v.waiting > 0) {
+                        waitText.push({
+                            series_id: v.series_id,
+                            message:`您好！您所排隊的一番賞 <br>『${v.name}』<br>預估將於${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒後輪到您`
+                        })
+                    } else {
+                    }
+                })
+            }
+            setAlertText([...waitText, ...birthText, ...toGText])
+        })
+        $.post('http://localhost/gachoraProject/app/Models/Post/GiveBirthGift.php', {
+            user_id: user_id
+        }, function (response) {
+            console.log(response.error)
+            if (response.error == 'birthday gift') {
+                birthText.push({
+                    series_id:'',
+                    message:`${userName}生日快樂！專屬於您的生日禮已存入您的G幣錢包中(生日起算1個月後到期)！`
                 })
             } else {
-                alert('快去一番賞排隊抽')
+                // birthText.push('沒生日')
             }
+            setAlertText([...waitText, ...birthText, ...toGText])
         })
+        $.post('http://localhost/gachoraProject/app/Models/Post/ToGReminder.php', {
+            user_id: user_id
+        }, function (response) {
+            console.log(response)
+            console.log('pasted',response[0].pasted)
+            console.log('pasting',response[0].pasting)
+            if (response[0].pasted != 0) {
+                toGText.push({
+                    series_id: '',
+                    message: `您有${response[0].pasted}樣儲存庫商品已過期，並自動兌換成G幣，請於帳戶中查收。`
+                })
+            } else if (response[0].pasting != 0) {
+                toGText.push({
+                    series_id: '',
+                    message: `您有${response[0].pasting}樣儲存庫商品即將過期，過期將自動兌換成G幣...`
+                })
+            } else {
+                // toGText.push('沒資料')
+            }
+            setAlertText([...waitText, ...birthText, ...toGText])
+        })
+        console.log('alertText', alertText)
     }
 
     // 控制顯示模態框的狀態
@@ -215,8 +267,75 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 })
         }
     })
+    // 控制控制 loginAlert, reminder 是否出現
+    const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
+    function handleRedirect(page) {
+        if(page.charAt(0) == 'w') {
+            localStorage.setItem('activeTab', 'memberWallet');
+            window.location.href = "http://localhost/gachoraProject/public/dashboard"
+        }
+        if(page.charAt(0) == 'b') {
+            localStorage.setItem('activeTab', 'memberStore');
+            window.location.href = "http://localhost/gachoraProject/public/dashboard"
+        }
+        if(page.charAt(0) == 'i') window.location.href = 'http://localhost/gachoraProject/public/lottrydetail?seriesId=' + page.slice(1)
+    }
     return (
         <>
+            {isLoginAlertOpen && (
+                <AlertReminder setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                    <div className="remindercard">
+                        <div>
+                            <h5 style={{ color: "var(--main-darkblue)" }}>
+                                {alertText.length === 0 ? (
+                                    <div className="r-card-container">
+                                        <div className="r-card">
+                                            <img className="r-card-img" src="http://localhost/gachoraProject/public/images/dark!.svg" alt="提醒圖示" style={{opacity: "0"}} />
+                                            <span className="r-card-text" style={{marginLeft: "25px"}}>您沒有任何提醒事項</span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    alertText.map((text, index) => (
+                                        text.message.endsWith('！') ? (
+                                            <div className="r-card-container" onClick={()=>{handleRedirect('w')}}>
+                                                <div className="r-card">
+                                                    <img className="r-card-img" src="http://localhost/gachoraProject/public/images/cake.svg" alt="提醒圖示" />
+                                                    <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            text.message.endsWith('。') ? (
+                                                <div className="r-card-container" onClick={()=>{handleRedirect('w')}}>
+                                                    <div className="r-card">
+                                                        <img className="r-card-img" src="http://localhost/gachoraProject/public/images/dark!.svg" alt="提醒圖示" />
+                                                        <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                text.message.endsWith('...') ? (
+                                                    <div className="r-card-container" onClick={()=>{handleRedirect('b')}}>
+                                                        <div className="r-card">
+                                                            <img className="r-card-img" src="http://localhost/gachoraProject/public/images/yellow!.svg" alt="提醒圖示" />
+                                                            <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="r-card-container" onClick={()=>{handleRedirect('i' + text.series_id)}}>
+                                                        <div className="r-card">
+                                                            <img className="r-card-img" src="http://localhost/gachoraProject/public/images/hourglass.svg" alt="提醒圖示" />
+                                                            <span key={text.series_id} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            )
+                                        )
+                                    ))
+                                )}
+                            </h5>
+                        </div>
+                    </div>
+                </AlertReminder>
+            )}
             {isCoinOpen && (
                 <>
                     {/* 遮罩層 */}
@@ -287,7 +406,15 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     </div>
                                 </div>
                             </li>
-                            <li className="nav-item"><a className="dropdown-item" onClick={handleClickGReminder} href="#"><img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' /></a></li>
+                            <li className="nav-item">
+                                <a className="dropdown-item" style={{position: "relative"}} onClick={() => {
+                                    handleClickGReminder()
+                                    setIsLoginAlertOpen(true)
+                                }} href="#">
+                                    <img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' />
+                                    <div className='cartCount' style={{ position: "absolute", left: "16px" }}></div>
+                                </a>
+                            </li>
                             <li className="nav-item">
                                 <Link href={route('dashboard')} className="dropdown-item position-relative" onClick={() => { localStorage.setItem("activeTab", "memberStore") }}>
                                     <img src="http://localhost/gachoraProject/public/images/storage.svg" style={{ filter: svgColor }} title='儲藏庫' />

@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        // 推薦禮與加會員禮
         $url = 'http://localhost/gachoraProject/app/Models/Post/GiveRecommendGift.php';
         $data = [
             'email' => $request->email,
