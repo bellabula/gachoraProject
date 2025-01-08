@@ -4,6 +4,7 @@ import GachaPdCard from '@/Components/GachaPdCard';
 import { Head, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import Footer from '@/Components/Footer';
+import AlertLogin from '@/Components/AlertLogin';
 
 
 function B_2_GachaTagPage() {
@@ -53,6 +54,7 @@ function B_2_GachaTagPage() {
                 // console.log(data)
                 setAllProducts(data)
                 console.log(data)
+                console.log(data[13].series_label)
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -60,9 +62,16 @@ function B_2_GachaTagPage() {
     }, [])
 
     const [currentPage, setcurrentPage] = useState(1);
-    const [category, setcategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const itemsPerPage = 24; // 每頁商品數量
+    const { url } = usePage();  // 使用 usePage 獲取 URL 資訊
+    const queryParams = new URLSearchParams(url.split('?')[1]); // 從 URL 中解析查詢參數
+    const categoryFromQuery = queryParams.get('category') || 'all';  // 默認為 'all'
+    const [category, setCategory] = useState(categoryFromQuery);
+
+    useEffect(() => {
+        setCategory(categoryFromQuery);  // 更新 category 為從 URL 查詢參數獲得的值
+    }, [location]);
 
     // !!!!!! 待確認 !!!!!!
     // 篩選和排序
@@ -71,8 +80,13 @@ function B_2_GachaTagPage() {
         const matchesCategory = category === "all" ||
             (category === "最新商品" && product.release_time) ||
             (category === "熱門商品" && product.rank) ||
-            (category === "限量商品" && product.rare);
-
+            (category === "限量商品" && product.rare)||
+            (category === "大人氣聯名IP區" && product.series_label === "大人氣聯名IP區") ||
+            (category === "動物世界區" && product.series_label === "動物世界區") ||
+            (category === "美味食物區" && product.series_label === "美味食物區") ||
+            (category === "趣味惡搞區" && product.series_label === "趣味惡搞區") ||
+            (category === "動漫遊戲區" && product.series_label === "動漫遊戲區") ||
+            (category === "其他類型區" && product.series_label === "其他類型區");
         const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
     }).sort((a, b) => {
@@ -116,15 +130,33 @@ function B_2_GachaTagPage() {
 
     // // 分類切換
     const handleCategoryClick = (newCategory) => {
-        setcategory(newCategory);
+        setCategory(newCategory);
         setSearchQuery(""); // 切換分類時清空搜尋
         setcurrentPage(1); // 每次分類重置到第一頁
+        window.history.pushState({}, "", `?category=${newCategory}`);
     };
+
+    const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
+    function handleRedirect() {
+        window.location.href = "http://localhost/gachoraProject/public/login"
+    }
 
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
             <Head title="GachaTagPage" />
+            {/* loginAlert */}
+            {isLoginAlertOpen && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>請先登入</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        登入後才可進行<br />
+                        收藏、抽賞、抽扭蛋等活動哦!<br />
+                        過年期間加入即贈2025年節小蛇頭像。
+                    </h5>
+                    <button onClick={handleRedirect} style={{ width: "100px", height: "35px", margin: "20px 10px", borderRadius: "50px", backgroundColor: "var(--main-yellow)", color: "var(--main-darkblue)", border: "none", opacity: "1" }}>前往登入</button>
+                </AlertLogin>
+            )}
             <main id='gachaTagPage' className="container container-xxl">
                 <div className="detailbanner">
                     <img src="http://localhost/gachoraProject/public/images/gachoHome/banner6.png"
@@ -135,7 +167,7 @@ function B_2_GachaTagPage() {
                         {/* <!-- 左側分類區 --> */}
                         <div className="col-md-2 d-flex flex-column left-pd">
                             <ul className="category-list list-unstyled">
-                                {["all", "熱門商品", "最新商品", "限量商品", "玩具"].map(cat => (
+                                {["all", "熱門商品", "最新商品", "限量商品", "大人氣聯名IP區", "動物世界區", "美味食物區", "趣味惡搞區", "動漫遊戲區", "其他類型區"].map(cat => (
                                     <li
                                         key={cat}
                                         className={cat === category ? "active" : ""}
@@ -187,6 +219,7 @@ function B_2_GachaTagPage() {
                                         productPrice={product.price}
                                         img={product.img[0]}
                                         userFavor={userFavor}
+                                        setIsLoginAlertOpen={setIsLoginAlertOpen}
                                         key={index}>
                                     </GachaPdCard>
                                 ))}

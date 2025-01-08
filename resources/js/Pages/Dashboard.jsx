@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import MyWall from './member/MyWall';
@@ -64,7 +64,7 @@ export default function Dashboard() {
         $.post(url, {
             user_id: user_id
         }, (response) => {
-            console.log(response)
+            // console.log(response)
             setmyGash(response.gash)
             response.gift.map((v, i) => {
                 setexpireGash(v.amount)
@@ -101,8 +101,7 @@ export default function Dashboard() {
                     </div>
                 </>
             )}
-            <AuthenticatedLayout cartNumber={cartNumber} dCount={dCount} bagNumber={bagNumber} dBagCount={dBagCount}>
-                <Head title="Member" />
+            <AuthenticatedLayout header="Member" cartNumber={cartNumber} dCount={dCount} bagNumber={bagNumber} dBagCount={dBagCount}>
                 <main className="container container-xxl" id='member'>
                     <div className="row pt-5 pb-5 align-items-center">
                         <div className="col-8"><img src="http://localhost/gachoraProject/public/images/diamond.svg" alt="" width="50px" className="me-4" />
@@ -133,7 +132,7 @@ export default function Dashboard() {
                         {/* <!-- 3. 戰利儲藏庫 --> */}
                         <MyStorage id="memberStore" ariaLabel="memberStore-tab" className={activeTab === "memberStore" ? "active" : ""} setCartNumber={setCartNumber} setBagNumber={setBagNumber} setmyGash={setmyGash} setDCount={setDCount} setDBagCount={setDBagCount}/>
                         {/* <!-- 4. 我的錢包 --> */}
-                        <MyWallet id="memberWallet" ariaLabel="memberWallet-tab" className={activeTab === "memberWallet" ? 'active' : ''} />
+                        <MyWallet id="memberWallet" ariaLabel="memberWallet-tab" myGash={myGash} className={activeTab === "memberWallet" ? 'active' : ''} />
                         {/* <!-- 5. 我的訂單 --> */}
                         <MyOrder id="memberOrder" ariaLabel="memberOrder-tab" className={activeTab === "memberOrder" ? "active" : ""} />
                         {/* <!-- 6. 基本資料 --> */}

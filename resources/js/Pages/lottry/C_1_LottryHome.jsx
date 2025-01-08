@@ -5,13 +5,16 @@ import React, { useState, useEffect } from 'react';
 import PdCard from '@/Components/PdCard';
 import Carousel from '@/Components/Carousel'
 import Footer from '@/Components/Footer';
+import AlertLogin from '@/Components/AlertLogin';
 
 function C_1_LottryHome() {
 
     //叫資料
     const [allProducts, setallProducts] = useState([]);
     const [error, setError] = useState();
+    const [user_id, setUserId] = useState();
     const [images, setImages] = useState([]);
+    const [rerenderCount, setRerenderCount] = useState(0);
     let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
     React.useEffect(function () {
         const callAPI = async function () {
@@ -35,10 +38,10 @@ function C_1_LottryHome() {
     const user = usePage().props.auth.user;
     const basePath = '../app/Models'
     const [userFavor, setUerFavor] = useState([]);
-    if (user) {
-        const user_id = user.id
-        let collectIchiban = [];
-        useEffect(() => {
+    useEffect(() => {
+        if (user) {
+            setUserId(user.id)
+            let collectIchiban = [];
             $.post(basePath + '/Post/UserCollectionIchiban.php', {
                 user_id: user_id
             }, (response) => {
@@ -51,8 +54,8 @@ function C_1_LottryHome() {
                 setUerFavor(collectIchiban.map(item => item.id))
                 // console.log('蛋收藏：', [...response.has, ...response.no])
             })
-        }, [user_id])
-    }
+        }
+    }, [rerenderCount, user_id])
 
     //top10
     const top10Products = allProducts
@@ -149,10 +152,48 @@ function C_1_LottryHome() {
     const topRowProducts = shuffledProducts.slice(0, half); // 上方顯示的商品
     const bottomRowProducts = shuffledProducts.slice(half); // 下方顯示的商品
 
+    function toggleHeart(event, seriesId) {
+        if (user_id) {
+            $.post('../app/Models/Post/ToCollection.php', {
+                user_id: user_id,
+                series_id: seriesId
+            })
+            if (event.target.classList.contains("active")) {
+                $(event.target).removeClass('active')
+            } else {
+                $(event.target).addClass('active')
+            }
+            setTimeout(() => {
+                setRerenderCount((prev) => prev + 1)
+            }, 100)
+        } else {
+            setIsLoginAlertOpen(true)
+            // alert("請先登入")
+        }
+    }
+
+    // 控制控制 loginAlert 是否出現
+    const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
+    function handleRedirect() {
+        window.location.href = "http://localhost/gachoraProject/public/login"
+    }
+
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue) logout='list-item' " />
             <Head title="LottryHome" />
+            {/* loginAlert */}
+            {isLoginAlertOpen && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>請先登入</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        登入後才可進行<br />
+                        收藏、抽賞、抽扭蛋等活動哦!<br />
+                        過年期間加入即贈2025年節小蛇頭像。
+                    </h5>
+                    <button onClick={handleRedirect} style={{ width: "100px", height: "35px", margin: "20px 10px", borderRadius: "50px", backgroundColor: "var(--main-yellow)", color: "var(--main-darkblue)", border: "none", opacity: "1" }}>前往登入</button>
+                </AlertLogin>
+            )}
             <body id='lottrybody'>
                 <main id='lottryHome'>
                     {/* <!--輪播圖區--> */}
@@ -185,10 +226,10 @@ function C_1_LottryHome() {
                     </div>
                     {/* <!--標籤連結--> */}
                     <div className="labelitem d-flex justify-content-end">
-                        <div className="ms-1 itemtag"><a href={route('lottrytagpage')}>全部商品</a></div>
-                        <div className="ms-1 itemtag"><a href="#">熱門商品</a></div>
-                        <div className="ms-1 itemtag"><a href="#">最新商品</a></div>
-                        <div className="ms-1 itemtag"><a href="#">限時商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('gachatagpage') + '?category=all'}>全部商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('gachatagpage') + '?category=熱門商品'}>熱門商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('gachatagpage') + '?category=最新商品'}>最新商品</a></div>
+                        <div className="ms-1 itemtag"><a href={route('gachatagpage') + '?category=限量商品'}>限量商品</a></div>
                     </div>
                     <h1 className='lottryTitle'>人氣TOP10</h1>
                     {/* <!--TOP30區--> */}
@@ -198,6 +239,9 @@ function C_1_LottryHome() {
                             <Carousel cols={3} gap={0}>
                                 {top10Products.map((product, index) => (
                                     <Carousel.Item key={index}>
+                                        <div className="heart-icon">
+                                            <img className={"heart " + (userFavor.includes(product.series_id) ? "active" : "")} onClick={() => toggleHeart(event, product.series_id)} src='http://localhost/gachoraProject/public/images/heart.svg'></img>
+                                        </div>
                                         <Link className="top10item no-link-style" key={index} href={route('lottrydetail', { seriesId: product.series_id })}>
                                             <div className="top30ProductImg">
                                                 <img src={product.img[0]} alt={`商品圖片 ${index + 1}`} />
@@ -281,6 +325,7 @@ function C_1_LottryHome() {
                                             series={product}
                                             prize={product.character}
                                             userFavor={userFavor}
+                                            setIsLoginAlertOpen={setIsLoginAlertOpen}
                                             img={product.img[0]}>
                                         </PdCard>
                                     </div>
@@ -291,7 +336,7 @@ function C_1_LottryHome() {
 
 
                 </main>
-                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
+                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg' bgColor="var(--main-darkblue)"></Footer>
             </body>
         </>
     )

@@ -11,13 +11,6 @@ export default function Edit({ mustVerifyEmail, status }) {
             <Head title="Edit Profile" />
             <main className="container container-xxl" id='member'>
                 <div className="tab-content pt-5">
-                    <div>
-                        <div className="text-center">
-                            <img src="http://localhost/gachoraProject/public/images/gachoButton.png" alt="頭像"
-                                className="rounded-circle d-inline-block object-fit-contain" width="200px" height="200px" />
-                            <button className="btn-icon m-auto d-block">更換頭像</button>
-                        </div>
-                    </div>
                     <div className="mt-5 profile-container" id='memberProfile'>
                         {/* <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8" id='memberProfile'> */}
                             <UpdateProfileInformationForm

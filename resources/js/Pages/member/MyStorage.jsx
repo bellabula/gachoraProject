@@ -45,24 +45,6 @@ function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setD
 
 
     useEffect(() => {
-        // 增加按鈕點擊事件
-        // $('#member .btn-increase').on('click', function () {
-        //     let input = $(this).siblings('input');
-        //     let currentValue = parseInt(input.val());
-        //     if (currentValue < $(this).parent().parent().parent().children().eq(4).text()) {
-        //         input.val(currentValue + 1);
-        //     }
-        // });
-
-        // 減少按鈕點擊事件
-        // $('#member .btn-decrease').on('click', function () {
-        //     let input = $(this).siblings('input');
-        //     let currentValue = parseInt(input.val());
-        //     if (currentValue > 0) {
-        //         input.val(currentValue - 1);
-        //     }
-        // });
-
         // 篩選器
         // 點擊篩選按鈕後出現篩選區塊
         $("#memberStore .classFilterBtn").click(() => {
@@ -157,7 +139,7 @@ function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setD
                                 ))}
                             </tbody>
                         </table>
-                        {storageItem.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>目前儲藏庫沒有商品...</h4> : ""}
+                        {storageItem.length == 0 ? <h4 className='text-center mt-5 pt-5 pb-5'>儲藏庫沒有商品...</h4> : ""}
                     </div>
                     <p className="note mt-4">商品取貨規則：</p>
                     <ul>

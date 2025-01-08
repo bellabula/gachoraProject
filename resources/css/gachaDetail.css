@@ -209,13 +209,22 @@
     justify-content: center;
 }
 
+/*商品詳情區塊*/
+#gachaDetail .gachadt{
+    background-color:#DCDDDD;
+    padding: 10px;
+    width: 90%;
+    border-radius: 20px;
+    margin: 50px;
+}
+
 
 /* 靜態圖片區塊 */
 #gachaDetail .static-image {
     padding: 0 20px 20px 20px;
     margin: auto;
     text-align: center;
-    width: 90%;
+    width: 100%;
     display: "block";
 }
 

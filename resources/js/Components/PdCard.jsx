@@ -5,7 +5,7 @@ import { Link, usePage } from '@inertiajs/react';
 // import React from 'react'
 
 
-function PdCard({ seriesId, userFavor, series, prize, img = '' }) {
+function PdCard({ seriesId, userFavor, series, prize, setIsLoginAlertOpen, img = '' }) {
     const user = usePage().props.auth.user;
 
     const basePath = '../app/Models'
@@ -38,7 +38,8 @@ function PdCard({ seriesId, userFavor, series, prize, img = '' }) {
             }
             setIsActive(!isActive)
         } else {
-            alert("請先登入")
+            setIsLoginAlertOpen(true)
+            // alert("請先登入")
         }
     }
     return (
