@@ -348,7 +348,6 @@ function C_3_LottryDetail() {
                 }
                 setIsOpen(false)
                 // error
-                // console.log('yourNumberincollaplse', yourNumber)
                 setTimeout(() => {
                     setYourTimer('bye')
                     console.log('自主中離')
