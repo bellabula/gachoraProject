@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 import Deposit from '../Pages/member/Deposit';
+import IchibanNotification from './IchibanNotification';
 import AlertReminder from '@/Components/AlertReminder';
 
 export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor, dCount, dBagCount, cartNumber = 0, bagNumber = 0, logout = "none", dlogin = "item-list", homepage = false }) {
@@ -26,6 +27,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 setMyGash(response.gash)
                 setMyIcon(response.achievement.slice(-1)[0].img)
             })
+            MyTimer(user_id)
         }, [user_id])
         useEffect(() => {
             $.post('../app/Models/Post/UserCart.php', {
@@ -124,18 +126,68 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
 
         // 如果用戶點擊"確定"，則跳轉到指定連結
         if (userConfirmed) {
-            window.location.href = 'http://localhost/gachoraProject/public/lottrydetail?seriesId=' + series_id; // 跳转到链接
+            window.location.href = 'http://localhost/gachoraProject/public/lottrydetail?seriesId=' + series_id; // 跳轉到連結
         }
     }
+    const [waitMin, setWaitMin] = useState(0)
+    const [waitSec, setWaitSec] = useState(0)
+    const [seriesName, setSeriesName] = useState("")
+    const [seriesID, setSeriesID] = useState(null)
+    const [myPlayTime, setMyplayTime] = useState(null)
     // 每秒刷新
+    let myIchiTimer
     function AutoTime(user_id, response) {
         if (response.length > 0) {
             response.filter((v) => {
+                setWaitMin(Math.floor(v.waiting / 60))
+                setWaitSec(v.waiting % 60)
+                setSeriesName(v.name)
+                setSeriesID(v.series_id)
+                setMyplayTime(localStorage.getItem(`ichibanPlay${v.series_id}User${user_id}`)?localStorage.getItem(`ichibanPlay${v.series_id}User${user_id}`):0)
+                myIchiTimer = localStorage.getItem(`ichibanPlay${v.series_id}User${user_id}`)
                 v.waiting > 0 && console.log(`${v.series_id}最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
-                if (v.waiting == 179) { confirmAndRedirect(`${v.series_id}`, '下個輪到你，前往頁面等著抽？') }
-                if (v.waiting == 120) { confirmAndRedirect(`${v.series_id}`, '最快2分輪到你，前往頁面等著抽？') }
-                if (v.waiting == 61) { confirmAndRedirect(`${v.series_id}`, '最快1分輪到你，前往頁面等著抽？') }
-                if (v.waiting == 20) { confirmAndRedirect(`${v.series_id}`, '最快20秒輪到你，前往頁面等著抽？') }
+                if (v.waiting == 179) {
+                    // confirmAndRedirect(`${v.series_id}`, '下個輪到你，前往頁面等著抽？')
+                    $("#ichibanNoti").removeClass("closeIchibanNoti")
+                    $("#ichibanNoti").css("display", "block")
+                    $("#ichibanNoti").addClass("openIchibanNoti")
+                }
+                if (v.waiting == 121) {
+                    console.log($("#ichibanNoti"))
+                    // confirmAndRedirect(`${v.series_id}`, '最快2分輪到你，前往頁面等著抽？')
+                    $("#ichibanNoti").removeClass("closeIchibanNoti")
+                    $("#ichibanNoti").css("display", "block")
+                    $("#ichibanNoti").addClass("openIchibanNoti")
+                }
+                if (v.waiting == 61) {
+                    console.log($("#ichibanNoti"))
+                    // confirmAndRedirect(`${v.series_id}`, '最快1分輪到你，前往頁面等著抽？')
+                    $("#ichibanNoti").removeClass("closeIchibanNoti")
+                    $("#ichibanNoti").css("display", "block")
+                    $("#ichibanNoti").addClass("openIchibanNoti")
+                }
+                if (v.waiting == 21) {
+                    console.log($("#ichibanNoti"))
+                    // confirmAndRedirect(`${v.series_id}`, '最快20秒輪到你，前往頁面等著抽？')
+                    $("#ichibanNoti").removeClass("closeIchibanNoti")
+                    $("#ichibanNoti").css("display", "block")
+                    $("#ichibanNoti").addClass("openIchibanNoti")
+                }
+                if (v.waiting == 0) {
+                    $("#ichibanNoti").removeClass("openIchibanNoti")
+                    $("#ichibanNoti").addClass("closeIchibanNoti")
+                    setTimeout(() => {
+                        $("#ichibanNoti").css("display", "none")
+                    }, 900)
+                }
+                if (window.location.href != ('http://localhost/gachoraProject/public/lottrydetail?seriesId=' + v.series_id)) {
+                    console.log('myPlayTime'+ v.series_id + ' : ' + myIchiTimer)
+                    if (myIchiTimer == 181 || myIchiTimer == 151 || myIchiTimer == 121 || myIchiTimer == 91 || myIchiTimer == 61 || myIchiTimer == 31) {
+                        $("#ichibanNoti").removeClass("closeIchibanNoti")
+                        $("#ichibanNoti").css("display", "block")
+                        $("#ichibanNoti").addClass("openIchibanNoti")
+                    }
+                }
             })
             setTimeout(() => {
                 MyTimer(user_id)
@@ -259,7 +311,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                     return response.json(); // 將回應轉為 JSON 格式
                 })
                 .then((data) => {
-                    console.log("資料庫頭貼：", data[0].headphoto);
+                    // console.log("資料庫頭貼：", data[0].headphoto);
                     setOriginalPhoto(data[0].headphoto);
                 })
                 .catch((error) => {
@@ -437,15 +489,18 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </li>
                         </ul>
                     </div>
+                    {/* 漢堡包 Icon Button */}
                     <button className="navbar-toggler me-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                         aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon" style={{ filter: svgColor }}></span>
                     </button>
+                    {/* 漢堡包內容 */}
                     <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div className="offcanvas-header">
                             <h5 className="offcanvas-title" id="offcanvasNavbarLabel"><img src="http://localhost/gachoraProject/public/images/logo2.png" width="70%" /></h5>
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
+                        {/* 漢堡包 list */}
                         <div className="offcanvas-body pt-0">
                             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                                 <li className="nav-item">
@@ -515,6 +570,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                     </div>
                 </div>
             </nav>
+            <IchibanNotification seriesID={seriesID} seriesName={seriesName} waitMin={waitMin} waitSec={waitSec} myPlayTime={myPlayTime} />
         </>
     )
 }
