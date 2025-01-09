@@ -55,23 +55,23 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
         }, [user_id])
         ///
         // useEffect(() => {
-            // $.post('../app/Models/Post/ToGReminder.php', {
-            //     user_id: user_id
-            // }, (response) => {
-            //     // console.log('30天快過期：', response.past)
-            //     if (response[0].pasted != 0 && response[0].pasting != 0) {
-            //         // error 亮提醒
-            //         // alert(`您有<br>
-            //         //     ${response.pasted}項戰利品已被兌換為G幣。<br>
-            //         //     ${response.pasting}項即將被兌換為G幣，快打包回家。`)
-            //     }
-            // })
-            // $.post('http://localhost/gachoraProject/app/Models/Post/GiveBirthGift.php', {
-            //     user_id: user_id
-            // }, function (response) {
-            //     console.log(response.error)
-            //     // response.error == 'birthday gift' && 亮提醒
-            // })
+        // $.post('../app/Models/Post/ToGReminder.php', {
+        //     user_id: user_id
+        // }, (response) => {
+        //     // console.log('30天快過期：', response.past)
+        //     if (response[0].pasted != 0 && response[0].pasting != 0) {
+        //         // error 亮提醒
+        //         // alert(`您有<br>
+        //         //     ${response.pasted}項戰利品已被兌換為G幣。<br>
+        //         //     ${response.pasting}項即將被兌換為G幣，快打包回家。`)
+        //     }
+        // })
+        // $.post('http://localhost/gachoraProject/app/Models/Post/GiveBirthGift.php', {
+        //     user_id: user_id
+        // }, function (response) {
+        //     console.log(response.error)
+        //     // response.error == 'birthday gift' && 亮提醒
+        // })
 
         // }, [user_id])
         useEffect(() => {
@@ -198,20 +198,29 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
     }
     const [alertText, setAlertText] = useState([]);
     const handleClickGReminder = () => {
+        // useEffect(() => {
         let waitText = []
         let birthText = []
         let toGText = []
         $.post('http://localhost/gachoraProject/app/Models/Post/MyTimer.php', {
             user_id: user_id
         }, function (response) {
+            console.log("waiting")
+            console.log(response)
             if (response.length > 0) {
                 response.filter((v) => {
                     if (v.waiting > 0) {
                         waitText.push({
                             series_id: v.series_id,
-                            message: `您好！您所排隊的一番賞 <br>『${v.name}』<br>預估將於${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒後輪到您`
+                            message: `您好！您所排隊的一番賞 <br>『<span style="color:#FF8000">${v.name}</span>』<br>預估將於<span style="color:#FF8000">${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒</span>後輪到您`
                         })
-                    } else {
+                    } else if (v.waiting < 0 & v.waiting > -190){
+                        waitText.push({
+                            series_id: v.series_id,
+                            message: `您好！您所排隊的一番賞 <br>『<span style="color:red">${v.name}</span>』<br>剩餘 <span style="color:red">${Math.floor((v.waiting+190) / 60)}分${(v.waiting+190) % 60}秒</span> 可以抽`
+                        })
+                    }else{
+
                     }
                 })
             }
@@ -253,6 +262,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             setAlertText([...waitText, ...birthText, ...toGText])
         })
         console.log('alertText', alertText)
+        // },[])
     }
 
     // 控制顯示模態框的狀態
@@ -423,7 +433,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                         handleClickGReminder()
                                         setIsLoginAlertOpen(true)
                                     }} />
-                                <div className='cartCount' style={{ position: "absolute", left: "16px" }}></div>
+                                <div className='notiCount' style={{ position: "absolute", left: "16px" }}></div> {/* alertText.length > 0 */}
                                 {isLoginAlertOpen && (
                                     <AlertReminder setIsLoginAlertOpen={setIsLoginAlertOpen}>
                                         <div className="remindercard">
