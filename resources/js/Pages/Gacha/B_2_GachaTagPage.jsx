@@ -65,7 +65,7 @@ function B_2_GachaTagPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const itemsPerPage = 24; // 每頁商品數量
     const { url } = usePage();  // 使用 usePage 獲取 URL 資訊
-    const queryParams = new URLSearchParams(url.split('?')[1]); // 從 URL 中解析查詢參數
+    const queryParams = url ? new URLSearchParams(url.split('?')[1]) : new URLSearchParams(); // 從 URL 中解析查詢參數
     const categoryFromQuery = queryParams.get('category') || 'all';  // 默認為 'all'
     const [category, setCategory] = useState(categoryFromQuery);
 
