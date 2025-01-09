@@ -28,14 +28,24 @@ class birthdayCommand extends Command
      */
     public function handle()
     {
+        // 查詢今天生日的會員且今年尚未收到禮金
+
+        // :: 是 PHP 中的作用域解析運算子
+        // WhereRaw() 是 Laravel 查詢產生器的一個函數，它將您的輸入原樣放入 SQL 查詢的 where 子句中。
         $members = User::whereRaw('DATE_FORMAT(birth, "%m-%d") = DATE_FORMAT(NOW(), "%m-%d")')
             ->where(function ($query) {
                 $query->whereNull('last_birthday_gift')
                     ->orWhere('last_birthday_gift', '<', now()->year);
             })
+            // where、orderBy 等方法只是在構建查詢，所以要用get()
             ->get();
     
         foreach ($members as $member) {
+            // ('user_id', $member->id) 將 user_id 變成 $member 的 id
+
+            // 檢查gift表中是否存在指定的user_id
+
+            // 添加新欄位
             try {
                 // 發送生日禮金
                 DB::table('gift')->insert([
@@ -45,9 +55,8 @@ class birthdayCommand extends Command
                     'update_at' => time(),
                     'expire_at' => time() + (30 * 24 * 60 * 60),
                 ]);
-                dd($insertGift); // 查看插入結果
     
-                // 插入禮金紀錄
+                // 把records的table加進來
                 DB::table('records')->insert([
                     'time' => time(),
                     'user_id' => $member->id,
@@ -57,16 +66,21 @@ class birthdayCommand extends Command
                 ]);
     
                 // 發送郵件
+                // key => value
+                // 寫這行是因為 birthdayGift.blade 要用
                 $data = [
                     'name' => $member->name,
                 ];
-    
+
+                // birthdayGift在 views 裡面
                 Mail::send('birthdayGift', $data, function ($message) use ($member) {
                     $message->to($member->email)
                         ->subject('生日快樂！');
                 });
     
-                // 更新會員資料
+                // 更新會員的「最後一次收到生日禮金的年份」
+
+                // => 用於將一個鍵 key 配對給一個值 value 形成陣列元素 (如果要改的東西很多的話)
                 DB::table('users')->where('id', $member->id)->update([
                     'last_birthday_gift' => now()->year,
                 ]);
