@@ -456,7 +456,7 @@ function C_3_LottryDetail() {
     // 多張seriesImg => {mainImages[currentImageIndex]}
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue)" logout='list-item' />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue)" />
             <Head title="lottryDetail" />
             {/* loginAlert */}
             {isLoginAlertOpen && (

@@ -36,12 +36,12 @@ function C_2_LottryTagPage() {
     const [allProducts, setAllProducts] = useState([]);
     const [error, setError] = useState(null);
 
-    let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
+    let urll = 'http://localhost/gachoraProject/app/Models/Fetch/AllIchiban.php'
     React.useEffect(function () {
         console.log("Fetching data...");
         const callAPI = async function () {
             try {
-                const response = await fetch(url);
+                const response = await fetch(urll);
                 if (!response.ok) {
                     throw new Error(`HTTP error status:${response.status}`);
                 }
@@ -58,8 +58,8 @@ function C_2_LottryTagPage() {
     const [currentPage, setcurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
     const itemsPerPage = 6; // 每頁商品數量
-    const { homeurl } = usePage();  // 使用 usePage 獲取 URL 資訊
-    const queryParams = new URLSearchParams( homeurl.split('?')[1]); // 從 URL 中解析查詢參數
+    const { url } = usePage();  // 使用 usePage 獲取 URL 資訊
+    const queryParams = url ? new URLSearchParams(url.split('?')[1]) : new URLSearchParams();  // 從 URL 中解析查詢參數
     const categoryFromQuery = queryParams.get('category') || 'all';  // 默認為 'all'
     const [category, setCategory] = useState(categoryFromQuery);
 
@@ -111,7 +111,7 @@ function C_2_LottryTagPage() {
 
     // 分類切換
     const handleCategoryClick = (newCategory) => {
-        setcategory(newCategory);
+        setCategory(newCategory);
         setSearchQuery(""); // 切換分類時清空搜尋
         setcurrentPage(1); // 每次分類重置到第一頁
     };
@@ -124,7 +124,7 @@ function C_2_LottryTagPage() {
 
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue) logout='list-item' " />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue)" />
             <Head title="lottryTagPage" />
             {/* loginAlert */}
             {isLoginAlertOpen && (
@@ -150,7 +150,10 @@ function C_2_LottryTagPage() {
                             <div className="col-md-2 d-flex flex-column left-pd">
                                 <ul className="category-list list-unstyled">
                                     {["all", "熱門商品", "最新商品", "限量商品", "大人氣聯名IP區", "動漫遊戲區", "鋼彈/擬真模型收藏區", "科技娛樂區", "其他類型區"].map(cat => (
-                                        <li key={cat} onClick={() => handleCategoryClick(cat)}>
+                                        <li key={cat} 
+                                        className={cat === category ? "active" : ""}
+                                        onClick={() => handleCategoryClick(cat)}
+                                        >
                                             {cat === "all" ? "所有商品" : cat}
                                         </li>
                                     ))}
