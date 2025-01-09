@@ -143,7 +143,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                 setWaitSec(v.waiting % 60)
                 setSeriesName(v.name)
                 setSeriesID(v.series_id)
-                setMyplayTime(localStorage.getItem(`ichibanPlay${v.series_id}User${user_id}`)?localStorage.getItem(`ichibanPlay${v.series_id}User${user_id}`):0)
+                setMyplayTime(localStorage.getItem(`ichibanPlay${v.series_id}User${user_id}`) ? localStorage.getItem(`ichibanPlay${v.series_id}User${user_id}`) : 0)
                 myIchiTimer = localStorage.getItem(`ichibanPlay${v.series_id}User${user_id}`)
                 v.waiting > 0 && console.log(`${v.series_id}最晚${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒輪到你抽${v.name}`)
                 if (v.waiting == 179) {
@@ -181,7 +181,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                     }, 900)
                 }
                 if (window.location.href != ('http://localhost/gachoraProject/public/lottrydetail?seriesId=' + v.series_id)) {
-                    console.log('myPlayTime'+ v.series_id + ' : ' + myIchiTimer)
+                    console.log('myPlayTime' + v.series_id + ' : ' + myIchiTimer)
                     if (myIchiTimer == 181 || myIchiTimer == 151 || myIchiTimer == 121 || myIchiTimer == 91 || myIchiTimer == 61 || myIchiTimer == 31) {
                         $("#ichibanNoti").removeClass("closeIchibanNoti")
                         $("#ichibanNoti").css("display", "block")
@@ -209,7 +209,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                     if (v.waiting > 0) {
                         waitText.push({
                             series_id: v.series_id,
-                            message:`您好！您所排隊的一番賞 <br>『${v.name}』<br>預估將於${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒後輪到您`
+                            message: `您好！您所排隊的一番賞 <br>『${v.name}』<br>預估將於${Math.floor(v.waiting / 60)}分${v.waiting % 60}秒後輪到您`
                         })
                     } else {
                     }
@@ -223,8 +223,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             console.log(response.error)
             if (response.error == 'birthday gift') {
                 birthText.push({
-                    series_id:'',
-                    message:`${userName}生日快樂！專屬於您的生日禮已存入您的G幣錢包中(生日起算1個月後到期)！`
+                    series_id: '',
+                    message: `${userName}生日快樂！專屬於您的生日禮已存入您的G幣錢包中(生日起算1個月後到期)！`
                 })
             } else {
                 // birthText.push('沒生日')
@@ -235,8 +235,8 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             user_id: user_id
         }, function (response) {
             console.log(response)
-            console.log('pasted',response[0].pasted)
-            console.log('pasting',response[0].pasting)
+            console.log('pasted', response[0].pasted)
+            console.log('pasting', response[0].pasting)
             if (response[0].pasted != 0) {
                 toGText.push({
                     series_id: '',
@@ -322,72 +322,18 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
     // 控制控制 loginAlert, reminder 是否出現
     const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
     function handleRedirect(page) {
-        if(page.charAt(0) == 'w') {
+        if (page.charAt(0) == 'w') {
             localStorage.setItem('activeTab', 'memberWallet');
             window.location.href = "http://localhost/gachoraProject/public/dashboard"
         }
-        if(page.charAt(0) == 'b') {
+        if (page.charAt(0) == 'b') {
             localStorage.setItem('activeTab', 'memberStore');
             window.location.href = "http://localhost/gachoraProject/public/dashboard"
         }
-        if(page.charAt(0) == 'i') window.location.href = 'http://localhost/gachoraProject/public/lottrydetail?seriesId=' + page.slice(1)
+        if (page.charAt(0) == 'i') window.location.href = 'http://localhost/gachoraProject/public/lottrydetail?seriesId=' + page.slice(1)
     }
     return (
         <>
-            {isLoginAlertOpen && (
-                <AlertReminder setIsLoginAlertOpen={setIsLoginAlertOpen}>
-                    <div className="remindercard">
-                        <div>
-                            <h5 style={{ color: "var(--main-darkblue)" }}>
-                                {alertText.length === 0 ? (
-                                    <div className="r-card-container">
-                                        <div className="r-card">
-                                            <img className="r-card-img" src="http://localhost/gachoraProject/public/images/dark!.svg" alt="提醒圖示" style={{opacity: "0"}} />
-                                            <span className="r-card-text" style={{marginLeft: "25px"}}>您沒有任何提醒事項</span>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    alertText.map((text, index) => (
-                                        text.message.endsWith('！') ? (
-                                            <div className="r-card-container" onClick={()=>{handleRedirect('w')}}>
-                                                <div className="r-card">
-                                                    <img className="r-card-img" src="http://localhost/gachoraProject/public/images/cake.svg" alt="提醒圖示" />
-                                                    <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            text.message.endsWith('。') ? (
-                                                <div className="r-card-container" onClick={()=>{handleRedirect('w')}}>
-                                                    <div className="r-card">
-                                                        <img className="r-card-img" src="http://localhost/gachoraProject/public/images/dark!.svg" alt="提醒圖示" />
-                                                        <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                text.message.endsWith('...') ? (
-                                                    <div className="r-card-container" onClick={()=>{handleRedirect('b')}}>
-                                                        <div className="r-card">
-                                                            <img className="r-card-img" src="http://localhost/gachoraProject/public/images/yellow!.svg" alt="提醒圖示" />
-                                                            <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div className="r-card-container" onClick={()=>{handleRedirect('i' + text.series_id)}}>
-                                                        <div className="r-card">
-                                                            <img className="r-card-img" src="http://localhost/gachoraProject/public/images/hourglass.svg" alt="提醒圖示" />
-                                                            <span key={text.series_id} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
-                                                        </div>
-                                                    </div>
-                                                )
-                                            )
-                                        )
-                                    ))
-                                )}
-                            </h5>
-                        </div>
-                    </div>
-                </AlertReminder>
-            )}
             {isCoinOpen && (
                 <>
                     {/* 遮罩層 */}
@@ -408,25 +354,31 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                         </Link>
                     </div>
                     <div className="w-100 position-absolute" style={{ backgroundColor: navbgcolor, height: "80px", borderRadius: "40px 0 0 40px", marginLeft: "280px" }}></div>
+                    {/* Navbar 中間 文字導覽 區塊 */}
                     <div id="bigNavbar-l" className="position-absolute" style={{ marginLeft: "300px", color: textColor }}>
                         <ul className="navbar-nav me-auto my-lg-0 navbar-nav-scroll ms-4"
                             style={{ bsScrollHeight: "80px" }}>
+                            {/* About Us */}
                             <li className="nav-item fs-4 me-3"><a className="dropdown-item" href={route('aboutus')}>品牌故事</a></li>
+                            {/* 扭蛋首頁 */}
                             <li className="nav-item fs-4 me-3">
                                 <Link href={route('gachaHome')} className="dropdown-item">
                                     扭蛋
                                 </Link>
                             </li>
+                            {/* 一番賞首頁 */}
                             <li className="nav-item fs-4 me-3">
                                 <Link href={route('lottryHome')} className="dropdown-item">
                                     一番賞
                                 </Link>
                             </li>
+                            {/* 常見問題 */}
                             <li className="nav-item fs-4 me-3">
                                 <Link href={route('faq')} className="dropdown-item">
                                     常見問題
                                 </Link>
                             </li>
+                            {/* 聯絡我們 */}
                             <li className="nav-item fs-4 me-3">
                                 <Link href={route('faq', { goto: 'contact' })} className="dropdown-item">
                                     聯絡我們
@@ -434,9 +386,11 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </li>
                         </ul>
                     </div>
+                    {/* Navbar 右側 Icon 區塊 */}
                     <div id="bigNavbar-r">
                         <ul className="navbar-nav me-auto my-lg-0 pe-4 navbar-nav-scroll"
                             style={{ bsScrollHeight: "80px" }}>
+                            {/* 會員 */}
                             <li className="nav-item position-relative">
                                 <img id='memberClick' ref={triggerRef} src="http://localhost/gachoraProject/public/images/member.svg" style={{ filter: svgColor, cursor: "pointer" }} title='會員' />
                                 <div ref={memberRef} id='navbarMember' style={{ display: dMember }}> {/*  backgroundColor: navbgcolor, color: textColor,  */}
@@ -458,21 +412,82 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                                     </div>
                                 </div>
                             </li>
-                            <li className="nav-item">
-                                <a className="dropdown-item" style={{position: "relative"}} onClick={() => {
+                            {/* 通知 */}
+                            <li className="nav-item position-relative">
+                                {/* <a className="dropdown-item" style={{position: "relative"}} onClick={() => {
                                     handleClickGReminder()
                                     setIsLoginAlertOpen(true)
-                                }} href="#">
-                                    <img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor }} title='通知' />
-                                    <div className='cartCount' style={{ position: "absolute", left: "16px" }}></div>
-                                </a>
+                                }} href="#"> */}
+                                <img src="http://localhost/gachoraProject/public/images/notify.svg" style={{ filter: svgColor, cursor: "pointer" }} title='通知'
+                                    onClick={() => {
+                                        handleClickGReminder()
+                                        setIsLoginAlertOpen(true)
+                                    }} />
+                                <div className='cartCount' style={{ position: "absolute", left: "16px" }}></div>
+                                {isLoginAlertOpen && (
+                                    <AlertReminder setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                                        <div className="remindercard">
+                                            <div>
+                                                <h5 style={{ color: "var(--main-darkblue)" }}>
+                                                    {alertText.length === 0 ? (
+                                                        <div className="r-card-container">
+                                                            <div className="r-card">
+                                                                <img className="r-card-img" src="http://localhost/gachoraProject/public/images/dark!.svg" alt="提醒圖示" style={{ opacity: "0" }} />
+                                                                <span className="r-card-text" style={{ marginLeft: "25px" }}>您沒有任何提醒事項</span>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        alertText.map((text, index) => (
+                                                            text.message.endsWith('！') ? (
+                                                                <div className="r-card-container" onClick={() => { handleRedirect('w') }}>
+                                                                    <div className="r-card">
+                                                                        <img className="r-card-img" src="http://localhost/gachoraProject/public/images/cake.svg" alt="提醒圖示" />
+                                                                        <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                text.message.endsWith('。') ? (
+                                                                    <div className="r-card-container" onClick={() => { handleRedirect('w') }}>
+                                                                        <div className="r-card">
+                                                                            <img className="r-card-img" src="http://localhost/gachoraProject/public/images/dark!.svg" alt="提醒圖示" />
+                                                                            <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
+                                                                        </div>
+                                                                    </div>
+                                                                ) : (
+                                                                    text.message.endsWith('...') ? (
+                                                                        <div className="r-card-container" onClick={() => { handleRedirect('b') }}>
+                                                                            <div className="r-card">
+                                                                                <img className="r-card-img" src="http://localhost/gachoraProject/public/images/yellow!.svg" alt="提醒圖示" />
+                                                                                <span key={index} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
+                                                                            </div>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="r-card-container" onClick={() => { handleRedirect('i' + text.series_id) }}>
+                                                                            <div className="r-card">
+                                                                                <img className="r-card-img" src="http://localhost/gachoraProject/public/images/hourglass.svg" alt="提醒圖示" />
+                                                                                <span key={text.series_id} className="r-card-text" dangerouslySetInnerHTML={{ __html: text.message }} />
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                )
+                                                            )
+                                                        ))
+                                                    )}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </AlertReminder>
+                                )}
+                                {/* </a> */}
                             </li>
+                            {/* 儲藏庫 */}
                             <li className="nav-item">
                                 <Link href={route('dashboard')} className="dropdown-item position-relative" onClick={() => { localStorage.setItem("activeTab", "memberStore") }}>
                                     <img src="http://localhost/gachoraProject/public/images/storage.svg" style={{ filter: svgColor }} title='儲藏庫' />
                                     <div className='cartCount' style={{ display: `${dBagCount}` }}>{bagNumber == 0 ? bagCount : bagNumber}</div>
                                 </Link>
                             </li>
+                            {/* 購物車 */}
                             <li className="nav-item">
                                 <Link href={route('shoppingCart')} className="dropdown-item position-relative">
                                     <img src="http://localhost/gachoraProject/public/images/cart.svg" style={{ filter: svgColor }} title='購物車' />
@@ -482,6 +497,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </li>
                             {/* 語言切換 */}
                             {/* <li className="nav-item"><a className="dropdown-item" href="#"><img src="http://localhost/gachoraProject/public/images/lang.svg" style={{ filter: svgColor }} /></a></li> */}
+                            {/* 登出 */}
                             <li className="nav-item" style={{ display: logout }}>
                                 <Link href={route('logout')} method="post" as="button" className="dropdown-item">
                                     <img src="http://localhost/gachoraProject/public/images/logout.svg" style={{ filter: svgColor }} title='登出' />
@@ -489,18 +505,18 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
                             </li>
                         </ul>
                     </div>
-                    {/* 漢堡包 Icon Button */}
+                    {/* offcanvas Icon Button */}
                     <button className="navbar-toggler me-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                         aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon" style={{ filter: svgColor }}></span>
                     </button>
-                    {/* 漢堡包內容 */}
+                    {/* offcanvas content */}
                     <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div className="offcanvas-header">
                             <h5 className="offcanvas-title" id="offcanvasNavbarLabel"><img src="http://localhost/gachoraProject/public/images/logo2.png" width="70%" /></h5>
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
-                        {/* 漢堡包 list */}
+                        {/* offcanvas list */}
                         <div className="offcanvas-body pt-0">
                             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                                 <li className="nav-item">

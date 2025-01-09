@@ -1,6 +1,6 @@
 import React from 'react'
 
-function IchibanNotification({ seriesID = 0, seriesName = "", waitMin = 0, waitSec = 0, display = "none", myPlayTime = 0 }) {
+function IchibanNotification({seriesID = 0, seriesName = "", waitMin = 0, waitSec = 0, display = "none", myPlayTime = 0 }) {
     function closeNoti() {
         $("#ichibanNoti").removeClass("openIchibanNoti")
         $("#ichibanNoti").addClass("closeIchibanNoti")
@@ -9,7 +9,7 @@ function IchibanNotification({ seriesID = 0, seriesName = "", waitMin = 0, waitS
         }, 900)
     }
     return (
-        <div id='ichibanNoti' className='' style={{ display: display, position: "fixed", zIndex: "1200", bottom: "2%", right: "2%", width: "450px", backgroundColor: "var(--main-bg-gray)", paddingLeft: "20px", border: "5px solid var(--main-yellow)", borderRadius: "30px" }}> {/* , boxShadow: "5px 5px var(--main-yellow)" */}
+        <div id={'ichibanNoti'} className='' style={{ display: display, position: "fixed", zIndex: "1200", bottom: "2%", right: "2%", width: "450px", backgroundColor: "var(--main-bg-gray)", paddingLeft: "20px", border: "5px solid var(--main-yellow)", borderRadius: "30px" }}> {/* , boxShadow: "5px 5px var(--main-yellow)" */}
             <button className='float-end mt-2 me-3 border-0' style={{ color: "#B3B3B3" }} onClick={closeNoti}>X</button>
             <img style={{ width: "150px", paddingTop: "20px", marginBottom: "10px" }} src="http://localhost/gachoraProject/public/images/logo2.png" />
             {myPlayTime > 0 ?

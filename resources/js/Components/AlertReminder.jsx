@@ -1,23 +1,23 @@
 import React from 'react'
 
-function AlertReminder({setIsLoginAlertOpen=null, setIsItemEnough=null, setIsSelect=null, setIsGEnough=null, setIsSelectItem=null, setIsDone=null, redirectSrc=null, children=""}) {
+function AlertReminder({ setIsLoginAlertOpen = null, setIsItemEnough = null, setIsSelect = null, setIsGEnough = null, setIsSelectItem = null, setIsDone = null, redirectSrc = null, children = "" }) {
   function closeAlert() {
-    if(setIsLoginAlertOpen){
+    if (setIsLoginAlertOpen) {
       setIsLoginAlertOpen(false);
     }
-    if(setIsItemEnough){
+    if (setIsItemEnough) {
       setIsItemEnough(true);
     }
-    if(setIsSelect){
+    if (setIsSelect) {
       setIsSelect(true);
     }
-    if(setIsGEnough){
+    if (setIsGEnough) {
       setIsGEnough(true);
     }
-    if(setIsDone){
-      if(redirectSrc){
+    if (setIsDone) {
+      if (redirectSrc) {
         window.location.replace(redirectSrc)
-      }else{
+      } else {
         setIsDone(false);
       }
     }
@@ -34,24 +34,26 @@ function AlertReminder({setIsLoginAlertOpen=null, setIsItemEnough=null, setIsSel
         left: "0",
         width: "100%",
         height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.3)",
+        backgroundColor: "rgba(0, 0, 0, 0)",
         zIndex: "1100"
       }}></div>
-      <div style={{ 
-        position: "fixed", 
-        zIndex: "1200", 
-        top: "85px", 
-        right: "30px", 
-        width: "370px", 
+      <div style={{
+        position: "absolute",
+        zIndex: "1200",
+        top: "85px",
+        // right: "30px",
+        left: "10px",
+        width: "370px",
         height: "500px",
-        backgroundColor: "var(--main-bg-gray)", 
-        borderRadius: "50px", 
-        boxShadow: "10px 10px  var(--main-yellow)" }}>
-        <img style={{ width: "40%", paddingTop: "35px", marginLeft:"35px"}} src="http://localhost/gachoraProject/public/images/logo2.png" />
-        <div style={{ margin: "20px", marginLeft:"125px"}}>
+        backgroundColor: "var(--main-bg-gray)",
+        borderRadius: "20px",
+        border: "10px solid #EDB866"
+      }}>
+        <img style={{ width: "40%", verticalAlign: "left" }} src="http://localhost/gachoraProject/public/images/logo2.png" />
+        {/* <div style={{ margin: "20px", marginLeft:"125px"}}>
             <span style={{ fontSize: "1.3em", color: "var(--main-darkblue)", backgroundColor: "var(--main-yellow)", padding: "6px 20px", borderRadius:"4.5px" }}>提醒通知</span>
-        </div>
-        <div style={{height: "320px", margin: "0 48px",overflowY: "scroll"}}>
+        </div> */}
+        <div className='scroll-bar' style={{ height: "320px", margin: "0px 15px 20px 25px", overflowY: "scroll" }}>
           {children}
         </div>
       </div>
