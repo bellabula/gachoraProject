@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react'
-
+import React, { useState, useEffect } from 'react'
 
 function MyStorageItem({ recordId, itemName, amount, series, gift, getDate, index, clickToCart, clickToG, prize = "", src = "" }) {
+    let uniDate = new Date(getDate).getTime()
+    const expireDate = new Date(uniDate + 2678400000).toISOString().split('T')[0] // .toISOString().slice(0, 10)
     const [showModal, setShowModal] = useState(false); // 彈跳視窗
-
     const handleBigImg = () => {
         setShowModal(true)
     }
-
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (showModal) {
@@ -18,10 +17,8 @@ function MyStorageItem({ recordId, itemName, amount, series, gift, getDate, inde
                 }
             }
         };
-
         // 一個監聽事件，如果有click，handleClickOutside就啟動
         document.addEventListener('click', handleClickOutside, true);
-
         // 這個 return 是定義了一個清理函數，它會在組件卸載或依賴變數變化時執行。
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
@@ -40,25 +37,8 @@ function MyStorageItem({ recordId, itemName, amount, series, gift, getDate, inde
                 <td>{series}</td>
                 <td>{amount}</td>
                 <td>{getDate}</td>
+                <td>{expireDate.replaceAll("-", "/")}</td>
                 {/* <td>
-
-function MyStorageItem({recordId, itemName, amount, series, gift, getDate, index, clickToCart, clickToG, prize = "", src = "" }) {
-    let uniDate = new Date(getDate).getTime()
-    const expireDate = new Date(uniDate+2678400000).toISOString().split('T')[0] // .toISOString().slice(0, 10)
-    return (
-        <tr>
-            <td className="text-start">
-                <span>{index + 1}. &emsp;</span>
-                <img src={src} alt="商品圖片" />
-            </td>
-            <td className="text-start">{itemName}</td>
-            <td>{prize}獎</td>
-            <td>{series}</td>
-            <td>{amount}</td>
-            <td>{getDate}</td>
-            <td>{expireDate.replaceAll("-", "/")}</td>
-            {/* <td>
-
                 <div className="d-flex align-items-center justify-content-center">
                     <button className="btn btn-secondary btn-circle btn-decrease">-</button>
                     <input type="text" value="0" className="form-control mx-2 text-center"
@@ -85,7 +65,9 @@ function MyStorageItem({recordId, itemName, amount, series, gift, getDate, index
                     bottom: 0,
                     backgroundColor: 'rgba(0, 0, 0, 0.7)',
                 }}>
-                    <img src={src} className="big-img" style={{ width: '50%', height: '50%' }} />
+
+                    <img src={src} className="big-img" style={{ width: '30vw', height: '30vw' }} />
+
                 </div>
             )
             }

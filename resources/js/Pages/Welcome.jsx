@@ -2,6 +2,7 @@ import Navbar from '@/Components/Navbar';
 import { Head, Link } from '@inertiajs/react';
 import { useEffect } from 'react';
 import ScrollToTop from '@/Components/ScrollTop';
+import Footer from '@/Components/Footer';
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
@@ -359,7 +360,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             </div>
                         </div>
                     </div>
-                    <div className="lower-curve">
+                    {/* <div className="lower-curve">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                             <path
                                 fill="#365B60"
@@ -367,7 +368,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 d="M0,0L48,10.7C96,21,192,43,288,69.3C384,96,480,128,576,138.7C672,149,768,139,864,117.3C960,96,1056,64,1152,80C1248,96,1344,160,1392,192L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
                             />
                         </svg>
-                    </div>
+                    </div> */}
+                    <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer5.svg'></Footer>
+
                 </section>
 
 

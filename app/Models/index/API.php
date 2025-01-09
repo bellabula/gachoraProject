@@ -1303,9 +1303,14 @@ class API
     $stmt = $this->db->prepare($sql);
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $stmt->execute();
+    $jsonOutput = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
     $this->db = null;
-    return json_encode(['error' => 'done']);
+    if($jsonOutput === []){
+      return json_encode(['error' => 'done']);
+    } else {
+      return json_encode($jsonOutput[0]);
+    }
   }
   function GiveRecommendGift($email, $code){
     $sql = 'call GiveRecommendGift(:code, :email)';

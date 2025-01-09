@@ -5,6 +5,7 @@ import PdCard from '@/Components/PdCard';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import Footer from '@/Components/Footer';
+import AlertLogin from '@/Components/AlertLogin';
 
 function C_3_LottryDetail() {
     const basePath = '../app/Models'
@@ -27,7 +28,7 @@ function C_3_LottryDetail() {
         series_id = seriesId
         console.log('進入inLineOrNot');
         inLineOrNot((isInLine) => {
-            
+
             if (isInLine) {
                 // 查是否輪到他
                 isMyTurnOrNot()
@@ -40,8 +41,8 @@ function C_3_LottryDetail() {
     // 判斷是否排隊
     function inLineOrNot(callback) {
         MyTimer((response) => {
-            console.log('unnLineOrNNot',response);
-            
+            console.log('unnLineOrNNot', response);
+
             if (Array.isArray(response) && response.length > 0) {
                 let isInLine = response.some(item => item.series_id == seriesId)
                 let item = response.find(item => item.series_id == seriesId)
@@ -136,6 +137,7 @@ function C_3_LottryDetail() {
             playTime--
             console.log('還有', 190 + playTime, '秒可以抽')
             setYourTimer(190 + playTime)
+            localStorage.setItem(`ichibanPlay${seriesId}User${user_id}`, (190 + playTime))
             if (190 + playTime <= 0) {
                 clearAllIntervals(intervalMyPlayTime)
                 // 刪除排隊
@@ -151,6 +153,7 @@ function C_3_LottryDetail() {
             } else if (190 + playTime > 180) {
 
             } else if (isNaN(playTime)) {
+                localStorage.removeItem(`ichibanPlay${seriesId}User${user_id}`)
                 location.reload()
             }
         }, 1000)
@@ -241,7 +244,8 @@ function C_3_LottryDetail() {
                 series_id: seriesId
             })
         } else {
-            alert("請先登入")
+            setIsLoginAlertOpen(true)
+            // alert("請先登入")
         }
     }
 
@@ -338,18 +342,19 @@ function C_3_LottryDetail() {
                     // console.log('user_number:', yourNumber)
                     PingMyWaitTime(wait)
                 })
+                location.reload()
             } else {
                 clearAllIntervals(intervalMyPlayTime)
                 // 刪除排隊
-                if(isOpen){
+                if (isOpen) {
                     deleteWait(seriesId, yourNumber)
                 } else {
                     deleteSelfWait(seriesId, yourNumber)
                 }
                 setIsOpen(false)
                 // error
-                // console.log('yourNumberincollaplse', yourNumber)
                 setTimeout(() => {
+                    localStorage.removeItem(`ichibanPlay${seriesId}User${user_id}`)
                     setYourTimer('bye')
                     console.log('自主中離')
                     clearAllIntervals(intervalMyPlayTime)
@@ -358,7 +363,8 @@ function C_3_LottryDetail() {
             }
             // setIsOpen(!isOpen);
         } else {
-            alert("請先登入")
+            setIsLoginAlertOpen(true)
+            // alert("請先登入")
         }
     };
     function clearAllIntervals(intervalname) {
@@ -403,14 +409,19 @@ function C_3_LottryDetail() {
         }
     }
 
+    const [isSelect, setIsSelect] = useState(true)
+    const [isGEnough, setIsGEnough] = useState(true)
+
     const playIchiban = function () {
-        console.log(`${selectedNumbers.sort((a, b) => a - b).join(",")}`)
-        console.log(selectedNumbers.length)
+        // console.log(`${selectedNumbers.sort((a, b) => a - b).join(",")}`)
+        // console.log(selectedNumbers.length)
         if (user) {
             if (myGash < seriesData.price * selectedNumbers.length) {
-                alert("你沒有足夠的G幣")
+                setIsGEnough(false)
+                // alert("你沒有足夠的G幣")
             } else if (selectedNumbers.sort((a, b) => a - b).join(",") == 0) {
-                alert("你什麼都沒抽")
+                setIsSelect(false)
+                // alert("你什麼都沒抽")
             } else {
                 localStorage.setItem("ichibanLabel", selectedNumbers.sort((a, b) => a - b).join(","))
                 localStorage.setItem("ichibanQuantity", selectedNumbers.length)
@@ -431,16 +442,52 @@ function C_3_LottryDetail() {
                 // })
             }
         } else {
-            alert('請先登入')
+            setIsLoginAlertOpen(true)
+            // alert('請先登入')
         }
+    }
+
+    const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
+    function handleRedirect() {
+        window.location.href = "http://localhost/gachoraProject/public/login"
     }
 
 
     // 多張seriesImg => {mainImages[currentImageIndex]}
     return (
         <>
-            <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue) logout='list-item' " />
+            <Navbar logo='http://localhost/gachoraProject/public/images/logo.png' bgcolor="var(--main-darkblue)" navbgcolor="var(--main-bg-gray)" svgColor="var(--main-darkblue-filter)" textColor="var(--main-darkblue)" />
             <Head title="lottryDetail" />
+            {/* loginAlert */}
+            {isLoginAlertOpen && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>請先登入</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        登入後才可進行<br />
+                        收藏、抽賞、抽扭蛋等活動哦!<br />
+                        過年期間加入即贈2025年節小蛇頭像。
+                    </h5>
+                    <button onClick={handleRedirect} style={{ width: "100px", height: "35px", margin: "20px 10px", borderRadius: "50px", backgroundColor: "var(--main-yellow)", color: "var(--main-darkblue)", border: "none", opacity: "1" }}>前往登入</button>
+                </AlertLogin>
+            )}
+            {!isSelect && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen} setIsSelect={setIsSelect}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>未選擇號碼</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        請選擇欲抽取的號碼<br />
+                        點選數字即可進行選號，灰色區域為已被抽走的號碼
+                    </h5>
+                </AlertLogin>
+            )}
+            {!isGEnough && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen} setIsGEnough={setIsGEnough}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>餘額不足!</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        餘額不足，請減少數量，或前往儲值!<br />
+                        點選上方頭像標誌<img src='http://localhost/gachoraProject/public/images/member.svg' style={{ filter: "var(--main-darkblue-filter)" }} />，將出現會員小視窗可進行儲值<br />
+                    </h5>
+                </AlertLogin>
+            )}
             <body id='lottrybody'>
                 <main id='lottryDetail' className="container container-xxl">
                     {/* <!-- 商品圖片區塊 --> */}
@@ -467,9 +514,9 @@ function C_3_LottryDetail() {
                                     </ul>
                                 </div>
                                 <h3 className='subtitles'>價格:NT {seriesData.price} /抽</h3> {/* {seriesData.price} */}
-                                <span className='lottrynumber'>剩餘G幣 : $ {myGash ? myGash : "請先登入"}</span>
-                                <span className='lottrynumber' >已抽數/總數:{seriesData.remain}/{seriesData.total}</span> {/* {seriesData.remain}/{seriesData.total} */}
-                                <p className='lottrynumber' >預估等待時間 : 最晚等 {Math.floor(timer != 0 ? timer / 60 : generalTimer == -1 ? 0 : generalTimer / 60)} 分 {(timer != 0 ? timer % 60 : generalTimer == -1 ? 0 : generalTimer % 60)}秒</p>
+                                <p className='lottrynumber my-3'>剩餘G幣 : $ {myGash ? myGash : 0}</p>
+                                <p className='lottrynumber my-3' >已抽數/總數:{seriesData.remain}/{seriesData.total}</p> {/* {seriesData.remain}/{seriesData.total} */}
+                                <p className='lottrynumber my-3' >預估等待時間 : 最晚等 {Math.floor(timer != 0 ? timer / 60 : generalTimer == -1 ? 0 : generalTimer / 60)} 分 {(timer != 0 ? timer % 60 : generalTimer == -1 ? 0 : generalTimer % 60)}秒</p>
                                 {/* <button className='Favorite_bt' >點擊往下排隊/抽選</button> */}
                                 <button
                                     className={`Favorite_bt ${isFavorited ? 'active' : ''} scale_bn`}
@@ -650,6 +697,7 @@ function C_3_LottryDetail() {
                                                 series={product}
                                                 prize={product.character}
                                                 userFavor={userFavor}
+                                                setIsLoginAlertOpen={setIsLoginAlertOpen}
                                                 img={product.img[0]}>
                                             </PdCard>
                                         </div>
@@ -662,7 +710,7 @@ function C_3_LottryDetail() {
                         </div>
                     </div>
                 </main >
-                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg'></Footer>
+                <Footer imgSrc='http://localhost/gachoraProject/public/images/Footer3.svg' bgColor="var(--main-darkblue)"></Footer>
             </body >
 
         </>

@@ -12,7 +12,7 @@ function LottryWallItem({ src }) {
                     height: '350px'
                 }}
             />
-            <img class="img2" src={src} />
+            <img className="img2" src={src} />
         </div>
     )
 }

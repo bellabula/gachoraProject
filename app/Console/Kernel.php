@@ -4,22 +4,32 @@ namespace App\Console\Kernel;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Http\Controllers\BirthdayController;
 
 class Kernel extends ConsoleKernel
 {
+    // 註冊命令
+    // protected $commands = [
+    //     SendMonthlyBirthdayGifts::class, // 註冊你的命令
+    // ];
+
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('birthday:send-gifts')->everyMinute();
-    }
-    
-    // 每天半夜12:00送G幣(格林威治時間?)
+        
+    // $schedule->command('log:sonething')->everyMinute();
 
-    protected function commands()
+    // $schedule->call(function () {
+    //     \Log::info('Hello World');
+    // })->dailyAt('16:15');
+    
+    }
+
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
+
+        require base_path('routes/console.php');
     }
 
-    protected $commands = [
-        \App\Console\Commands\SendBirthdayGifts::class,
-    ];
+
 }

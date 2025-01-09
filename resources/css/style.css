@@ -41,3 +41,47 @@ body {
     font-family: 'fontstyle';
     src: url('./fontstyle.ttf') format('truetype');
 }
+
+@keyframes slideUp {
+    0%,
+    50% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+     
+    60%,
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    
+    }
+}
+
+#ichibanNoti.openIchibanNoti {
+    animation-name: slideUp;
+    animation-duration: 2s;
+    animation-timing-function: ease-in;
+    display: block;
+}
+
+@keyframes slideOut {
+    0%,
+    50% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+     
+    60%,
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    
+    }
+}
+
+#ichibanNoti.closeIchibanNoti {
+    animation-name: slideOut;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    display: none;
+}

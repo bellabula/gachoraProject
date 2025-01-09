@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import Carousel from '@/Components/Carousel'
 import GachaPdCard from '@/Components/GachaPdCard';
 import Footer from '@/Components/Footer';
+import AlertLogin from '@/Components/AlertLogin';
 
 
 
@@ -13,9 +14,10 @@ function B_1_GachaHome() {
     //叫資料
     const [allProducts, setallProducts] = useState([]);
     const [error, setError] = useState();
+    const [user_id, setUserId] = useState();
     // const [images, setImages] = useState([]);
-    let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
-    React.useEffect(function () {
+    useEffect(function () {
+        let url = 'http://localhost/gachoraProject/app/Models/Fetch/AllEgg.php'
         const callAPI = async function () {
             try {
                 const response = await fetch(url);
@@ -38,11 +40,12 @@ function B_1_GachaHome() {
     //導入會員資料
     const user = usePage().props.auth.user;
     const basePath = '../app/Models'
-    const [userFavor, setUerFavor] = useState([]);
-    if (user) {
-        const user_id = user.id
-        let collectEgg = [];
-        useEffect(() => {
+    const [userFavor, setUserFavor] = useState([]);
+    useEffect(() => {
+        if (user) {
+            setUserId(user.id)
+            let collectEgg = [];
+
             $.post(basePath + '/Post/UserCollectionEgg.php', {
                 user_id: user_id
             }, (response) => {
@@ -52,12 +55,12 @@ function B_1_GachaHome() {
                 if (typeof (response.no) != "undefined") {
                     collectEgg = [...collectEgg, ...response.no]
                 }
-                setUerFavor(collectEgg.map(item => item.id))
+                setUserFavor(collectEgg.map(item => item.id))
                 // console.log(userFavor)
                 // console.log('蛋收藏：', [...response.has, ...response.no])
             })
-        }, [user_id])
-    }
+        }
+    }, [user_id]) //rerenderCount
     //top10
     const top10Products = allProducts
         .sort((a, b) => b.rank - a.rank)
@@ -91,10 +94,50 @@ function B_1_GachaHome() {
         setIsActive((prev) => !prev); // 切換狀態
     };
 
+    function toggleHeart(event, seriesId) {
+        let updatedFavor = []
+        if (user_id) {
+            $.post('../app/Models/Post/ToCollection.php', {
+                user_id: user_id,
+                series_id: seriesId
+            })
+            if (event.target.classList.contains("active")) {
+                // $(event.target).removeClass('active')
+                updatedFavor = userFavor.filter(item => item !== seriesId)
+            } else {
+                // $(event.target).addClass('active')
+                updatedFavor = [...userFavor, seriesId]
+            }
+            setUserFavor(updatedFavor);
+            console.log(updatedFavor)
+        } else {
+            setIsLoginAlertOpen(true);
+            // $("#loginAlert").css("display", "block")
+        }
+    }
+
+    // 控制控制 loginAlert 是否出現
+    const [isLoginAlertOpen, setIsLoginAlertOpen] = useState(false);
+    function handleRedirect() {
+        window.location.href = "http://localhost/gachoraProject/public/login"
+    }
+
     return (
         <>
             <Navbar logo='http://localhost/gachoraProject/public/images/logo2.png' bgcolor="var(--main-bg-gray)" navbgcolor="var(--main-darkblue)" svgColor="var(--white-filter)" textColor="white" />
             <Head title="GachaHome" />
+            {/* loginAlert */}
+            {isLoginAlertOpen && (
+                <AlertLogin setIsLoginAlertOpen={setIsLoginAlertOpen}>
+                    <h3 style={{ margin: "30px 0px", color: "#ED1C24" }}>請先登入</h3>
+                    <h5 style={{ color: "var(--main-darkblue)" }}>
+                        登入後才可進行<br />
+                        收藏、抽賞、抽扭蛋等活動哦!<br />
+                        過年期間加入即贈2025年節小蛇頭像。
+                    </h5>
+                    <button onClick={handleRedirect} style={{ width: "100px", height: "35px", margin: "20px 10px", borderRadius: "50px", backgroundColor: "var(--main-yellow)", color: "var(--main-darkblue)", border: "none", opacity: "1" }}>前往登入</button>
+                </AlertLogin>
+            )}
             <main id='gachaHome'>
                 {/* <!--輪播圖區--> */}
                 <div id="mainCarousel"
@@ -170,10 +213,10 @@ function B_1_GachaHome() {
                 </div>
                 {/* <!--標籤連結--> */}
                 <div className="labelitem d-flex justify-content-end">
-                    <a className="ms-1 itemtag" href={route('gachatagpage')}><div>全部商品</div></a>
-                    <a className="ms-1 itemtag" href="#"><div >熱門商品</div></a>
-                    <a className="ms-1 itemtag" href="#"><div >最新商品</div></a>
-                    <a className="ms-1 itemtag" href="#"><div >限時商品</div></a>
+                    <a className="ms-1 itemtag" href={route('gachatagpage') + '?category=all'}><div>全部商品</div></a>
+                    <a className="ms-1 itemtag" href={route('gachatagpage') + '?category=熱門商品'}><div >熱門商品</div></a>
+                    <a className="ms-1 itemtag" href={route('gachatagpage') + '?category=最新商品'}><div >最新商品</div></a>
+                    <a className="ms-1 itemtag" href={route('gachatagpage') + '?category=限量商品'}><div >限量商品</div></a>
                 </div>
                 <h1 className='gachaTitle'>人氣TOP10</h1>
                 {/* <!--TOP30區--> */}
@@ -193,6 +236,9 @@ function B_1_GachaHome() {
                         <Carousel cols={3} gap={0}>
                             {top10Products.map((product, index) => (
                                 <Carousel.Item key={index}>
+                                    <div className="heart-icon">
+                                        <img className={"heart " + (userFavor.includes(product.series_id) ? "active" : "")} onClick={() => toggleHeart(event, product.series_id)} src='http://localhost/gachoraProject/public/images/heart.svg' />
+                                    </div>
                                     <Link className="top10item no-link-style" key={index} href={route('gachadetail', { seriesId: product.series_id })}>
                                         <div className="top30ProductImg">
                                             <img src={product.img[0]} alt={`商品圖片 ${index + 1}`} />
@@ -202,7 +248,8 @@ function B_1_GachaHome() {
                                         </div>
                                     </Link>
                                 </Carousel.Item>
-                            ))}
+                            )
+                            )}
                         </Carousel>
                     </div>
                 </div>
@@ -272,6 +319,7 @@ function B_1_GachaHome() {
                                         productPrice={product.price}
                                         img={product.img[0]}
                                         userFavor={userFavor}
+                                        setIsLoginAlertOpen={setIsLoginAlertOpen}
                                         key={index}>
                                     </GachaPdCard>
                                 </div>
