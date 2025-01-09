@@ -54,7 +54,7 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             }
         }, [user_id])
         ///
-        useEffect(() => {
+        // useEffect(() => {
             // $.post('../app/Models/Post/ToGReminder.php', {
             //     user_id: user_id
             // }, (response) => {
@@ -66,14 +66,14 @@ export default function Navbar({ logo, bgcolor, navbgcolor, textColor, svgColor,
             //         //     ${response.pasting}項即將被兌換為G幣，快打包回家。`)
             //     }
             // })
-            $.post('http://localhost/gachoraProject/app/Models/Post/GiveBirthGift.php', {
-                user_id: user_id
-            }, function (response) {
-                console.log(response.error)
-                // response.error == 'birthday gift' && 亮提醒
-            })
+            // $.post('http://localhost/gachoraProject/app/Models/Post/GiveBirthGift.php', {
+            //     user_id: user_id
+            // }, function (response) {
+            //     console.log(response.error)
+            //     // response.error == 'birthday gift' && 亮提醒
+            // })
 
-        }, [user_id])
+        // }, [user_id])
         useEffect(() => {
             $("#memberClick").click(openMember)
         }, [])
