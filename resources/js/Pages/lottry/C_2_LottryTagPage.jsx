@@ -184,7 +184,7 @@ function C_2_LottryTagPage() {
                                     id="product-list">
                                     {/* 商品區 */}
                                     {productsToShow.length === 0 ? (
-                                        <div>無符合資料</div> // 顯示正在加載訊息
+                                        <div style={{color:"var(--main-bg-gray)", fontSize: "1.5rem"}}>無符合資料</div> // 顯示正在加載訊息
                                     ) : (
                                         productsToShow.map((product, index) => (
                                             <PdCard

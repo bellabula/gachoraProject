@@ -80,7 +80,7 @@ function B_2_GachaTagPage() {
         const matchesCategory = category === "all" ||
             (category === "最新商品" && product.release_time) ||
             (category === "熱門商品" && product.rank) ||
-            (category === "限量商品" && product.rare)||
+            (category === "限量商品" && product.rare) ||
             (category === "大人氣聯名IP區" && product.series_label === "大人氣聯名IP區") ||
             (category === "動物世界區" && product.series_label === "動物世界區") ||
             (category === "美味食物區" && product.series_label === "美味食物區") ||
@@ -211,18 +211,22 @@ function B_2_GachaTagPage() {
                             <div className="row d-flex right-product"
                                 id="product-list">
                                 {/* 商品區 */}
-                                {productsToShow.map((product, index) => (
-                                    <GachaPdCard className="col-md-4 mb-4 d-flex flex-wrap justify-content-center"
-                                        seriesId={product.series_id}
-                                        seriesName={product.title}
-                                        productName={product.name}
-                                        productPrice={product.price}
-                                        img={product.img[0]}
-                                        userFavor={userFavor}
-                                        setIsLoginAlertOpen={setIsLoginAlertOpen}
-                                        key={index}>
-                                    </GachaPdCard>
-                                ))}
+                                {productsToShow.length === 0 ? (
+                                    <p style={{ color: "var(--main-darkblue)", fontSize: "1.5rem" }}>無符合資料</p> // 顯示正在加載訊息
+                                ) : (
+                                    productsToShow.map((product, index) => (
+                                        <GachaPdCard className="col-md-4 mb-4 d-flex flex-wrap justify-content-center"
+                                            seriesId={product.series_id}
+                                            seriesName={product.title}
+                                            productName={product.name}
+                                            productPrice={product.price}
+                                            img={product.img[0]}
+                                            userFavor={userFavor}
+                                            setIsLoginAlertOpen={setIsLoginAlertOpen}
+                                            key={index}>
+                                        </GachaPdCard>
+                                    ))
+                                )}
                             </div>
 
                             {/* <!-- 分頁按鈕 --> */}
