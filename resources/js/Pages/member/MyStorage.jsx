@@ -143,9 +143,9 @@ function MyStorage({ id, setCartNumber, setBagNumber, setmyGash, setDCount, setD
                     </div>
                     <p className="note mt-4">商品取貨規則：</p>
                     <ul>
-                        <li>單筆寄送僅接受一次選擇。</li>
+                        <li>單筆寄送只收取一次運費，可累積商品後一次出貨。</li>
                         <li>以超商寄取，單筆記錄依 7-11 寄付規定。</li>
-                        <li>若商品在聯絡時間3個月後仍未處理，則會「自動兌換成對應G幣」。</li>
+                        <li>若商品在聯絡時間1個月後仍未處理，則會「自動兌換成對應G幣」。</li>
                     </ul>
                 </div>
             </div>
