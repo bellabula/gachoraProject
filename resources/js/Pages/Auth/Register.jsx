@@ -125,7 +125,7 @@ export default function Register() {
                             </div>
                             <label className="check">
                                 <div>
-                                    <input type="checkbox" name="agree" />
+                                    <input type="checkbox" name="agree" required/>
                                     &nbsp;
                                     <span>我已詳細閱讀並同意<a href="#">會員條款</a></span>
                                 </div>

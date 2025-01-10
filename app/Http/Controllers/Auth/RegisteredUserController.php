@@ -30,6 +30,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $previous_url = $request->session()->pull('previous_url', 'default');
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
@@ -61,6 +62,7 @@ class RegisteredUserController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
 
-        return redirect(route('dashboard', absolute: false));
+        // return redirect(route('dashboard', absolute: false));
+        return redirect()->intended($previous_url);
     }
 }
