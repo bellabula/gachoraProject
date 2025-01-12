@@ -24,7 +24,7 @@ function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavo
         }, [userFavor, user_id])
     }
     function toogleHeart() {
-        if(user_id){
+        if (user_id) {
             $.post(url, {
                 user_id: user_id,
                 series_id: seriesId
@@ -35,7 +35,7 @@ function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavo
                 setNewclass("")
             }
             setIsActive(!isActive)
-        }else{
+        } else {
             setIsLoginAlertOpen(true)
         }
     }
@@ -48,7 +48,7 @@ function GachaPdCard({ seriesId, seriesName, productName, productPrice, userFavo
                         <img className={"heart " + newclass} onClick={toogleHeart} src='http://localhost/gachoraProject\public\images\heart.svg'></img>
                     </div>
                     <Link href={route('gachadetail', { seriesId: seriesId })}>
-                        <img src={img} style={{ width: "100%", height: "100%", borderRadius: "50px", position: "relative" }} />
+                        <img src={img} style={{ width: "100%", height: "100%", borderRadius: "50px", position: "relative", objectFit: "cover" }} />
                     </Link>
                 </div>
                 {/* <!-- 商品名稱 --> */}

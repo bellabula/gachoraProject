@@ -218,7 +218,7 @@
     cursor: pointer;
     z-index: 100;
 }
-  
+
 #gachaHome .top30 .heart {
     filter: grayscale(100%);
     transition: color 0.3s ease;
@@ -284,7 +284,6 @@
 /* 按鈕樣式 */
 
 #gachaHome .texttext {
-
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
@@ -293,4 +292,5 @@
 
 #gachaHome .item {
     text-align: center;
+
 }

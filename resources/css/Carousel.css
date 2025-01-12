@@ -9,7 +9,7 @@
 }
 
 #CarouselCss .Carousel__rail {
-  margin: 0 40px 0 40px;
+  margin: 0 40px 20px 40px;
   display: grid;
   position: relative;
   transition: left 0.5s cubic-bezier(0.2, 1, 0.3, 1) 0s;

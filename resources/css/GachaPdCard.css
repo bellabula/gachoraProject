@@ -2,24 +2,15 @@
   align-items: center;
   position: relative;
   width: 300px;
-  height: 400px;
-  margin: 10px;
+  height: 420px;
   transition: transform 0.3s ease-in-out;
 }
 
 #gachaPDCard .product-card {
   width: 300px;
   height: 300px;
-  background-image: url("../img/扭蛋.jpg");
-  background-size: cover;
-  background-position: center;
   border-radius: 50px;
   transition: opacity 0.3s ease-in-out;
-}
-
-
-#gachaPDCard .product-card:hover {
-  background-image: url("../img/扭蛋2.jpg");
 }
 
 /* 商品名稱 */
@@ -85,7 +76,7 @@
   position: relative;
   z-index: 1;
   width: 300px;
-  top: -90px;
+  top: -80px;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
