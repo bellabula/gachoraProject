@@ -39,6 +39,11 @@
             text-align: center;
             margin-top: 20px;
         }
+        img{
+            height: 35px;
+            width: 200px;
+            padding-left:400px
+        }
     </style>
 </head>
 <body>
@@ -48,12 +53,14 @@
         </div>
         <div class="content">
             <p>親愛的 {{ $name }}，</p>
-            <p>我們很高興祝福你生日快樂！我們為您提供了 200 的G幣作為生日禮金。</p>
+            <p>Gachora祝福你生日快樂！我們為您提供了 200 的G幣作為生日禮金。</p>
             <p>希望您度過愉快的生日！</p>
         </div>
         <div class="footer">
             <p>此郵件由我們的系統自動發送。</p>
+            <p>*生日禮會有有效期限，請登入您的帳號查詢有效期限。</p>
         </div>
+        <!-- <img src="{{ asset('storage/logo2.png') }}" alt="Logo"> -->
     </div>
 </body>
 </html>
