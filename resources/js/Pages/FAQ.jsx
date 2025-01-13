@@ -287,7 +287,7 @@ export default function FAQ() {
                     </div>
                     <label className="check">
                       <input type="checkbox" required />
-                      <span>我已詳細閱讀並同意</span><a href="#">會員條款</a>
+                      <span>我同意個人資料的收集及遵守本公司之</span><a href="#">隱私權政策</a>
                     </label>
                     <div className="buttonCheck">
                       <button className="button1" type="reset" >重新填寫</button>
